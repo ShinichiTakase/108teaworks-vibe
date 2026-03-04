@@ -1,0 +1,14 @@
+# 依存関係・ビルド成果物
+next-app/node_modules/
+next-app/.next/
+next-app/out/
+
+# 環境変数（秘密情報を含む）
+next-app/.env
+next-app/.env.local
+next-app/.env*.local
+
+# OS・エディタ
+.DS_Store
+Thumbs.db
+*.log

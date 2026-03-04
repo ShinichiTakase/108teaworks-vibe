@@ -1,0 +1,28 @@
+# WebP の MIME タイプ（表示されない場合の対策）
+<IfModule mod_mime.c>
+  AddType image/webp .webp
+</IfModule>
+
+# 基本認証（/images/ と /css/ は認証なしで配信し、ページ内で画像・スタイルが表示されるようにする）
+AuthType Basic
+AuthName "Restricted Area"
+AuthUserFile /home/c1335736/public_html/shop.108teaworks.com/.htpasswd
+SetEnvIf Request_URI "^/images/" allow_public
+SetEnvIf Request_URI "^/css/" allow_public
+# Apache 2.4
+<RequireAny>
+  Require env allow_public
+  Require valid-user
+</RequireAny>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  # 画像ファイル（1年）
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/gif "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  # CSS / JS（1ヶ月）
+  ExpiresByType text/css "access plus 1 month"
+  ExpiresByType application/javascript "access plus 1 month"
+</IfModule>

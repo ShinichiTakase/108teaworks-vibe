@@ -1,0 +1,566 @@
+/* ==========================================================================
+   shop.108teaworks.com — 高級伊勢茶オンラインショップ
+   伝統とモダンを融合したスタイル・保守性の高いCSS変数ベース
+   ========================================================================== */
+
+/* --- デザイントークン（カラー・タイポ・余白） --- */
+:root {
+  /* 伊勢茶ブランドカラー */
+  --color-tea-deep: #1e3c1a;
+  --color-tea: #2d5016;
+  --color-tea-light: #4a7c23;
+  --color-washi: #f5f2eb;
+  --color-cream: #faf8f5;
+  --color-ink: #1a1a1a;
+  --color-ink-muted: #4a4a4a;
+  --color-accent: #6b5344;
+  --color-border: #e5e0d8;
+
+  /* タイポグラフィ */
+  --font-heading: "Noto Serif JP", "Yu Mincho", "Hiragino Mincho ProN", serif;
+  --font-body: "Noto Sans JP", "Hiragino Kaku Gothic ProN", "Meiryo", sans-serif;
+
+  /* スペーシング */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+
+  /* レイアウト */
+  --width-content: min(90vw, 720px);
+  --width-wide: min(90vw, 1200px);
+  --radius: 4px;
+}
+
+/* --- リセット・ベース --- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--color-ink);
+  background-color: var(--color-cream);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- ヘッダー --- */
+.site-header {
+  padding: var(--space-lg) var(--space-md);
+  background-color: var(--color-washi);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.site-header__inner {
+  max-width: var(--width-wide);
+  margin: 0 auto;
+  text-align: center;
+}
+
+.site-logo {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: clamp(1.25rem, 4vw, 1.5rem);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.site-logo a {
+  color: var(--color-tea-deep);
+  text-decoration: none;
+}
+
+.site-logo a:hover {
+  color: var(--color-tea);
+}
+
+.site-logo picture {
+  display: block;
+}
+
+.site-logo__img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .site-logo__img {
+    width: 100%;
+    max-width: 1200px;
+  }
+}
+
+.site-tagline {
+  margin: var(--space-xs) 0 0;
+  font-size: 0.8125rem;
+  color: var(--color-ink-muted);
+  letter-spacing: 0.02em;
+}
+
+/* --- メイン --- */
+.main {
+  padding: var(--space-3xl) var(--space-md);
+}
+
+.main__inner {
+  max-width: var(--width-wide);
+  margin: 0 auto;
+}
+
+/* ヒーロー */
+.hero {
+  text-align: center;
+  margin-bottom: var(--space-3xl);
+}
+
+.hero__label {
+  display: inline-block;
+  margin-bottom: var(--space-md);
+  font-size: 0.875rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--color-ink-muted);
+}
+
+.hero__title {
+  margin: 0 0 var(--space-lg);
+  font-family: var(--font-heading);
+  font-size: clamp(1.75rem, 5vw, 2.25rem);
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--color-tea-deep);
+}
+
+.hero__lead {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--color-ink-muted);
+  max-width: 38em;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero__visual {
+  margin: 0 0 var(--space-lg);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.hero__visual img {
+  display: block;
+  width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+
+/* セクション共通 */
+.section {
+  margin-bottom: var(--space-2xl);
+}
+
+/* パートナー募集：画像とテキスト並び */
+.wholesale__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  align-items: stretch;
+  margin-bottom: var(--space-xl);
+}
+@media (min-width: 768px) {
+  .wholesale__inner {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: var(--space-xl);
+  }
+}
+.wholesale__image {
+  margin: 0;
+  flex-shrink: 0;
+}
+@media (min-width: 768px) {
+  .wholesale__image {
+    width: 40%;
+    max-width: 400px;
+  }
+}
+.wholesale__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  object-fit: cover;
+}
+.wholesale__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.wholesale__list {
+  margin: var(--space-xs) 0 var(--space-md);
+  margin-left: 1em;
+  padding-left: 1.25rem;
+  font-size: 0.9375rem;
+  color: var(--color-ink-muted);
+  list-style-type: disc;
+}
+.wholesale__list:last-of-type {
+  margin-bottom: 0;
+}
+.wholesale__list li {
+  margin-bottom: var(--space-xs);
+}
+
+/* パートナー6件：アイコン＋リンク */
+.wholesale__partners {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+  margin-top: var(--space-2xl);
+  padding-top: var(--space-xl);
+  border-top: 1px solid var(--color-border);
+}
+@media (min-width: 640px) {
+  .wholesale__partners {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+@media (min-width: 768px) {
+  .wholesale__partners {
+    grid-template-columns: repeat(6, 1fr);
+    gap: var(--space-lg);
+  }
+}
+.wholesale__partner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-sm);
+  background: var(--color-washi);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  text-decoration: none;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+.wholesale__partner:hover {
+  border-color: var(--color-tea-light);
+  background: #fff;
+}
+.wholesale__partner-img {
+  display: block;
+  width: 100%;
+  max-width: 80px;
+  height: auto;
+  object-fit: contain;
+}
+@media (min-width: 768px) {
+  .wholesale__partner-img {
+    max-width: 100px;
+  }
+}
+
+.section__title {
+  margin: 0 0 var(--space-md);
+  font-family: var(--font-heading);
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-tea-deep);
+}
+
+.section__text {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--color-ink-muted);
+}
+
+/* Instagram：最新10件（スマホ2列×5行、PC5列×2行） */
+.instagram__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-sm);
+  list-style: none;
+  margin: var(--space-lg) 0 0;
+  padding: 0;
+}
+@media (min-width: 768px) {
+  .instagram__grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--space-md);
+  }
+}
+.instagram__grid li {
+  margin: 0;
+}
+.instagram__post {
+  display: block;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--color-washi);
+  text-decoration: none;
+}
+.instagram__post img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* CTA */
+.cta {
+  margin-top: var(--space-2xl);
+  text-align: center;
+}
+
+.cta__link {
+  display: inline-block;
+  padding: var(--space-md) var(--space-xl);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-cream);
+  background-color: var(--color-tea-deep);
+  border-radius: var(--radius);
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.cta__link:hover {
+  background-color: var(--color-tea);
+  color: var(--color-cream);
+}
+
+.cta__link:focus {
+  outline: 2px solid var(--color-tea-light);
+  outline-offset: 2px;
+}
+
+.cta__link--secondary {
+  background-color: transparent;
+  color: var(--color-tea-deep);
+  border: 1px solid var(--color-tea-deep);
+}
+
+.cta__link--secondary:hover {
+  background-color: var(--color-tea-deep);
+  color: var(--color-cream);
+}
+
+/* 商品一覧 */
+.product-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.product-list__item {
+  margin: 0;
+}
+
+.product-list__link {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: var(--space-md);
+  align-items: center;
+  padding: var(--space-md);
+  background: var(--color-washi);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  text-decoration: none;
+  color: var(--color-ink);
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.product-list__thumb {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: var(--radius);
+  background: var(--color-cream);
+}
+
+.product-list__link:hover {
+  border-color: var(--color-tea-light);
+  background: #fff;
+}
+
+.product-list__name {
+  display: block;
+  font-weight: 500;
+  margin-bottom: var(--space-xs);
+}
+
+.product-list__price {
+  font-size: 0.9375rem;
+  color: var(--color-tea-deep);
+}
+
+.product-list__tax {
+  font-size: 0.8125rem;
+  color: var(--color-ink-muted);
+  font-weight: 400;
+}
+
+/* お知らせ（スマホ1列、タブレット2列、デスクトップ4列） */
+.news-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-md);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .news-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .news-list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.news-list__item {
+  margin: 0;
+}
+
+.news-list__link {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-washi);
+  text-decoration: none;
+  color: var(--color-ink);
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.news-list__link:hover {
+  color: var(--color-tea-deep);
+  border-color: var(--color-tea);
+}
+
+.news-list__title {
+  order: 1;
+  display: block;
+  font-weight: 700;
+  font-size: 0.9375rem;
+  line-height: 1.4;
+  margin-bottom: var(--space-xs);
+}
+
+.news-list__date {
+  order: 2;
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--color-ink-muted);
+  text-align: right;
+  margin-bottom: var(--space-sm);
+}
+
+.news-list__excerpt {
+  order: 3;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  overflow: hidden;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--color-ink-muted);
+  margin: 0 0 var(--space-xs);
+}
+
+.news-list__more {
+  order: 4;
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--color-tea);
+  text-align: right;
+}
+
+/* --- フッター（3段重ね） --- */
+.site-footer {
+  margin-top: var(--space-3xl);
+  background-color: #FBF3E5;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* 各段：親DIVは幅100% */
+.site-footer__band {
+  width: 100%;
+}
+
+/* 上段・下段：背景は .site-footer の #FBF3E5 を継承 */
+
+/* 中段のみ背景色（上段・下段より暗く） */
+.site-footer__band--middle {
+  background-color: #F0E6DC;
+}
+
+.site-footer__inner {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-md) 0;
+}
+
+.site-footer__row {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--color-ink-muted);
+  line-height: 1.6;
+}
+
+.site-footer__row--links {
+  text-align: left;
+}
+
+.site-footer__row--links .site-footer__sep {
+  margin: 0 0.5em;
+  color: var(--color-ink-muted);
+}
+
+.site-footer__row--contact {
+  text-align: right;
+  color: var(--color-ink);
+}
+
+.site-footer__row--contact a {
+  color: var(--color-tea);
+}
+
+.site-footer__row--copyright {
+  text-align: center;
+}
+
+.site-footer a {
+  color: var(--color-tea);
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
+}

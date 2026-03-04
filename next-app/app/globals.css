@@ -1,0 +1,49 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+  body {
+    font-family: var(--font-body), "Yu Mincho", "Hiragino Mincho ProN", serif;
+    color: #1a1a1a;
+    background-color: #faf8f5;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.7;
+  }
+}
+
+/* ヒーローのリード文：スマートフォンでは3行＋下に「…もっと読む」 */
+@media (max-width: 767px) {
+  .hero-lead {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+  }
+
+  .hero-lead-more {
+    display: block;
+    max-width: 38em;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0.25rem;
+    text-align: right;
+    font-size: 0.875rem;
+    color: #2d5016; /* 茶系アクセント */
+  }
+}
+
+@media (min-width: 768px) {
+  .hero-lead {
+    display: block;
+    -webkit-line-clamp: unset;
+    overflow: visible;
+  }
+
+  .hero-lead-more {
+    display: none;
+  }
+}
