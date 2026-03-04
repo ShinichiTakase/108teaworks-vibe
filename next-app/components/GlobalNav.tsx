@@ -9,7 +9,7 @@ const navItems = [
   { label: "伊勢茶とは", href: "#" },
   { label: "お茶の淹れ方", href: "#" },
   { label: "ご利用案内", href: "#" },
-  { label: "卸売り", href: "#" },
+  { label: "パートナー募集", href: "#" },
   { label: "お問い合せ", href: "#" },
 ];
 
