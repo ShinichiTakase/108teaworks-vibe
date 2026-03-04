@@ -1,0 +1,17 @@
+services:
+  shop-next:
+    build: ./next-app
+    container_name: shop-next
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - VIRTUAL_HOST=vibe.108teaworks.com
+      - VIRTUAL_PORT=3000
+    networks:
+      - edgeai-shared-net
+    expose:
+      - "3000"
+
+networks:
+  edgeai-shared-net:
+    external: true
