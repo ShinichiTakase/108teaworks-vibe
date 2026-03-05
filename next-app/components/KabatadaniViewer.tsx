@@ -5,7 +5,6 @@ import { Document, Page, pdfjs } from "react-pdf";
 import { WorkerMessageHandler } from "pdfjs-dist/build/pdf.worker.min.mjs";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  // @ts-expect-error pdfjs worker type
   WorkerMessageHandler,
   import.meta.url,
 ).toString();
