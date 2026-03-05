@@ -37,11 +37,11 @@ export default function LanguageSwitcher() {
   return (
     <div className="fixed bottom-4 right-4 z-50 text-left">
       <details className="group inline-block">
-        <summary className="list-none cursor-pointer rounded-full bg-cream/90 shadow px-3 py-1.5 text-xs flex items-center gap-1 select-none">
+        <summary className="list-none cursor-pointer rounded-full bg-cream/90 shadow px-3 py-1.5 text-sm font-semibold flex items-center gap-1 select-none text-ink">
           <span className="inline-block h-2 w-2 rounded-full bg-[#d9002b]" />
           <span>{current.label}</span>
         </summary>
-        <div className="mt-1 rounded-lg bg-cream/95 shadow-lg py-2 text-xs min-w-[8rem]">
+        <div className="mt-1 rounded-lg bg-cream/95 shadow-lg py-2 text-sm font-semibold min-w-[8rem]">
           {locales.map((locale) => (
             <Link
               key={locale.code}

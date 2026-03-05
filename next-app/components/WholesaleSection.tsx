@@ -1,13 +1,5 @@
 import Link from "next/link";
-
-const PARTNERS = [
-  { name: "GOOD COFFEE", url: "https://goodcoffee.me/", img: "/images/partners/GOOD-COFFEE-150x150.jpg" },
-  { name: "Lattest Omotesando", url: "https://lattest.jp/", img: "/images/partners/lattest-150x150.jpg" },
-  { name: "サンドイッチとコーヒー amper", url: "https://wat-inc.jp/shop/amperecoffee/", img: "/images/partners/ampere-150x150.jpg" },
-  { name: "FIKA-FABRIKEN", url: "https://fikafabriken.theshop.jp/", img: "/images/partners/FIKA-FABRIKEN-300x300.jpg" },
-  { name: "CASTOR", url: "https://wat-inc.jp/shop/amperecoffee/", img: "/images/partners/castore-150x150.jpg" },
-  { name: "新緑茶房", url: "https://www.shinsabo.com/", img: "/images/partners/sinryoku-sabou-300x300.png" },
-];
+import PartnerLogos from "@/components/PartnerLogos";
 
 export default function WholesaleSection() {
   return (
@@ -65,28 +57,7 @@ export default function WholesaleSection() {
           お問い合わせフォーム
         </Link>
       </p>
-      <div className="mt-12 pt-8 border-t border-border grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-6 md:gap-6" aria-label="取扱パートナー">
-        {PARTNERS.map((p) => (
-          <a
-            key={p.name}
-            href={p.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center p-2 bg-washi border border-border rounded transition-colors hover:border-tea-light hover:bg-white"
-            title={p.name}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={p.img}
-              alt={p.name}
-              width={120}
-              height={120}
-              className="block w-full max-w-[80px] h-auto object-contain md:max-w-[100px]"
-              loading="lazy"
-            />
-          </a>
-        ))}
-      </div>
+      <PartnerLogos className="mt-10" />
     </section>
   );
 }

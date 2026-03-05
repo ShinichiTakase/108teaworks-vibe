@@ -8,6 +8,13 @@ const nextConfig = {
   // 静的エクスポートする場合: output: 'export', trailingSlash: true
   images: {
     unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "108teaworks.com",
+        pathname: "/wp-content/uploads/**",
+      },
+    ],
   },
 };
 

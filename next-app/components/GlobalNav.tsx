@@ -2,19 +2,34 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const navItems = [
-  { label: "商品一覧", href: "#" },
-  { label: "藤八茶寮について", href: "#" },
-  { label: "伊勢茶とは", href: "#" },
-  { label: "お茶の淹れ方", href: "#" },
-  { label: "ご利用案内", href: "#" },
-  { label: "パートナー募集", href: "#" },
-  { label: "お問い合せ", href: "#" },
+  { label: "商品一覧", href: "/" },
+  { label: "藤八茶寮について", href: "/about" },
+  { label: "伊勢茶とは", href: "/isecha" },
+  { label: "お茶の淹れ方", href: "/how-to-brew" },
+  { label: "ご注文の流れ", href: "/user-guide" },
+  { label: "お知らせ", href: "/notice" },
+  { label: "パートナー募集", href: "/wholesale" },
+  { label: "お問い合せ", href: "/inquery" },
+  { label: "マイアカウント", href: "/account" },
 ];
 
 export default function GlobalNav() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (pathname === href) {
+      e.preventDefault();
+      window.location.href = href;
+    }
+    setOpen(false);
+  };
+
+  const linkClass = "no-underline font-semibold hover:text-tea-deep hover:underline underline-offset-4";
+  const linkClassMobile = "block px-4 py-1.5 text-sm font-semibold text-ink no-underline hover:bg-washi";
 
   return (
     <div className="relative bg-cream">
@@ -23,12 +38,13 @@ export default function GlobalNav() {
         aria-label="メインメニュー"
         className="hidden md:flex justify-center py-3 text-[1rem] text-ink"
       >
-        <ul className="flex flex-wrap gap-8">
+        <ul className="flex flex-wrap justify-center gap-4">
           {navItems.map((item) => (
             <li key={item.label}>
               <Link
                 href={item.href}
-                className="no-underline font-semibold hover:text-tea-deep hover:underline underline-offset-4"
+                className={linkClass}
+                onClick={(e) => handleNavClick(e, item.href)}
               >
                 {item.label}
               </Link>
@@ -42,11 +58,11 @@ export default function GlobalNav() {
         <div className="flex justify-end pr-3 pt-1 pb-1">
           <button
             type="button"
-            className="inline-flex items-center justify-center rounded-full border border-border bg-cream/90 px-3 py-0.5 text-xs text-ink shadow-sm"
+            className="inline-flex items-center justify-center rounded-full border border-border bg-cream/90 px-3 py-0.5 text-ink shadow-sm"
             aria-label="メニュー"
             onClick={() => setOpen((prev) => !prev)}
           >
-            <span className="mr-2">Menu</span>
+            <span className="mr-2 text-sm font-semibold">Menu</span>
             <span className="flex flex-col gap-[3px]">
               <span className="block h-[2px] w-4 bg-ink rounded" />
               <span className="block h-[2px] w-4 bg-ink rounded" />
@@ -56,13 +72,13 @@ export default function GlobalNav() {
         </div>
         {open && (
           <div className="mt-2 pb-2 px-2">
-            <div className="rounded-lg bg-cream/95 shadow-lg py-2 text-xs text-left min-w-[9rem] ml-auto max-w-xs">
+            <div className="rounded-lg bg-cream/95 shadow-lg py-2 text-sm text-left min-w-[9rem] ml-auto max-w-xs">
               {navItems.map((item) => (
                 <Link
                   key={item.label}
                   href={item.href}
-                  className="block px-4 py-1.5 text-ink no-underline hover:bg-washi"
-                  onClick={() => setOpen(false)}
+                  className={linkClassMobile}
+                  onClick={(e) => handleNavClick(e, item.href)}
                 >
                   {item.label}
                 </Link>
