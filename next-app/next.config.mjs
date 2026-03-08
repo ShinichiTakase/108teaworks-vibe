@@ -14,6 +14,16 @@ const nextConfig = {
         hostname: "108teaworks.com",
         pathname: "/wp-content/uploads/**",
       },
+      {
+        protocol: "https",
+        hostname: "images.microcms.io",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "108teaworks.microcms.io",
+        pathname: "/**",
+      },
     ],
   },
 };

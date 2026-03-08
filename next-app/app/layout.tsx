@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Noto_Serif_JP } from "next/font/google";
 import "./globals.css";
 import Layout from "@/components/Layout";
+import Providers from "@/components/Providers";
 
 // 基本フォントを Noto Serif JP に統一（Regular 400 / SemiBold 600 / Bold 700）
 const notoSerif = Noto_Serif_JP({
@@ -24,7 +25,9 @@ export default function RootLayout({
   return (
     <html lang="ja" className={notoSerif.variable}>
       <body className="font-body">
-        <Layout>{children}</Layout>
+        <Providers>
+          <Layout>{children}</Layout>
+        </Providers>
       </body>
     </html>
   );

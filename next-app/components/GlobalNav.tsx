@@ -13,7 +13,6 @@ const navItems = [
   { label: "お知らせ", href: "/notice" },
   { label: "パートナー募集", href: "/wholesale" },
   { label: "お問い合せ", href: "/inquery" },
-  { label: "マイアカウント", href: "/account" },
 ];
 
 export default function GlobalNav() {

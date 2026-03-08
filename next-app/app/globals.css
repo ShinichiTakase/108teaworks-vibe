@@ -47,3 +47,47 @@
     display: none;
   }
 }
+
+/* マイ情報リスト（マイアカウント等） */
+.my-info-list li {
+  position: relative;
+  padding-left: 28px !important;
+  margin-bottom: 8px;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.6;
+  list-style: none;
+}
+.my-info-list li::before {
+  content: "i";
+  position: absolute;
+  left: 0;
+  top: 0.1em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #999;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* 商品説明（DESCRIPTION01 / DESCRIPTION02）内のリスト（my-info-list は i マークのため除外） */
+.product-description ul:not(.my-info-list),
+.product-description ol:not(.my-info-list) {
+  padding-left: 1.5em;
+}
+.product-description ul:not(.my-info-list) li {
+  padding-left: 1em;
+  list-style-type: disc;
+  list-style-position: outside;
+}
+.product-description ol:not(.my-info-list) li {
+  padding-left: 1em;
+  list-style-type: decimal;
+  list-style-position: outside;
+}

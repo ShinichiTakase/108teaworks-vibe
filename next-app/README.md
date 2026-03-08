@@ -73,10 +73,21 @@ Instagram セクションで **常に最新10件** を表示するには、Insta
 
 未設定の場合は、従来どおり固定の10件リンク（画像は `public/images/instagram/` のプレースホルダー）が表示されます。詳細は [Instagram Graph API ドキュメント](https://developers.facebook.com/docs/instagram-platform/instagram-graph-api/reference/ig-user/media) を参照してください。
 
+## お知らせ（microCMS）
+
+メインメニュー「お知らせ」(`/notice`) は microCMS の API から取得します。
+
+1. [microCMS](https://microcms.io/) でサービスを作成し、API「notice」を用意（フィールド: タイトル・本文・公開日・slug など）
+2. `.env.local` に以下を設定（`.env.example` を参照）
+   - `MICROCMS_SERVICE_DOMAIN` … サービスドメイン（例: 108teaworks）
+   - `MICROCMS_API_KEY` … API キー（管理画面の API 設定から取得）
+3. 未設定の場合は一覧が空になります。
+
 ## 構成
 
 - `app/layout.tsx` … ルートレイアウト（メタデータ・フォント・Header/Footer）
 - `app/page.tsx` … トップページ
 - `components/` … Header, Footer, Hero, ProductList, InstagramSection など
 - `lib/instagram.ts` … Instagram Graph API で最新メディア取得
+- `lib/microcms.ts` … microCMS API（お知らせ一覧・詳細取得）
 - `tailwind.config.ts` … カスタム色（tea, washi, cream, footer など）・フォント

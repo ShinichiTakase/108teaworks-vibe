@@ -1,4 +1,5 @@
 import Link from "next/link";
+import HeaderCartAccountLinks from "./HeaderCartAccountLinks";
 
 export default function Header() {
   return (
@@ -21,9 +22,15 @@ export default function Header() {
             </picture>
           </Link>
         </h1>
-        <p className="mt-0.5 md:mt-1 text-[0.75rem] md:text-[0.8125rem] leading-snug text-ink-muted tracking-wide">
-          シングルオリジン伊勢茶・お茶の魅力を三重から世界へ
-        </p>
+        <div className="mt-0.5 md:mt-1 flex items-center justify-end md:justify-center">
+          <div className="hidden md:block flex-1 min-w-0" aria-hidden="true" />
+          <p className="hidden md:block flex-shrink-0 text-[0.8125rem] leading-snug text-ink-muted tracking-wide text-center">
+            シングルオリジン伊勢茶・お茶の魅力を三重から世界へ
+          </p>
+          <div className="flex-1 min-w-0 flex justify-end items-center">
+            <HeaderCartAccountLinks />
+          </div>
+        </div>
       </div>
     </header>
   );
