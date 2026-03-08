@@ -1,8 +1,13 @@
+# リモートで microCMS 等にアクセスするには、環境変数が必要です。
+# サーバー上で next-app/.env.local を作成し、
+# MICROCMS_SERVICE_DOMAIN, MICROCMS_API_KEY 等を設定してください（APIキーは Git に含めないこと）。
 services:
   shop-next:
     build: ./next-app
     container_name: shop-next
     restart: unless-stopped
+    env_file:
+      - next-app/.env.local
     environment:
       - NODE_ENV=production
       - VIRTUAL_HOST=vibe.108teaworks.com

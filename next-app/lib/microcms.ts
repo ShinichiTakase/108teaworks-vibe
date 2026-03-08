@@ -249,7 +249,7 @@ export async function getShippingByPrefecture(prefecture: string): Promise<numbe
   const key = getApiKey();
   if (!base || !key || !prefecture.trim()) return null;
   const url = new URL(`${base}/shipping`);
-  url.searchParams.set("filters", `都道府県[equals]${encodeURIComponent(prefecture.trim())}`);
+  url.searchParams.set("filters", `prefectures[equals]${encodeURIComponent(prefecture.trim())}`);
   url.searchParams.set("limit", "1");
   try {
     const res = await fetch(url.toString(), {
@@ -257,11 +257,11 @@ export async function getShippingByPrefecture(prefecture: string): Promise<numbe
       next: { revalidate: 300 },
     });
     if (!res.ok) return null;
-    const json = (await res.json()) as { contents?: { 料金?: number; amount?: number; AMOUNT?: number }[] };
+    const json = (await res.json()) as { contents?: { fee?: number }[] };
     const list = Array.isArray(json.contents) ? json.contents : [];
     const first = list[0];
     if (!first) return null;
-    const amount = first["料金"] ?? first["amount"] ?? first["AMOUNT"];
+    const amount = first.fee;
     return typeof amount === "number" && !Number.isNaN(amount) ? amount : null;
   } catch (e) {
     console.error("[microcms] getShippingByPrefecture error", e);
