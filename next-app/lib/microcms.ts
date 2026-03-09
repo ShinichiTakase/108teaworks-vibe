@@ -192,7 +192,12 @@ function mapRawToProduct(c: Record<string, unknown>): ProductItem {
     RELATED_URL03: str(c, "RELATED_URL03"),
     RELATED04: str(c, "RELATED04"),
     RELATED_URL04: str(c, "RELATED_URL04"),
-    SHIP_RANK: num(c, "SHIP_RANK") ?? num(c, "配送ランク"),
+    SHIP_RANK:
+      num(c, "DERIVERY") ??
+      num(c, "SHIP_RANK") ??
+      num(c, "配送ランク") ??
+      num(c, "ship_rank") ??
+      num(c, "SHIPRANK"),
   };
 }
 
@@ -206,8 +211,8 @@ function num(c: Record<string, unknown>, key: string): number | undefined {
   return undefined;
 }
 
-/** 商品一覧を取得（ORDER 昇順） */
-export async function getProducts(): Promise<ProductListResponse> {
+/** 商品一覧を取得（ORDER 昇順）。noCache: true でキャッシュを使わない（送料計算用） */
+export async function getProducts(options?: { noCache?: boolean }): Promise<ProductListResponse> {
   const base = getBaseUrl();
   const key = getApiKey();
   if (!base || !key) {
@@ -220,7 +225,7 @@ export async function getProducts(): Promise<ProductListResponse> {
   try {
     const res = await fetch(url.toString(), {
       headers: { "X-MICROCMS-API-KEY": key },
-      next: { revalidate: 60 },
+      ...(options?.noCache ? { cache: "no-store" as RequestCache } : { next: { revalidate: 60 } }),
     });
     if (!res.ok) {
       console.error("[microcms] products list failed", res.status, await res.text());
@@ -243,26 +248,53 @@ export async function getProducts(): Promise<ProductListResponse> {
   }
 }
 
-/** 都道府県をキーに送料を取得（shipping API）。見つからない場合は null */
-export async function getShippingByPrefecture(prefecture: string): Promise<number | null> {
+/** 都道府県名を正規化（末尾の 都・道・府・県 を除いた部分。マッチング用） */
+function normalizePrefectureName(s: string): string {
+  const t = s.trim();
+  if (t.endsWith("県") || t.endsWith("府") || t.endsWith("都")) return t.slice(0, -1);
+  if (t.endsWith("道") && t !== "北海道") return t.slice(0, -1);
+  return t;
+}
+
+export type ShippingByPrefectureResult = { fee: number; matchedPrefecture: string } | null;
+
+/** 都道府県をキーに送料を取得（shipping API）。全件取得して prefectures を正規化マッチで検索。noCache: true でキャッシュを使わない */
+export async function getShippingByPrefecture(
+  prefecture: string,
+  options?: { noCache?: boolean }
+): Promise<ShippingByPrefectureResult> {
   const base = getBaseUrl();
   const key = getApiKey();
   if (!base || !key || !prefecture.trim()) return null;
   const url = new URL(`${base}/shipping`);
-  url.searchParams.set("filters", `prefectures[equals]${encodeURIComponent(prefecture.trim())}`);
-  url.searchParams.set("limit", "1");
+  url.searchParams.set("limit", "100");
   try {
     const res = await fetch(url.toString(), {
       headers: { "X-MICROCMS-API-KEY": key },
-      next: { revalidate: 300 },
+      ...(options?.noCache ? { cache: "no-store" as RequestCache } : { next: { revalidate: 300 } }),
     });
     if (!res.ok) return null;
-    const json = (await res.json()) as { contents?: { fee?: number }[] };
+    const json = (await res.json()) as {
+      contents?: { prefectures?: string; fee?: number; [k: string]: unknown }[];
+    };
     const list = Array.isArray(json.contents) ? json.contents : [];
-    const first = list[0];
-    if (!first) return null;
-    const amount = first.fee;
-    return typeof amount === "number" && !Number.isNaN(amount) ? amount : null;
+    const input = prefecture.trim();
+    const inputNorm = normalizePrefectureName(input);
+    for (const row of list) {
+      const p = (row.prefectures ?? (row as { PREFECTURES?: string }).PREFECTURES ?? "").trim();
+      if (!p) continue;
+      if (p === input) {
+        const amount = row.fee ?? (row as { FEE?: number }).FEE;
+        if (typeof amount === "number" && !Number.isNaN(amount)) return { fee: amount, matchedPrefecture: p };
+        return null;
+      }
+      if (normalizePrefectureName(p) === inputNorm) {
+        const amount = row.fee ?? (row as { FEE?: number }).FEE;
+        if (typeof amount === "number" && !Number.isNaN(amount)) return { fee: amount, matchedPrefecture: p };
+        return null;
+      }
+    }
+    return null;
   } catch (e) {
     console.error("[microcms] getShippingByPrefecture error", e);
     return null;

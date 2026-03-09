@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "@/context/CartContext";
+import PaymentRequestButtons from "@/components/PaymentRequestButtons";
 
 const FALLBACK_IMAGE = "/images/products/product-01.webp";
 const FREE_SHIPPING_THRESHOLD = 20000;
@@ -28,7 +29,7 @@ function normalizePostalCode(value: string): string {
 }
 
 export default function CheckoutPage() {
-  const { items } = useCart();
+  const { items, updateQuantity, removeFromCart } = useCart();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -157,9 +158,20 @@ export default function CheckoutPage() {
   const taxAmount = taxIncluded(total);
 
   const effectivePrefecture = shipToDifferent ? shipPrefecture.trim() : prefecture.trim();
+  const itemsSignature = items.map((i) => `${i.slug}:${i.quantity}`).join(",");
+
+  const getPrefectureForFee = () => {
+    if (shipToDifferent) {
+      const el = document.getElementById("check-ship-prefecture") as HTMLInputElement | null;
+      return el?.value?.trim() ?? shipPrefecture.trim();
+    }
+    const el = document.getElementById("check-prefecture") as HTMLInputElement | null;
+    return el?.value?.trim() ?? prefecture.trim();
+  };
 
   useEffect(() => {
-    if (!effectivePrefecture || items.length === 0) {
+    const prefectureForFee = getPrefectureForFee();
+    if (!prefectureForFee || items.length === 0) {
       setShipping(null);
       return;
     }
@@ -169,7 +181,7 @@ export default function CheckoutPage() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        prefecture: effectivePrefecture,
+        prefecture: prefectureForFee,
         items: items.map((i) => ({ slug: i.slug, quantity: i.quantity })),
         subtotal,
       }),
@@ -189,7 +201,7 @@ export default function CheckoutPage() {
     return () => {
       cancelled = true;
     };
-  }, [effectivePrefecture, items, subtotal, shipToDifferent, prefecture, shipPrefecture]);
+  }, [effectivePrefecture, itemsSignature]);
 
   const shippingDisplay = shippingLoading
     ? "計算中..."
@@ -302,11 +314,11 @@ export default function CheckoutPage() {
               )}
             </div>
             <div>
-              <label htmlFor="checkout-prefecture" className="block text-[0.875rem] font-medium text-ink mb-1">
+              <label htmlFor="check-prefecture" className="block text-[0.875rem] font-medium text-ink mb-1">
                 都道府県 <span className="text-red-600">*</span>
               </label>
               <input
-                id="checkout-prefecture"
+                id="check-prefecture"
                 type="text"
                 required
                 value={prefecture}
@@ -448,11 +460,11 @@ export default function CheckoutPage() {
                     )}
                   </div>
                   <div>
-                    <label htmlFor="checkout-ship-prefecture" className="block text-[0.875rem] font-medium text-ink mb-1">
+                    <label htmlFor="check-ship-prefecture" className="block text-[0.875rem] font-medium text-ink mb-1">
                       都道府県 <span className="text-red-600">*</span>
                     </label>
                     <input
-                      id="checkout-ship-prefecture"
+                      id="check-ship-prefecture"
                       type="text"
                       required={shipToDifferent}
                       value={shipPrefecture}
@@ -495,7 +507,7 @@ export default function CheckoutPage() {
           <h2 className="m-0 mb-4 text-base font-semibold text-tea-deep">注文内容</h2>
           <ul className="list-none m-0 p-0 flex flex-col gap-3 mb-6">
             {items.map((item) => (
-              <li key={item.slug} className="flex gap-3 p-3 rounded-lg border border-border bg-washi">
+              <li key={item.slug} className="flex flex-wrap items-center gap-3 p-3 rounded-lg border border-border bg-washi">
                 <div className="shrink-0 w-14 h-14 rounded overflow-hidden bg-cream">
                   <Image
                     src={item.imagePath ?? FALLBACK_IMAGE}
@@ -511,6 +523,36 @@ export default function CheckoutPage() {
                     {formatPrice(item.price)}（税込）× {item.quantity} = {formatPrice(item.price * item.quantity)}
                   </p>
                 </div>
+                <div className="flex items-center gap-2 shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => updateQuantity(item.slug, item.quantity - 1)}
+                    disabled={item.quantity <= 1}
+                    className="w-8 h-8 flex items-center justify-center rounded border border-border bg-white text-ink disabled:opacity-40 disabled:cursor-not-allowed hover:bg-washi"
+                    aria-label="数量を減らす"
+                  >
+                    −
+                  </button>
+                  <span className="w-8 text-center text-[0.9375rem] font-medium" aria-live="polite">
+                    {item.quantity}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => updateQuantity(item.slug, item.quantity + 1)}
+                    disabled={item.quantity >= 99}
+                    className="w-8 h-8 flex items-center justify-center rounded border border-border bg-white text-ink disabled:opacity-40 disabled:cursor-not-allowed hover:bg-washi"
+                    aria-label="数量を増やす"
+                  >
+                    +
+                  </button>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => removeFromCart(item.slug)}
+                  className="text-[0.8125rem] text-ink-muted underline hover:text-tea-deep shrink-0"
+                >
+                  削除
+                </button>
               </li>
             ))}
           </ul>
@@ -581,15 +623,21 @@ export default function CheckoutPage() {
                   />
                 </div>
               </div>
+              <div className="mt-4 pt-4 border-t border-border">
+                <button
+                  type="submit"
+                  disabled={shipping === null}
+                  className="w-full py-3 px-6 rounded-lg border-2 border-tea bg-tea text-white text-[0.9375rem] font-semibold transition-colors hover:bg-tea-light hover:border-tea-light disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  購入を確定する
+                </button>
+              </div>
             </div>
-            <div className="pt-6">
-              <button
-                type="submit"
+            <div className="pt-4">
+              <PaymentRequestButtons
+                amount={shipping !== null ? total : 0}
                 disabled={shipping === null}
-                className="w-full py-3 px-6 rounded-lg border-2 border-tea bg-tea text-white text-[0.9375rem] font-semibold transition-colors hover:bg-tea-light hover:border-tea-light disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                購入を確定する
-              </button>
+              />
             </div>
           </div>
         </div>

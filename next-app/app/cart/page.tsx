@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "@/context/CartContext";
+import PaymentRequestButtons from "@/components/PaymentRequestButtons";
 
 const FALLBACK_IMAGE = "/images/products/product-01.webp";
 
@@ -118,13 +119,14 @@ export default function CartPage() {
             <p className="m-0 text-[0.8125rem] text-ink-muted text-right">
               （消費税{formatPrice(taxAmount)}を含む）
             </p>
-            <div className="pt-4">
+            <div className="pt-4 space-y-3">
               <Link
                 href="/checkout"
                 className="inline-block w-full py-3 px-6 rounded-lg border-2 border-tea bg-tea text-white text-[0.9375rem] font-semibold text-center no-underline transition-colors hover:bg-tea-light hover:border-tea-light"
               >
                 購入手続きに進む
               </Link>
+              <PaymentRequestButtons amount={total} />
             </div>
             <p className="m-0 pt-2 text-[0.9375rem] font-bold text-tea-deep text-right">
               {subtotal >= FREE_SHIPPING_THRESHOLD

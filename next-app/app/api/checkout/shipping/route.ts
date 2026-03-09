@@ -29,16 +29,28 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ok: true, shipping: 0 });
     }
 
-    const { contents: products } = await getProducts();
+    const { contents: products } = await getProducts({ noCache: true });
     const rankBySlug = new Map<string, number>();
+    const normalizeSlug = (s: string) => s.replace(/-/g, "_");
+    const normalizeSlugHyphen = (s: string) => s.replace(/_/g, "-");
     for (const p of products) {
-      const slug = p.SLUG ?? p.id;
-      if (slug && p.SHIP_RANK != null) rankBySlug.set(slug, p.SHIP_RANK);
+      const slug = (p.SLUG ?? p.id ?? "").trim();
+      if (!slug || p.SHIP_RANK == null) continue;
+      const rank = Number(p.SHIP_RANK);
+      if (Number.isNaN(rank)) continue;
+      rankBySlug.set(slug, rank);
+      rankBySlug.set(normalizeSlug(slug), rank);
+      rankBySlug.set(normalizeSlugHyphen(slug), rank);
     }
 
     let rankSum = 0;
     for (const { slug, quantity } of items) {
-      const rank = rankBySlug.get(slug) ?? 0;
+      const s = (slug || "").trim();
+      const rank =
+        rankBySlug.get(s) ??
+        rankBySlug.get(normalizeSlug(s)) ??
+        rankBySlug.get(normalizeSlugHyphen(s)) ??
+        0;
       rankSum += rank * (quantity || 0);
     }
 
@@ -46,8 +58,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ok: true, shipping: FLAT_SHIPPING });
     }
 
-    const shippingAmount = await getShippingByPrefecture(prefecture.trim());
-    const shipping = shippingAmount !== null ? shippingAmount : FLAT_SHIPPING;
+    const shippingResult = await getShippingByPrefecture(prefecture.trim(), { noCache: true });
+    const shipping = shippingResult !== null ? shippingResult.fee : FLAT_SHIPPING;
     return NextResponse.json({ ok: true, shipping });
   } catch (e) {
     console.error("[api/checkout/shipping]", e);
