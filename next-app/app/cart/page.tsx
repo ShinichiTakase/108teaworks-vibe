@@ -45,32 +45,34 @@ export default function CartPage() {
             {items.map((item) => (
               <li
                 key={item.slug}
-                className="flex flex-wrap items-center gap-4 p-4 rounded-lg border border-border bg-washi"
+                className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 sm:gap-4 p-4 rounded-lg border border-border bg-washi"
               >
-                <Link
-                  href={`/products/${item.slug}`}
-                  className="shrink-0 w-20 h-20 rounded overflow-hidden bg-cream"
-                >
-                  <Image
-                    src={item.imagePath ?? FALLBACK_IMAGE}
-                    alt={item.title}
-                    width={80}
-                    height={80}
-                    className="w-full h-full object-cover"
-                  />
-                </Link>
-                <div className="min-w-0 flex-1">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 min-w-0 w-full sm:w-auto">
                   <Link
                     href={`/products/${item.slug}`}
-                    className="font-medium text-tea-deep no-underline hover:underline"
+                    className="shrink-0 w-20 h-20 rounded overflow-hidden bg-cream self-start"
                   >
-                    {item.title}
+                    <Image
+                      src={item.imagePath ?? FALLBACK_IMAGE}
+                      alt={item.title}
+                      width={80}
+                      height={80}
+                      className="w-full h-full object-cover"
+                    />
                   </Link>
-                  <p className="m-0 mt-1 text-[0.875rem] text-ink-muted">
-                    {formatPrice(item.price)}（税込） × {item.quantity} = {formatPrice(item.price * item.quantity)}
-                  </p>
+                  <div className="min-w-0 flex-1 w-full sm:min-w-[8rem]">
+                    <Link
+                      href={`/products/${item.slug}`}
+                      className="font-medium text-tea-deep no-underline hover:underline block break-words text-[0.9375rem]"
+                    >
+                      {item.title}
+                    </Link>
+                    <p className="m-0 mt-1 text-[0.875rem] text-ink-muted">
+                      {formatPrice(item.price)}（税込） × {item.quantity} = {formatPrice(item.price * item.quantity)}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 sm:ml-auto">
                   <button
                     type="button"
                     onClick={() => updateQuantity(item.slug, item.quantity - 1)}
@@ -96,7 +98,7 @@ export default function CartPage() {
                 <button
                   type="button"
                   onClick={() => removeFromCart(item.slug)}
-                  className="text-[0.8125rem] text-ink-muted underline hover:text-tea-deep"
+                  className="text-[0.8125rem] text-ink-muted underline hover:text-tea-deep self-start sm:self-center"
                 >
                   削除
                 </button>

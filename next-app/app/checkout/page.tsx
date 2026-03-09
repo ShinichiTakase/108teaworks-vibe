@@ -232,6 +232,85 @@ export default function CheckoutPage() {
       <h1 className="m-0 mb-6 font-heading text-xl font-semibold text-tea-deep">購入手続き</h1>
       <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div>
+          <h2 className="m-0 mb-4 text-base font-semibold text-tea-deep">注文内容</h2>
+          <ul className="list-none m-0 p-0 flex flex-col gap-3 mb-6">
+            {items.map((item) => (
+              <li
+                key={item.slug}
+                className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 p-3 rounded-lg border border-border bg-washi"
+              >
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="shrink-0 w-14 h-14 rounded overflow-hidden bg-cream">
+                    <Image
+                      src={item.imagePath ?? FALLBACK_IMAGE}
+                      alt={item.title}
+                      width={56}
+                      height={56}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="min-w-0 flex-1 sm:min-w-[6rem]">
+                    <p className="m-0 text-[0.9375rem] font-medium text-ink break-words">{item.title}</p>
+                    <p className="m-0 text-[0.8125rem] text-ink-muted">
+                      {formatPrice(item.price)}（税込）× {item.quantity} = {formatPrice(item.price * item.quantity)}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 shrink-0 sm:ml-auto">
+                  <button
+                    type="button"
+                    onClick={() => updateQuantity(item.slug, item.quantity - 1)}
+                    disabled={item.quantity <= 1}
+                    className="w-8 h-8 flex items-center justify-center rounded border border-border bg-white text-ink disabled:opacity-40 disabled:cursor-not-allowed hover:bg-washi"
+                    aria-label="数量を減らす"
+                  >
+                    −
+                  </button>
+                  <span className="w-8 text-center text-[0.9375rem] font-medium" aria-live="polite">
+                    {item.quantity}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => updateQuantity(item.slug, item.quantity + 1)}
+                    disabled={item.quantity >= 99}
+                    className="w-8 h-8 flex items-center justify-center rounded border border-border bg-white text-ink disabled:opacity-40 disabled:cursor-not-allowed hover:bg-washi"
+                    aria-label="数量を増やす"
+                  >
+                    +
+                  </button>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => removeFromCart(item.slug)}
+                  className="text-[0.8125rem] text-ink-muted underline hover:text-tea-deep shrink-0"
+                >
+                  削除
+                </button>
+              </li>
+            ))}
+          </ul>
+
+          <div className="border-t border-border pt-4 space-y-2">
+            <div className="flex justify-between text-[0.9375rem]">
+              <span className="text-ink-muted">小計</span>
+              <span className="font-medium">{formatPrice(subtotal)}</span>
+            </div>
+            <div className="flex justify-between text-[0.9375rem] pb-2 border-b border-border">
+              <span className="text-ink-muted">送料</span>
+              <span className="font-medium">{shippingDisplay}</span>
+            </div>
+            <div className="flex justify-between text-base font-semibold text-tea-deep pt-2">
+              <span>合計（税込）</span>
+              <span>{shipping !== null ? formatPrice(total) : "—"}</span>
+            </div>
+            <p className="m-0 text-[0.8125rem] text-ink-muted text-right">
+              （消費税{shipping !== null ? formatPrice(taxAmount) : "—"}を含む）
+            </p>
+          </div>
+        </div>
+        <div>
           <h2 className="m-0 mb-4 text-base font-semibold text-tea-deep">請求先</h2>
           <div className="space-y-4">
             <div>
@@ -503,76 +582,9 @@ export default function CheckoutPage() {
             )}
           </div>
         </div>
-        <div>
-          <h2 className="m-0 mb-4 text-base font-semibold text-tea-deep">注文内容</h2>
-          <ul className="list-none m-0 p-0 flex flex-col gap-3 mb-6">
-            {items.map((item) => (
-              <li key={item.slug} className="flex flex-wrap items-center gap-3 p-3 rounded-lg border border-border bg-washi">
-                <div className="shrink-0 w-14 h-14 rounded overflow-hidden bg-cream">
-                  <Image
-                    src={item.imagePath ?? FALLBACK_IMAGE}
-                    alt={item.title}
-                    width={56}
-                    height={56}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <p className="m-0 text-[0.9375rem] font-medium text-ink">{item.title}</p>
-                  <p className="m-0 text-[0.8125rem] text-ink-muted">
-                    {formatPrice(item.price)}（税込）× {item.quantity} = {formatPrice(item.price * item.quantity)}
-                  </p>
-                </div>
-                <div className="flex items-center gap-2 shrink-0">
-                  <button
-                    type="button"
-                    onClick={() => updateQuantity(item.slug, item.quantity - 1)}
-                    disabled={item.quantity <= 1}
-                    className="w-8 h-8 flex items-center justify-center rounded border border-border bg-white text-ink disabled:opacity-40 disabled:cursor-not-allowed hover:bg-washi"
-                    aria-label="数量を減らす"
-                  >
-                    −
-                  </button>
-                  <span className="w-8 text-center text-[0.9375rem] font-medium" aria-live="polite">
-                    {item.quantity}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => updateQuantity(item.slug, item.quantity + 1)}
-                    disabled={item.quantity >= 99}
-                    className="w-8 h-8 flex items-center justify-center rounded border border-border bg-white text-ink disabled:opacity-40 disabled:cursor-not-allowed hover:bg-washi"
-                    aria-label="数量を増やす"
-                  >
-                    +
-                  </button>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => removeFromCart(item.slug)}
-                  className="text-[0.8125rem] text-ink-muted underline hover:text-tea-deep shrink-0"
-                >
-                  削除
-                </button>
-              </li>
-            ))}
-          </ul>
-          <div className="border-t border-border pt-4 space-y-2">
-            <div className="flex justify-between text-[0.9375rem]">
-              <span className="text-ink-muted">小計</span>
-              <span className="font-medium">{formatPrice(subtotal)}</span>
-            </div>
-            <div className="flex justify-between text-[0.9375rem] pb-2 border-b border-border">
-              <span className="text-ink-muted">送料</span>
-              <span className="font-medium">{shippingDisplay}</span>
-            </div>
-            <div className="flex justify-between text-base font-semibold text-tea-deep pt-2">
-              <span>合計（税込）</span>
-              <span>{shipping !== null ? formatPrice(total) : "—"}</span>
-            </div>
-            <p className="m-0 text-[0.8125rem] text-ink-muted text-right">
-              （消費税{shipping !== null ? formatPrice(taxAmount) : "—"}を含む）
-            </p>
-            <div className="pt-6 p-4 rounded-xl bg-[#f0ebe5] border border-border">
+        <div className="lg:col-span-2">
+          <h2 className="m-0 mb-4 text-base font-semibold text-tea-deep">支払い方法</h2>
+            <div className="p-4 rounded-xl bg-[#f0ebe5] border border-border">
               <h3 className="m-0 mb-4 text-[0.9375rem] font-semibold text-tea-deep">
                 クレジットカードまたはデビットカード
               </h3>
@@ -635,12 +647,10 @@ export default function CheckoutPage() {
             </div>
             <div className="pt-4">
               <PaymentRequestButtons
-                amount={shipping !== null ? total : 0}
-                disabled={shipping === null}
+                amount={shipping !== null ? total : subtotal}
               />
             </div>
           </div>
-        </div>
       </form>
     </article>
   );

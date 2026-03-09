@@ -54,7 +54,15 @@ export default function PaymentRequestButtons({
     }
   };
 
-  if (loading || (!googlePay && !applePay)) return null;
+  if (loading) return null;
+
+  if (!googlePay && !applePay) {
+    return (
+      <p className="m-0 text-[0.75rem] text-ink-muted">
+        Google Pay / Apple Pay は対応ブラウザ・お支払い設定が有効な場合にのみ表示されます。
+      </p>
+    );
+  }
 
   return (
     <div className="flex justify-between items-center gap-2 w-full">
