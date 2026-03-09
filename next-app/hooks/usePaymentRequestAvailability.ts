@@ -9,7 +9,7 @@ function createPaymentRequest(supportedMethod: string): PaymentRequest | null {
   if (!PAYMENT_REQUEST_SUPPORTED) return null;
   try {
     return new PaymentRequest(
-      [{ supportedMethods }],
+      [{ supportedMethods: supportedMethod }],
       {
         total: { label: "合計", amount: { currency: "JPY", value: "0" } },
       }
