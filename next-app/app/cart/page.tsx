@@ -3,7 +3,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "@/context/CartContext";
-import PaymentRequestButtons from "@/components/PaymentRequestButtons";
 
 const FALLBACK_IMAGE = "/images/products/product-01.webp";
 
@@ -128,7 +127,6 @@ export default function CartPage() {
               >
                 購入手続きに進む
               </Link>
-              <PaymentRequestButtons amount={total} />
             </div>
             <p className="m-0 pt-2 text-[0.9375rem] font-bold text-tea-deep text-right">
               {subtotal >= FREE_SHIPPING_THRESHOLD

@@ -1,19 +1,44 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useCart } from "@/context/CartContext";
-import PaymentRequestButtons from "@/components/PaymentRequestButtons";
+import { loadStripe } from "@stripe/stripe-js";
 
 const FALLBACK_IMAGE = "/images/products/product-01.webp";
 const FREE_SHIPPING_THRESHOLD = 20000;
 const ZIPCLOUD_API = "https://zipcloud.ibsnet.co.jp/api/search";
 
+const STRIPE_PK = process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY || "";
+const stripePromise = loadStripe(STRIPE_PK);
+
 type ZipcloudResult = {
   address1: string; // 都道府県
   address2: string; // 市区町村
   address3: string; // 町域
+};
+
+type SavedCheckoutProfile = {
+  billing: {
+    name: string;
+    email: string;
+    phone: string;
+    postalCode: string;
+    prefecture: string;
+    city: string;
+    addressLine: string;
+  };
+  shipToDifferent: boolean;
+  shipping?: {
+    name: string;
+    phone: string;
+    postalCode: string;
+    prefecture: string;
+    city: string;
+    addressLine: string;
+  };
+  giftNoInvoice: boolean;
 };
 
 function formatPrice(price: number): string {
@@ -29,7 +54,7 @@ function normalizePostalCode(value: string): string {
 }
 
 export default function CheckoutPage() {
-  const { items, updateQuantity, removeFromCart } = useCart();
+  const { items, updateQuantity, removeFromCart, clearCart } = useCart();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -52,11 +77,26 @@ export default function CheckoutPage() {
   const [addressResults2, setAddressResults2] = useState<ZipcloudResult[]>([]);
   const [addressLoading2, setAddressLoading2] = useState(false);
   const [addressError2, setAddressError2] = useState<string | null>(null);
-  const [cardNumber, setCardNumber] = useState("");
-  const [cardExpiry, setCardExpiry] = useState("");
-  const [cardCvc, setCardCvc] = useState("");
   const [shipping, setShipping] = useState<number | null>(null);
   const [shippingLoading, setShippingLoading] = useState(false);
+  const [paying, setPaying] = useState(false);
+  const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const [paymentInitError, setPaymentInitError] = useState<string | null>(null);
+  const [hasSavedProfile, setHasSavedProfile] = useState(false);
+
+  // Stripe.js を直接扱うための参照（React 再レンダーで壊れないようにする）
+  const stripeRef = useRef<any>(null);
+  const elementsRef = useRef<any>(null);
+  const cardContainerRef = useRef<HTMLDivElement | null>(null);
+  const [cardReady, setCardReady] = useState(false);
+
+  const stripeElementsOptions = useMemo(() => {
+    if (!clientSecret) return null;
+    return {
+      clientSecret,
+      appearance: { theme: "stripe" as const },
+    };
+  }, [clientSecret]);
 
   const zip7 = normalizePostalCode(postalCode);
   const zip7Ship = normalizePostalCode(shipPostalCode);
@@ -209,11 +249,331 @@ export default function CheckoutPage() {
       ? "計算中"
       : formatPrice(shipping);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // TODO: Stripe 決済連携
-    alert("購入処理は準備中です。");
+  const formatPostal = (raw: string) => {
+    const digits = raw.replace(/\D/g, "").slice(0, 7);
+    if (digits.length <= 3) return digits;
+    return `${digits.slice(0, 3)}-${digits.slice(3)}`;
   };
+
+  const handlePostalInput = (raw: string) => {
+    setPostalCode(formatPostal(raw));
+  };
+
+  const handleShipPostalInput = (raw: string) => {
+    setShipPostalCode(formatPostal(raw));
+  };
+
+  const orderPayload = useMemo(
+    () => ({
+      lines: items.map((it) => ({
+        name: it.title,
+        quantity: it.quantity,
+        unitPrice: it.price,
+        amount: it.price * it.quantity,
+      })),
+      shipping: shipping ?? 0,
+      giftNoInvoice,
+      memo: orderMemo,
+      billingAddress: {
+        name,
+        postalCode,
+        prefecture,
+        city,
+        addressLine,
+        phone,
+        email,
+      },
+      shippingAddress: shipToDifferent
+        ? {
+            name: shipName,
+            postalCode: shipPostalCode,
+            prefecture: shipPrefecture,
+            city: shipCity,
+            addressLine: shipAddressLine,
+            phone: shipPhone,
+          }
+        : {
+            name,
+            postalCode,
+            prefecture,
+            city,
+            addressLine,
+            phone,
+          },
+    }),
+    [
+      items,
+      shipping,
+      giftNoInvoice,
+      orderMemo,
+      name,
+      postalCode,
+      prefecture,
+      city,
+      addressLine,
+      phone,
+      email,
+      shipToDifferent,
+      shipName,
+      shipPostalCode,
+      shipPrefecture,
+      shipCity,
+      shipAddressLine,
+      shipPhone,
+    ]
+  );
+
+  // 合計が変わったら PaymentIntent を作り直す（Google Pay/カードを同一フローに）
+  useEffect(() => {
+    if (!STRIPE_PK) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        setPaymentInitError(null);
+        const amountForIntent = shipping !== null ? total : subtotal;
+        if (!Number.isFinite(amountForIntent) || amountForIntent < 1) {
+          setClientSecret(null);
+          return;
+        }
+        const res = await fetch("/api/checkout/pay", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            amount: amountForIntent,
+          }),
+        });
+        const text = await res.text();
+        let data: any = null;
+        try {
+          data = text ? JSON.parse(text) : null;
+        } catch {
+          data = null;
+        }
+
+        const cs = data?.clientSecret;
+        if (!cancelled && res.ok && typeof cs === "string" && cs.length > 10) {
+          setClientSecret(cs);
+          return;
+        }
+
+        if (!cancelled) {
+          const msg = data?.error
+            ? `支払い情報の初期化に失敗しました（${String(data.error)}）。`
+            : `支払い情報の初期化に失敗しました（HTTP ${res.status}）。`;
+          setPaymentInitError(msg + (text ? `\n${text}` : ""));
+          setClientSecret(null);
+        }
+      } catch (e) {
+        console.error(e);
+        if (!cancelled) {
+          setPaymentInitError("支払い情報の初期化に失敗しました。");
+          setClientSecret(null);
+        }
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [shipping, total, subtotal]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Payment Element へ切り替えたため、ここでは submit を止めておく（実際の決済は下のフォームで行う）
+    if (paying || shipping === null) return;
+    alert("支払い方法のブロックから決済してください。");
+  };
+
+  // PaymentElement を Stripe.js で一度だけマウント（React の再レンダーでは再マウントしない）
+  useEffect(() => {
+    if (!clientSecret || !STRIPE_PK || !cardContainerRef.current) return;
+
+    let cancelled = false;
+    (async () => {
+      try {
+        if (!stripeRef.current) {
+          stripeRef.current = await stripePromise;
+        }
+        const stripe = stripeRef.current;
+        if (!stripe || cancelled) return;
+
+        if (!elementsRef.current) {
+          elementsRef.current = stripe.elements({ clientSecret });
+          const paymentElement = elementsRef.current.create("payment", {
+            fields: { billingDetails: "never" },
+          } as any);
+          paymentElement.mount(cardContainerRef.current!);
+          paymentElement.on("ready", () => {
+            if (!cancelled) setCardReady(true);
+          });
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [clientSecret]);
+
+  const handlePay = useCallback(async () => {
+    const stripe = stripeRef.current;
+    const elements = elementsRef.current;
+    if (!stripe || !elements) return;
+    if (paying || shipping === null) return;
+
+    try {
+      setPaying(true);
+      const result = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          return_url: `${window.location.origin}/checkout`,
+          payment_method_data: {
+            billing_details: {
+              name,
+              email,
+              phone,
+              address: {
+                postal_code: postalCode.replace(/\D/g, ""),
+                country: "JP",
+                state: prefecture,
+                city,
+                line1: addressLine,
+              },
+            },
+          },
+        },
+        redirect: "if_required",
+      } as any);
+
+      if (result.error) {
+        alert(result.error.message ?? "決済に失敗しました。");
+        return;
+      }
+      const pi = result.paymentIntent;
+      if (!pi || pi.status !== "succeeded") {
+        alert("決済は完了しましたが、状態の確認に失敗しました。");
+        return;
+      }
+
+      const completeRes = await fetch("/api/checkout/complete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          paymentIntentId: pi.id,
+          order: orderPayload,
+        }),
+      });
+      const completeData = await completeRes.json();
+      if (!completeRes.ok || !completeData?.ok) {
+        alert("決済は完了しましたが、注文メール送信に失敗しました。");
+        return;
+      }
+
+      // プロファイルを localStorage に保存（次回のオートフィル用）
+      try {
+        const profile: SavedCheckoutProfile = {
+          billing: {
+            name,
+            email,
+            phone,
+            postalCode,
+            prefecture,
+            city,
+            addressLine,
+          },
+          shipToDifferent,
+          shipping: shipToDifferent
+            ? {
+                name: shipName,
+                phone: shipPhone,
+                postalCode: shipPostalCode,
+                prefecture: shipPrefecture,
+                city: shipCity,
+                addressLine: shipAddressLine,
+              }
+            : undefined,
+          giftNoInvoice,
+        };
+        localStorage.setItem("lastCheckoutProfile", JSON.stringify(profile));
+      } catch {
+        // localStorage が使えない環境では何もしない
+      }
+      try {
+        if (completeData.summary) {
+          sessionStorage.setItem(
+            "lastOrderSummary",
+            JSON.stringify(completeData.summary)
+          );
+        } else {
+          sessionStorage.removeItem("lastOrderSummary");
+        }
+      } catch {
+        // sessionStorage が使えない場合もあるので、失敗しても無視する
+      }
+
+      clearCart();
+      window.location.href = "/checkout/complete";
+    } catch (e) {
+      console.error(e);
+      alert("決済処理中にエラーが発生しました。");
+    } finally {
+      setPaying(false);
+    }
+  }, [
+    paying,
+    shipping,
+    orderPayload,
+    name,
+    email,
+    phone,
+    postalCode,
+    prefecture,
+    city,
+    addressLine,
+    clearCart,
+  ]);
+  const stripeEnvMissing = !STRIPE_PK;
+
+  // 保存済みプロファイルの有無を確認
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("lastCheckoutProfile");
+      if (raw) {
+        setHasSavedProfile(true);
+      }
+    } catch {
+      setHasSavedProfile(false);
+    }
+  }, []);
+
+  const applySavedProfile = useCallback(() => {
+    try {
+      const raw = localStorage.getItem("lastCheckoutProfile");
+      if (!raw) return;
+      const profile = JSON.parse(raw) as SavedCheckoutProfile;
+      setName(profile.billing.name || "");
+      setEmail(profile.billing.email || "");
+      setPhone(profile.billing.phone || "");
+      setPostalCode(profile.billing.postalCode || "");
+      setPrefecture(profile.billing.prefecture || "");
+      setCity(profile.billing.city || "");
+      setAddressLine(profile.billing.addressLine || "");
+      setGiftNoInvoice(!!profile.giftNoInvoice);
+      setShipToDifferent(!!profile.shipToDifferent);
+      if (profile.shipToDifferent && profile.shipping) {
+        setShipName(profile.shipping.name || "");
+        setShipPhone(profile.shipping.phone || "");
+        setShipPostalCode(profile.shipping.postalCode || "");
+        setShipPrefecture(profile.shipping.prefecture || "");
+        setShipCity(profile.shipping.city || "");
+        setShipAddressLine(profile.shipping.addressLine || "");
+      }
+    } catch {
+      // 読み込み失敗時は何もしない
+    }
+  }, []);
 
   if (items.length === 0) {
     return (
@@ -229,7 +589,15 @@ export default function CheckoutPage() {
 
   return (
     <article className="mb-10">
-      <h1 className="m-0 mb-6 font-heading text-xl font-semibold text-tea-deep">購入手続き</h1>
+      <div className="mb-6 flex items-baseline justify-between gap-4">
+        <h1 className="m-0 font-heading text-xl font-semibold text-tea-deep">購入手続き</h1>
+        <Link
+          href="/"
+          className="text-[0.875rem] text-tea font-semibold no-underline hover:underline"
+        >
+          買い物を続ける
+        </Link>
+      </div>
       <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div>
           <h2 className="m-0 mb-4 text-base font-semibold text-tea-deep">注文内容</h2>
@@ -309,9 +677,57 @@ export default function CheckoutPage() {
               （消費税{shipping !== null ? formatPrice(taxAmount) : "—"}を含む）
             </p>
           </div>
+
+          {/* 支払い方法（デスクトップ / モバイル共通） */}
+          <div className="mt-6">
+            <h2 className="m-0 mb-4 text-base font-semibold text-tea-deep">支払い方法</h2>
+            {stripeEnvMissing ? (
+              <div className="p-4 rounded-xl bg-[#f0ebe5] border border-border text-ink-muted">
+                Stripeの公開鍵が未設定です（`NEXT_PUBLIC_STRIPE_PUBLIC_KEY`）。`.env.local` を設定して再起動してください。
+              </div>
+            ) : paymentInitError ? (
+              <div className="p-4 rounded-xl bg-[#f0ebe5] border border-border text-red-700">
+                {paymentInitError}
+              </div>
+            ) : clientSecret ? (
+              <div className="p-4 rounded-xl bg-[#f0ebe5] border border-border">
+                <h3 className="m-0 mb-4 text-[0.9375rem] font-semibold text-tea-deep">
+                  クレジットカードまたは Google Pay
+                </h3>
+                <div className="bg-white rounded-lg border-2 border-border p-3">
+                  <div ref={cardContainerRef} />
+                </div>
+                <div className="mt-4 pt-4 border-t border-border">
+                  <button
+                    type="button"
+                    onClick={handlePay}
+                    disabled={paying || shipping === null || !cardReady}
+                    className="w-full py-3 px-6 rounded-lg border-2 border-tea bg-tea text-white text-[0.9375rem] font-semibold transition-colors hover:bg-tea-light hover:border-tea-light disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {paying ? "決済処理中..." : "購入を確定する"}
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="p-4 rounded-xl bg-[#f0ebe5] border border-border text-ink-muted">
+                支払い方法を読み込み中…
+              </div>
+            )}
+          </div>
         </div>
         <div>
-          <h2 className="m-0 mb-4 text-base font-semibold text-tea-deep">請求先</h2>
+          <div className="mb-4 flex items-center justify-between gap-3">
+            <h2 className="m-0 text-base font-semibold text-tea-deep">請求先</h2>
+            {hasSavedProfile && (
+              <button
+                type="button"
+                onClick={applySavedProfile}
+                className="text-[0.8125rem] font-semibold text-tea no-underline hover:underline"
+              >
+                前回の情報を自動入力
+              </button>
+            )}
+          </div>
           <div className="space-y-4">
             <div>
               <label htmlFor="checkout-name" className="block text-[0.875rem] font-medium text-ink mb-1">
@@ -364,7 +780,7 @@ export default function CheckoutPage() {
                 placeholder="123-4567"
                 required
                 value={postalCode}
-                onChange={(e) => setPostalCode(e.target.value)}
+                  onChange={(e) => handlePostalInput(e.target.value)}
                 className="w-full px-3 py-2 border-2 border-border rounded-lg text-[0.9375rem] focus:border-tea-deep focus:outline-none"
               />
               {addressLoading && (
@@ -510,7 +926,7 @@ export default function CheckoutPage() {
                       placeholder="123-4567"
                       required={shipToDifferent}
                       value={shipPostalCode}
-                      onChange={(e) => setShipPostalCode(e.target.value)}
+                      onChange={(e) => handleShipPostalInput(e.target.value)}
                       className="w-full px-3 py-2 border-2 border-border rounded-lg text-[0.9375rem] focus:border-tea-deep focus:outline-none"
                     />
                     {addressLoading2 && (
@@ -582,75 +998,6 @@ export default function CheckoutPage() {
             )}
           </div>
         </div>
-        <div className="lg:col-span-2">
-          <h2 className="m-0 mb-4 text-base font-semibold text-tea-deep">支払い方法</h2>
-            <div className="p-4 rounded-xl bg-[#f0ebe5] border border-border">
-              <h3 className="m-0 mb-4 text-[0.9375rem] font-semibold text-tea-deep">
-                クレジットカードまたはデビットカード
-              </h3>
-              <div className="space-y-4">
-                <div>
-                  <label htmlFor="checkout-card-number" className="block text-[0.875rem] font-medium text-ink mb-1">
-                    カード番号
-                  </label>
-                  <input
-                    id="checkout-card-number"
-                    type="text"
-                    inputMode="numeric"
-                    autoComplete="cc-number"
-                    placeholder="1234 1234 1234 1234"
-                    value={cardNumber}
-                    onChange={(e) => setCardNumber(e.target.value)}
-                    className="w-full px-3 py-2 border-2 border-border rounded-lg text-[0.9375rem] focus:border-tea-deep focus:outline-none bg-white"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="checkout-card-expiry" className="block text-[0.875rem] font-medium text-ink mb-1">
-                    有効期限
-                  </label>
-                  <input
-                    id="checkout-card-expiry"
-                    type="text"
-                    inputMode="numeric"
-                    autoComplete="cc-exp"
-                    placeholder="月 / 年"
-                    value={cardExpiry}
-                    onChange={(e) => setCardExpiry(e.target.value)}
-                    className="w-full px-3 py-2 border-2 border-border rounded-lg text-[0.9375rem] focus:border-tea-deep focus:outline-none bg-white max-w-[8rem]"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="checkout-card-cvc" className="block text-[0.875rem] font-medium text-ink mb-1">
-                    セキュリティコード
-                  </label>
-                  <input
-                    id="checkout-card-cvc"
-                    type="text"
-                    inputMode="numeric"
-                    autoComplete="cc-csc"
-                    placeholder="CVC"
-                    value={cardCvc}
-                    onChange={(e) => setCardCvc(e.target.value)}
-                    className="w-full px-3 py-2 border-2 border-border rounded-lg text-[0.9375rem] focus:border-tea-deep focus:outline-none bg-white max-w-[8rem]"
-                  />
-                </div>
-              </div>
-              <div className="mt-4 pt-4 border-t border-border">
-                <button
-                  type="submit"
-                  disabled={shipping === null}
-                  className="w-full py-3 px-6 rounded-lg border-2 border-tea bg-tea text-white text-[0.9375rem] font-semibold transition-colors hover:bg-tea-light hover:border-tea-light disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  購入を確定する
-                </button>
-              </div>
-            </div>
-            <div className="pt-4">
-              <PaymentRequestButtons
-                amount={shipping !== null ? total : subtotal}
-              />
-            </div>
-          </div>
       </form>
     </article>
   );

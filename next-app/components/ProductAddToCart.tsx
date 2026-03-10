@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useCart } from "@/context/CartContext";
-import PaymentRequestButtons from "@/components/PaymentRequestButtons";
 
 type Props = {
   slug: string;
@@ -83,9 +82,6 @@ export default function ProductAddToCart({ slug, price, title, imagePath }: Prop
         >
           今すぐ買う
         </button>
-      </div>
-      <div className="mt-3 w-full">
-        <PaymentRequestButtons amount={(price ?? 0) * quantity} />
       </div>
     </div>
   );
