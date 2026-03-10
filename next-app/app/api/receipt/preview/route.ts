@@ -25,7 +25,8 @@ export async function GET() {
   };
 
   const pdf = await buildReceiptPdf(sample);
-  return new NextResponse(pdf, {
+  // Buffer は BodyInit 型に含まれないため、型上は any にキャストして返す
+  return new NextResponse(pdf as any, {
     status: 200,
     headers: {
       "Content-Type": "application/pdf",
