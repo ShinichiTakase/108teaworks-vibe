@@ -59,10 +59,8 @@ export async function POST(req: NextRequest) {
       {
         amount: yenAmount,
         currency: "jpy",
-        automatic_payment_methods: {
-          enabled: true,
-          allow_redirects: "never",
-        },
+        // ウォレット決済（Apple Pay / Google Pay）は使わず、カードのみ許可
+        payment_method_types: ["card"],
         description: "藤八茶寮 オンラインショップご注文",
         ...(receiptEmail ? { receipt_email: receiptEmail } : {}),
       } as any
