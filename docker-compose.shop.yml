@@ -10,15 +10,17 @@ services:
       - next-app/.env.local
     environment:
       - NODE_ENV=production
-      - VIRTUAL_HOST=vibe.108teaworks.com
+      - VIRTUAL_HOST=108teaworks.com,vibe.108teaworks.com
       - VIRTUAL_PORT=3000
       # HTTPS (Let's Encrypt): main-nginx-proxy が acme-companion を使っている場合に有効
       # 例: LETSENCRYPT_EMAIL=info@108teaworks.com
-      - LETSENCRYPT_HOST=vibe.108teaworks.com
+      - LETSENCRYPT_HOST=108teaworks.com,vibe.108teaworks.com
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL:-}
     volumes:
       # レビューキュー・トークン・レビューJSONをホストに永続化（コンテナ再起動でも保持）
       - ./next-app/data:/app/data
+      # 商品画像をホストから参照（画像差し替えをコンテナ再起動なしで反映）
+      - ./next-app/public/images/products:/app/public/images/products
     networks:
       - edgeai-shared-net
     expose:
