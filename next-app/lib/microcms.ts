@@ -204,6 +204,7 @@ function mapRawToProduct(c: Record<string, unknown>): ProductItem {
     RELATED04: str(c, "RELATED04"),
     RELATED_URL04: str(c, "RELATED_URL04"),
     SHIP_RANK:
+      num(c, "DELIVERY") ??
       num(c, "DERIVERY") ??
       num(c, "SHIP_RANK") ??
       num(c, "配送ランク") ??
