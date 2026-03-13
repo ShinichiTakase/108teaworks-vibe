@@ -9,22 +9,8 @@ function getBaseUrl(): string {
 
 export default function robots(): MetadataRoute.Robots {
   const baseUrl = getBaseUrl();
-  const disallow = [
-    "/cart",
-    "/checkout",
-    "/checkout/complete",
-    "/en/cart",
-    "/en/checkout",
-    "/en/checkout/complete",
-    "/ko/cart",
-    "/ko/checkout",
-    "/ko/checkout/complete",
-    "/zh/cart",
-    "/zh/checkout",
-    "/zh/checkout/complete",
-  ];
   return {
-    rules: { userAgent: "*", allow: "/", disallow },
+    rules: [{ userAgent: "*", disallow: "/" }],
     sitemap: `${baseUrl}/sitemap.xml`,
   };
 }
