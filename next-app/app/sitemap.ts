@@ -40,8 +40,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/inquery", changeFrequency: "monthly", priority: 0.6 },
     { path: "/cart", changeFrequency: "weekly", priority: 0.5 },
     { path: "/checkout", changeFrequency: "weekly", priority: 0.5 },
-    { path: "/privacy-policy", changeFrequency: "yearly", priority: 0.4 },
-    { path: "/legal", changeFrequency: "yearly", priority: 0.4 },
+    { path: "/privacy-policy", changeFrequency: "monthly", priority: 0.4 },
+    { path: "/legal", changeFrequency: "monthly", priority: 0.4 },
     { path: "/kabatadani_no_ocha", changeFrequency: "monthly", priority: 0.7 },
   ];
 

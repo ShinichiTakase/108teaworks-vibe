@@ -49,7 +49,7 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
   const desc01Ja = product.DESCRIPTION01 ? decodeHtmlEntities(product.DESCRIPTION01) : "";
   const desc02Ja = product.DESCRIPTION02 ? decodeHtmlEntities(product.DESCRIPTION02) : "";
 
-  const [displayTitle, displayDesc01, displayDesc02, translatedLabels] =
+  const [displayTitleRaw, displayDesc01, displayDesc02, translatedLabels] =
     locale === "ja"
       ? [titleJa, desc01Ja, desc02Ja, relatedRaw.map((r) => r.label) as string[]]
       : await Promise.all([
@@ -58,6 +58,13 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
           desc02Ja ? translateForLocale(desc02Ja, locale, { tagHandling: "html" }) : Promise.resolve(""),
           translateManyForLocale(relatedRaw.map((r) => r.label), locale),
         ]).then(([t1, d1, d2, labels]) => [t1, d1, d2, labels ?? []]);
+
+  const displayTitle =
+    typeof displayTitleRaw === "string"
+      ? displayTitleRaw
+      : Array.isArray(displayTitleRaw)
+        ? displayTitleRaw[0] ?? ""
+        : "";
 
   const related =
     locale === "ja"

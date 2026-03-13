@@ -40,7 +40,7 @@ export default function CartPageContent() {
 
   const slugsToFetch = useMemo(() => {
     if (locale === "ja" || items.length === 0) return [];
-    return [...new Set(items.map((i) => i.slug))];
+    return Array.from(new Set(items.map((i) => i.slug)));
   }, [locale, items]);
 
   useEffect(() => {
