@@ -144,7 +144,7 @@ type Props = {
 
 export default function AboutPage({ locale }: Props) {
   const t = ABOUT_TEXTS[locale];
-  const IMG_BASE = "https://108teaworks.com/wp-content/uploads";
+  const IMG_BASE = "/images/about";
 
   return (
     <main className={MAIN_CLASS} id="main-content" role="main">
