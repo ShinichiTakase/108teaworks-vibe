@@ -16,6 +16,9 @@ services:
       # 例: LETSENCRYPT_EMAIL=info@108teaworks.com
       - LETSENCRYPT_HOST=vibe.108teaworks.com
       - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL:-}
+    volumes:
+      # レビューキュー・トークン・レビューJSONをホストに永続化（コンテナ再起動でも保持）
+      - ./next-app/data:/app/data
     networks:
       - edgeai-shared-net
     expose:
