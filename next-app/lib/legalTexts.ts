@@ -45,7 +45,7 @@ export const LEGAL_TEXTS: Record<
     extraCosts: "商品以外の必要代金",
     extraCostsValue: "商品代金とは別に送料を頂きます。詳しい送料はご購入手続き画面にて自動計算されます。",
     payment: "支払い方法",
-    paymentValue: "クレジットカード（Stripe決済）、Apple Pay、Google Pay",
+    paymentValue: "クレジットカード（Stripe決済）",
     paymentTiming: "代金の支払い時期",
     paymentTimingValue:
       "クレジットカード決済：ご注文商品配送時でのお支払いとなり、支払時期はご利用のクレジットカード会社の会員規約に従うものとします。",
@@ -74,7 +74,7 @@ export const LEGAL_TEXTS: Record<
     extraCosts: "Additional charges",
     extraCostsValue: "Shipping is charged in addition to the product price. Shipping is calculated automatically at checkout.",
     payment: "Payment methods",
-    paymentValue: "Credit card (Stripe), Apple Pay, Google Pay",
+    paymentValue: "Credit card (Stripe)",
     paymentTiming: "Payment timing",
     paymentTimingValue:
       "Credit card: payment is due when the order is shipped. The payment date follows the terms of your card issuer.",
@@ -103,7 +103,7 @@ export const LEGAL_TEXTS: Record<
     extraCosts: "상품 외 필요 대금",
     extraCostsValue: "상품 대금과 별도로 배송료를 받습니다. 자세한 배송료는 결제 화면에서 자동 계산됩니다.",
     payment: "결제 방법",
-    paymentValue: "신용카드(Stripe 결제), Apple Pay, Google Pay",
+    paymentValue: "신용카드(Stripe 결제)",
     paymentTiming: "대금의 결제 시기",
     paymentTimingValue:
       "신용카드 결제: 주문 상품 배송 시 결제되며, 결제 시기는 이용하시는 신용카드 회사의 회원 약관에 따릅니다.",
@@ -132,7 +132,7 @@ export const LEGAL_TEXTS: Record<
     extraCosts: "商品以外必要费用",
     extraCostsValue: "除商品价款外另收运费。具体运费在结账页面自动计算。",
     payment: "支付方式",
-    paymentValue: "信用卡（Stripe）、Apple Pay、Google Pay",
+    paymentValue: "信用卡（Stripe）",
     paymentTiming: "价款支付时间",
     paymentTimingValue:
       "信用卡支付：于所订商品发货时支付，具体支付时间依所使用信用卡公司的会员规约。",
