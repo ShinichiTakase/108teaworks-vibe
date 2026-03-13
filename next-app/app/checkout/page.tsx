@@ -96,6 +96,7 @@ export default function CheckoutPage() {
   const [shippingLoading, setShippingLoading] = useState(false);
   const [paying, setPaying] = useState(false);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
+  const paymentIntentIdRef = useRef<string | null>(null);
   const [paymentInitError, setPaymentInitError] = useState<string | null>(null);
   const [hasSavedProfile, setHasSavedProfile] = useState(false);
   const [approval, setApproval] = useState(true);
@@ -361,6 +362,7 @@ export default function CheckoutPage() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             amount: amountForIntent,
+            cancelPreviousId: paymentIntentIdRef.current ?? undefined,
           }),
         });
         const text = await res.text();
@@ -372,7 +374,11 @@ export default function CheckoutPage() {
         }
 
         const cs = data?.clientSecret;
+        const piId = data?.id;
         if (!cancelled && res.ok && typeof cs === "string" && cs.length > 10) {
+          if (typeof piId === "string" && piId.startsWith("pi_")) {
+            paymentIntentIdRef.current = piId;
+          }
           setClientSecret(cs);
           return;
         }

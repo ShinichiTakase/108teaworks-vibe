@@ -23,9 +23,11 @@ export async function POST(req: NextRequest) {
     const {
       amount,
       billing,
+      cancelPreviousId,
     } = body as {
       amount?: number;
       billing?: { name?: string; email?: string };
+      cancelPreviousId?: string;
     };
 
     if (typeof amount !== "number" || !Number.isFinite(amount)) {
@@ -41,6 +43,14 @@ export async function POST(req: NextRequest) {
         { ok: false, error: "invalid_amount" },
         { status: 400 }
       );
+    }
+
+    if (cancelPreviousId && typeof cancelPreviousId === "string" && cancelPreviousId.startsWith("pi_")) {
+      try {
+        await stripe.paymentIntents.cancel(cancelPreviousId);
+      } catch {
+        // すでに確定済みやキャンセル済みは無視
+      }
     }
 
     const receiptEmail = billing?.email?.trim();
