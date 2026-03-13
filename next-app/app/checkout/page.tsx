@@ -105,6 +105,8 @@ export default function CheckoutPage() {
   const stripeRef = useRef<any>(null);
   const elementsRef = useRef<any>(null);
   const expressCheckoutRef = useRef<any>(null);
+  const paymentElementRef = useRef<any>(null);
+  const elementsClientSecretRef = useRef<string | null>(null);
   const cardContainerRef = useRef<HTMLDivElement | null>(null);
   const expressContainerRef = useRef<HTMLDivElement | null>(null);
   const [cardReady, setCardReady] = useState(false);
@@ -345,19 +347,15 @@ export default function CheckoutPage() {
     ]
   );
 
-  // 送料確定後の「合計」でだけ PaymentIntent を作る（本体のみ・送料のみの二重PIを防ぐ）
+  // 小計がある時点で PI を作りフォームを表示（Apple Pay 等を出す）。送料確定後に合計で作り直し前のPIはキャンセル。
   useEffect(() => {
     if (!STRIPE_PK) return;
-    if (shipping === null) {
-      setClientSecret(null);
-      paymentIntentIdRef.current = null;
-      return;
-    }
     let cancelled = false;
     (async () => {
       try {
         setPaymentInitError(null);
-        if (subtotal < 1 || !Number.isFinite(total) || total < 1) {
+        const amountForIntent = shipping !== null ? total : subtotal;
+        if (subtotal < 1 || !Number.isFinite(amountForIntent) || amountForIntent < 1) {
           setClientSecret(null);
           return;
         }
@@ -365,7 +363,7 @@ export default function CheckoutPage() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            amount: total,
+            amount: amountForIntent,
             cancelPreviousId: paymentIntentIdRef.current ?? undefined,
           }),
         });
@@ -406,7 +404,6 @@ export default function CheckoutPage() {
       cancelled = true;
     };
   }, [shipping, total, subtotal, t.paymentInitFailed]);
-  // 依存: 送料確定後に total が決まるので shipping, total, subtotal で十分
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -416,11 +413,26 @@ export default function CheckoutPage() {
     alert(t.paymentElementAlert);
   };
 
-  // PaymentElement を Stripe.js で一度だけマウント（React の再レンダーでは再マウントしない）
+  // PaymentElement をマウント。clientSecret が変わったら古い Elements を破棄して作り直す（送料確定で合計PIに差し替えるため）
   useEffect(() => {
     if (!clientSecret || !STRIPE_PK || !cardContainerRef.current) return;
 
     let cancelled = false;
+    const prevSecret = elementsClientSecretRef.current;
+    if (elementsRef.current && prevSecret !== clientSecret) {
+      try {
+        paymentElementRef.current?.destroy();
+        paymentElementRef.current = null;
+        expressCheckoutRef.current?.destroy();
+        expressCheckoutRef.current = null;
+      } catch {
+        // noop
+      }
+      elementsRef.current = null;
+      elementsClientSecretRef.current = null;
+      setCardReady(false);
+    }
+
     (async () => {
       try {
         if (!stripeRef.current) {
@@ -431,9 +443,9 @@ export default function CheckoutPage() {
 
         if (!elementsRef.current) {
           elementsRef.current = stripe.elements({ clientSecret });
+          elementsClientSecretRef.current = clientSecret;
 
           // Wallet（Apple Pay / Google Pay 等）用: Express Checkout Element
-          // Payment Element 内の表示は端末/条件に依存するため、明示的に表示枠を用意する。
           if (expressContainerRef.current && !expressCheckoutRef.current) {
             try {
               expressCheckoutRef.current = elementsRef.current.create("expressCheckout", {
@@ -451,7 +463,6 @@ export default function CheckoutPage() {
                 }
               });
             } catch (e) {
-              // expressCheckout が使えない環境では黙ってスキップ
               expressCheckoutRef.current = null;
             }
           }
@@ -459,6 +470,7 @@ export default function CheckoutPage() {
           const paymentElement = elementsRef.current.create("payment", {
             fields: { billingDetails: "never" },
           } as any);
+          paymentElementRef.current = paymentElement;
           paymentElement.mount(cardContainerRef.current!);
           paymentElement.on("ready", () => {
             if (!cancelled) setCardReady(true);

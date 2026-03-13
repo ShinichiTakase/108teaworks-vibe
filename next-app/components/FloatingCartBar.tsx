@@ -30,7 +30,7 @@ export default function FloatingCartBar() {
     <Link
       href={cartHref}
       className="fixed right-0 z-50 flex h-14 min-w-[56px] md:min-w-[152px] items-center justify-center md:justify-start gap-2 rounded-l-full border-2 border-r-0 border-tea bg-tea py-3 pl-3 pr-3 md:pl-4 text-white no-underline font-semibold text-[0.875rem] shadow-lg transition-colors hover:bg-tea-light hover:border-tea-light"
-      style={{ bottom: "35%" }}
+      style={{ bottom: "calc(35% + 1.2em)" }}
       aria-label={t.floatingCart}
     >
       <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center text-white" aria-hidden="true">
