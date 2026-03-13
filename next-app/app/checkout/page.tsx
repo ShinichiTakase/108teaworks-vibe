@@ -345,15 +345,19 @@ export default function CheckoutPage() {
     ]
   );
 
-  // 合計が変わったら PaymentIntent を作り直す（Google Pay/カードを同一フローに）
+  // 送料確定後の「合計」でだけ PaymentIntent を作る（本体のみ・送料のみの二重PIを防ぐ）
   useEffect(() => {
     if (!STRIPE_PK) return;
+    if (shipping === null) {
+      setClientSecret(null);
+      paymentIntentIdRef.current = null;
+      return;
+    }
     let cancelled = false;
     (async () => {
       try {
         setPaymentInitError(null);
-        const amountForIntent = shipping !== null ? total : subtotal;
-        if (!Number.isFinite(amountForIntent) || amountForIntent < 1) {
+        if (subtotal < 1 || !Number.isFinite(total) || total < 1) {
           setClientSecret(null);
           return;
         }
@@ -361,7 +365,7 @@ export default function CheckoutPage() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            amount: amountForIntent,
+            amount: total,
             cancelPreviousId: paymentIntentIdRef.current ?? undefined,
           }),
         });
@@ -402,6 +406,7 @@ export default function CheckoutPage() {
       cancelled = true;
     };
   }, [shipping, total, subtotal, t.paymentInitFailed]);
+  // 依存: 送料確定後に total が決まるので shipping, total, subtotal で十分
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
