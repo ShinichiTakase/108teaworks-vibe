@@ -19,8 +19,9 @@ function getLocaleFromPath(pathname: string | null): Locale {
   return "ja";
 }
 
-const BAR_CLASS =
-  "fixed right-0 z-[999999] flex h-12 min-w-[152px] items-center gap-2 rounded-l-full border-2 border-r-0 py-2.5 pl-3 pr-2.5 text-[0.875rem] font-semibold shadow-lg transition-colors cursor-pointer";
+const BAR_BASE =
+  "fixed right-0 z-[999999] flex items-center justify-center md:justify-start gap-2 rounded-l-full border-2 border-r-0 text-[0.875rem] font-semibold shadow-lg transition-colors cursor-pointer";
+const BAR_SIZE = "h-12 w-12 md:h-12 md:min-w-[152px] md:w-auto p-0 md:py-2.5 md:pl-3 md:pr-2.5";
 
 /** 元アイコン風：黒背景に白線・上の弧・目（2点）・口・胴の線 */
 const ChachamaruIconSvg = ({ className }: { className?: string }) => (
@@ -70,26 +71,26 @@ export default function FloatingChachamaruBar() {
     <button
       type="button"
       onClick={handleClick}
-      className={`${BAR_CLASS} border-tea-deep bg-tea-deep text-white hover:bg-tea hover:border-tea focus:outline-none focus:ring-2 focus:ring-tea-light focus:ring-offset-2`}
+      className={`${BAR_BASE} ${BAR_SIZE} border-tea-deep bg-tea-deep text-white hover:bg-tea hover:border-tea focus:outline-none focus:ring-2 focus:ring-tea-light focus:ring-offset-2`}
       style={{ bottom: "230px" }}
       aria-label={t.fabAriaLabel}
       data-chachamaru-trigger
     >
-      <span className="flex h-9 w-9 shrink-0 items-center justify-center text-white">
+      <span className="flex h-6 w-6 md:h-9 md:w-9 shrink-0 items-center justify-center text-white">
         {useCustomIcon ? (
           <Image
             src="/images/chachamaru-icon.png"
             alt=""
             width={36}
             height={36}
-            className="h-9 w-9 object-contain"
+            className="h-6 w-6 md:h-9 md:w-9 object-contain"
             unoptimized
           />
         ) : (
           <ChachamaruIconSvg className="h-full w-full" />
         )}
       </span>
-      <span className="whitespace-nowrap">{t.fabLabel}</span>
+      <span className="hidden md:inline whitespace-nowrap">{t.fabLabel}</span>
     </button>
   );
 }
