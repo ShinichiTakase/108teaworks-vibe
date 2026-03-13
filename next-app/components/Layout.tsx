@@ -5,6 +5,7 @@ import PromoVideoBanner from "./PromoVideoBanner";
 import Footer from "./Footer";
 import LanguageSwitcher from "./LanguageSwitcher";
 import FloatingCartBar from "./FloatingCartBar";
+import FloatingChachamaruBar from "./FloatingChachamaruBar";
 
 const MAIN_CLASS = "pt-10 pb-16 px-4 md:py-16";
 const INNER_CLASS = "w-[90%] max-w-wide mx-auto";
@@ -30,6 +31,7 @@ export default function Layout({ children, withInner = true }: LayoutProps) {
       </main>
       <Footer />
       <LanguageSwitcher />
+      <FloatingChachamaruBar />
       <FloatingCartBar />
     </>
   );

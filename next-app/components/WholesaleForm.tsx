@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import type { Locale } from "@/lib/i18n";
+import { WHOLESALE_FORM_TEXTS } from "@/lib/wholesaleTexts";
 
 type FormState = {
   company: string;
@@ -28,9 +30,12 @@ const INITIAL_STATE: FormState = {
 
 type WholesaleFormProps = {
   onStepChange?: (step: WholesaleFormStep) => void;
+  locale?: Locale;
 };
 
-export default function WholesaleForm({ onStepChange }: WholesaleFormProps) {
+export default function WholesaleForm({ onStepChange, locale: localeProp }: WholesaleFormProps) {
+  const locale = localeProp ?? "ja";
+  const ft = WHOLESALE_FORM_TEXTS[locale];
   const [step, setStep] = useState<WholesaleFormStep>("form");
   const [form, setForm] = useState<FormState>(INITIAL_STATE);
   const [errors, setErrors] = useState<FormErrors>({});
@@ -46,16 +51,16 @@ export default function WholesaleForm({ onStepChange }: WholesaleFormProps) {
 
   const validate = (): boolean => {
     const next: FormErrors = {};
-    if (!form.company.trim()) next.company = "事業者名を入力してください。";
-    if (!form.lastName.trim()) next.lastName = "姓を入力してください。";
-    if (!form.firstName.trim()) next.firstName = "名を入力してください。";
-    if (!form.phone.trim()) next.phone = "電話番号を入力してください。";
+    if (!form.company.trim()) next.company = ft.errCompany;
+    if (!form.lastName.trim()) next.lastName = ft.errLastName;
+    if (!form.firstName.trim()) next.firstName = ft.errFirstName;
+    if (!form.phone.trim()) next.phone = ft.errPhone;
     if (!form.email.trim()) {
-      next.email = "メールアドレスを入力してください。";
+      next.email = ft.errEmail;
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
-      next.email = "メールアドレスの形式が正しくありません。";
+      next.email = ft.errEmailInvalid;
     }
-    if (!form.message.trim()) next.message = "お問い合わせ内容を入力してください。";
+    if (!form.message.trim()) next.message = ft.errMessage;
     setErrors(next);
     return Object.keys(next).length === 0;
   };
@@ -80,13 +85,13 @@ export default function WholesaleForm({ onStepChange }: WholesaleFormProps) {
       const res = await fetch("/api/wholesale", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, locale }),
       });
       if (!res.ok) throw new Error("Failed to send");
       setStep("done");
     } catch (err) {
       console.error(err);
-      setSendError("送信中にエラーが発生しました。お手数ですが、時間をおいて再度お試しください。");
+      setSendError(ft.sendError);
     } finally {
       setSending(false);
     }
@@ -98,7 +103,7 @@ export default function WholesaleForm({ onStepChange }: WholesaleFormProps) {
     }`;
 
   const labelRequired = (
-    <span className="text-[0.75rem] text-tea-deep">（必須）</span>
+    <span className="text-[0.75rem] text-tea-deep"> {ft.required}</span>
   );
 
   return (
@@ -112,16 +117,16 @@ export default function WholesaleForm({ onStepChange }: WholesaleFormProps) {
             id="wholesale-form-heading"
             className="m-0 mb-4 font-heading text-lg font-semibold text-tea-deep"
           >
-            お問い合わせフォーム
+            {ft.formHeading}
           </h2>
           <p className="mb-6 text-[0.9375rem] leading-relaxed text-ink-muted">
-            パートナー募集に関するご相談は、下記フォームよりお送りください。
+            {ft.formIntro}
           </p>
 
           <form noValidate onSubmit={handleConfirm} className="space-y-5">
             <div>
               <label htmlFor="company" className="mb-1 block text-[0.875rem] font-semibold text-ink">
-                事業者名 {labelRequired}
+                {ft.company}{labelRequired}
               </label>
               <input
                 id="company"
@@ -138,7 +143,7 @@ export default function WholesaleForm({ onStepChange }: WholesaleFormProps) {
 
             <div>
               <label htmlFor="department" className="mb-1 block text-[0.875rem] font-semibold text-ink">
-                部署名
+                {ft.department}
               </label>
               <input
                 id="department"
@@ -153,7 +158,7 @@ export default function WholesaleForm({ onStepChange }: WholesaleFormProps) {
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
               <div>
                 <label htmlFor="lastName" className="mb-1 block text-[0.875rem] font-semibold text-ink">
-                  名前（姓） {labelRequired}
+                  {ft.lastName}{labelRequired}
                 </label>
                 <input
                   id="lastName"
@@ -169,7 +174,7 @@ export default function WholesaleForm({ onStepChange }: WholesaleFormProps) {
               </div>
               <div>
                 <label htmlFor="firstName" className="mb-1 block text-[0.875rem] font-semibold text-ink">
-                  名前（名） {labelRequired}
+                  {ft.firstName}{labelRequired}
                 </label>
                 <input
                   id="firstName"
@@ -187,7 +192,7 @@ export default function WholesaleForm({ onStepChange }: WholesaleFormProps) {
 
             <div>
               <label htmlFor="phone" className="mb-1 block text-[0.875rem] font-semibold text-ink">
-                電話番号 {labelRequired}
+                {ft.phone}{labelRequired}
               </label>
               <input
                 id="phone"
@@ -204,7 +209,7 @@ export default function WholesaleForm({ onStepChange }: WholesaleFormProps) {
 
             <div>
               <label htmlFor="email" className="mb-1 block text-[0.875rem] font-semibold text-ink">
-                メールアドレス {labelRequired}
+                {ft.email}{labelRequired}
               </label>
               <input
                 id="email"
@@ -221,7 +226,7 @@ export default function WholesaleForm({ onStepChange }: WholesaleFormProps) {
 
             <div>
               <label htmlFor="message" className="mb-1 block text-[0.875rem] font-semibold text-ink">
-                お問い合わせ内容 {labelRequired}
+                {ft.message}{labelRequired}
               </label>
               <textarea
                 id="message"
@@ -236,17 +241,18 @@ export default function WholesaleForm({ onStepChange }: WholesaleFormProps) {
               )}
             </div>
 
-            <p className="mt-2 text-[0.8125rem] leading-relaxed text-ink-muted">
-              icloud.com, me.com, mac.comなどのアドレスをご利用の場合、当方からの返信メールが届かない場合がございます。
-              なるべく他のメールアドレスをご利用いただくか、@108teaworks.comからのメールを受信許可に設定してください。
-            </p>
+            {ft.emailNote && (
+              <p className="mt-2 text-[0.8125rem] leading-relaxed text-ink-muted">
+                {ft.emailNote}
+              </p>
+            )}
 
             <div className="pt-2">
               <button
                 type="submit"
                 className="inline-flex items-center justify-center rounded bg-tea-deep px-6 py-2 text-[0.9375rem] font-medium text-cream transition-colors hover:bg-tea focus:outline-none focus:ring-2 focus:ring-tea-light focus:ring-offset-2 focus:ring-offset-cream"
               >
-                確認する
+                {ft.confirmButton}
               </button>
             </div>
           </form>
@@ -263,36 +269,36 @@ export default function WholesaleForm({ onStepChange }: WholesaleFormProps) {
             id="wholesale-form-heading"
             className="m-0 mb-2 font-heading text-lg font-semibold text-tea-deep"
           >
-            入力内容の確認
+            {ft.confirm}
           </h2>
           <p className="mb-4 text-[0.875rem] text-ink-muted">
-            入力内容をご確認ください。修正する場合は「戻る」を、送信する場合は「送信する」を押してください。
+            {ft.confirmIntro}
           </p>
 
           <div>
-            <div className="text-[0.8125rem] font-semibold text-tea-deep">事業者名</div>
+            <div className="text-[0.8125rem] font-semibold text-tea-deep">{ft.company}</div>
             <p className="mt-1 mb-0 whitespace-pre-wrap break-words">{form.company}</p>
           </div>
           {form.department && (
             <div>
-              <div className="text-[0.8125rem] font-semibold text-tea-deep">部署名</div>
+              <div className="text-[0.8125rem] font-semibold text-tea-deep">{ft.department}</div>
               <p className="mt-1 mb-0">{form.department}</p>
             </div>
           )}
           <div>
-            <div className="text-[0.8125rem] font-semibold text-tea-deep">名前</div>
+            <div className="text-[0.8125rem] font-semibold text-tea-deep">{locale === "ja" ? "名前" : locale === "en" ? "Name" : locale === "ko" ? "이름" : "姓名"}</div>
             <p className="mt-1 mb-0">{form.lastName} {form.firstName}</p>
           </div>
           <div>
-            <div className="text-[0.8125rem] font-semibold text-tea-deep">電話番号</div>
+            <div className="text-[0.8125rem] font-semibold text-tea-deep">{ft.phone}</div>
             <p className="mt-1 mb-0 break-all">{form.phone}</p>
           </div>
           <div>
-            <div className="text-[0.8125rem] font-semibold text-tea-deep">メールアドレス</div>
+            <div className="text-[0.8125rem] font-semibold text-tea-deep">{ft.email}</div>
             <p className="mt-1 mb-0 break-all">{form.email}</p>
           </div>
           <div>
-            <div className="text-[0.8125rem] font-semibold text-tea-deep">お問い合わせ内容</div>
+            <div className="text-[0.8125rem] font-semibold text-tea-deep">{ft.message}</div>
             <p className="mt-1 mb-0 whitespace-pre-wrap break-words">{form.message}</p>
           </div>
 
@@ -302,14 +308,14 @@ export default function WholesaleForm({ onStepChange }: WholesaleFormProps) {
               onClick={handleBack}
               className="inline-flex items-center justify-center rounded border border-border bg-white px-5 py-2 text-[0.875rem] text-ink hover:border-tea-deep hover:text-tea-deep"
             >
-              戻る
+              {ft.back}
             </button>
             <button
               type="submit"
               disabled={sending}
               className="inline-flex items-center justify-center rounded bg-tea-deep px-6 py-2 text-[0.9375rem] font-medium text-cream transition-colors hover:bg-tea focus:outline-none focus:ring-2 focus:ring-tea-light focus:ring-offset-2 focus:ring-offset-washi disabled:opacity-70"
             >
-              {sending ? "送信中..." : "送信する"}
+              {sending ? ft.sending : ft.submit}
             </button>
           </div>
           {sendError && (
@@ -324,14 +330,13 @@ export default function WholesaleForm({ onStepChange }: WholesaleFormProps) {
             id="wholesale-form-heading"
             className="m-0 mb-3 font-heading text-xl font-semibold text-tea-deep"
           >
-            送信完了
+            {ft.doneTitle}
           </h2>
           <p className="mb-2">
-            パートナー募集フォームよりお問い合わせいただき、ありがとうございます。
+            {ft.doneThanks}
           </p>
           <p className="mb-0 text-[0.875rem] text-ink-muted">
-            内容を確認のうえ、通常2〜3営業日以内にご返信させていただきます。
-            しばらく経っても返信が届かない場合は、迷惑メールフォルダをご確認いただくか、別のメールアドレスにて再度お問い合わせください。
+            {ft.doneNote}
           </p>
         </div>
       )}

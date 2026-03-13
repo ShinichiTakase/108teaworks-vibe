@@ -1,4 +1,6 @@
 import { fetchInstagramMedia } from "@/lib/instagram";
+import type { Locale } from "@/lib/i18n";
+import { HOME_INSTAGRAM_TEXTS } from "@/lib/homeSectionTexts";
 
 const FALLBACK_POSTS = [
   { url: "https://www.instagram.com/p/DVK0TbkkbiJ/", img: "/images/instagram/post-01.jpg" },
@@ -13,7 +15,9 @@ const FALLBACK_POSTS = [
   { url: "https://www.instagram.com/p/DOHoNDhklII/", img: "/images/instagram/post-10.jpg" },
 ];
 
-export default async function InstagramSection() {
+type Props = { locale?: Locale };
+
+export default async function InstagramSection({ locale = "ja" }: Props) {
   const media = await fetchInstagramMedia(10);
   const posts =
     media.length > 0
@@ -22,6 +26,7 @@ export default async function InstagramSection() {
           img: m.thumbnail_url || m.media_url,
         }))
       : FALLBACK_POSTS;
+  const t = HOME_INSTAGRAM_TEXTS[locale];
 
   return (
     <section
@@ -33,7 +38,7 @@ export default async function InstagramSection() {
         id="instagram-heading"
         className="m-0 mb-4 font-heading text-lg font-semibold text-tea-deep"
       >
-        Instagram
+        {t.heading}
       </h2>
       <p className="m-0 text-[0.9375rem] text-ink-muted">
         <a
@@ -43,12 +48,12 @@ export default async function InstagramSection() {
           className="text-tea no-underline hover:underline"
         >
           @108teaworks
-        </a>{" "}
-        で日々のお茶や伊勢茶の魅力をお届けしています。
+        </a>
+        {" "}{t.intro}
       </p>
       <ul
         className="mt-6 grid grid-cols-2 gap-2 md:grid-cols-5 md:gap-4 list-none m-0 p-0"
-        aria-label="最新の投稿"
+        aria-label={t.postsAria}
       >
         {posts.map((post) => (
           <li key={post.url} className="m-0">
@@ -61,7 +66,7 @@ export default async function InstagramSection() {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={post.img}
-                alt="Instagramの投稿"
+                alt={t.postAlt}
                 width={200}
                 height={200}
                 className="block w-full h-full object-cover"
@@ -78,7 +83,7 @@ export default async function InstagramSection() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Instagram でフォロー
+          {t.followCta}
         </a>
       </p>
     </section>

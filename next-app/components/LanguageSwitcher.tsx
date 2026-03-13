@@ -5,19 +5,18 @@ import { usePathname } from "next/navigation";
 
 const locales = [
   { code: "zh", label: "Chinese", flag: "🇨🇳" },
-  { code: "fr", label: "French", flag: "🇫🇷" },
   { code: "ko", label: "Korean", flag: "🇰🇷" },
   { code: "en", label: "English", flag: "🇺🇸" },
   { code: "ja", label: "Japanese", flag: "🇯🇵" },
 ];
 
 function detectLocaleFromPath(pathname: string): string {
-  const match = pathname.match(/^\/(ja|en|ko|zh|fr)(?=\/|$)/);
+  const match = pathname.match(/^\/(ja|en|ko|zh)(?=\/|$)/);
   return match ? match[1] : "ja";
 }
 
 function stripLocaleFromPath(pathname: string): string {
-  return pathname.replace(/^\/(ja|en|ko|zh|fr)(?=\/|$)/, "") || "/";
+  return pathname.replace(/^\/(ja|en|ko|zh)(?=\/|$)/, "") || "/";
 }
 
 export default function LanguageSwitcher() {

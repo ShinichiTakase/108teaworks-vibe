@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MAIN_CLASS, INNER_CLASS } from "@/components/Layout";
-import { getNoticeBySlug, getNoticeById, decodeHtmlEntities, repairMalformedHrefs } from "@/lib/microcms";
+import { getNoticeBySlug, getNoticeById, prepareBodyForDetail, stripHtml } from "@/lib/microcms";
+import { buildAlternatesForLocales } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -27,10 +28,16 @@ export async function generateMetadata({ params }: Props) {
   const { slug } = await params;
   let notice = await getNoticeBySlug(slug);
   if (!notice) notice = await getNoticeById(slug);
-  if (!notice) return { title: "お知らせ｜伊勢茶の藤八茶寮" };
+  if (!notice) {
+    return {
+      title: "お知らせ｜伊勢茶の藤八茶寮",
+      alternates: buildAlternatesForLocales(`/notice/${slug}`),
+    };
+  }
   return {
-    title: `${notice.title}｜お知らせ｜伊勢茶の藤八茶寮`,
-    description: notice.title,
+    title: `${stripHtml(notice.title)}｜お知らせ｜伊勢茶の藤八茶寮`,
+    description: (notice.body ?? notice.title ?? "").replace(/<[^>]+>/g, "").slice(0, 160),
+    alternates: buildAlternatesForLocales(`/notice/${notice.slug ?? notice.id}`),
   };
 }
 
@@ -46,7 +53,7 @@ export default async function NoticeDetailPage({ params }: Props) {
         <article className="mb-10">
           <header className="mb-6">
             <h1 className="m-0 mb-3 font-heading text-xl font-semibold text-tea-deep md:text-2xl">
-              {notice.title}
+              {stripHtml(notice.title)}
             </h1>
             <div className="inline-block rounded border border-border bg-washi px-3 py-1 text-left text-[0.8125rem] text-ink-muted">
               {formatDate(notice.publishedAt)}
@@ -55,7 +62,7 @@ export default async function NoticeDetailPage({ params }: Props) {
           {notice.body && (
             <div
               className="notice-body text-[0.9375rem] leading-relaxed text-ink [&_a]:text-tea [&_a]:no-underline [&_a:hover]:text-tea-deep [&_a:hover]:underline [&_img]:max-w-full [&_img]:h-auto [&_p]:mb-3 [&_p:last-child]:mb-0"
-              dangerouslySetInnerHTML={{ __html: repairMalformedHrefs(decodeHtmlEntities(notice.body)) }}
+              dangerouslySetInnerHTML={{ __html: prepareBodyForDetail(notice.body) }}
             />
           )}
           <p className="mt-6">

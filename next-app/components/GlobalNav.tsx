@@ -3,20 +3,35 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import type { Locale } from "@/lib/i18n";
+import { COMMON_TEXTS } from "@/lib/commonTexts";
 
-const navItems = [
-  { label: "商品一覧", href: "/" },
-  { label: "藤八茶寮について", href: "/about" },
-  { label: "伊勢茶とは", href: "/isecha" },
-  { label: "お茶の淹れ方", href: "/how-to-brew" },
-  { label: "ご注文の流れ", href: "/user-guide" },
-  { label: "お知らせ", href: "/notice" },
-  { label: "パートナー募集", href: "/wholesale" },
-];
+const NAV_KEYS = [
+  { key: "products" as const, href: "/" },
+  { key: "about" as const, href: "/about" },
+  { key: "isecha" as const, href: "/isecha" },
+  { key: "howToBrew" as const, href: "/how-to-brew" },
+  { key: "userGuide" as const, href: "/user-guide" },
+  { key: "notice" as const, href: "/notice" },
+  { key: "wholesale" as const, href: "/wholesale" },
+] as const;
+
+function detectLocaleFromPath(pathname: string): Locale {
+  const match = pathname.match(/^\/(ja|en|ko|zh)(?=\/|$)/);
+  return (match ? match[1] : "ja") as Locale;
+}
+
+function buildLocalizedHref(locale: Locale, href: string): string {
+  if (locale === "ja") return href;
+  if (href === "/") return `/${locale}`;
+  return `/${locale}${href}`;
+}
 
 export default function GlobalNav() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const locale = detectLocaleFromPath(pathname || "/");
+  const t = COMMON_TEXTS[locale];
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (pathname === href) {
@@ -31,33 +46,35 @@ export default function GlobalNav() {
 
   return (
     <div className="relative bg-cream">
-      {/* デスクトップ：メインメニュー */}
       <nav
-        aria-label="メインメニュー"
+        aria-label={t.aria.mainMenu}
         className="hidden md:flex justify-center py-3 text-[1rem] text-ink"
       >
         <ul className="flex flex-wrap justify-center gap-4">
-          {navItems.map((item) => (
-            <li key={item.label}>
-              <Link
-                href={item.href}
-                className={linkClass}
-                onClick={(e) => handleNavClick(e, item.href)}
-              >
-                {item.label}
-              </Link>
-            </li>
-          ))}
+          {NAV_KEYS.map((item) => {
+            const localized = buildLocalizedHref(locale, item.href);
+            const label = t.nav[item.key];
+            return (
+              <li key={item.key}>
+                <Link
+                  href={localized}
+                  className={linkClass}
+                  onClick={(e) => handleNavClick(e, localized)}
+                >
+                  {label}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </nav>
 
-      {/* タブレット・スマートフォン：右上ハンバーガーメニュー */}
       <div className="md:hidden">
         <div className="flex justify-end pr-3 pt-1 pb-1">
           <button
             type="button"
             className="inline-flex items-center justify-center rounded-full border border-border bg-cream/90 px-3 py-0.5 text-ink shadow-sm"
-            aria-label="メニュー"
+            aria-label={t.aria.menuButton}
             onClick={() => setOpen((prev) => !prev)}
           >
             <span className="mr-2 text-sm font-semibold">Menu</span>
@@ -71,16 +88,20 @@ export default function GlobalNav() {
         {open && (
           <div className="mt-2 pb-2 px-2">
             <div className="rounded-lg bg-cream/95 shadow-lg py-2 text-sm text-left min-w-[9rem] ml-auto max-w-xs">
-              {navItems.map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  className={linkClassMobile}
-                  onClick={(e) => handleNavClick(e, item.href)}
-                >
-                  {item.label}
-                </Link>
-              ))}
+              {NAV_KEYS.map((item) => {
+                const localized = buildLocalizedHref(locale, item.href);
+                const label = t.nav[item.key];
+                return (
+                  <Link
+                    key={item.key}
+                    href={localized}
+                    className={linkClassMobile}
+                    onClick={(e) => handleNavClick(e, localized)}
+                  >
+                    {label}
+                  </Link>
+                );
+              })}
             </div>
           </div>
         )}

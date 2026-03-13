@@ -3,17 +3,33 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import type { ProductItem } from "@/lib/microcms";
+import type { Locale } from "@/lib/i18n";
+import { HOME_PRODUCTS_TEXTS } from "@/lib/homeSectionTexts";
+import { COMMON_TEXTS } from "@/lib/commonTexts";
 
-const FILTER_OPTIONS = [
-  { value: "", label: "すべて表示" },
-  { value: "深蒸し茶", label: "深蒸し茶" },
-  { value: "ほうじ茶", label: "ほうじ茶" },
-  { value: "和紅茶", label: "和紅茶" },
-  { value: "リーフ（茶葉）", label: "リーフ（茶葉）" },
-  { value: "ティーバッグ", label: "ティーバッグ" },
-  { value: "パウダー", label: "パウダー" },
-] as const;
+function getLocaleFromPath(pathname: string | null): Locale {
+  if (!pathname) return "ja";
+  if (pathname.startsWith("/en")) return "en";
+  if (pathname.startsWith("/ko")) return "ko";
+  if (pathname.startsWith("/zh")) return "zh";
+  return "ja";
+}
+
+function productHref(locale: Locale, slug: string): string {
+  return locale === "ja" ? `/products/${slug}` : `/${locale}/products/${slug}`;
+}
+
+const FILTER_OPTIONS: { value: string; labelKey: keyof Omit<typeof HOME_PRODUCTS_TEXTS.ja, "sectionAria" | "filterLabel" | "filterAria" | "noProducts" | "outOfStock"> }[] = [
+  { value: "", labelKey: "filterAll" },
+  { value: "深蒸し茶", labelKey: "filterFukamushi" },
+  { value: "ほうじ茶", labelKey: "filterHoujicha" },
+  { value: "和紅茶", labelKey: "filterWakoucha" },
+  { value: "リーフ（茶葉）", labelKey: "filterLeaf" },
+  { value: "ティーバッグ", labelKey: "filterTeabag" },
+  { value: "パウダー", labelKey: "filterPowder" },
+];
 
 function formatPrice(price: number | undefined): string {
   if (price == null || Number.isNaN(price)) return "—";
@@ -36,6 +52,10 @@ type Props = {
 };
 
 export default function ProductListWithFilter({ products }: Props) {
+  const pathname = usePathname();
+  const locale = getLocaleFromPath(pathname);
+  const t = HOME_PRODUCTS_TEXTS[locale];
+  const taxLabel = COMMON_TEXTS[locale].product.taxIncluded;
   const [filter, setFilter] = useState("");
   const filtered =
     filter === ""
@@ -43,27 +63,27 @@ export default function ProductListWithFilter({ products }: Props) {
       : products.filter((p) => productMatchesTag(p, filter));
 
   return (
-    <section className="mb-12" id="products" aria-label="商品一覧">
+    <section className="mb-12" id="products" aria-label={t.sectionAria}>
       <div className="flex flex-wrap items-center justify-end gap-2 mb-3">
         <label htmlFor="product-filter" className="text-[0.875rem] text-ink-muted">
-          絞り込み:
+          {t.filterLabel}
         </label>
         <select
           id="product-filter"
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
           className="rounded border border-border bg-washi px-3 py-1.5 text-[0.875rem] text-ink focus:border-tea focus:outline-none focus:ring-1 focus:ring-tea"
-          aria-label="商品の絞り込み"
+          aria-label={t.filterAria}
         >
           {FILTER_OPTIONS.map((opt) => (
             <option key={opt.value || "all"} value={opt.value}>
-              {opt.label}
+              {t[opt.labelKey]}
             </option>
           ))}
         </select>
       </div>
       {filtered.length === 0 ? (
-        <p className="text-[0.9375rem] text-ink-muted m-0">該当する商品はありません。</p>
+        <p className="text-[0.9375rem] text-ink-muted m-0">{t.noProducts}</p>
       ) : (
         <ul className="list-none m-0 p-0 grid grid-cols-2 md:grid-cols-3 gap-3">
           {filtered.map((product) => {
@@ -72,7 +92,7 @@ export default function ProductListWithFilter({ products }: Props) {
             return (
               <li key={product.id} className="m-0">
                 <Link
-                  href={`/products/${slug}`}
+                  href={productHref(locale, slug)}
                   className="flex flex-col h-full p-3 bg-washi border border-border rounded transition-colors hover:border-tea-light hover:bg-white text-ink no-underline"
                 >
                   <span className="relative block mb-3">
@@ -89,7 +109,7 @@ export default function ProductListWithFilter({ products }: Props) {
                         className="absolute bottom-2 left-2 rounded bg-ink/80 px-2 py-1 text-base font-semibold text-cream"
                         aria-hidden="true"
                       >
-                        在庫切れ
+                        {t.outOfStock}
                       </span>
                     )}
                   </span>
@@ -99,7 +119,7 @@ export default function ProductListWithFilter({ products }: Props) {
                   <span className="block text-right text-[0.9375rem] font-bold text-tea-deep">
                     {formatPrice(product.PRICE)}{" "}
                     <span className="text-[0.8125rem] text-ink-muted font-normal">
-                      (税込)
+                      {taxLabel}
                     </span>
                   </span>
                 </Link>

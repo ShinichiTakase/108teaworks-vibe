@@ -1,6 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import type { Locale } from "@/lib/i18n";
+import { COMMON_TEXTS } from "@/lib/commonTexts";
 
 const CartIcon = ({ className }: { className?: string }) => (
   <span className={`inline-block w-[1.1em] h-[1.1em] ${className ?? ""}`} aria-hidden="true">
@@ -29,26 +32,43 @@ const MailIcon = ({ className }: { className?: string }) => (
   </span>
 );
 
+function detectLocaleFromPath(pathname: string): Locale {
+  const match = pathname.match(/^\/(ja|en|ko|zh)(?=\/|$)/);
+  return (match ? match[1] : "ja") as Locale;
+}
+
+function buildLocalizedHref(locale: Locale, href: string): string {
+  if (locale === "ja") return href;
+  if (href === "/") return `/${locale}`;
+  return `/${locale}${href}`;
+}
+
 export default function HeaderCartAccountLinks() {
+  const pathname = usePathname() || "/";
+  const locale = detectLocaleFromPath(pathname);
+  const t = COMMON_TEXTS[locale];
+  const cartHref = buildLocalizedHref(locale, "/cart");
+  const inquiryHref = buildLocalizedHref(locale, "/inquery");
+
   return (
     <div className="flex items-center gap-3 md:gap-4">
       <Link
-        href="/cart"
+        href={cartHref}
         className="inline-flex items-center gap-1.5 text-[0.8125rem] font-semibold text-tea-deep no-underline hover:text-tea hover:underline"
       >
         <span className="flex-shrink-0 w-[1.1em] h-[1.1em]">
           <CartIcon className="w-full h-full" />
         </span>
-        カート
+        {t.header.cart}
       </Link>
       <Link
-        href="/inquery"
+        href={inquiryHref}
         className="inline-flex items-center gap-1.5 text-[0.8125rem] font-semibold text-tea-deep no-underline hover:text-tea hover:underline"
       >
         <span className="flex-shrink-0 w-[1.1em] h-[1.1em] inline-block">
           <MailIcon className="w-full h-full" />
         </span>
-        お問い合せ
+        {t.header.inquiry}
       </Link>
     </div>
   );

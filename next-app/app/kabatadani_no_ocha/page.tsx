@@ -1,13 +1,19 @@
 import { MAIN_CLASS, INNER_CLASS } from "@/components/Layout";
 import KabatadaniViewer from "@/components/KabatadaniViewer";
+import { getFixedSeo, buildAlternatesForLocales } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
-export const metadata = {
-  title: "伊勢茶発祥の地 川俣谷のお茶｜伊勢茶の藤八茶寮",
-  description:
-    "伊勢茶発祥の地 川俣谷のお茶（PDF版）を、右開きの冊子イメージでご覧いただけます。",
-};
+export async function generateMetadata() {
+  const seo = getFixedSeo("/kabatadani_no_ocha", "ja");
+  return {
+    title: seo?.title ?? "伊勢茶発祥の地 川俣谷のお茶｜伊勢茶の藤八茶寮",
+    description:
+      seo?.description ??
+      "伊勢茶発祥の地 川俣谷のお茶（PDF版）を、右開きの冊子イメージでご覧いただけます。",
+    alternates: buildAlternatesForLocales("/kabatadani_no_ocha"),
+  };
+}
 
 export default function KabatadaniNoOchaPage() {
   return (

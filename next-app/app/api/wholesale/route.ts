@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import { WHOLESALE_EMAIL_CLIENT } from "@/lib/emailClientTexts";
+import { getMailFrom } from "@/lib/mailFrom";
+import type { Locale } from "@/lib/i18n";
 
 const REQUIRED = [
   "company",
@@ -18,6 +21,7 @@ type WholesaleBody = {
   phone?: string;
   email?: string;
   message?: string;
+  locale?: string;
 };
 
 export async function POST(req: NextRequest) {
@@ -31,7 +35,9 @@ export async function POST(req: NextRequest) {
       phone,
       email,
       message,
+      locale: localeParam,
     } = body;
+    const locale: Locale = ["ja", "en", "ko", "zh"].includes(localeParam ?? "") ? (localeParam as Locale) : "ja";
 
     for (const key of REQUIRED) {
       const v = body[key];
@@ -43,14 +49,15 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const host = process.env.SMTP_HOST || "mail.edgeailab.jp";
+    const host = process.env.SMTP_HOST;
     const port = Number(process.env.SMTP_PORT || 587);
     const user = process.env.SMTP_USER;
     const pass = process.env.SMTP_PASS;
     const to = process.env.INQUERY_TO || "info@108teaworks.com";
-    const from = process.env.INQUERY_FROM || to;
+    const fromAddr = process.env.INQUERY_FROM || to;
+    const from = getMailFrom(fromAddr);
 
-    if (!user || !pass) {
+    if (!host || !user || !pass) {
       console.error("SMTP_USER or SMTP_PASS is not set");
       return NextResponse.json(
         { ok: false, error: "smtp_not_configured" },
@@ -92,36 +99,31 @@ export async function POST(req: NextRequest) {
       replyTo: email ?? undefined,
     });
 
-    const clientSubject = "藤八茶寮 - お問合せありがとうございました";
-    const clientNameLine = [company, department].filter(Boolean).join(" ") + " 様";
-    const clientText = [
-      clientNameLine,
-      "",
-      "この度はお問い合わせいただきありがとうございました。",
-      "下記内容にて承りました。",
-      "",
-      `事業者名: ${company ?? ""}`,
-      department ? `部署名: ${department}` : null,
-      `名前: ${lastName ?? ""} ${firstName ?? ""}`,
-      `電話番号: ${phone ?? ""}`,
-      `メールアドレス: ${email ?? ""}`,
-      "",
-      "お問い合わせ内容:",
-      message ?? "",
-      "",
-      "担当者より数日中に返信いたしますので、しばらくお待ちください。",
-    ]
-      .filter(Boolean)
-      .join("\n");
+    const clientTpl = WHOLESALE_EMAIL_CLIENT[locale];
+    const clientSubject = clientTpl.subject;
+    const clientText = clientTpl.body(
+      company ?? "",
+      department ?? "",
+      lastName ?? "",
+      firstName ?? "",
+      phone ?? "",
+      email ?? "",
+      message ?? ""
+    );
 
-    const clientFrom = process.env.CLIENT_MAIL_FROM || from;
-    await transporter.sendMail({
-      from: clientFrom,
-      to: email ?? "",
-      subject: clientSubject,
-      text: clientText,
-      replyTo: from,
-    });
+    const clientFromAddr = process.env.CLIENT_MAIL_FROM || fromAddr;
+    const clientFrom = getMailFrom(clientFromAddr);
+    try {
+      await transporter.sendMail({
+        from: clientFrom,
+        to: email ?? "",
+        subject: clientSubject,
+        text: clientText,
+        replyTo: fromAddr,
+      });
+    } catch (clientErr) {
+      console.error("Failed to send wholesale auto-reply to client:", clientErr);
+    }
 
     return NextResponse.json({ ok: true });
   } catch (error) {

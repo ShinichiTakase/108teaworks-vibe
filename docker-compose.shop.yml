@@ -12,6 +12,10 @@ services:
       - NODE_ENV=production
       - VIRTUAL_HOST=vibe.108teaworks.com
       - VIRTUAL_PORT=3000
+      # HTTPS (Let's Encrypt): main-nginx-proxy が acme-companion を使っている場合に有効
+      # 例: LETSENCRYPT_EMAIL=info@108teaworks.com
+      - LETSENCRYPT_HOST=vibe.108teaworks.com
+      - LETSENCRYPT_EMAIL=${LETSENCRYPT_EMAIL:-}
     networks:
       - edgeai-shared-net
     expose:

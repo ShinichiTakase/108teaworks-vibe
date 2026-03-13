@@ -1,6 +1,28 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import type { Locale } from "@/lib/i18n";
+import { COMMON_TEXTS } from "@/lib/commonTexts";
+
+function detectLocaleFromPath(pathname: string): Locale {
+  const match = pathname.match(/^\/(ja|en|ko|zh)(?=\/|$)/);
+  return (match ? match[1] : "ja") as Locale;
+}
+
+function buildLocalizedHref(locale: Locale, href: string): string {
+  if (locale === "ja") return href;
+  if (href === "/") return `/${locale}`;
+  return `/${locale}${href}`;
+}
 
 export default function Footer() {
+  const pathname = usePathname() || "/";
+  const locale = detectLocaleFromPath(pathname);
+  const t = COMMON_TEXTS[locale];
+  const privacyHref = buildLocalizedHref(locale, "/privacy-policy");
+  const legalHref = buildLocalizedHref(locale, "/legal");
+
   return (
     <footer
       className="mt-16 bg-footer-top border-t border-b border-border"
@@ -9,12 +31,12 @@ export default function Footer() {
       <div className="w-full">
         <div className="w-[90%] max-w-wide mx-auto py-4">
           <p className="m-0 text-left text-[0.8125rem] text-ink-muted leading-relaxed">
-            <Link href="/privacy-policy" className="text-tea no-underline hover:underline">
-              プライバシーポリシー
+            <Link href={privacyHref} className="text-tea no-underline hover:underline">
+              {t.footer.privacyPolicy}
             </Link>
             <span className="mx-2 text-ink-muted">｜</span>
-            <Link href="/legal" className="text-tea no-underline hover:underline">
-              特定商取引法に基づく表記
+            <Link href={legalHref} className="text-tea no-underline hover:underline">
+              {t.footer.legal}
             </Link>
           </p>
         </div>
@@ -22,7 +44,7 @@ export default function Footer() {
       <div className="w-full bg-footer-middle">
         <div className="w-[90%] max-w-wide mx-auto py-4">
           <p className="m-0 text-right text-[0.8125rem] text-ink leading-relaxed">
-            〒224-0007 横浜市都筑区荏田南一丁目１１番２３号
+            {t.footer.address}
             <br />
             <Link
               href="mailto:info@108teaworks.com"
@@ -43,7 +65,7 @@ export default function Footer() {
       <div className="w-full">
         <div className="w-[90%] max-w-wide mx-auto py-4">
           <p className="m-0 text-center text-[0.8125rem] text-ink-muted leading-relaxed">
-            ©︎ 藤八茶寮 / シングルオリジン伊勢茶 108teaworks
+            {t.footer.copyright}
           </p>
         </div>
       </div>

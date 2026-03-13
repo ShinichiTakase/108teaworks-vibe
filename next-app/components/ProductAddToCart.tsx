@@ -1,26 +1,34 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
+import type { Locale } from "@/lib/i18n";
+import { COMMON_TEXTS } from "@/lib/commonTexts";
 
 type Props = {
   slug: string;
   price: number | undefined;
   title: string;
   imagePath?: string;
+  locale?: Locale;
 };
 
-export default function ProductAddToCart({ slug, price, title, imagePath }: Props) {
+export default function ProductAddToCart({ slug, price, title, imagePath, locale: localeProp }: Props) {
+  const locale = localeProp ?? "ja";
+  const t = COMMON_TEXTS[locale];
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
+  const router = useRouter();
 
   const handleAddToCart = () => {
     addToCart(slug, title, price ?? 0, quantity, imagePath);
   };
 
   const handleBuyNow = () => {
-    // TODO: Stripe Checkout 連携
-    console.log("今すぐ買う", { slug, quantity, price });
+    addToCart(slug, title, price ?? 0, quantity, imagePath);
+    const checkoutPath = locale === "ja" ? "/checkout" : `/${locale}/checkout`;
+    router.push(checkoutPath);
   };
 
   const decrement = () => setQuantity((q) => (q <= 1 ? 1 : q - 1));
@@ -31,7 +39,7 @@ export default function ProductAddToCart({ slug, price, title, imagePath }: Prop
       <div className="flex gap-2 w-full mb-3">
         <div className="flex-1 min-w-0 flex items-center justify-between">
           <label htmlFor="product-quantity" className="text-[0.875rem] font-medium text-ink">
-            数量
+            {t.product.quantity}
           </label>
           <div className="flex items-stretch border-2 border-border rounded-lg overflow-hidden">
           <button
@@ -39,7 +47,7 @@ export default function ProductAddToCart({ slug, price, title, imagePath }: Prop
             onClick={decrement}
             disabled={quantity <= 1}
             className="w-10 flex items-center justify-center bg-washi text-ink text-lg font-bold border-r border-border disabled:opacity-40 disabled:cursor-not-allowed hover:bg-cream transition-colors"
-            aria-label="数量を減らす"
+            aria-label={t.cart.decreaseQty}
           >
             −
           </button>
@@ -49,7 +57,7 @@ export default function ProductAddToCart({ slug, price, title, imagePath }: Prop
             aria-valuenow={quantity}
             aria-valuemin={1}
             aria-valuemax={99}
-            aria-label="数量"
+            aria-label={t.product.quantity}
             className="w-12 flex items-center justify-center bg-white text-[0.9375rem] font-medium text-ink border-r border-border"
           >
             {quantity}
@@ -59,7 +67,7 @@ export default function ProductAddToCart({ slug, price, title, imagePath }: Prop
             onClick={increment}
             disabled={quantity >= 99}
             className="w-10 flex items-center justify-center bg-washi text-ink text-lg font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-cream transition-colors"
-            aria-label="数量を増やす"
+            aria-label={t.cart.increaseQty}
           >
             +
           </button>
@@ -73,14 +81,14 @@ export default function ProductAddToCart({ slug, price, title, imagePath }: Prop
           onClick={handleAddToCart}
           className="flex-1 min-w-0 py-3 rounded-lg border-2 border-tea bg-tea text-white text-[0.9375rem] font-semibold transition-colors hover:bg-tea-light hover:border-tea-light"
         >
-          カートに追加
+          {t.product.addToCart}
         </button>
         <button
           type="button"
           onClick={handleBuyNow}
           className="flex-1 min-w-0 py-3 rounded-lg border-2 border-tea bg-cream text-tea text-[0.9375rem] font-semibold transition-colors hover:bg-washi hover:border-tea-deep"
         >
-          今すぐ買う
+          {t.product.buyNow}
         </button>
       </div>
     </div>

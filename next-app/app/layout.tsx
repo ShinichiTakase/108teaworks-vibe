@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Noto_Serif_JP } from "next/font/google";
 import "./globals.css";
 import Layout from "@/components/Layout";
 import Providers from "@/components/Providers";
+import { CHACHAMARU_TEXTS } from "@/lib/chachamaruTexts";
 
 // 基本フォントを Noto Serif JP に統一（Regular 400 / SemiBold 600 / Bold 700）
 const notoSerif = Noto_Serif_JP({
@@ -24,10 +26,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja" className={notoSerif.variable}>
+      <head>
+        <link rel="stylesheet" href="/css/chachamaru-widget.css" />
+      </head>
       <body className="font-body">
         <Providers>
           <Layout>{children}</Layout>
         </Providers>
+        {/* 茶々丸: アイコンURLを渡してからスクリプト読み込み */}
+        <Script id="chachamaru-vars" strategy="beforeInteractive">
+          {`window.chachamaruVars={iconUrl:"/images/chachamaru-icon.png",proxyUrl:"/api/chachamaru/ask",texts:${JSON.stringify(CHACHAMARU_TEXTS)},useReactBar:true};`}
+        </Script>
+        <Script src="/js/chachamaru.js" strategy="beforeInteractive" />
       </body>
     </html>
   );

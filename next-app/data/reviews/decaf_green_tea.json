@@ -1,0 +1,29 @@
+[
+  {
+    "productName": "カフェインカット（デカフェ）緑茶 ティーバッグ8個",
+    "nickname": "こーこ",
+    "rating": 5,
+    "review": "デカフェ緑茶、探してました\r\n味も濃厚でとてもいいです",
+    "name": "Shinichi Takase",
+    "email": "info@108teaworks.com",
+    "createdAt": "2026-03-09T23:56:46.005Z"
+  },
+  {
+    "productName": "カフェインカット（デカフェ）緑茶 ティーバッグ8個",
+    "nickname": "あんぱんまん",
+    "rating": 5,
+    "review": "デカフェなのでよるでも安心して飲めます\r\n初めての購入でデカフェは味気ないと思っていたのですが、しっかりした味と香りで驚きました\r\nとはいえ、普通のお茶と比べると、心持ち軽い感じかな",
+    "name": "Shinichi Takase",
+    "email": "shin.takase@icloud.com",
+    "createdAt": "2026-02-28T00:23:15.975Z"
+  },
+  {
+    "productName": "カフェインカット（デカフェ）緑茶 ティーバッグ8個",
+    "nickname": "Lina",
+    "rating": 5,
+    "review": "美味しい！罪悪感なく飲める！\r\n日本茶は体にいいのでなるべく飲む様にしたいのですが、普通の日本茶はカフェインで夜眠れないのでこのお茶を買ってみました。",
+    "name": "Shinichi Takase",
+    "email": "shin.takase@icloud.com",
+    "createdAt": "2026-03-01T00:53:16.007Z"
+  }
+]

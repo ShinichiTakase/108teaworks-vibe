@@ -3,8 +3,11 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import { loadStripe } from "@stripe/stripe-js";
+import type { Locale } from "@/lib/i18n";
+import { CHECKOUT_TEXTS } from "@/lib/checkoutTexts";
 
 const FALLBACK_IMAGE = "/images/products/product-01.webp";
 const FREE_SHIPPING_THRESHOLD = 20000;
@@ -12,6 +15,14 @@ const ZIPCLOUD_API = "https://zipcloud.ibsnet.co.jp/api/search";
 
 const STRIPE_PK = process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY || "";
 const stripePromise = loadStripe(STRIPE_PK);
+
+function detectLocaleFromPath(pathname: string | null): Locale {
+  if (!pathname) return "ja";
+  if (pathname.startsWith("/en")) return "en";
+  if (pathname.startsWith("/ko")) return "ko";
+  if (pathname.startsWith("/zh")) return "zh";
+  return "ja";
+}
 
 type ZipcloudResult = {
   address1: string; // 都道府県
@@ -54,6 +65,10 @@ function normalizePostalCode(value: string): string {
 }
 
 export default function CheckoutPage() {
+  const pathname = usePathname();
+  const locale = detectLocaleFromPath(pathname);
+  const t = CHECKOUT_TEXTS[locale];
+  const homeHref = locale === "ja" ? "/" : `/${locale}`;
   const { items, updateQuantity, removeFromCart, clearCart } = useCart();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -83,12 +98,17 @@ export default function CheckoutPage() {
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [paymentInitError, setPaymentInitError] = useState<string | null>(null);
   const [hasSavedProfile, setHasSavedProfile] = useState(false);
+  const [approval, setApproval] = useState(true);
 
   // Stripe.js を直接扱うための参照（React 再レンダーで壊れないようにする）
   const stripeRef = useRef<any>(null);
   const elementsRef = useRef<any>(null);
+  const expressCheckoutRef = useRef<any>(null);
   const cardContainerRef = useRef<HTMLDivElement | null>(null);
+  const expressContainerRef = useRef<HTMLDivElement | null>(null);
   const [cardReady, setCardReady] = useState(false);
+
+  const handlePayRef = useRef<null | (() => Promise<void>)>(null);
 
   const stripeElementsOptions = useMemo(() => {
     if (!clientSecret) return null;
@@ -114,7 +134,7 @@ export default function CheckoutPage() {
       const data = await res.json();
       if (data.status !== 200 || !Array.isArray(data.results)) {
         setAddressResults([]);
-        setAddressError(data.message ?? "住所が見つかりませんでした");
+        setAddressError(data.message ?? t.addressNotFound);
         return;
       }
       const list = data.results.map((r: { address1?: string; address2?: string; address3?: string }) => ({
@@ -125,11 +145,11 @@ export default function CheckoutPage() {
       setAddressResults(list);
     } catch (e) {
       setAddressResults([]);
-      setAddressError("住所の取得に失敗しました");
+      setAddressError(t.addressLookupFailed);
     } finally {
       setAddressLoading(false);
     }
-  }, []);
+  }, [t.addressLookupFailed, t.addressNotFound]);
 
   useEffect(() => {
     if (zip7.length === 7) {
@@ -160,7 +180,7 @@ export default function CheckoutPage() {
       const data = await res.json();
       if (data.status !== 200 || !Array.isArray(data.results)) {
         setAddressResults2([]);
-        setAddressError2(data.message ?? "住所が見つかりませんでした");
+        setAddressError2(data.message ?? t.addressNotFound);
         return;
       }
       const list = data.results.map((r: { address1?: string; address2?: string; address3?: string }) => ({
@@ -171,11 +191,11 @@ export default function CheckoutPage() {
       setAddressResults2(list);
     } catch (e) {
       setAddressResults2([]);
-      setAddressError2("住所の取得に失敗しました");
+      setAddressError2(t.addressLookupFailed);
     } finally {
       setAddressLoading2(false);
     }
-  }, []);
+  }, [t.addressLookupFailed, t.addressNotFound]);
 
   useEffect(() => {
     if (zip7Ship.length === 7) {
@@ -266,6 +286,7 @@ export default function CheckoutPage() {
   const orderPayload = useMemo(
     () => ({
       lines: items.map((it) => ({
+        slug: it.slug,
         name: it.title,
         quantity: it.quantity,
         unitPrice: it.price,
@@ -358,15 +379,15 @@ export default function CheckoutPage() {
 
         if (!cancelled) {
           const msg = data?.error
-            ? `支払い情報の初期化に失敗しました（${String(data.error)}）。`
-            : `支払い情報の初期化に失敗しました（HTTP ${res.status}）。`;
+            ? `${t.paymentInitFailed}（${String(data.error)}）`
+            : `${t.paymentInitFailed}（HTTP ${res.status}）`;
           setPaymentInitError(msg + (text ? `\n${text}` : ""));
           setClientSecret(null);
         }
       } catch (e) {
         console.error(e);
         if (!cancelled) {
-          setPaymentInitError("支払い情報の初期化に失敗しました。");
+          setPaymentInitError(t.paymentInitFailed);
           setClientSecret(null);
         }
       }
@@ -374,14 +395,14 @@ export default function CheckoutPage() {
     return () => {
       cancelled = true;
     };
-  }, [shipping, total, subtotal]);
+  }, [shipping, total, subtotal, t.paymentInitFailed]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     // Payment Element へ切り替えたため、ここでは submit を止めておく（実際の決済は下のフォームで行う）
     if (paying || shipping === null) return;
-    alert("支払い方法のブロックから決済してください。");
+    alert(t.paymentElementAlert);
   };
 
   // PaymentElement を Stripe.js で一度だけマウント（React の再レンダーでは再マウントしない）
@@ -399,6 +420,31 @@ export default function CheckoutPage() {
 
         if (!elementsRef.current) {
           elementsRef.current = stripe.elements({ clientSecret });
+
+          // Wallet（Apple Pay / Google Pay 等）用: Express Checkout Element
+          // Payment Element 内の表示は端末/条件に依存するため、明示的に表示枠を用意する。
+          if (expressContainerRef.current && !expressCheckoutRef.current) {
+            try {
+              expressCheckoutRef.current = elementsRef.current.create("expressCheckout", {
+                buttonType: {
+                  applePay: "buy",
+                  googlePay: "buy",
+                },
+              } as any);
+              expressCheckoutRef.current.mount(expressContainerRef.current);
+              expressCheckoutRef.current.on("confirm", async () => {
+                try {
+                  await handlePayRef.current?.();
+                } catch {
+                  // noop
+                }
+              });
+            } catch (e) {
+              // expressCheckout が使えない環境では黙ってスキップ
+              expressCheckoutRef.current = null;
+            }
+          }
+
           const paymentElement = elementsRef.current.create("payment", {
             fields: { billingDetails: "never" },
           } as any);
@@ -428,7 +474,7 @@ export default function CheckoutPage() {
       const result = await stripe.confirmPayment({
         elements,
         confirmParams: {
-          return_url: `${window.location.origin}/checkout`,
+          return_url: `${window.location.origin}${locale === "ja" ? "/checkout" : `/${locale}/checkout`}`,
           payment_method_data: {
             billing_details: {
               name,
@@ -448,12 +494,12 @@ export default function CheckoutPage() {
       } as any);
 
       if (result.error) {
-        alert(result.error.message ?? "決済に失敗しました。");
+        alert(result.error.message ?? t.paymentFailed);
         return;
       }
       const pi = result.paymentIntent;
       if (!pi || pi.status !== "succeeded") {
-        alert("決済は完了しましたが、状態の確認に失敗しました。");
+        alert(t.statusCheckFailed);
         return;
       }
 
@@ -463,12 +509,23 @@ export default function CheckoutPage() {
         body: JSON.stringify({
           paymentIntentId: pi.id,
           order: orderPayload,
+          locale,
+          customer: {
+            email,
+            name,
+            tel: phone,
+            zipcode: postalCode,
+            prefectures: prefecture,
+            city,
+            address: addressLine,
+            approval: approval ? 1 : 0,
+          },
         }),
       });
       const completeData = await completeRes.json();
       if (!completeRes.ok || !completeData?.ok) {
-        alert("決済は完了しましたが、注文メール送信に失敗しました。");
-        return;
+        // メール送信失敗等があっても、決済が成功していれば注文自体は完了扱いにする
+        // （SES sandbox 等でお客様宛メールが拒否されるケースを許容）
       }
 
       // プロファイルを localStorage に保存（次回のオートフィル用）
@@ -514,10 +571,10 @@ export default function CheckoutPage() {
       }
 
       clearCart();
-      window.location.href = "/checkout/complete";
+      window.location.href = locale === "ja" ? "/checkout/complete" : `/${locale}/checkout/complete`;
     } catch (e) {
       console.error(e);
-      alert("決済処理中にエラーが発生しました。");
+      alert(t.paymentProcessingError);
     } finally {
       setPaying(false);
     }
@@ -533,15 +590,44 @@ export default function CheckoutPage() {
     city,
     addressLine,
     clearCart,
+    locale,
+    approval,
+    t.paymentFailed,
+    t.statusCheckFailed,
+    t.paymentProcessingError,
   ]);
+
+  useEffect(() => {
+    handlePayRef.current = handlePay;
+  }, [handlePay]);
   const stripeEnvMissing = !STRIPE_PK;
 
-  // 保存済みプロファイルの有無を確認
+  // 保存済みプロファイルの有無を確認し、あればマウント時にオートフィル
   useEffect(() => {
     try {
       const raw = localStorage.getItem("lastCheckoutProfile");
-      if (raw) {
-        setHasSavedProfile(true);
+      if (!raw) {
+        setHasSavedProfile(false);
+        return;
+      }
+      setHasSavedProfile(true);
+      const profile = JSON.parse(raw) as SavedCheckoutProfile;
+      setName(profile.billing.name || "");
+      setEmail(profile.billing.email || "");
+      setPhone(profile.billing.phone || "");
+      setPostalCode(profile.billing.postalCode || "");
+      setPrefecture(profile.billing.prefecture || "");
+      setCity(profile.billing.city || "");
+      setAddressLine(profile.billing.addressLine || "");
+      setGiftNoInvoice(!!profile.giftNoInvoice);
+      setShipToDifferent(!!profile.shipToDifferent);
+      if (profile.shipToDifferent && profile.shipping) {
+        setShipName(profile.shipping.name || "");
+        setShipPhone(profile.shipping.phone || "");
+        setShipPostalCode(profile.shipping.postalCode || "");
+        setShipPrefecture(profile.shipping.prefecture || "");
+        setShipCity(profile.shipping.city || "");
+        setShipAddressLine(profile.shipping.addressLine || "");
       }
     } catch {
       setHasSavedProfile(false);
@@ -578,10 +664,10 @@ export default function CheckoutPage() {
   if (items.length === 0) {
     return (
       <article className="mb-10">
-        <h1 className="m-0 mb-6 font-heading text-xl font-semibold text-tea-deep">購入手続き</h1>
-        <p className="text-ink-muted mb-4">カートに商品がありません。</p>
-        <Link href="/" className="text-tea font-semibold no-underline hover:underline">
-          商品一覧へ
+        <h1 className="m-0 mb-6 font-heading text-xl font-semibold text-tea-deep">{t.title}</h1>
+        <p className="text-ink-muted mb-4">{t.empty}</p>
+        <Link href={homeHref} className="text-tea font-semibold no-underline hover:underline">
+          {t.goToProducts}
         </Link>
       </article>
     );
@@ -590,17 +676,17 @@ export default function CheckoutPage() {
   return (
     <article className="mb-10">
       <div className="mb-6 flex items-baseline justify-between gap-4">
-        <h1 className="m-0 font-heading text-xl font-semibold text-tea-deep">購入手続き</h1>
+        <h1 className="m-0 font-heading text-xl font-semibold text-tea-deep">{t.title}</h1>
         <Link
-          href="/"
+          href={homeHref}
           className="text-[0.875rem] text-tea font-semibold no-underline hover:underline"
         >
-          買い物を続ける
+          {t.continueShopping}
         </Link>
       </div>
       <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div>
-          <h2 className="m-0 mb-4 text-base font-semibold text-tea-deep">注文内容</h2>
+          <h2 className="m-0 mb-4 text-base font-semibold text-tea-deep">{t.orderSummary}</h2>
           <ul className="list-none m-0 p-0 flex flex-col gap-3 mb-6">
             {items.map((item) => (
               <li
@@ -620,7 +706,9 @@ export default function CheckoutPage() {
                   <div className="min-w-0 flex-1 sm:min-w-[6rem]">
                     <p className="m-0 text-[0.9375rem] font-medium text-ink break-words">{item.title}</p>
                     <p className="m-0 text-[0.8125rem] text-ink-muted">
-                      {formatPrice(item.price)}（税込）× {item.quantity} = {formatPrice(item.price * item.quantity)}
+                      {formatPrice(item.price)}
+                      {locale === "ja" ? "（税込）" : " (tax incl.)"} × {item.quantity} ={" "}
+                      {formatPrice(item.price * item.quantity)}
                     </p>
                   </div>
                 </div>
@@ -631,7 +719,7 @@ export default function CheckoutPage() {
                     onClick={() => updateQuantity(item.slug, item.quantity - 1)}
                     disabled={item.quantity <= 1}
                     className="w-8 h-8 flex items-center justify-center rounded border border-border bg-white text-ink disabled:opacity-40 disabled:cursor-not-allowed hover:bg-washi"
-                    aria-label="数量を減らす"
+                    aria-label={t.qtyDecrease}
                   >
                     −
                   </button>
@@ -643,7 +731,7 @@ export default function CheckoutPage() {
                     onClick={() => updateQuantity(item.slug, item.quantity + 1)}
                     disabled={item.quantity >= 99}
                     className="w-8 h-8 flex items-center justify-center rounded border border-border bg-white text-ink disabled:opacity-40 disabled:cursor-not-allowed hover:bg-washi"
-                    aria-label="数量を増やす"
+                    aria-label={t.qtyIncrease}
                   >
                     +
                   </button>
@@ -654,7 +742,7 @@ export default function CheckoutPage() {
                   onClick={() => removeFromCart(item.slug)}
                   className="text-[0.8125rem] text-ink-muted underline hover:text-tea-deep shrink-0"
                 >
-                  削除
+                  {t.remove}
                 </button>
               </li>
             ))}
@@ -662,28 +750,39 @@ export default function CheckoutPage() {
 
           <div className="border-t border-border pt-4 space-y-2">
             <div className="flex justify-between text-[0.9375rem]">
-              <span className="text-ink-muted">小計</span>
+              <span className="text-ink-muted">{t.subtotal}</span>
               <span className="font-medium">{formatPrice(subtotal)}</span>
             </div>
             <div className="flex justify-between text-[0.9375rem] pb-2 border-b border-border">
-              <span className="text-ink-muted">送料</span>
+              <span className="text-ink-muted">{t.shipping}</span>
               <span className="font-medium">{shippingDisplay}</span>
             </div>
             <div className="flex justify-between text-base font-semibold text-tea-deep pt-2">
-              <span>合計（税込）</span>
+              <span>{t.totalTaxIncluded}</span>
               <span>{shipping !== null ? formatPrice(total) : "—"}</span>
             </div>
             <p className="m-0 text-[0.8125rem] text-ink-muted text-right">
-              （消費税{shipping !== null ? formatPrice(taxAmount) : "—"}を含む）
+              {t.taxIncludedLinePrefix}
+              {shipping !== null ? formatPrice(taxAmount) : "—"}
+              {t.taxIncludedLineSuffix}
             </p>
           </div>
 
           {/* 支払い方法（デスクトップ / モバイル共通） */}
           <div className="mt-6">
-            <h2 className="m-0 mb-4 text-base font-semibold text-tea-deep">支払い方法</h2>
+            <label className="mb-3 inline-flex items-center gap-2 cursor-pointer text-[0.9375rem] text-ink">
+              <input
+                type="checkbox"
+                checked={approval}
+                onChange={(e) => setApproval(e.target.checked)}
+                className="w-4 h-4 rounded border-border text-tea focus:ring-tea"
+              />
+              <span>{t.promoApproval}</span>
+            </label>
+            <h2 className="m-0 mb-4 text-base font-semibold text-tea-deep">{t.paymentMethod}</h2>
             {stripeEnvMissing ? (
               <div className="p-4 rounded-xl bg-[#f0ebe5] border border-border text-ink-muted">
-                Stripeの公開鍵が未設定です（`NEXT_PUBLIC_STRIPE_PUBLIC_KEY`）。`.env.local` を設定して再起動してください。
+                {t.stripeKeyMissing}
               </div>
             ) : paymentInitError ? (
               <div className="p-4 rounded-xl bg-[#f0ebe5] border border-border text-red-700">
@@ -691,9 +790,13 @@ export default function CheckoutPage() {
               </div>
             ) : clientSecret ? (
               <div className="p-4 rounded-xl bg-[#f0ebe5] border border-border">
-                <h3 className="m-0 mb-4 text-[0.9375rem] font-semibold text-tea-deep">
-                  クレジットカードまたは Google Pay
-                </h3>
+                <h3 className="m-0 mb-4 text-[0.9375rem] font-semibold text-tea-deep">{t.cardOrGooglePay}</h3>
+                <div className="mb-4">
+                  <div className="text-[0.8125rem] text-ink-muted mb-2">
+                    {t.walletHint}
+                  </div>
+                  <div ref={expressContainerRef} />
+                </div>
                 <div className="bg-white rounded-lg border-2 border-border p-3">
                   <div ref={cardContainerRef} />
                 </div>
@@ -704,34 +807,34 @@ export default function CheckoutPage() {
                     disabled={paying || shipping === null || !cardReady}
                     className="w-full py-3 px-6 rounded-lg border-2 border-tea bg-tea text-white text-[0.9375rem] font-semibold transition-colors hover:bg-tea-light hover:border-tea-light disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {paying ? "決済処理中..." : "購入を確定する"}
+                    {paying ? t.paying : t.payNow}
                   </button>
                 </div>
               </div>
             ) : (
               <div className="p-4 rounded-xl bg-[#f0ebe5] border border-border text-ink-muted">
-                支払い方法を読み込み中…
+                {t.paymentLoading}
               </div>
             )}
           </div>
         </div>
         <div>
           <div className="mb-4 flex items-center justify-between gap-3">
-            <h2 className="m-0 text-base font-semibold text-tea-deep">請求先</h2>
+            <h2 className="m-0 text-base font-semibold text-tea-deep">{t.billing}</h2>
             {hasSavedProfile && (
               <button
                 type="button"
                 onClick={applySavedProfile}
                 className="text-[0.8125rem] font-semibold text-tea no-underline hover:underline"
               >
-                前回の情報を自動入力
+                {t.autofillPrevious}
               </button>
             )}
           </div>
           <div className="space-y-4">
             <div>
               <label htmlFor="checkout-name" className="block text-[0.875rem] font-medium text-ink mb-1">
-                お名前 <span className="text-red-600">*</span>
+                {t.name} <span className="text-red-600">*</span>
               </label>
               <input
                 id="checkout-name"
@@ -744,7 +847,7 @@ export default function CheckoutPage() {
             </div>
             <div>
               <label htmlFor="checkout-email" className="block text-[0.875rem] font-medium text-ink mb-1">
-                メールアドレス <span className="text-red-600">*</span>
+                {t.email} <span className="text-red-600">*</span>
               </label>
               <input
                 id="checkout-email"
@@ -757,7 +860,7 @@ export default function CheckoutPage() {
             </div>
             <div>
               <label htmlFor="checkout-phone" className="block text-[0.875rem] font-medium text-ink mb-1">
-                電話番号 <span className="text-red-600">*</span>
+                {t.phone} <span className="text-red-600">*</span>
               </label>
               <input
                 id="checkout-phone"
@@ -770,7 +873,7 @@ export default function CheckoutPage() {
             </div>
             <div>
               <label htmlFor="checkout-postal" className="block text-[0.875rem] font-medium text-ink mb-1">
-                郵便番号 <span className="text-red-600">*</span>
+                {t.postalCode} <span className="text-red-600">*</span>
               </label>
               <input
                 id="checkout-postal"
@@ -784,14 +887,14 @@ export default function CheckoutPage() {
                 className="w-full px-3 py-2 border-2 border-border rounded-lg text-[0.9375rem] focus:border-tea-deep focus:outline-none"
               />
               {addressLoading && (
-                <p className="m-0 mt-1 text-[0.8125rem] text-ink-muted">住所を検索中...</p>
+                <p className="m-0 mt-1 text-[0.8125rem] text-ink-muted">{t.searchingAddress}</p>
               )}
               {!addressLoading && addressError && (
                 <p className="m-0 mt-1 text-[0.8125rem] text-red-600">{addressError}</p>
               )}
               {!addressLoading && addressResults.length > 0 && (
                 <div className="mt-2 p-2 border border-border rounded-lg bg-washi">
-                  <p className="m-0 mb-2 text-[0.8125rem] text-ink-muted">住所の候補を選択してください</p>
+                  <p className="m-0 mb-2 text-[0.8125rem] text-ink-muted">{t.selectAddressCandidate}</p>
                   <ul className="list-none m-0 p-0 flex flex-col gap-1">
                     {addressResults.map((r, i) => (
                       <li key={i}>
@@ -810,7 +913,7 @@ export default function CheckoutPage() {
             </div>
             <div>
               <label htmlFor="check-prefecture" className="block text-[0.875rem] font-medium text-ink mb-1">
-                都道府県 <span className="text-red-600">*</span>
+                {t.prefecture} <span className="text-red-600">*</span>
               </label>
               <input
                 id="check-prefecture"
@@ -823,7 +926,7 @@ export default function CheckoutPage() {
             </div>
             <div>
               <label htmlFor="checkout-city" className="block text-[0.875rem] font-medium text-ink mb-1">
-                市区町村 <span className="text-red-600">*</span>
+                {t.city} <span className="text-red-600">*</span>
               </label>
               <input
                 id="checkout-city"
@@ -836,7 +939,7 @@ export default function CheckoutPage() {
             </div>
             <div>
               <label htmlFor="checkout-address" className="block text-[0.875rem] font-medium text-ink mb-1">
-                住所（番地・建物名など） <span className="text-red-600">*</span>
+                {t.addressLine} <span className="text-red-600">*</span>
               </label>
               <input
                 id="checkout-address"
@@ -855,18 +958,18 @@ export default function CheckoutPage() {
                   onChange={(e) => setGiftNoInvoice(e.target.checked)}
                   className="w-4 h-4 rounded border-border text-tea focus:ring-tea"
                 />
-                <span className="text-[0.9375rem] text-ink">金額記載の明細書は不要（ギフト用）</span>
+                <span className="text-[0.9375rem] text-ink">{t.giftNoInvoice}</span>
               </label>
               <div>
                 <label htmlFor="checkout-memo" className="block text-[0.875rem] font-medium text-ink mb-1">
-                  注文に関するメモ
+                  {t.memo}
                 </label>
                 <textarea
                   id="checkout-memo"
                   rows={3}
                   value={orderMemo}
                   onChange={(e) => setOrderMemo(e.target.value)}
-                  placeholder="ご要望などがございましたらご記入ください"
+                  placeholder={t.memoPlaceholder}
                   className="w-full px-3 py-2 border-2 border-border rounded-lg text-[0.9375rem] focus:border-tea-deep focus:outline-none resize-y"
                 />
               </div>
@@ -881,16 +984,16 @@ export default function CheckoutPage() {
                 }}
                   className="w-4 h-4 rounded border-border text-tea focus:ring-tea"
                 />
-                <span className="text-[0.9375rem] text-ink">別の住所へ配送しますか？</span>
+                <span className="text-[0.9375rem] text-ink">{t.shipToDifferent}</span>
               </label>
             </div>
             {shipToDifferent && (
               <div className="mt-6 pt-6 border-t border-border">
-                <h3 className="m-0 mb-4 text-[0.9375rem] font-semibold text-tea-deep">送付先</h3>
+                <h3 className="m-0 mb-4 text-[0.9375rem] font-semibold text-tea-deep">{t.shippingAddress}</h3>
                 <div className="space-y-4">
                   <div>
                     <label htmlFor="checkout-ship-name" className="block text-[0.875rem] font-medium text-ink mb-1">
-                      氏名 <span className="text-red-600">*</span>
+                      {t.recipientName} <span className="text-red-600">*</span>
                     </label>
                     <input
                       id="checkout-ship-name"
@@ -903,7 +1006,7 @@ export default function CheckoutPage() {
                   </div>
                   <div>
                     <label htmlFor="checkout-ship-phone" className="block text-[0.875rem] font-medium text-ink mb-1">
-                      電話番号 <span className="text-red-600">*</span>
+                      {t.recipientPhone} <span className="text-red-600">*</span>
                     </label>
                     <input
                       id="checkout-ship-phone"
@@ -916,7 +1019,7 @@ export default function CheckoutPage() {
                   </div>
                   <div>
                     <label htmlFor="checkout-ship-postal" className="block text-[0.875rem] font-medium text-ink mb-1">
-                      〒（郵便番号） <span className="text-red-600">*</span>
+                      {t.recipientPostalCode} <span className="text-red-600">*</span>
                     </label>
                     <input
                       id="checkout-ship-postal"
@@ -930,14 +1033,14 @@ export default function CheckoutPage() {
                       className="w-full px-3 py-2 border-2 border-border rounded-lg text-[0.9375rem] focus:border-tea-deep focus:outline-none"
                     />
                     {addressLoading2 && (
-                      <p className="m-0 mt-1 text-[0.8125rem] text-ink-muted">住所を検索中...</p>
+                      <p className="m-0 mt-1 text-[0.8125rem] text-ink-muted">{t.searchingAddress}</p>
                     )}
                     {!addressLoading2 && addressError2 && (
                       <p className="m-0 mt-1 text-[0.8125rem] text-red-600">{addressError2}</p>
                     )}
                     {!addressLoading2 && addressResults2.length > 0 && (
                       <div className="mt-2 p-2 border border-border rounded-lg bg-washi">
-                        <p className="m-0 mb-2 text-[0.8125rem] text-ink-muted">住所の候補を選択してください</p>
+                        <p className="m-0 mb-2 text-[0.8125rem] text-ink-muted">{t.selectAddressCandidate}</p>
                         <ul className="list-none m-0 p-0 flex flex-col gap-1">
                           {addressResults2.map((r, i) => (
                             <li key={i}>

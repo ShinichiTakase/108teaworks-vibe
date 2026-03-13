@@ -1,14 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import { INQUIRY_EMAIL_CLIENT } from "@/lib/emailClientTexts";
+import { getMailFrom } from "@/lib/mailFrom";
+import type { Locale } from "@/lib/i18n";
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { name, email, message } = body as {
+    const { name, email, message, locale: localeParam } = body as {
       name?: string;
       email?: string;
       message?: string;
+      locale?: string;
     };
+    const locale: Locale = ["ja", "en", "ko", "zh"].includes(localeParam ?? "") ? (localeParam as Locale) : "ja";
 
     if (!name || !email || !message) {
       return NextResponse.json(
@@ -17,14 +22,15 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const host = process.env.SMTP_HOST || "mail.edgeailab.jp";
+    const host = process.env.SMTP_HOST;
     const port = Number(process.env.SMTP_PORT || 587);
     const user = process.env.SMTP_USER;
     const pass = process.env.SMTP_PASS;
     const to = process.env.INQUERY_TO || "info@108teaworks.com";
-    const from = process.env.INQUERY_FROM || to;
+    const fromAddr = process.env.INQUERY_FROM || to;
+    const from = getMailFrom(fromAddr);
 
-    if (!user || !pass) {
+    if (!host || !user || !pass) {
       console.error("SMTP_USER or SMTP_PASS is not set");
       return NextResponse.json(
         { ok: false, error: "smtp_not_configured" },
@@ -61,30 +67,23 @@ export async function POST(req: NextRequest) {
       replyTo: email,
     });
 
-    const clientSubject = "藤八茶寮 - お問合せありがとうございました";
-    const clientText = [
-      `${name} 様`,
-      "",
-      "この度はお問い合わせいただきありがとうございました。",
-      "下記内容にて承りました。",
-      "",
-      `お名前: ${name}`,
-      `Eメール: ${email}`,
-      "",
-      "メッセージ:",
-      message,
-      "",
-      "担当者より数日中に返信いたしますので、しばらくお待ちください。",
-    ].join("\n");
+    const clientTpl = INQUIRY_EMAIL_CLIENT[locale];
+    const clientSubject = clientTpl.subject;
+    const clientText = clientTpl.body(name ?? "", email ?? "", message ?? "");
 
-    const clientFrom = process.env.CLIENT_MAIL_FROM || from;
-    await transporter.sendMail({
-      from: clientFrom,
-      to: email,
-      subject: clientSubject,
-      text: clientText,
-      replyTo: from,
-    });
+    const clientFromAddr = process.env.CLIENT_MAIL_FROM || fromAddr;
+    const clientFrom = getMailFrom(clientFromAddr);
+    try {
+      await transporter.sendMail({
+        from: clientFrom,
+        to: email,
+        subject: clientSubject,
+        text: clientText,
+        replyTo: fromAddr,
+      });
+    } catch (clientErr) {
+      console.error("Failed to send inquiry auto-reply to client:", clientErr);
+    }
 
     return NextResponse.json({ ok: true });
   } catch (error) {

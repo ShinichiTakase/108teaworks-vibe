@@ -1,0 +1,154 @@
+{
+  "model": {
+    "description": "固定ページSEO設定。キーは / で始まるパス（例: \"/about\"）。title/description は locale ごとに持つ。",
+    "shape": {
+      "/": {
+        "title": { "ja": "", "en": "", "ko": "", "zh": "" },
+        "description": { "ja": "", "en": "", "ko": "", "zh": "" }
+      }
+    }
+  },
+  "pages": {
+    "/": {
+      "title": {
+        "ja": "幕末より続く伝統。シングルオリジン伊勢茶・和紅茶の通販 | 伊勢茶の藤八茶寮",
+        "en": "Authentic Single-Origin Ise Tea & Wakocha from Mie, Japan | 伊勢茶の藤八茶寮",
+        "ko": "에도 시대부터 이어진 전통. 싱글 오리진 이세차 & 와코차 전문점 | 伊勢茶の藤八茶寮",
+        "zh": "傳承幕末百年工藝。單一品種伊勢茶、和紅茶産地直送 | 伊勢茶の藤八茶寮"
+      },
+      "description": {
+        "ja": "三重県産100%、混じりけのない「シングルオリジン（単一農園）」の伊勢茶をお届けします。幕末から続く伝統の技で仕上げた、香り高いほうじ茶や希少な和紅茶、深みのあるかぶせ茶など。産地直送ならではの贅沢な味わいを、日常のひとときや大切な方へのギフトに。",
+        "en": "Discover the pure taste of 100% single-origin Ise Tea, crafted with traditions dating back to the late Edo period. From aromatic roasted Hojicha to rare Japanese black tea (Wakocha), we deliver premium tea leaves directly from our farm in Mie to your cup. Perfect for tea enthusiasts and unique gifts.",
+        "ko": "일본 미에현산 100%, 단일 농원에서 재배한 순수 '싱글 오리진' 이세차를 만나보세요. 막부 말기부터 전해 내려온 장인 정신으로 완성한 향긋한 호지차, 희귀한 와코차(일본 홍차) 등 산지 직송의 신선하고 깊은 맛을 전해드립니다. 소중한 분을 위한 품격 있는 선물로 추천합니다.",
+        "zh": "嚴選100%三重縣産「單一農園（Single Origin）」伊勢茶。堅持幕末以來的傳統製茶技術，為您呈現香氣迷人的焙茶、珍稀和紅茶及濃郁冠茶。產地直送保證品質純粹，無論是日常品茗或精緻禮盒，皆能讓您感受最道地的日本茶文化。"
+      }
+    },
+    "/about/": {
+      "title": {
+        "ja": "幕末より続く、単一農園の誇り。伊勢茶へのこだわり | 伊勢茶の藤八茶",
+        "en": "Our Story: Single-Origin Ise Tea Since the Late Edo Period | 伊勢茶の藤八茶寮",
+        "ko": "에도 시대부터 이어진 단일 농원의 자부심. 이세차의 역사 | 伊勢茶の藤八茶寮",
+        "zh": "傳承自幕末，單一農園的堅持。關於伊勢茶的品牌故事 | 伊勢茶の藤八茶寮"
+      },
+      "description": {
+        "ja": "幕末から続く伝統の技。三重県産100%のシングルオリジン（単一農園）伊勢茶にこだわる「藤八茶寮」の歴史と想いをご紹介します。混じりけのない茶葉本来の香りと味わいを守り続ける、私たちの製茶への情熱と産地直送のこだわりをご覧ください。",
+        "en": "Discover the heritage of Touhachi Saryo, dedicated to 100% single-origin Ise Tea from Mie, Japan. Since the late Edo period, we have preserved traditional techniques to deliver the pure, unblended flavor of our farm-direct tea leaves. Learn about our passion for authentic Japanese tea culture.",
+        "ko": "막부 말기부터 전해 내려온 전통의 기술. 미에현산 100% 싱글 오리진(단일 농원) 이세차를 고집하는 '토하치 사료'의 브랜드 스토리를 소개합니다. 섞이지 않은 찻잎 본연의 향과 맛을 지켜나가는 장인 정신과 산지 직송의 신선함을 확인해 보세요.",
+        "zh": "源自幕末的傳統製茶工藝。為您介紹堅持100%三重縣產「單一農園」伊勢茶的「藤八茶寮」。我們致力於守護不經混雜、茶葉最原始的清香與甘醇。深入了解我們對日本茶的熱情、對產地直送品質的承諾。"
+      }
+    },
+    "/ise-cha/": {
+      "title": {
+        "ja": "日本三大茶「伊勢茶」の魅力。シングルオリジンの極み | 伊勢茶の藤八茶寮",
+        "en": "The Art of Ise Tea: Exploring 100% Single-Origin Quality | 伊勢茶の藤八茶寮",
+        "ko": "일본 3대 차 '이세차'의 매력. 싱글 오리진의 정수 | 伊勢茶の藤八茶寮",
+        "zh": "日本三大茶「伊勢茶」的魅力。單一品種的極致追求 | 伊勢茶の藤八茶寮"
+      },
+      "description": {
+        "ja": "全国3位の生産量を誇る三重県の至宝「伊勢茶」。幕末より続く藤八茶寮では、他の農園と混ぜない100%シングルオリジン（単一農園）にこだわっています。濃厚な旨み、豊かな香り、そして歴史が育んだ本物の味わい。知られざる伊勢茶の秘密と、私たちの情熱をご紹介します。",
+        "en": "Ise Tea, one of Japan's top three teas, is a hidden gem from Mie Prefecture. Touhachi Saryo offers an unblended, \"Single-Origin\" experience, preserving the unique terroir of our historic farm. Discover the rich umami and deep heritage of Ise Tea, crafted with traditions since the late Edo period.",
+        "ko": "일본 내 생산량 3위를 자랑하는 미에현의 보물, '이세차'를 소개합니다. 토하치 사료는 다른 농장과 섞지 않은 100% 싱글 오리진(단일 농원)만을 고집합니다. 깊은 감칠맛과 풍부한 향, 그리고 에도 시대부터 이어진 전통이 빚어낸 진정한 일본차의 세계를 경험해 보세요.",
+        "zh": "深入了解日本三重縣的珍寶「伊勢茶」。藤八茶寮堅持自幕末以來的傳統，提供100%「單一農園（Single Origin）」、不經混茶的純粹品質。為您揭開伊勢茶濃厚鮮甜與芳香の秘密，感受傳承百年的職人精神與產地直送的頂級味蕾饗宴。"
+      }
+    },
+    "/how2brew/": {
+      "title": {
+        "ja": "プロが教える伊勢茶の美味しい淹れ方。コツと温度 | 伊勢茶の藤八茶寮",
+        "en": "How to Brew the Perfect Cup of Ise Tea: Tips & Steps | 伊勢茶の藤八茶寮",
+        "ko": "전문가가 전하는 이세차 맛있게 우리는 법. 온도와 비결 | 伊勢茶の藤八茶寮",
+        "zh": "職人傳授：伊勢茶的最佳沖泡方式。秘訣與水溫控制 | 伊勢茶の藤八茶寮"
+      },
+      "description": {
+        "ja": "伊勢茶の旨みを最大限に引き出す、正しい淹れ方を分かりやすく解説。和紅茶、ほうじ茶、かぶせ茶など、種類ごとの最適な温度や抽出時間のコツをご紹介します。ひと手間でいつものお茶がプロの味わいに。シングルオリジン茶葉の豊かな香りを、ぜひご自宅で。",
+        "en": "Learn the secrets to brewing delicious Ise Tea at home. We share expert tips on water temperature and steeping times for Hojicha, Wakocha, and more. Elevate your tea ritual and enjoy the full aroma and umami of our single-origin Japanese tea. Master the art of the perfect pour.",
+        "ko": "이세차의 감칠맛을 극대화하는 올바른 추출 방법을 알기 쉽게 설명해 드립니다. 와코차, 호지차, 카부세차 등 종류별 최적의 온도와 시간 등 전문가의 팁을 확인해 보세요. 약간의 정성으로 집에서도 카페 같은 깊은 맛과 싱글 오리진 찻잎의 풍부한 향을 즐길 수 있습니다.",
+        "zh": "教您如何在家沖泡出最完美的伊勢茶。針對和紅茶、焙茶及冠茶等不同茶種，詳細解說最合適的水溫與浸泡時間。只需掌握小小秘訣，就能讓單一農園茶葉的香氣與甘甜更加出眾。輕鬆上手，讓您的日常茶時光升級為極致享受。"
+      }
+    },
+    "/user-guide/": {
+      "title": {
+        "ja": "お買い物ガイド：送料・配送・お支払いについて | 伊勢茶の藤八茶寮",
+        "en": "Shopping Guide: Shipping, Payments & Gift Services | 伊勢茶の藤八茶寮",
+        "ko": "이용 가이드: 배송, 결제 및 선물 서비스 안내 | 伊勢茶の藤八茶寮",
+        "zh": "購物指南：關於運費、配送方式及付款說明 | 伊勢茶の藤八茶寮"
+      },
+      "description": {
+        "ja": "伊勢茶の藤八茶寮オンラインショップのご利用案内です。送料、お届け日数、お支払い方法、ギフトラッピングや熨斗（のし）対応について詳しく解説しています。産地直送の新鮮な茶葉を安心してお買い求めいただけるよう、真心を込めてサポートいたします。",
+        "en": "Welcome to the User Guide for Touhachi Saryo. Find detailed information on shipping rates, delivery times, and secure payment methods for our premium Ise Tea. We also offer gift wrapping and international-friendly service to ensure your single-origin tea arrives perfectly at your doorstep.",
+        "ko": "이세차의 토하치 사료 온라인 쇼핑몰 이용 안내입니다. 배송비, 배송 기간, 결제 방법은 물론 선물용 포장 서비스까지 상세히 확인하실 수 있습니다. 산지 직송의 신선한 싱글 오리진 이세차를 안심하고 편리하게 쇼핑하실 수 있도록 정성을 다해 안내해 드립니다.",
+        "zh": "歡迎閱讀伊勢茶藤八茶寮的購物須知。本頁面提供詳細的運費計算、預計到貨時間、多元付款方式及精緻禮品包裝服務等資訊。我們致力於提供安心便捷的購物體驗，讓產地直送的頂級單一農園伊勢茶，能完好地送到每一位愛茶人手中。"
+      }
+    },
+    "/wholesale/": {
+      "title": {
+        "ja": "【法人・卸売】シングルオリジン伊勢茶の仕入れ・OEM | 伊勢茶の藤八茶寮",
+        "en": "Wholesale & OEM: Premium Single-Origin Ise Tea for Businesses | 伊勢茶の藤八茶寮",
+        "ko": "[법인·도매] 싱글 오리진 이세차 납품 및 OEM 상담 | 伊勢茶の藤八茶寮",
+        "zh": "【法人批發・OEM】單一農園伊勢茶供貨、客製化商務合作 | 伊勢茶の藤八茶寮"
+      },
+      "description": {
+        "ja": "飲食店やホテル、小売店様へ。幕末より続く藤八茶寮が、希少な「シングルオリジン（単一農園）」の伊勢茶を産地直送でお届けします。和紅茶、焙茶、かぶせ茶など、貴店のメニューやギフトの差別化に。小ロットのご相談やオリジナルパッケージ（OEM）も承ります。",
+        "en": "Elevate your business with authentic Ise Tea from Japan. We provide high-quality, single-origin tea leaves for restaurants, hotels, and retailers worldwide. From bulk supply to custom OEM packaging, partner with Touhachi Saryo to offer a unique, farm-to-cup tea experience to your customers.",
+        "ko": "음식점, 호텔, 편집숍 운영자님께 제안합니다. 에도 시대부터 이어진 전통의 이세차를 '싱글 오리진(단일 농원)' 품질 그대로 산지 직송해 드립니다. 와코차, 호지차 등 차별화된 메뉴 구성과 소량 주문, 기업 답례품(OEM) 제작까지 전문가와 상담해 보세요.",
+        "zh": "專為餐廳、飯店及零售業者提供。源自幕末的「藤八茶寮」產地直送單一農園產伊勢茶。我們提供包含和紅茶、焙茶在內的優質茶葉批發，協助提升您的品牌特色。支持小額訂購及OEM代工（企業禮贈品），與我們一同推廣道地的日本茶文化。"
+      }
+    },
+    "/inquery/": {
+      "title": {
+        "ja": "お問い合わせ・ご相談｜伊勢茶・和紅茶の専門通販 | 伊勢茶の藤八茶寮",
+        "en": "Contact Us: Questions, Gifts & Wholesale Inquiries | 伊勢茶の藤八茶寮",
+        "ko": "고객 문의 및 상담: 상품·선물·도매 문의 | 伊勢茶の藤八茶寮",
+        "zh": "聯絡我們：產品諮詢、禮品挑選與商務合作 | 伊勢茶の藤八茶寮"
+      },
+      "description": {
+        "ja": "伊勢茶の藤八茶寮へのお問い合わせページです。商品に関するご質問、ギフト選びのご相談、法人様向けの大口注文や卸販売についてなど、お気軽にお問い合わせください。幕末より続く茶農園のスタッフが、お客様一人ひとりに丁寧にお答えいたします。",
+        "en": "Have questions about our single-origin Ise Tea or Wakocha? Whether you need help choosing a gift or are interested in wholesale opportunities, our team at Touhachi Saryo is here to assist. Contact us today for personalized support and experience the heritage of Japanese tea.",
+        "ko": "이세차의 토하치 사료 문의 페이지입니다. 상품에 대한 궁금증, 선물 선택 상담, 법인 대량 주문 및 도매 관련 문의 등 무엇이든 편하게 남겨주세요. 에도 시대부터 이어진 전통 차 농가의 스태프가 정성을 다해 답변해 드립니다.",
+        "zh": "歡迎聯繫伊勢茶藤八茶寮。無論是關於單一農園茶葉的產品諮詢、挑選精緻禮品建議，或是法人大額採購與批發需求，我們都竭誠為您服務。傳承自幕末的製茶職人團隊將細心回覆您的每一項諮詢。"
+      }
+    },
+    "/notice/": {
+      "title": {
+        "ja": "最新情報とお知らせ。新茶・イベント・季節の便り | 伊勢茶の藤八茶寮",
+        "en": "Latest News & Updates: Seasonal Tea & Event Info | 伊勢茶の藤八茶寮",
+        "ko": "최신 소식 및 공지사항: 햇차·이벤트·계절 소식 | 伊勢茶の藤八茶寮",
+        "zh": "最新動態與公告：新茶上市、活動與季節訊息 | 伊勢茶の藤八茶寮"
+      },
+      "description": {
+        "ja": "伊勢茶の藤八茶寮から、新茶の入荷情報や期間限定商品の発売、イベント出店など最新のニュースをお届けします。幕末から続く茶農園の日常や、美味しいお茶を楽しむための季節の便りを発信中。私たちの「今」を、ぜひチェックしてください。",
+        "en": "Stay updated with the latest news from Touhachi Saryo. From new harvest arrivals of Ise Tea to limited-time offers and local event information, we share the vibrant life of our historic tea farm. Discover our seasonal stories and the latest trends in Japanese tea culture.",
+        "ko": "이세차의 토하치 사료에서 전해드리는 최신 소식입니다. 신선한 햇차 입고 소식부터 기간 한정 상품, 이벤트 참여 정보까지 브랜드의 생생한 뉴스를 확인해 보세요. 에도 시대부터 이어진 전통 차 농가의 일상과 계절별 즐거움을 여러분께 전해드립니다.",
+        "zh": "為您帶來伊勢茶藤八茶寮的第一手資訊。包含新茶採收公告、期間限定商品發售、以及線下活動出展情報。透過我們分享的農園日常與季節訊息，深入感受傳承自幕末的製茶生活。即刻點擊，掌握日本茶的最前線消息。"
+      }
+    },
+    "/privacy-policy/": {
+      "title": {
+        "ja": "プライバシーポリシー：個人情報の取り扱いについて | 伊勢茶の藤八茶寮",
+        "en": "Privacy Policy: Your Data Security & Protection | 伊勢茶の藤八茶寮",
+        "ko": "개인정보처리방침: 안전한 정보 보호 및 관리 안내 | 伊勢茶の藤八茶寮",
+        "zh": "隱私權政策：個人資料保護與安全管理聲明 | 伊勢茶の藤八茶寮"
+      },
+      "description": {
+        "ja": "伊勢茶の藤八茶寮オンラインショップの個人情報保護方針です。お客様に安心してお買い物をお楽しみいただけるよう、ご入力いただいた個人情報の厳重な管理と保護を徹底しております。法令遵守とセキュリティ対策に関する当店の取り組みについてご確認いただけます。",
+        "en": "Read our Privacy Policy to understand how Touhachi Saryo protects your personal information. We are committed to ensuring a safe and secure shopping experience for our premium Ise Tea customers. Learn about our data management practices and commitment to your privacy.",
+        "ko": "이세차의 토하치 사료 개인정보 보호 정책입니다. 고객님께서 안심하고 쇼핑을 즐기실 수 있도록 소중한 개인정보를 엄격하게 관리하고 보호합니다. 관련 법규 준수 및 보안 조치에 대한 당사의 노력을 확인하실 수 있습니다.",
+        "zh": "歡迎查看伊勢茶藤八茶寮的隱私權保護政策。我們極其重視您的個人資料安全，承諾以最嚴謹的標準管理與保護您的資訊。為了讓您能安心選購優質的伊勢茶，在此詳述我們在資安防護與遵循法規方面的具體措施。"
+      }
+    },
+    "/legal/": {
+      "title": {
+        "ja": "特定商取引法に基づく表記：安心のお買い物ガイド | 伊勢茶の藤八茶寮",
+        "en": "Legal Notice & Terms of Sale: Shop with Confidence | 伊勢茶の藤八茶寮",
+        "ko": "특정상거래법에 따른 표기: 투명하고 안전한 거래 안내 | 伊勢茶の藤八茶寮",
+        "zh": "基於特定商業交易法之標示：透明誠信的購物保障 | 伊勢茶の藤八茶寮"
+      },
+      "description": {
+        "ja": "伊勢茶の藤八茶寮オンラインショップの特定商取引法に基づく表記ページです。販売業者、運営責任者、お支払い期限、返品・交換の条件など、お取引に関する詳細情報を公開しています。幕末より続く伝統ある茶農園として、誠実で安心なサービス提供に努めております。",
+        "en": "View our Legal Notice and Terms of Sale for Touhachi Saryo. This page provides essential information on our company details, payment deadlines, and return policies for our premium Ise Tea. We are committed to transparency and providing a secure shopping environment for our global customers.",
+        "ko": "이세차의 토하치 사료 특정상거래법에 따른 표기 안내입니다. 판매업자 정보, 결제 기한, 반품 및 교환 조건 등 거래에 관한 상세 정보를 투명하게 공개하고 있습니다. 에도 시대부터 이어진 전통 차 농가로서 믿고 구매하실 수 있는 정직한 쇼핑 경험을 제공합니다.",
+        "zh": "歡迎查看伊勢茶藤八茶寮的特定商業交易法標示。本頁面詳列銷售業者資訊、付款期限、退換貨政策等有關交易的法律規範。作為傳承自幕末的傳統茶農園，我們致力於提供透明、安心的購買流程，保障每一位愛茶人的消費權益。"
+      }
+    }
+  }
+}
+

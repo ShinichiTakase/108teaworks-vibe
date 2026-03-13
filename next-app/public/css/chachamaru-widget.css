@@ -1,0 +1,345 @@
+/**
+ * 茶々丸 フローティングウィジェット
+ * アイドル時: 右下の円形ボタン / 会話時: チャットパネル
+ */
+.chachamaru-fab,
+.chachamaru-panel {
+  z-index: 999999;
+  box-sizing: border-box;
+}
+
+/* ========== フローティングボタン（アイドル時）＝カートに移動バーと同じ形（右端付き・左半円） ========== */
+.chachamaru-fab {
+  position: fixed;
+  right: 0;
+  bottom: 230px;
+  height: 56px;
+  min-width: 56px;
+  padding: 0 12px 0 16px;
+  border: none;
+  border-radius: 9999px 0 0 9999px;
+  background: #0d9488;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: -2px 2px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  opacity: 0.95;
+}
+.chachamaru-fab:hover {
+  transform: scale(1.02);
+  box-shadow: -2px 2px 12px rgba(0, 0, 0, 0.25);
+}
+.chachamaru-fab:focus {
+  outline: 2px solid #0d9488;
+  outline-offset: 2px;
+}
+.chachamaru-fab--hidden {
+  display: none !important;
+}
+.chachamaru-fab img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.chachamaru-fab-label {
+  display: none;
+}
+
+/* デスクトップ: ボタン横に「茶々丸と話す」ラベル */
+@media (min-width: 768px) {
+  .chachamaru-fab {
+    min-width: 152px;
+    padding: 0 12px 0 16px;
+  }
+  .chachamaru-fab img {
+    width: 36px;
+    height: 36px;
+  }
+  .chachamaru-fab-label {
+    display: inline;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+}
+
+/* ========== チャットパネル ========== */
+.chachamaru-panel {
+  position: fixed;
+  right: 16px;
+  bottom: 230px;
+  width: calc(100vw - 32px);
+  max-width: 380px;
+  max-height: 70vh;
+  background: rgba(13, 148, 136, 0.95);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+  opacity: 0.95;
+}
+.chachamaru-panel--closed {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px) scale(0.95);
+  pointer-events: none;
+}
+
+/* スマホ: パネルを大きく */
+@media (max-width: 767px) {
+  .chachamaru-panel {
+    right: 12px;
+    left: 12px;
+    bottom: 230px;
+    width: auto;
+    max-height: 75vh;
+  }
+}
+
+/* ヘッダー */
+.chachamaru-panel__header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
+}
+.chachamaru-panel__avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: rgba(0, 0, 0, 0.1);
+}
+.chachamaru-panel__greeting {
+  flex: 1;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+}
+.chachamaru-panel__close {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+.chachamaru-panel__close:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* メッセージエリア */
+.chachamaru-panel__messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 120px;
+}
+.chachamaru-msg {
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: 14px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.chachamaru-msg--assistant {
+  align-self: flex-start;
+  background: #fff;
+  color: #1f2937;
+  border-bottom-left-radius: 4px;
+}
+.chachamaru-msg--user {
+  align-self: flex-end;
+  background: #059669;
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+.chachamaru-msg--loading {
+  align-self: flex-start;
+  background: rgba(255, 255, 255, 0.9);
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+}
+.chachamaru-msg--loading .loading02 {
+  transform: scale(0.67);
+  opacity: 0.8;
+}
+
+/* 送信中アニメーション (loading02) */
+.chachamaru-panel span.loading02,
+.chachamaru-panel span.loading02::before,
+.chachamaru-panel span.loading02::after {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  background-repeat: no-repeat;
+  background-image:
+    -webkit-gradient(radial, 3 center, 0, 3 center, 3, from(rgba(153, 153, 153, 0.5)), color-stop(0.5, rgba(153, 153, 153, 0.5)), color-stop(0.9, transparent), to(transparent)),
+    -webkit-gradient(radial, center 3, 0, center 3, 3, from(rgba(153, 153, 153, 0.5)), color-stop(0.5, rgba(153, 153, 153, 0.5)), color-stop(0.9, transparent), to(transparent)),
+    -webkit-gradient(radial, 46 center, 0, 46 center, 3, from(rgba(153, 153, 153, 0.5)), color-stop(0.5, rgba(153, 153, 153, 0.5)), color-stop(0.9, transparent), to(transparent)),
+    -webkit-gradient(radial, center 46, 0, center 46, 3, from(rgba(153, 153, 153, 0.5)), color-stop(0.5, rgba(153, 153, 153, 0.5)), color-stop(0.9, transparent), to(transparent));
+  background-image:
+    -webkit-radial-gradient(10% 50%, 4px 4px, rgba(153, 153, 153, 0.5), rgba(153, 153, 153, 0.5) 95%, transparent 95%, transparent),
+    -webkit-radial-gradient(50% 10%, 4px 4px, rgba(153, 153, 153, 0.5), rgba(153, 153, 153, 0.5) 95%, transparent 95%, transparent),
+    -webkit-radial-gradient(90% 50%, 4px 4px, rgba(153, 153, 153, 0.5), rgba(153, 153, 153, 0.5) 95%, transparent 95%, transparent),
+    -webkit-radial-gradient(50% 90%, 4px 4px, rgba(153, 153, 153, 0.5), rgba(153, 153, 153, 0.5) 95%, transparent 95%, transparent);
+  background-image:
+    radial-gradient(4px 4px at 10% 50%, rgba(153, 153, 153, 0.5), rgba(153, 153, 153, 0.5) 95%, transparent),
+    radial-gradient(4px 4px at 50% 10%, rgba(153, 153, 153, 0.5), rgba(153, 153, 153, 0.5) 95%, transparent),
+    radial-gradient(4px 4px at 90% 50%, rgba(153, 153, 153, 0.5), rgba(153, 153, 153, 0.5) 95%, transparent),
+    radial-gradient(4px 4px at 50% 90%, rgba(153, 153, 153, 0.5), rgba(153, 153, 153, 0.5) 95%, transparent);
+}
+.chachamaru-panel span.loading02 {
+  position: relative;
+  margin: 0 10px;
+  vertical-align: middle;
+}
+.chachamaru-panel span.loading02::before,
+.chachamaru-panel span.loading02::after {
+  position: absolute;
+  content: " ";
+  z-index: -1;
+  left: 0;
+  top: 0;
+  margin: 0;
+}
+.chachamaru-panel span.loading02::before {
+  -webkit-transform: rotate(30deg);
+  transform: rotate(30deg);
+}
+.chachamaru-panel span.loading02::after {
+  -webkit-transform: rotate(60deg);
+  transform: rotate(60deg);
+}
+.chachamaru-panel span.loading02 span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background-image:
+    -webkit-gradient(radial, 4 center, 0, 4 center, 4, from(#999), color-stop(0.5, #999), color-stop(0.9, transparent), to(transparent));
+  background-image:
+    -webkit-radial-gradient(10% 50%, 4px 4px, #999, #999 95%, transparent 95%, transparent);
+  background-image:
+    radial-gradient(4px 4px at 10% 50%, #999, #999 95%, transparent);
+  -webkit-animation: chachamaru-animation02 2s linear infinite;
+  animation: chachamaru-animation02 2s linear infinite;
+}
+@-webkit-keyframes chachamaru-animation02 {
+  0% { -webkit-transform: rotate(0deg); }
+  8.2% { -webkit-transform: rotate(0deg); }
+  8.3% { -webkit-transform: rotate(30deg); }
+  16.6% { -webkit-transform: rotate(30deg); }
+  16.7% { -webkit-transform: rotate(60deg); }
+  24.9% { -webkit-transform: rotate(60deg); }
+  25% { -webkit-transform: rotate(90deg); }
+  33.2% { -webkit-transform: rotate(90deg); }
+  33.3% { -webkit-transform: rotate(120deg); }
+  41.6% { -webkit-transform: rotate(120deg); }
+  41.7% { -webkit-transform: rotate(150deg); }
+  49.9% { -webkit-transform: rotate(150deg); }
+  50% { -webkit-transform: rotate(180deg); }
+  58.2% { -webkit-transform: rotate(180deg); }
+  58.3% { -webkit-transform: rotate(210deg); }
+  66.6% { -webkit-transform: rotate(210deg); }
+  66.7% { -webkit-transform: rotate(240deg); }
+  74.9% { -webkit-transform: rotate(240deg); }
+  75% { -webkit-transform: rotate(270deg); }
+  83.2% { -webkit-transform: rotate(270deg); }
+  83.3% { -webkit-transform: rotate(300deg); }
+  91.6% { -webkit-transform: rotate(300deg); }
+  91.7% { -webkit-transform: rotate(330deg); }
+  99.9% { -webkit-transform: rotate(330deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+@keyframes chachamaru-animation02 {
+  0% { transform: rotate(0deg); }
+  8.2% { transform: rotate(0deg); }
+  8.3% { transform: rotate(30deg); }
+  16.6% { transform: rotate(30deg); }
+  16.7% { transform: rotate(60deg); }
+  24.9% { transform: rotate(60deg); }
+  25% { transform: rotate(90deg); }
+  33.2% { transform: rotate(90deg); }
+  33.3% { transform: rotate(120deg); }
+  41.6% { transform: rotate(120deg); }
+  41.7% { transform: rotate(150deg); }
+  49.9% { transform: rotate(150deg); }
+  50% { transform: rotate(180deg); }
+  58.2% { transform: rotate(180deg); }
+  58.3% { transform: rotate(210deg); }
+  66.6% { transform: rotate(210deg); }
+  66.7% { transform: rotate(240deg); }
+  74.9% { transform: rotate(240deg); }
+  75% { transform: rotate(270deg); }
+  83.2% { transform: rotate(270deg); }
+  83.3% { transform: rotate(300deg); }
+  91.6% { transform: rotate(300deg); }
+  91.7% { transform: rotate(330deg); }
+  99.9% { transform: rotate(330deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* フッター（入力欄） */
+.chachamaru-panel__footer {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
+}
+.chachamaru-panel__footer input {
+  flex: 1;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 24px;
+  background: #fff;
+  font-size: 14px;
+  color: #1f2937;
+}
+.chachamaru-panel__footer input::placeholder {
+  color: #9ca3af;
+}
+.chachamaru-panel__footer input:focus {
+  outline: 2px solid #0d9488;
+  outline-offset: 0;
+}
+.chachamaru-panel__footer button[type="button"] {
+  padding: 12px 18px;
+  border: none;
+  border-radius: 24px;
+  background: #059669;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.chachamaru-panel__footer button[type="button"]:hover {
+  background: #047857;
+}

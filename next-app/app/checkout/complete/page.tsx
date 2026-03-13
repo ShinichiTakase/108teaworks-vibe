@@ -1,6 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import type { Locale } from "@/lib/i18n";
+import { CHECKOUT_COMPLETE_TEXTS } from "@/lib/checkoutCompleteTexts";
 
 type CompleteSummary = {
   items: {
@@ -15,8 +18,19 @@ type CompleteSummary = {
   orderNo: string;
 };
 
+function detectLocaleFromPath(pathname: string | null): Locale {
+  if (!pathname) return "ja";
+  if (pathname.startsWith("/en")) return "en";
+  if (pathname.startsWith("/ko")) return "ko";
+  if (pathname.startsWith("/zh")) return "zh";
+  return "ja";
+}
+
 export default function CheckoutCompletePage() {
   const [summary, setSummary] = useState<CompleteSummary | null>(null);
+  const pathname = usePathname();
+  const locale = detectLocaleFromPath(pathname);
+  const t = CHECKOUT_COMPLETE_TEXTS[locale];
 
   useEffect(() => {
     try {
@@ -36,27 +50,27 @@ export default function CheckoutCompletePage() {
     <article className="mb-10 flex justify-center">
       <div className="w-[90%] max-w-[800px]">
         <h1 className="m-0 mb-4 font-heading text-xl font-semibold text-tea-deep">
-          ご購入ありがとうございます。
+          {t.title}
         </h1>
         <p className="mb-6 text-[0.9375rem] text-ink">
-          またのご利用をお待ちしております。
+          {t.subtitle}
         </p>
 
         {summary && (
           <section
             className="mt-4 rounded-xl border border-border bg-washi px-4 py-4 text-[0.9375rem]"
-            aria-label="ご注文内容の詳細"
+            aria-label={t.sectionAria}
           >
           <h2 className="m-0 mb-3 text-base font-semibold text-tea-deep">
-            ご注文内容
+            {t.sectionTitle}
           </h2>
           <table className="w-full border-collapse text-[0.875rem]">
             <thead>
               <tr className="bg-cream">
-                <th className="border border-border px-2 py-1 text-left">商品</th>
-                <th className="border border-border px-2 py-1 text-right">数量</th>
-                <th className="border border-border px-2 py-1 text-right">単価</th>
-                <th className="border border-border px-2 py-1 text-right">金額</th>
+                <th className="border border-border px-2 py-1 text-left">{t.thProduct}</th>
+                <th className="border border-border px-2 py-1 text-right">{t.thQty}</th>
+                <th className="border border-border px-2 py-1 text-right">{t.thUnitPrice}</th>
+                <th className="border border-border px-2 py-1 text-right">{t.thAmount}</th>
               </tr>
             </thead>
             <tbody>
@@ -80,7 +94,7 @@ export default function CheckoutCompletePage() {
                 <td className="border border-border px-2 py-1" />
                 <td className="border border-border px-2 py-1" />
                 <td className="border border-border px-2 py-1 text-right">
-                  送料
+                  {t.shipping}
                 </td>
                 <td className="border border-border px-2 py-1 text-right">
                   {formatPrice(summary.shipping)}
@@ -90,7 +104,7 @@ export default function CheckoutCompletePage() {
                 <td className="border border-border px-2 py-1" />
                 <td className="border border-border px-2 py-1" />
                 <td className="border border-border px-2 py-1 text-right font-semibold">
-                  合計
+                  {t.total}
                 </td>
                 <td className="border border-border px-2 py-1 text-right font-semibold">
                   {formatPrice(summary.total)}
@@ -100,7 +114,7 @@ export default function CheckoutCompletePage() {
                 <td className="border border-border px-2 py-1" />
                 <td className="border border-border px-2 py-1" />
                 <td className="border border-border px-2 py-1 text-right">
-                  内消費税
+                  {t.includedTax}
                 </td>
                 <td className="border border-border px-2 py-1 text-right">
                   {formatPrice(summary.includedTax)}
@@ -110,7 +124,7 @@ export default function CheckoutCompletePage() {
           </table>
 
           <div className="mt-4 text-right text-[0.875rem] text-ink-muted">
-            注文番号：<span className="font-semibold">{summary.orderNo}</span>
+            {t.orderNoLabel}<span className="font-semibold">{summary.orderNo}</span>
           </div>
         </section>
         )}
