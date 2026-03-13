@@ -144,6 +144,7 @@ type Props = {
 
 export default function AboutPage({ locale }: Props) {
   const t = ABOUT_TEXTS[locale];
+  // About ページ専用画像。next-app/public/images/about/ 直下に配置する。
   const IMG_BASE = "/images/about";
 
   return (
@@ -159,13 +160,7 @@ export default function AboutPage({ locale }: Props) {
 
           <div className="mb-12 grid grid-cols-1 items-center gap-6 md:grid-cols-2 md:gap-8">
             <figure className="order-2 overflow-hidden rounded-md md:order-1">
-              <Image
-                src={`${IMG_BASE}/2025/12/about01-1.png`}
-                alt={t.altImage1}
-                width={800}
-                height={600}
-                className="h-auto w-full object-cover"
-              />
+              <Image src={`${IMG_BASE}/about01-1.png`} alt={t.altImage1} width={800} height={600} className="h-auto w-full object-cover" />
             </figure>
             <div className="order-1 text-right md:order-2">
               <p className="mb-4 text-[0.9375rem] leading-relaxed text-ink-muted">
@@ -190,25 +185,13 @@ export default function AboutPage({ locale }: Props) {
               </p>
             </div>
             <figure className="overflow-hidden rounded-md">
-              <Image
-                src={`${IMG_BASE}/2026/01/takase-1.png`}
-                alt={t.altImage2}
-                width={500}
-                height={578}
-                className="h-auto w-full object-cover"
-              />
+              <Image src={`${IMG_BASE}/takase-1.png`} alt={t.altImage2} width={500} height={578} className="h-auto w-full object-cover" />
             </figure>
           </div>
 
           <div className="mb-12 grid grid-cols-1 items-start gap-6 md:grid-cols-2 md:gap-8">
             <figure className="order-2 overflow-hidden rounded-md md:order-1">
-              <Image
-                src={`${IMG_BASE}/2026/01/108-892x1024-1.jpg`}
-                alt={t.altImage3}
-                width={892}
-                height={1024}
-                className="h-auto w-full object-cover"
-              />
+              <Image src={`${IMG_BASE}/108-892x1024-1.jpg`} alt={t.altImage3} width={892} height={1024} className="h-auto w-full object-cover" />
             </figure>
             <div className="order-1 text-right md:order-2">
               <h2 className="mt-0 mb-3 text-base font-semibold text-tea-deep">
@@ -239,13 +222,7 @@ export default function AboutPage({ locale }: Props) {
               </p>
             </div>
             <figure className="overflow-hidden rounded-md">
-              <Image
-                src={`${IMG_BASE}/2025/12/haru-768x950-1.jpg`}
-                alt={t.altImage4}
-                width={768}
-                height={950}
-                className="h-auto w-full object-cover"
-              />
+              <Image src={`${IMG_BASE}/haru-768x950-1.jpg`} alt={t.altImage4} width={768} height={950} className="h-auto w-full object-cover" />
             </figure>
           </div>
         </section>
