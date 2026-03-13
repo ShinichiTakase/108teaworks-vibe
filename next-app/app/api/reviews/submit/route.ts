@@ -105,7 +105,9 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const redirectUrl = `${url.origin}/review-submitted`;
+    const publicBase = process.env.NEXT_PUBLIC_SITE_URL?.trim()?.replace(/\/$/, "");
+    const baseUrl = publicBase || url.origin;
+    const redirectUrl = `${baseUrl}/review-submitted`;
     console.log("[api/reviews/submit] redirect to", redirectUrl);
     return NextResponse.redirect(redirectUrl, 303);
   } catch (e) {
