@@ -21,7 +21,7 @@ function getLocaleFromPath(pathname: string | null): Locale {
 
 const BAR_BASE =
   "fixed right-0 z-[999999] flex items-center justify-center md:justify-start gap-2 rounded-l-full border-2 border-r-0 text-[0.875rem] font-semibold shadow-lg transition-colors cursor-pointer";
-const BAR_SIZE = "h-12 w-12 md:h-12 md:min-w-[152px] md:w-auto p-0 md:py-2.5 md:pl-3 md:pr-2.5";
+const BAR_SIZE = "h-12 w-12 md:h-14 md:min-w-[152px] md:w-auto p-0 md:py-3 md:pl-4 md:pr-3";
 
 /** 元アイコン風：黒背景に白線・上の弧・目（2点）・口・胴の線 */
 const ChachamaruIconSvg = ({ className }: { className?: string }) => (

@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import type { ProductItem } from "@/lib/microcms";
 import type { Locale } from "@/lib/i18n";
 import { HOME_PRODUCTS_TEXTS } from "@/lib/homeSectionTexts";
@@ -53,10 +53,15 @@ type Props = {
 
 export default function ProductListWithFilter({ products }: Props) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const locale = getLocaleFromPath(pathname);
   const t = HOME_PRODUCTS_TEXTS[locale];
   const taxLabel = COMMON_TEXTS[locale].product.taxIncluded;
-  const [filter, setFilter] = useState("");
+  const initialFilter = searchParams.get("filter") ?? "";
+  const [filter, setFilter] = useState(initialFilter);
+  useEffect(() => {
+    setFilter(searchParams.get("filter") ?? "");
+  }, [searchParams]);
   const filtered =
     filter === ""
       ? products

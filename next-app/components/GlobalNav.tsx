@@ -7,7 +7,7 @@ import type { Locale } from "@/lib/i18n";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
 
 const NAV_KEYS = [
-  { key: "products" as const, href: "/" },
+  { key: "top" as const, href: "/" },
   { key: "about" as const, href: "/about" },
   { key: "isecha" as const, href: "/isecha" },
   { key: "howToBrew" as const, href: "/how-to-brew" },

@@ -44,7 +44,7 @@ export default function PromoVideoBanner() {
     <>
       <section
         aria-label={t.sectionAria}
-        className="border-b border-border bg-washi/80 px-3 py-3 w-[90%] max-w-4xl mx-auto"
+        className="border-b border-border bg-washi px-3 py-3 w-[90%] max-w-4xl mx-auto"
       >
         <div className="flex gap-3 items-center">
           <button

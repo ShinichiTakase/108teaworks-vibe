@@ -5,6 +5,7 @@ export const COMMON_TEXTS: Record<
   Locale,
   {
     nav: {
+      top: string;
       products: string;
       about: string;
       isecha: string;
@@ -68,6 +69,7 @@ export const COMMON_TEXTS: Record<
 > = {
   ja: {
     nav: {
+      top: "トップページ",
       products: "商品一覧",
       about: "藤八茶寮について",
       isecha: "伊勢茶とは",
@@ -110,6 +112,7 @@ export const COMMON_TEXTS: Record<
   },
   en: {
     nav: {
+      top: "Home",
       products: "Products",
       about: "About Us",
       isecha: "What is Ise Tea",
@@ -152,6 +155,7 @@ export const COMMON_TEXTS: Record<
   },
   ko: {
     nav: {
+      top: "홈",
       products: "상품 목록",
       about: "후지하치야 소개",
       isecha: "이세차란",
@@ -194,6 +198,7 @@ export const COMMON_TEXTS: Record<
   },
   zh: {
     nav: {
+      top: "首页",
       products: "商品一览",
       about: "关于藤八茶寮",
       isecha: "什么是伊势茶",

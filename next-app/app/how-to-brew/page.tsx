@@ -1,8 +1,17 @@
 import Image from "next/image";
+import Link from "next/link";
 import { MAIN_CLASS, INNER_CLASS } from "@/components/Layout";
+import PromoVideoBanner from "@/components/PromoVideoBanner";
 import type { Locale } from "@/lib/i18n";
+import { COMMON_TEXTS } from "@/lib/commonTexts";
 import { HOW_TO_BREW_TEXTS } from "@/lib/howToBrewTexts";
 import { getFixedSeo, buildAlternatesForLocales } from "@/lib/seo";
+
+/** トップページの商品一覧を指定フィルターで絞り込んだURL */
+function productsFilterHref(locale: Locale, filterValue: string): string {
+  const path = locale === "ja" ? "/" : `/${locale}`;
+  return `${path}?filter=${encodeURIComponent(filterValue)}`;
+}
 
 export const dynamic = "force-dynamic";
 
@@ -89,6 +98,17 @@ export default function HowToBrewPage({ params }: Props = {}) {
               <p className="mb-0 text-[0.9375rem] leading-relaxed text-ink-muted">
                 {t.tbBody}
               </p>
+              <div className="flex justify-end mt-3">
+                <Link
+                  href={productsFilterHref(locale, "ティーバッグ")}
+                  className="inline-flex items-center justify-between gap-2 py-2.5 px-3 rounded-lg border border-tea-light bg-washi text-tea-deep no-underline transition-colors hover:border-tea-deep hover:bg-cream hover:shadow-sm"
+                >
+                  <span className="text-base font-bold">{t.productLinkTeabag}</span>
+                  <span className="shrink-0 text-[0.8125rem] font-normal text-tea" aria-hidden="true">
+                    {COMMON_TEXTS[locale].product.viewDetails}
+                  </span>
+                </Link>
+              </div>
             </div>
             <figure className="overflow-hidden rounded-md">
               <Image
@@ -118,6 +138,17 @@ export default function HowToBrewPage({ params }: Props = {}) {
               <p className="mb-0 text-[0.9375rem] leading-relaxed text-ink-muted">
                 {t.leafBody}
               </p>
+              <div className="flex justify-end mt-3">
+                <Link
+                  href={productsFilterHref(locale, "リーフ（茶葉）")}
+                  className="inline-flex items-center justify-between gap-2 py-2.5 px-3 rounded-lg border border-tea-light bg-washi text-tea-deep no-underline transition-colors hover:border-tea-deep hover:bg-cream hover:shadow-sm"
+                >
+                  <span className="text-base font-bold">{t.productLinkLeaf}</span>
+                  <span className="shrink-0 text-[0.8125rem] font-normal text-tea" aria-hidden="true">
+                    {COMMON_TEXTS[locale].product.viewDetails}
+                  </span>
+                </Link>
+              </div>
             </div>
             <figure className="overflow-hidden rounded-md">
               <Image
@@ -140,6 +171,17 @@ export default function HowToBrewPage({ params }: Props = {}) {
               <li>{t.kyusuLi3}</li>
               <li>{t.kyusuLi4}</li>
             </ul>
+            <div className="flex justify-end mt-3">
+              <Link
+                href={productsFilterHref(locale, "深蒸し茶")}
+                className="inline-flex items-center justify-between gap-2 py-2.5 px-3 rounded-lg border border-tea-light bg-washi text-tea-deep no-underline transition-colors hover:border-tea-deep hover:bg-cream hover:shadow-sm"
+              >
+                <span className="text-base font-bold">{t.productLinkFukamushi}</span>
+                <span className="shrink-0 text-[0.8125rem] font-normal text-tea" aria-hidden="true">
+                  {COMMON_TEXTS[locale].product.viewDetails}
+                </span>
+              </Link>
+            </div>
           </div>
 
           <div className="mb-10 grid grid-cols-1 items-start gap-6 md:grid-cols-2 md:gap-8">
@@ -167,6 +209,17 @@ export default function HowToBrewPage({ params }: Props = {}) {
               <p className="mb-0 text-[0.9375rem] leading-relaxed text-ink-muted">
                 {t.mizudashiBody}
               </p>
+              <div className="flex justify-end mt-3">
+                <Link
+                  href={productsFilterHref(locale, "ティーバッグ")}
+                  className="inline-flex items-center justify-between gap-2 py-2.5 px-3 rounded-lg border border-tea-light bg-washi text-tea-deep no-underline transition-colors hover:border-tea-deep hover:bg-cream hover:shadow-sm"
+                >
+                  <span className="text-base font-bold">{t.productLinkMizudashiTeabag}</span>
+                  <span className="shrink-0 text-[0.8125rem] font-normal text-tea" aria-hidden="true">
+                    {COMMON_TEXTS[locale].product.viewDetails}
+                  </span>
+                </Link>
+              </div>
             </div>
           </div>
 
@@ -176,6 +229,10 @@ export default function HowToBrewPage({ params }: Props = {}) {
           <p className="mb-6 text-[0.9375rem] leading-relaxed text-ink-muted">
             {t.powderReasonBody}
           </p>
+
+          <div className="mb-10">
+            <PromoVideoBanner />
+          </div>
 
           <h2 className="mt-0 mb-3 text-base font-semibold text-tea-deep underline underline-offset-4 decoration-tea-soft">
             {t.latteTitle}
@@ -229,6 +286,17 @@ export default function HowToBrewPage({ params }: Props = {}) {
                 />
               </figure>
             </div>
+          </div>
+          <div className="flex justify-end mb-6">
+            <Link
+              href={productsFilterHref(locale, "パウダー")}
+              className="inline-flex items-center justify-between gap-2 py-2.5 px-3 rounded-lg border border-tea-light bg-washi text-tea-deep no-underline transition-colors hover:border-tea-deep hover:bg-cream hover:shadow-sm"
+            >
+              <span className="text-base font-bold">{t.productLinkLattePowder}</span>
+              <span className="shrink-0 text-[0.8125rem] font-normal text-tea" aria-hidden="true">
+                {COMMON_TEXTS[locale].product.viewDetails}
+              </span>
+            </Link>
           </div>
           <h2 className="mt-0 mb-3 text-base font-semibold text-tea-deep underline underline-offset-4 decoration-tea-soft">
             {t.powderVsMatchaTitle}

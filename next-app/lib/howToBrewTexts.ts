@@ -60,6 +60,12 @@ export type HowToBrewTexts = {
   altWater: string;
   altGreenLatte: string;
   altHojichaLatte: string;
+  /** トップページ絞り込みリンクのラベル（ティーバッグ・リーフ・深蒸し・水出し用TB・ラテ用パウダー） */
+  productLinkTeabag: string;
+  productLinkLeaf: string;
+  productLinkFukamushi: string;
+  productLinkMizudashiTeabag: string;
+  productLinkLattePowder: string;
 };
 
 const JA: HowToBrewTexts = {
@@ -149,6 +155,11 @@ const JA: HowToBrewTexts = {
   altWater: "水出し茶のイメージ",
   altGreenLatte: "緑茶ラテ",
   altHojichaLatte: "ほうじ茶ラテ",
+  productLinkTeabag: "ティーバッグ",
+  productLinkLeaf: "リーフ（茶葉）",
+  productLinkFukamushi: "深蒸し茶",
+  productLinkMizudashiTeabag: "水出し茶用ティーバッグ",
+  productLinkLattePowder: "ラテに使えるパウダー（粉茶）",
 };
 
 const EN: HowToBrewTexts = {
@@ -237,6 +248,11 @@ const EN: HowToBrewTexts = {
   altWater: "Cold-brew tea",
   altGreenLatte: "Green tea latte",
   altHojichaLatte: "Hojicha latte",
+  productLinkTeabag: "Teabags",
+  productLinkLeaf: "Leaf tea",
+  productLinkFukamushi: "Deep-steamed tea",
+  productLinkMizudashiTeabag: "Teabags for cold brew",
+  productLinkLattePowder: "Powder for lattes",
 };
 
 const KO: HowToBrewTexts = {
@@ -326,6 +342,11 @@ const KO: HowToBrewTexts = {
   altWater: "냉침차 이미지",
   altGreenLatte: "녹차 라테",
   altHojichaLatte: "호지차 라테",
+  productLinkTeabag: "티백",
+  productLinkLeaf: "리프(찻잎)",
+  productLinkFukamushi: "후카무시차",
+  productLinkMizudashiTeabag: "수출이용 티백",
+  productLinkLattePowder: "라테용 파우더",
 };
 
 const ZH: HowToBrewTexts = {
@@ -415,6 +436,11 @@ const ZH: HowToBrewTexts = {
   altWater: "冷泡茶",
   altGreenLatte: "绿茶拿铁",
   altHojichaLatte: "焙茶拿铁",
+  productLinkTeabag: "茶包",
+  productLinkLeaf: "茶叶",
+  productLinkFukamushi: "深蒸茶",
+  productLinkMizudashiTeabag: "冷泡用茶包",
+  productLinkLattePowder: "拿铁用粉末",
 };
 
 export const HOW_TO_BREW_TEXTS: Record<Locale, HowToBrewTexts> = {
