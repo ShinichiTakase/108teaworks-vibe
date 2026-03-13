@@ -112,6 +112,9 @@ export default function CheckoutPage() {
   const [cardReady, setCardReady] = useState(false);
 
   const handlePayRef = useRef<null | (() => Promise<void>)>(null);
+  const subtotalRef = useRef<number>(0);
+  const itemsRef = useRef<typeof items>([]);
+  const walletShippingRef = useRef<number | null>(null);
 
   const stripeElementsOptions = useMemo(() => {
     if (!clientSecret) return null;
@@ -219,6 +222,8 @@ export default function CheckoutPage() {
   const subtotal = items.reduce((sum, x) => sum + x.price * x.quantity, 0);
   const total = subtotal + (shipping ?? 0);
   const taxAmount = taxIncluded(total);
+  subtotalRef.current = subtotal;
+  itemsRef.current = items;
 
   const effectivePrefecture = shipToDifferent ? shipPrefecture.trim() : prefecture.trim();
   const itemsSignature = items.map((i) => `${i.slug}:${i.quantity}`).join(",");
@@ -252,8 +257,10 @@ export default function CheckoutPage() {
       .then((res) => res.json())
       .then((data) => {
         if (cancelled) return;
-        if (data?.ok && typeof data.shipping === "number") setShipping(data.shipping);
-        else setShipping(null);
+        if (data?.ok && typeof data.shipping === "number") {
+          walletShippingRef.current = null;
+          setShipping(data.shipping);
+        } else setShipping(null);
       })
       .catch(() => {
         if (!cancelled) setShipping(null);
@@ -347,7 +354,7 @@ export default function CheckoutPage() {
     ]
   );
 
-  // 小計がある時点で PI を作りフォームを表示（Apple Pay 等を出す）。送料確定後に合計で作り直し前のPIはキャンセル。
+  // 小計で PI を作りフォームを表示。フォームで送料確定なら合計で作り直す。Apple Pay はウォレットの住所で送料を計算して PI を更新する。
   useEffect(() => {
     if (!STRIPE_PK) return;
     let cancelled = false;
@@ -413,7 +420,7 @@ export default function CheckoutPage() {
     alert(t.paymentElementAlert);
   };
 
-  // PaymentElement をマウント。clientSecret が変わったら古い Elements を破棄して作り直す（送料確定で合計PIに差し替えるため）
+  // PaymentElement をマウント。送料未確定時は Apple Pay/Google Pay は出さない（誤って小計のみで決済するのを防ぐ）
   useEffect(() => {
     if (!clientSecret || !STRIPE_PK || !cardContainerRef.current) return;
 
@@ -433,6 +440,81 @@ export default function CheckoutPage() {
       setCardReady(false);
     }
 
+    // 既に Elements があり clientSecret が同じときは Express Checkout の表示だけ切り替え（送料未確定時も表示し、ウォレットで住所を取る）
+    if (elementsRef.current && elementsClientSecretRef.current === clientSecret) {
+      if (expressContainerRef.current && !expressCheckoutRef.current) {
+        try {
+          expressCheckoutRef.current = elementsRef.current.create("expressCheckout", {
+            buttonType: { applePay: "buy", googlePay: "buy" },
+            shippingAddressRequired: true,
+            allowedShippingCountries: ["JP"],
+          } as any);
+          expressCheckoutRef.current.mount(expressContainerRef.current);
+          expressCheckoutRef.current.on("confirm", async () => {
+            try {
+              await handlePayRef.current?.();
+            } catch {
+              // noop
+            }
+          });
+          expressCheckoutRef.current.on("shippingaddresschange", async (ev: { address: { state: string; city: string; postal_code: string; country: string }; resolve: (d?: { lineItems?: Array<{ name: string; amount: number }> }) => void; reject: () => void }) => {
+            const prefecture = (ev.address?.state ?? "").trim();
+            if (!prefecture) {
+              ev.reject();
+              return;
+            }
+            const currentSubtotal = subtotalRef.current;
+            const currentItems = itemsRef.current;
+            if (currentSubtotal < 1 || !currentItems.length) {
+              ev.reject();
+              return;
+            }
+            try {
+              const shipRes = await fetch("/api/checkout/shipping", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  prefecture,
+                  items: currentItems.map((i) => ({ slug: i.slug, quantity: i.quantity })),
+                  subtotal: currentSubtotal,
+                }),
+              });
+              const shipData = await shipRes.json();
+              const shippingFee = shipData?.ok && typeof shipData.shipping === "number" ? shipData.shipping : 280;
+              const newTotal = currentSubtotal + shippingFee;
+              const piId = paymentIntentIdRef.current;
+              if (piId) {
+                const updRes = await fetch("/api/checkout/update-intent-amount", {
+                  method: "POST",
+                  headers: { "Content-Type": "application/json" },
+                  body: JSON.stringify({ paymentIntentId: piId, amount: newTotal }),
+                });
+                if (!updRes.ok) {
+                  ev.reject();
+                  return;
+                }
+                walletShippingRef.current = shippingFee;
+                setShipping(shippingFee);
+                await elementsRef.current?.fetchUpdates();
+              }
+              ev.resolve({
+                lineItems: [
+                  { name: "小計", amount: currentSubtotal },
+                  { name: "送料", amount: shippingFee },
+                  { name: "合計", amount: newTotal },
+                ],
+              });
+            } catch {
+              ev.reject();
+            }
+          });
+        } catch {
+          expressCheckoutRef.current = null;
+        }
+      }
+      return;
+    }
+
     (async () => {
       try {
         if (!stripeRef.current) {
@@ -445,14 +527,13 @@ export default function CheckoutPage() {
           elementsRef.current = stripe.elements({ clientSecret });
           elementsClientSecretRef.current = clientSecret;
 
-          // Wallet（Apple Pay / Google Pay 等）用: Express Checkout Element
+          // Apple Pay / Google Pay：ウォレットの配送先を取得し shippingaddresschange で送料を反映
           if (expressContainerRef.current && !expressCheckoutRef.current) {
             try {
               expressCheckoutRef.current = elementsRef.current.create("expressCheckout", {
-                buttonType: {
-                  applePay: "buy",
-                  googlePay: "buy",
-                },
+                buttonType: { applePay: "buy", googlePay: "buy" },
+                shippingAddressRequired: true,
+                allowedShippingCountries: ["JP"],
               } as any);
               expressCheckoutRef.current.mount(expressContainerRef.current);
               expressCheckoutRef.current.on("confirm", async () => {
@@ -462,7 +543,58 @@ export default function CheckoutPage() {
                   // noop
                 }
               });
-            } catch (e) {
+              expressCheckoutRef.current.on("shippingaddresschange", async (ev: { address: { state: string; city: string; postal_code: string; country: string }; resolve: (d?: { lineItems?: Array<{ name: string; amount: number }> }) => void; reject: () => void }) => {
+                const prefecture = (ev.address?.state ?? "").trim();
+                if (!prefecture) {
+                  ev.reject();
+                  return;
+                }
+                const currentSubtotal = subtotalRef.current;
+                const currentItems = itemsRef.current;
+                if (currentSubtotal < 1 || !currentItems.length) {
+                  ev.reject();
+                  return;
+                }
+                try {
+                  const shipRes = await fetch("/api/checkout/shipping", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                      prefecture,
+                      items: currentItems.map((i) => ({ slug: i.slug, quantity: i.quantity })),
+                      subtotal: currentSubtotal,
+                    }),
+                  });
+                  const shipData = await shipRes.json();
+                  const shippingFee = shipData?.ok && typeof shipData.shipping === "number" ? shipData.shipping : 280;
+                  const newTotal = currentSubtotal + shippingFee;
+                  const piId = paymentIntentIdRef.current;
+                  if (piId) {
+                    const updRes = await fetch("/api/checkout/update-intent-amount", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ paymentIntentId: piId, amount: newTotal }),
+                    });
+                    if (!updRes.ok) {
+                      ev.reject();
+                      return;
+                    }
+                    walletShippingRef.current = shippingFee;
+                    setShipping(shippingFee);
+                    await elementsRef.current?.fetchUpdates();
+                  }
+                  ev.resolve({
+                    lineItems: [
+                      { name: "小計", amount: currentSubtotal },
+                      { name: "送料", amount: shippingFee },
+                      { name: "合計", amount: newTotal },
+                    ],
+                  });
+                } catch {
+                  ev.reject();
+                }
+              });
+            } catch {
               expressCheckoutRef.current = null;
             }
           }
@@ -484,13 +616,17 @@ export default function CheckoutPage() {
     return () => {
       cancelled = true;
     };
-  }, [clientSecret]);
+  }, [clientSecret, shipping]);
 
   const handlePay = useCallback(async () => {
     const stripe = stripeRef.current;
     const elements = elementsRef.current;
     if (!stripe || !elements) return;
-    if (paying || shipping === null) return;
+    if (paying) return;
+    if (shipping === null && (walletShippingRef.current ?? 0) <= 0) {
+      alert(t.shippingRequiredToPay);
+      return;
+    }
 
     try {
       setPaying(true);
@@ -525,13 +661,19 @@ export default function CheckoutPage() {
         alert(t.statusCheckFailed);
         return;
       }
+      // Apple Pay 等でウォレット住所から送料を反映した場合は PI 金額から送料を逆算
+      const effectiveShipping =
+        (orderPayload.shipping ?? 0) > 0
+          ? orderPayload.shipping
+          : Math.max(0, (pi.amount ?? 0) - subtotalRef.current);
+      const effectiveOrder = { ...orderPayload, shipping: effectiveShipping };
 
       const completeRes = await fetch("/api/checkout/complete", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           paymentIntentId: pi.id,
-          order: orderPayload,
+          order: effectiveOrder,
           locale,
           customer: {
             email,
@@ -615,6 +757,7 @@ export default function CheckoutPage() {
     clearCart,
     locale,
     approval,
+    t.shippingRequiredToPay,
     t.paymentFailed,
     t.statusCheckFailed,
     t.paymentProcessingError,
@@ -816,7 +959,7 @@ export default function CheckoutPage() {
                 <h3 className="m-0 mb-4 text-[0.9375rem] font-semibold text-tea-deep">{t.cardOrGooglePay}</h3>
                 <div className="mb-4">
                   <div className="text-[0.8125rem] text-ink-muted mb-2">
-                    {t.walletHint}
+                    {shipping === null ? t.enterAddressForShipping : t.walletHint}
                   </div>
                   <div ref={expressContainerRef} />
                 </div>

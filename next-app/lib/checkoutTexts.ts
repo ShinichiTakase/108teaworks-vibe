@@ -23,6 +23,8 @@ export const CHECKOUT_TEXTS: Record<
     payNow: string;
     paying: string;
     paymentLoading: string;
+    shippingRequiredToPay: string;
+    enterAddressForShipping: string;
     billing: string;
     autofillPrevious: string;
     name: string;
@@ -76,6 +78,8 @@ export const CHECKOUT_TEXTS: Record<
     payNow: "購入を確定する",
     paying: "決済処理中...",
     paymentLoading: "支払い方法を読み込み中…",
+    shippingRequiredToPay: "送料を計算するため、まず郵便番号・住所を入力してください。",
+    enterAddressForShipping: "※ カードの場合は上で郵便番号・住所を入力してください。Apple Pay・Google Pay ではウォレットの配送先で送料を計算します。",
     billing: "請求先",
     autofillPrevious: "前回の情報を自動入力",
     name: "お名前",
@@ -128,6 +132,8 @@ export const CHECKOUT_TEXTS: Record<
     payNow: "Place order",
     paying: "Processing...",
     paymentLoading: "Loading payment methods…",
+    shippingRequiredToPay: "Please enter your postal code and address first to calculate shipping.",
+    enterAddressForShipping: "Apple Pay / Google Pay will appear after shipping is calculated. Enter postal code and address above.",
     billing: "Billing",
     autofillPrevious: "Autofill previous details",
     name: "Name",
@@ -180,6 +186,8 @@ export const CHECKOUT_TEXTS: Record<
     payNow: "구매 확정",
     paying: "결제 처리 중...",
     paymentLoading: "결제 수단을 불러오는 중…",
+    shippingRequiredToPay: "배송비를 계산하려면 먼저 우편번호와 주소를 입력해 주세요.",
+    enterAddressForShipping: "Apple Pay·Google Pay는 배송비 확정 후 표시됩니다. 위에서 우편번호와 주소를 입력하세요.",
     billing: "청구지",
     autofillPrevious: "이전 정보 자동 입력",
     name: "이름",
@@ -232,6 +240,8 @@ export const CHECKOUT_TEXTS: Record<
     payNow: "确认购买",
     paying: "处理中...",
     paymentLoading: "正在加载支付方式…",
+    shippingRequiredToPay: "请先输入邮政编码和地址以计算运费。",
+    enterAddressForShipping: "Apple Pay/Google Pay 将在运费确定后显示。请在上方输入邮政编码和地址。",
     billing: "账单信息",
     autofillPrevious: "自动填入上次信息",
     name: "姓名",
