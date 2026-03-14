@@ -450,7 +450,7 @@ export default function CheckoutPage() {
       setPaymentInitError(null);
 
       // 1. フォーム検証と支払い詳細の収集（Stripe に PI はまだ送らない）
-      const { error: submitError } = await elements.submit();
+      const { error: submitError } = await (elements as any).submit();
       if (submitError) {
         alert(submitError.message ?? t.paymentFailed);
         return;
@@ -550,7 +550,13 @@ export default function CheckoutPage() {
           },
         }),
       });
-      const completeData = await completeRes.json();
+      let completeData: any = { ok: false };
+      try {
+        const jsonText = await completeRes.text();
+        completeData = jsonText ? JSON.parse(jsonText) : {};
+      } catch {
+        // レスポンスが JSON でない場合（500 エラーページ等）も決済は成功しているので完了ページへ
+      }
       if (!completeRes.ok || !completeData?.ok) {
         // メール送信失敗等があっても、決済が成功していれば注文自体は完了扱いにする
         // （SES sandbox 等でお客様宛メールが拒否されるケースを許容）
@@ -601,8 +607,9 @@ export default function CheckoutPage() {
       clearCart();
       window.location.href = locale === "ja" ? "/checkout/complete" : `/${locale}/checkout/complete`;
     } catch (e) {
-      console.error(e);
-      alert(t.paymentProcessingError);
+      console.error("[checkout handlePay]", e);
+      const detail = e instanceof Error ? e.message : String(e);
+      alert(`${t.paymentProcessingError}\n\n${detail}`);
     } finally {
       setPaying(false);
     }

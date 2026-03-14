@@ -55,16 +55,13 @@ export async function POST(req: NextRequest) {
 
     const receiptEmail = billing?.email?.trim();
 
-    const paymentIntent = await stripe.paymentIntents.create(
-      {
-        amount: yenAmount,
-        currency: "jpy",
-        // ウォレット決済（Apple Pay / Google Pay）は使わず、カードのみ許可
-        payment_method_types: ["card"],
-        description: "藤八茶寮 オンラインショップご注文",
-        ...(receiptEmail ? { receipt_email: receiptEmail } : {}),
-      } as any
-    );
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: yenAmount,
+      currency: "jpy",
+      automatic_payment_methods: { enabled: true },
+      description: "藤八茶寮 オンラインショップご注文",
+      ...(receiptEmail ? { receipt_email: receiptEmail } : {}),
+    });
 
     return NextResponse.json({
       ok: true,
