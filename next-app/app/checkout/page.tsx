@@ -380,10 +380,12 @@ export default function CheckoutPage() {
     if (elementsRef.current && amountForIntentRef.current !== amountForIntent) {
       amountForIntentRef.current = amountForIntent;
       updateAmount(amountForIntent);
+      setCardReady(true);
       return;
     }
 
     if (elementsRef.current) {
+      setCardReady(true);
       return;
     }
 
