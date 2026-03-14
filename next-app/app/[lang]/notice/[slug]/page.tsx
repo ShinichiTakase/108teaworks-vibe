@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MAIN_CLASS, INNER_CLASS } from "@/components/Layout";
+import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import { getNoticeBySlug, getNoticeById, prepareBodyForDetail, stripHtml } from "@/lib/microcms";
 import type { Locale } from "@/lib/i18n";
+import { getBreadcrumbItems } from "@/lib/breadcrumb";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
 import { translateForLocale } from "@/lib/translateForLocale";
 import { buildAlternatesForLocales } from "@/lib/seo";
@@ -76,8 +78,12 @@ export default async function LocalizedNoticeDetailPage({ params }: Props) {
       ? bodyRaw
       : await translateForLocale(bodyRaw, locale, { tagHandling: "html" });
 
+  const pathname = `/${locale}/notice/${notice.slug ?? notice.id}`;
+  const breadcrumbItems = getBreadcrumbItems(pathname, locale, { noticeTitle: typeof title === "string" ? title : baseTitle });
+
   return (
     <main className={MAIN_CLASS} id="main-content" role="main">
+      <BreadcrumbListSchema items={breadcrumbItems} />
       <div className={INNER_CLASS}>
         <article className="mb-10">
           <header className="mb-6">

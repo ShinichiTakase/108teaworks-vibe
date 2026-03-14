@@ -1,5 +1,7 @@
 import LegalPageContent from "@/components/LegalPageContent";
+import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import { getFixedSeo, buildAlternatesForLocales } from "@/lib/seo";
+import { getBreadcrumbItems } from "@/lib/breadcrumb";
 
 export const dynamic = "force-dynamic";
 
@@ -13,5 +15,10 @@ export async function generateMetadata() {
 }
 
 export default function LegalPage() {
-  return <LegalPageContent locale="ja" />;
+  return (
+    <>
+      <BreadcrumbListSchema items={getBreadcrumbItems("/legal", "ja")} />
+      <LegalPageContent locale="ja" />
+    </>
+  );
 }

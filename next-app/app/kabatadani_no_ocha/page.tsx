@@ -1,6 +1,9 @@
 import { MAIN_CLASS, INNER_CLASS } from "@/components/Layout";
 import KabatadaniViewer from "@/components/KabatadaniViewer";
+import PageEndProductList from "@/components/PageEndProductList";
+import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import { getFixedSeo, buildAlternatesForLocales } from "@/lib/seo";
+import { getBreadcrumbItems } from "@/lib/breadcrumb";
 
 export const dynamic = "force-dynamic";
 
@@ -18,6 +21,7 @@ export async function generateMetadata() {
 export default function KabatadaniNoOchaPage() {
   return (
     <main className={MAIN_CLASS} id="main-content" role="main">
+      <BreadcrumbListSchema items={getBreadcrumbItems("/kabatadani_no_ocha", "ja")} />
       <div className={INNER_CLASS}>
         <section
           aria-labelledby="kabatadani-heading"
@@ -47,6 +51,7 @@ export default function KabatadaniNoOchaPage() {
             </p>
           </div>
         </section>
+        <PageEndProductList locale="ja" />
       </div>
     </main>
   );

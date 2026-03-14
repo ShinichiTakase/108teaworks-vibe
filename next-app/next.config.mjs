@@ -16,6 +16,7 @@ const nextConfig = {
     ];
   },
   // 静的エクスポートする場合: output: 'export', trailingSlash: true
+  // remotePatterns は許可ホストのみに限定（GHSA-9g9p-9gw9-jx7f 対策）
   images: {
     unoptimized: true,
     remotePatterns: [

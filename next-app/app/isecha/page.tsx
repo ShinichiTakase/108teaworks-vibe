@@ -1,7 +1,10 @@
 export const dynamic = "force-dynamic";
 
 import IsechaPage from "@/components/pages/IsechaPage";
+import PageEndProductList from "@/components/PageEndProductList";
+import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import { getFixedSeo, buildAlternatesForLocales } from "@/lib/seo";
+import { getBreadcrumbItems } from "@/lib/breadcrumb";
 
 export async function generateMetadata() {
   const seo = getFixedSeo("/isecha", "ja");
@@ -13,6 +16,12 @@ export async function generateMetadata() {
 }
 
 export default function IsechaPageJa() {
-  return <IsechaPage locale="ja" />;
+  return (
+    <>
+      <BreadcrumbListSchema items={getBreadcrumbItems("/isecha", "ja")} />
+      <IsechaPage locale="ja" />
+      <PageEndProductList locale="ja" />
+    </>
+  );
 }
 

@@ -4,6 +4,9 @@ import { getProductBySlug, decodeHtmlEntities } from "@/lib/microcms";
 import { getProductImagePaths } from "@/lib/productImage";
 import ProductImageGallery from "@/components/ProductImageGallery";
 import ProductAddToCart from "@/components/ProductAddToCart";
+import PageEndProductList from "@/components/PageEndProductList";
+import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
+import { getBreadcrumbItems } from "@/lib/breadcrumb";
 import type { Locale } from "@/lib/i18n";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
 import { translateForLocale, translateManyForLocale } from "@/lib/translateForLocale";
@@ -133,7 +136,12 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
     }
   }
 
+  const pathname = locale === "ja" ? `/products/${slug}` : `/${locale}/products/${slug}`;
+  const breadcrumbItems = getBreadcrumbItems(pathname, locale, { productName: displayTitle || titleJa });
+
   return (
+    <>
+    <BreadcrumbListSchema items={breadcrumbItems} />
     <article className="mb-10">
       <script
         type="application/ld+json"
@@ -238,5 +246,7 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
         </section>
       )}
     </article>
+    <PageEndProductList locale={locale} />
+  </>
   );
 }

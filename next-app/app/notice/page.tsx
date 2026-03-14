@@ -1,5 +1,8 @@
 import NoticeListContent from "@/components/NoticeListContent";
+import PageEndProductList from "@/components/PageEndProductList";
+import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import { getFixedSeo, buildAlternatesForLocales } from "@/lib/seo";
+import { getBreadcrumbItems } from "@/lib/breadcrumb";
 
 export const dynamic = "force-dynamic";
 
@@ -19,5 +22,11 @@ type Props = {
 export default async function NoticeListPage({ searchParams }: Props) {
   const params = await searchParams;
   const page = Math.max(1, parseInt(params?.page ?? "1", 10) || 1);
-  return <NoticeListContent locale="ja" page={page} />;
+  return (
+    <>
+      <BreadcrumbListSchema items={getBreadcrumbItems("/notice", "ja")} />
+      <NoticeListContent locale="ja" page={page} />
+      <PageEndProductList locale="ja" />
+    </>
+  );
 }

@@ -1,6 +1,8 @@
 import PrivacyPolicyContent from "@/components/PrivacyPolicyContent";
+import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import type { Locale } from "@/lib/i18n";
 import { getFixedSeo, buildAlternatesForLocales } from "@/lib/seo";
+import { getBreadcrumbItems } from "@/lib/breadcrumb";
 
 export const dynamic = "force-dynamic";
 
@@ -24,5 +26,10 @@ export async function generateMetadata({ params }: Props) {
 export default async function LocalizedPrivacyPolicyPage({ params }: Props) {
   const { lang } = await params;
   const locale: Locale = SUPPORTED.includes(lang as Locale) ? (lang as Locale) : "ja";
-  return <PrivacyPolicyContent locale={locale} />;
+  return (
+    <>
+      <BreadcrumbListSchema items={getBreadcrumbItems(`/${locale}/privacy-policy`, locale)} />
+      <PrivacyPolicyContent locale={locale} />
+    </>
+  );
 }

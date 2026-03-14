@@ -1,8 +1,10 @@
 export const dynamic = "force-dynamic";
 
 import GuidePage from "@/components/pages/GuidePage";
+import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import type { Locale } from "@/lib/i18n";
 import { getFixedSeo, buildAlternatesForLocales } from "@/lib/seo";
+import { getBreadcrumbItems } from "@/lib/breadcrumb";
 
 export async function generateMetadata() {
   const seo = getFixedSeo("/guide", "ja");
@@ -14,6 +16,11 @@ export async function generateMetadata() {
 }
 
 export default function GuidePageJa() {
-  return <GuidePage locale={"ja" satisfies Locale} />;
+  return (
+    <>
+      <BreadcrumbListSchema items={getBreadcrumbItems("/guide", "ja")} />
+      <GuidePage locale={"ja" satisfies Locale} />
+    </>
+  );
 }
 

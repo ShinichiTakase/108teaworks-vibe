@@ -11,13 +11,13 @@
   "pages": {
     "/": {
       "title": {
-        "ja": "幕末より続く伝統。シングルオリジン伊勢茶・和紅茶の通販 | 伊勢茶の藤八茶寮",
-        "en": "Authentic Single-Origin Ise Tea & Wakocha from Mie, Japan | 伊勢茶の藤八茶寮",
-        "ko": "에도 시대부터 이어진 전통. 싱글 오리진 이세차 & 와코차 전문점 | 伊勢茶の藤八茶寮",
-        "zh": "傳承幕末百年工藝。單一品種伊勢茶、和紅茶産地直送 | 伊勢茶の藤八茶寮"
+        "ja": "三重県産100%・産地直送の伊勢茶・和紅茶 | 伊勢茶の藤八茶寮",
+        "en": "Single-Origin Ise Tea & Wakocha from Mie, Japan | 伊勢茶の藤八茶寮",
+        "ko": "미에현산 100% 싱글 오리진 이세차·와코차 | 伊勢茶の藤八茶寮",
+        "zh": "三重縣産・産地直送 伊勢茶・和紅茶 | 伊勢茶の藤八茶寮"
       },
       "description": {
-        "ja": "三重県産100%、混じりけのない「シングルオリジン（単一農園）」の伊勢茶をお届けします。幕末から続く伝統の技で仕上げた、香り高いほうじ茶や希少な和紅茶、深みのあるかぶせ茶など。産地直送ならではの贅沢な味わいを、日常のひとときや大切な方へのギフトに。",
+        "ja": "三重県産100%、混じりけのないシングルオリジン伊勢茶を産地直送。ほうじ茶・和紅茶・かぶせ茶など。2万円以上で送料無料。ギフト・ご自宅用に。",
         "en": "Discover the pure taste of 100% single-origin Ise Tea, crafted with traditions dating back to the late Edo period. From aromatic roasted Hojicha to rare Japanese black tea (Wakocha), we deliver premium tea leaves directly from our farm in Mie to your cup. Perfect for tea enthusiasts and unique gifts.",
         "ko": "일본 미에현산 100%, 단일 농원에서 재배한 순수 '싱글 오리진' 이세차를 만나보세요. 막부 말기부터 전해 내려온 장인 정신으로 완성한 향긋한 호지차, 희귀한 와코차(일본 홍차) 등 산지 직송의 신선하고 깊은 맛을 전해드립니다. 소중한 분을 위한 품격 있는 선물로 추천합니다.",
         "zh": "嚴選100%三重縣産「單一農園（Single Origin）」伊勢茶。堅持幕末以來的傳統製茶技術，為您呈現香氣迷人的焙茶、珍稀和紅茶及濃郁冠茶。產地直送保證品質純粹，無論是日常品茗或精緻禮盒，皆能讓您感受最道地的日本茶文化。"
@@ -25,7 +25,7 @@
     },
     "/about/": {
       "title": {
-        "ja": "幕末より続く、単一農園の誇り。伊勢茶へのこだわり | 伊勢茶の藤八茶",
+        "ja": "私たちについて｜幕末より続く単一農園の伊勢茶 | 伊勢茶の藤八茶寮",
         "en": "Our Story: Single-Origin Ise Tea Since the Late Edo Period | 伊勢茶の藤八茶寮",
         "ko": "에도 시대부터 이어진 단일 농원의 자부심. 이세차의 역사 | 伊勢茶の藤八茶寮",
         "zh": "傳承自幕末，單一農園的堅持。關於伊勢茶的品牌故事 | 伊勢茶の藤八茶寮"
@@ -67,13 +67,13 @@
     },
     "/user-guide/": {
       "title": {
-        "ja": "お買い物ガイド：送料・配送・お支払いについて | 伊勢茶の藤八茶寮",
+        "ja": "送料・支払い・ギフト対応｜お買い物ガイド | 伊勢茶の藤八茶寮",
         "en": "Shopping Guide: Shipping, Payments & Gift Services | 伊勢茶の藤八茶寮",
         "ko": "이용 가이드: 배송, 결제 및 선물 서비스 안내 | 伊勢茶の藤八茶寮",
         "zh": "購物指南：關於運費、配送方式及付款說明 | 伊勢茶の藤八茶寮"
       },
       "description": {
-        "ja": "伊勢茶の藤八茶寮オンラインショップのご利用案内です。送料、お届け日数、お支払い方法、ギフトラッピングや熨斗（のし）対応について詳しく解説しています。産地直送の新鮮な茶葉を安心してお買い求めいただけるよう、真心を込めてサポートいたします。",
+        "ja": "送料（2万円以上で無料）、お支払い、配送日数、のし・ギフト対応を解説。安心の産地直送ショップのご利用方法をご案内します。",
         "en": "Welcome to the User Guide for Touhachi Saryo. Find detailed information on shipping rates, delivery times, and secure payment methods for our premium Ise Tea. We also offer gift wrapping and international-friendly service to ensure your single-origin tea arrives perfectly at your doorstep.",
         "ko": "이세차의 토하치 사료 온라인 쇼핑몰 이용 안내입니다. 배송비, 배송 기간, 결제 방법은 물론 선물용 포장 서비스까지 상세히 확인하실 수 있습니다. 산지 직송의 신선한 싱글 오리진 이세차를 안심하고 편리하게 쇼핑하실 수 있도록 정성을 다해 안내해 드립니다.",
         "zh": "歡迎閱讀伊勢茶藤八茶寮的購物須知。本頁面提供詳細的運費計算、預計到貨時間、多元付款方式及精緻禮品包裝服務等資訊。我們致力於提供安心便捷的購物體驗，讓產地直送的頂級單一農園伊勢茶，能完好地送到每一位愛茶人手中。"
@@ -81,7 +81,7 @@
     },
     "/wholesale/": {
       "title": {
-        "ja": "【法人・卸売】シングルオリジン伊勢茶の仕入れ・OEM | 伊勢茶の藤八茶寮",
+        "ja": "法人・卸売｜伊勢茶の仕入れ・OEM相談 | 伊勢茶の藤八茶寮",
         "en": "Wholesale & OEM: Premium Single-Origin Ise Tea for Businesses | 伊勢茶の藤八茶寮",
         "ko": "[법인·도매] 싱글 오리진 이세차 납품 및 OEM 상담 | 伊勢茶の藤八茶寮",
         "zh": "【法人批發・OEM】單一農園伊勢茶供貨、客製化商務合作 | 伊勢茶の藤八茶寮"
@@ -95,7 +95,7 @@
     },
     "/inquery/": {
       "title": {
-        "ja": "お問い合わせ・ご相談｜伊勢茶・和紅茶の専門通販 | 伊勢茶の藤八茶寮",
+        "ja": "お問い合わせ｜商品・ギフト・法人のご相談 | 伊勢茶の藤八茶寮",
         "en": "Contact Us: Questions, Gifts & Wholesale Inquiries | 伊勢茶の藤八茶寮",
         "ko": "고객 문의 및 상담: 상품·선물·도매 문의 | 伊勢茶の藤八茶寮",
         "zh": "聯絡我們：產品諮詢、禮品挑選與商務合作 | 伊勢茶の藤八茶寮"
@@ -109,7 +109,7 @@
     },
     "/notice/": {
       "title": {
-        "ja": "最新情報とお知らせ。新茶・イベント・季節の便り | 伊勢茶の藤八茶寮",
+        "ja": "新着・お知らせ｜新茶・イベント情報 | 伊勢茶の藤八茶寮",
         "en": "Latest News & Updates: Seasonal Tea & Event Info | 伊勢茶の藤八茶寮",
         "ko": "최신 소식 및 공지사항: 햇차·이벤트·계절 소식 | 伊勢茶の藤八茶寮",
         "zh": "最新動態與公告：新茶上市、活動與季節訊息 | 伊勢茶の藤八茶寮"

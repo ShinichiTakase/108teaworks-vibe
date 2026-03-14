@@ -820,6 +820,11 @@ export default function CheckoutPage() {
               {shipping !== null ? formatPrice(taxAmount) : "—"}
               {t.taxIncludedLineSuffix}
             </p>
+            <p className="m-0 pt-2 text-[0.9375rem] font-bold text-tea-deep text-right">
+              {subtotal >= FREE_SHIPPING_THRESHOLD
+                ? t.freeShipping
+                : `${t.freeShippingRemainPrefix}${formatPrice(FREE_SHIPPING_THRESHOLD - subtotal)}${t.freeShippingRemain}`}
+            </p>
           </div>
         </div>
 

@@ -1,6 +1,8 @@
 import GuidePage from "@/components/pages/GuidePage";
+import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import type { Locale } from "@/lib/i18n";
 import { getFixedSeo, buildAlternatesForLocales } from "@/lib/seo";
+import { getBreadcrumbItems } from "@/lib/breadcrumb";
 
 type Params = {
   lang: string;
@@ -29,6 +31,11 @@ export default function LocalizedGuide({
   const lang = params.lang as Locale;
   const locale: Locale = supported.includes(lang) ? lang : "ja";
 
-  return <GuidePage locale={locale} />;
+  return (
+    <>
+      <BreadcrumbListSchema items={getBreadcrumbItems(`/${locale}/guide`, locale)} />
+      <GuidePage locale={locale} />
+    </>
+  );
 }
 

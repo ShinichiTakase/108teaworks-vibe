@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MAIN_CLASS, INNER_CLASS } from "@/components/Layout";
+import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import { getNoticeBySlug, getNoticeById, prepareBodyForDetail, stripHtml } from "@/lib/microcms";
 import { buildAlternatesForLocales } from "@/lib/seo";
+import { getBreadcrumbItems } from "@/lib/breadcrumb";
 
 export const dynamic = "force-dynamic";
 
@@ -47,8 +49,10 @@ export default async function NoticeDetailPage({ params }: Props) {
   if (!notice) notice = await getNoticeById(slug);
   if (!notice) notFound();
 
+  const noticeTitle = stripHtml(notice.title);
   return (
     <main className={MAIN_CLASS} id="main-content" role="main">
+      <BreadcrumbListSchema items={getBreadcrumbItems(`/notice/${notice.slug ?? notice.id}`, "ja", { noticeTitle })} />
       <div className={INNER_CLASS}>
         <article className="mb-10">
           <header className="mb-6">

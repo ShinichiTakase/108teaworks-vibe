@@ -1,6 +1,9 @@
 import IsechaPage from "@/components/pages/IsechaPage";
+import PageEndProductList from "@/components/PageEndProductList";
+import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import type { Locale } from "@/lib/i18n";
 import { getFixedSeo, buildAlternatesForLocales } from "@/lib/seo";
+import { getBreadcrumbItems } from "@/lib/breadcrumb";
 
 type Params = {
   lang: string;
@@ -29,6 +32,12 @@ export default function LocalizedIsecha({
   const lang = params.lang as Locale;
   const locale: Locale = supported.includes(lang) ? lang : "ja";
 
-  return <IsechaPage locale={locale} />;
+  return (
+    <>
+      <BreadcrumbListSchema items={getBreadcrumbItems(`/${locale}/isecha`, locale)} />
+      <IsechaPage locale={locale} />
+      <PageEndProductList locale={locale} />
+    </>
+  );
 }
 

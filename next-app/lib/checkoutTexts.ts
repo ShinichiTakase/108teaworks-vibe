@@ -54,6 +54,9 @@ export const CHECKOUT_TEXTS: Record<
     paymentProcessingError: string;
     qtyDecrease: string;
     qtyIncrease: string;
+    freeShipping: string;
+    freeShippingRemainPrefix: string;
+    freeShippingRemain: string;
   }
 > = {
   ja: {
@@ -109,6 +112,9 @@ export const CHECKOUT_TEXTS: Record<
     paymentProcessingError: "決済処理中にエラーが発生しました。",
     qtyDecrease: "数量を減らす",
     qtyIncrease: "数量を増やす",
+    freeShipping: "送料無料です",
+    freeShippingRemainPrefix: "あと ",
+    freeShippingRemain: " のお買い上げで送料無料です",
   },
   en: {
     title: "Checkout",
@@ -163,6 +169,9 @@ export const CHECKOUT_TEXTS: Record<
     paymentProcessingError: "An error occurred while processing the payment.",
     qtyDecrease: "Decrease quantity",
     qtyIncrease: "Increase quantity",
+    freeShipping: "Free shipping",
+    freeShippingRemainPrefix: "Add ",
+    freeShippingRemain: " more for free shipping",
   },
   ko: {
     title: "결제",
@@ -217,6 +226,9 @@ export const CHECKOUT_TEXTS: Record<
     paymentProcessingError: "결제 처리 중 오류가 발생했습니다.",
     qtyDecrease: "수량 줄이기",
     qtyIncrease: "수량 늘리기",
+    freeShipping: "무료 배송입니다",
+    freeShippingRemainPrefix: " ",
+    freeShippingRemain: " 원 더 구매 시 무료 배송",
   },
   zh: {
     title: "结算",
@@ -271,6 +283,9 @@ export const CHECKOUT_TEXTS: Record<
     paymentProcessingError: "支付处理中发生错误。",
     qtyDecrease: "减少数量",
     qtyIncrease: "增加数量",
+    freeShipping: "免运费",
+    freeShippingRemainPrefix: "再购 ",
+    freeShippingRemain: " 即免运费",
   },
 };
 

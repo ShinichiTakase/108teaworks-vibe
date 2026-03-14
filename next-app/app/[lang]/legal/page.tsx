@@ -1,6 +1,8 @@
 import LegalPageContent from "@/components/LegalPageContent";
+import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import type { Locale } from "@/lib/i18n";
 import { getFixedSeo, buildAlternatesForLocales } from "@/lib/seo";
+import { getBreadcrumbItems } from "@/lib/breadcrumb";
 
 export const dynamic = "force-dynamic";
 
@@ -24,5 +26,10 @@ export async function generateMetadata({ params }: Props) {
 export default async function LocalizedLegalPage({ params }: Props) {
   const { lang } = await params;
   const locale: Locale = SUPPORTED.includes(lang as Locale) ? (lang as Locale) : "ja";
-  return <LegalPageContent locale={locale} />;
+  return (
+    <>
+      <BreadcrumbListSchema items={getBreadcrumbItems(`/${locale}/legal`, locale)} />
+      <LegalPageContent locale={locale} />
+    </>
+  );
 }

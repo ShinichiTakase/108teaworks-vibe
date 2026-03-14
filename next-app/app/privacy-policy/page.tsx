@@ -1,5 +1,7 @@
 import PrivacyPolicyContent from "@/components/PrivacyPolicyContent";
+import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import { getFixedSeo, buildAlternatesForLocales } from "@/lib/seo";
+import { getBreadcrumbItems } from "@/lib/breadcrumb";
 
 export const dynamic = "force-dynamic";
 
@@ -13,5 +15,10 @@ export async function generateMetadata() {
 }
 
 export default function PrivacyPolicyPage() {
-  return <PrivacyPolicyContent locale="ja" />;
+  return (
+    <>
+      <BreadcrumbListSchema items={getBreadcrumbItems("/privacy-policy", "ja")} />
+      <PrivacyPolicyContent locale="ja" />
+    </>
+  );
 }

@@ -1,6 +1,9 @@
 import { MAIN_CLASS, INNER_CLASS } from "@/components/Layout";
 import InquiryForm from "@/components/InquiryForm";
+import PageEndProductList from "@/components/PageEndProductList";
+import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import { getFixedSeo, buildAlternatesForLocales } from "@/lib/seo";
+import { getBreadcrumbItems } from "@/lib/breadcrumb";
 
 export const dynamic = "force-dynamic";
 
@@ -18,8 +21,10 @@ export async function generateMetadata() {
 export default function InquiryPage() {
   return (
     <main className={MAIN_CLASS} id="main-content" role="main">
+      <BreadcrumbListSchema items={getBreadcrumbItems("/inquery", "ja")} />
       <div className={INNER_CLASS}>
         <InquiryForm locale="ja" />
+        <PageEndProductList locale="ja" />
       </div>
     </main>
   );
