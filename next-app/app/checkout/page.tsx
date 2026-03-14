@@ -106,7 +106,7 @@ export default function CheckoutPage() {
   const expressCheckoutRef = useRef<any>(null);
   const paymentElementRef = useRef<any>(null);
   const amountForIntentRef = useRef<number | null>(null);
-  const cardReadyFallbackIdRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const cardReadyFallbackIdRef = useRef<number | ReturnType<typeof setTimeout> | null>(null);
   const cardContainerRef = useRef<HTMLDivElement | null>(null);
   const expressContainerRef = useRef<HTMLDivElement | null>(null);
   const [cardReady, setCardReady] = useState(false);
