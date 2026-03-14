@@ -95,7 +95,6 @@ export default function CheckoutPage() {
   const [shipping, setShipping] = useState<number | null>(null);
   const [shippingLoading, setShippingLoading] = useState(false);
   const [paying, setPaying] = useState(false);
-  const [clientSecret, setClientSecret] = useState<string | null>(null);
   const paymentIntentIdRef = useRef<string | null>(null);
   const [paymentInitError, setPaymentInitError] = useState<string | null>(null);
   const [hasSavedProfile, setHasSavedProfile] = useState(false);
@@ -106,7 +105,7 @@ export default function CheckoutPage() {
   const elementsRef = useRef<any>(null);
   const expressCheckoutRef = useRef<any>(null);
   const paymentElementRef = useRef<any>(null);
-  const elementsClientSecretRef = useRef<string | null>(null);
+  const amountForIntentRef = useRef<number | null>(null);
   const cardContainerRef = useRef<HTMLDivElement | null>(null);
   const expressContainerRef = useRef<HTMLDivElement | null>(null);
   const [cardReady, setCardReady] = useState(false);
@@ -115,14 +114,6 @@ export default function CheckoutPage() {
   const subtotalRef = useRef<number>(0);
   const itemsRef = useRef<typeof items>([]);
   const walletShippingRef = useRef<number | null>(null);
-
-  const stripeElementsOptions = useMemo(() => {
-    if (!clientSecret) return null;
-    return {
-      clientSecret,
-      appearance: { theme: "stripe" as const },
-    };
-  }, [clientSecret]);
 
   const zip7 = normalizePostalCode(postalCode);
   const zip7Ship = normalizePostalCode(shipPostalCode);
@@ -354,13 +345,13 @@ export default function CheckoutPage() {
     ]
   );
 
-  // 金額・送料が変わったら既存の PaymentIntent を破棄（ボタン押下時のみ新規作成するため）
-  const amountSnapshotRef = useRef({ shipping, total, subtotal });
+  // Deferred Intent: PaymentIntent は作らず、mode/amount/currency だけで Payment Element を表示（Stripe に未完了 PI を送らない）
   useEffect(() => {
-    const prev = amountSnapshotRef.current;
-    if (prev.shipping !== shipping || prev.total !== total || prev.subtotal !== subtotal) {
-      amountSnapshotRef.current = { shipping, total, subtotal };
-      setClientSecret(null);
+    if (!STRIPE_PK || !cardContainerRef.current) return;
+    const amountForIntent = shipping !== null ? total : subtotal;
+    if (subtotal < 1 || !Number.isFinite(amountForIntent) || amountForIntent < 1) {
+      setPaymentInitError(null);
+      amountForIntentRef.current = null;
       setCardReady(false);
       try {
         paymentElementRef.current?.destroy();
@@ -371,9 +362,70 @@ export default function CheckoutPage() {
         // noop
       }
       elementsRef.current = null;
-      elementsClientSecretRef.current = null;
+      return;
     }
-  }, [shipping, total, subtotal]);
+
+    const updateAmount = (amount: number) => {
+      const el = elementsRef.current as any;
+      if (el && typeof el.update === "function") {
+        try {
+          el.update({ amount });
+        } catch {
+          // noop
+        }
+      }
+    };
+
+    if (elementsRef.current && amountForIntentRef.current !== amountForIntent) {
+      amountForIntentRef.current = amountForIntent;
+      updateAmount(amountForIntent);
+      return;
+    }
+
+    if (elementsRef.current) {
+      return;
+    }
+
+    let cancelled = false;
+    (async () => {
+      try {
+        setPaymentInitError(null);
+        if (!stripeRef.current) {
+          stripeRef.current = await stripePromise;
+        }
+        const stripe = stripeRef.current;
+        if (!stripe || cancelled) return;
+
+        const options = {
+          mode: "payment" as const,
+          amount: Math.round(amountForIntent),
+          currency: "jpy" as const,
+          appearance: { theme: "stripe" as const },
+        };
+        const elements = stripe.elements(options as any);
+        elementsRef.current = elements;
+        amountForIntentRef.current = amountForIntent;
+
+        const paymentElement = elements.create("payment", {
+          fields: { billingDetails: "never" },
+        } as any);
+        paymentElementRef.current = paymentElement;
+        paymentElement.mount(cardContainerRef.current!);
+        paymentElement.on("ready", () => {
+          if (!cancelled) setCardReady(true);
+        });
+      } catch (e) {
+        console.error(e);
+        if (!cancelled) {
+          setPaymentInitError(t.paymentInitFailed);
+          setCardReady(false);
+        }
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [shipping, total, subtotal, t.paymentInitFailed]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -383,124 +435,66 @@ export default function CheckoutPage() {
     alert(t.paymentElementAlert);
   };
 
-  // PaymentElement をマウント（ウォレットは使用しない。クレジットカードのみ）
-  useEffect(() => {
-    if (!clientSecret || !STRIPE_PK || !cardContainerRef.current) return;
-
-    let cancelled = false;
-    const prevSecret = elementsClientSecretRef.current;
-    if (elementsRef.current && prevSecret !== clientSecret) {
-      try {
-        paymentElementRef.current?.destroy();
-        paymentElementRef.current = null;
-        expressCheckoutRef.current?.destroy();
-        expressCheckoutRef.current = null;
-      } catch {
-        // noop
-      }
-      elementsRef.current = null;
-      elementsClientSecretRef.current = null;
-      setCardReady(false);
-    }
-
-    // 既に Elements があり clientSecret が同じときは、カード用 PaymentElement のみそのまま利用
-    if (elementsRef.current && elementsClientSecretRef.current === clientSecret) {
-      return;
-    }
-
-    (async () => {
-      try {
-        if (!stripeRef.current) {
-          stripeRef.current = await stripePromise;
-        }
-        const stripe = stripeRef.current;
-        if (!stripe || cancelled) return;
-
-        if (!elementsRef.current) {
-          elementsRef.current = stripe.elements({ clientSecret });
-          elementsClientSecretRef.current = clientSecret;
-
-          const paymentElement = elementsRef.current.create("payment", {
-            fields: { billingDetails: "never" },
-          } as any);
-          paymentElementRef.current = paymentElement;
-          paymentElement.mount(cardContainerRef.current!);
-          paymentElement.on("ready", () => {
-            if (!cancelled) setCardReady(true);
-          });
-        }
-      } catch (e) {
-        console.error(e);
-      }
-    })();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [clientSecret, shipping]);
-
   const handlePay = useCallback(async () => {
+    const stripe = stripeRef.current;
+    const elements = elementsRef.current;
+    if (!stripe || !elements) return;
     if (paying) return;
     if (shipping === null && (walletShippingRef.current ?? 0) <= 0) {
       alert(t.shippingRequiredToPay);
       return;
     }
 
-    // clientSecret が無い＝まだ Stripe に送っていない。ボタン押下時のみ PaymentIntent を作成する。
-    if (!clientSecret) {
-      try {
-        setPaying(true);
-        setPaymentInitError(null);
-        const amountForIntent = total;
-        if (subtotal < 1 || !Number.isFinite(amountForIntent) || amountForIntent < 1) {
-          setPaying(false);
-          return;
-        }
-        const res = await fetch("/api/checkout/pay", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            amount: amountForIntent,
-            cancelPreviousId: paymentIntentIdRef.current ?? undefined,
-          }),
-        });
-        const text = await res.text();
-        let data: any = null;
-        try {
-          data = text ? JSON.parse(text) : null;
-        } catch {
-          data = null;
-        }
-        const cs = data?.clientSecret;
-        const piId = data?.id;
-        if (res.ok && typeof cs === "string" && cs.length > 10) {
-          if (typeof piId === "string" && piId.startsWith("pi_")) {
-            paymentIntentIdRef.current = piId;
-          }
-          setClientSecret(cs);
-        } else {
-          const msg = data?.error
-            ? `${t.paymentInitFailed}（${String(data.error)}）`
-            : `${t.paymentInitFailed}（HTTP ${res.status}）`;
-          setPaymentInitError(msg + (text ? `\n${text}` : ""));
-        }
-      } catch (e) {
-        console.error(e);
-        setPaymentInitError(t.paymentInitFailed);
-      } finally {
-        setPaying(false);
-      }
-      return;
-    }
-
-    const stripe = stripeRef.current;
-    const elements = elementsRef.current;
-    if (!stripe || !elements) return;
-
     try {
       setPaying(true);
+      setPaymentInitError(null);
+
+      // 1. フォーム検証と支払い詳細の収集（Stripe に PI はまだ送らない）
+      const { error: submitError } = await elements.submit();
+      if (submitError) {
+        alert(submitError.message ?? t.paymentFailed);
+        return;
+      }
+
+      const amountForIntent = shipping !== null ? total : subtotal;
+      if (!Number.isFinite(amountForIntent) || amountForIntent < 1) {
+        alert(t.paymentInitFailed);
+        return;
+      }
+
+      // 2. 確定ボタン押下時のみ PaymentIntent を1回作成
+      const res = await fetch("/api/checkout/pay", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          amount: Math.round(amountForIntent),
+          cancelPreviousId: paymentIntentIdRef.current ?? undefined,
+        }),
+      });
+      const text = await res.text();
+      let data: any = null;
+      try {
+        data = text ? JSON.parse(text) : null;
+      } catch {
+        data = null;
+      }
+      const clientSecret = data?.clientSecret;
+      const piId = data?.id;
+      if (!res.ok || typeof clientSecret !== "string" || clientSecret.length < 10) {
+        const msg = data?.error
+          ? `${t.paymentInitFailed}（${String(data.error)}）`
+          : `${t.paymentInitFailed}（HTTP ${res.status}）`;
+        setPaymentInitError(msg + (text ? `\n${text}` : ""));
+        return;
+      }
+      if (typeof piId === "string" && piId.startsWith("pi_")) {
+        paymentIntentIdRef.current = piId;
+      }
+
+      // 3. 収集済みの支払い詳細で PaymentIntent を確定
       const result = await stripe.confirmPayment({
         elements,
+        clientSecret,
         confirmParams: {
           return_url: `${window.location.origin}${locale === "ja" ? "/checkout" : `/${locale}/checkout`}`,
           payment_method_data: {
@@ -615,9 +609,7 @@ export default function CheckoutPage() {
   }, [
     paying,
     shipping,
-    clientSecret,
     total,
-    subtotal,
     orderPayload,
     name,
     email,
@@ -1114,7 +1106,7 @@ export default function CheckoutPage() {
             <div className="p-4 rounded-xl bg-[#f0ebe5] border border-border text-red-700">
               {paymentInitError}
             </div>
-          ) : clientSecret ? (
+          ) : (
             <div className="p-4 rounded-xl bg-[#f0ebe5] border border-border">
               <h3 className="m-0 mb-4 text-[0.9375rem] font-semibold text-tea-deep">{t.cardOrGooglePay}</h3>
               <div className="mb-4">
@@ -1122,33 +1114,19 @@ export default function CheckoutPage() {
                   {t.enterAddressForShipping}
                 </div>
               </div>
-              <div className="bg-white rounded-lg border-2 border-border p-3">
+              <div className="bg-white rounded-lg border-2 border-border p-3 min-h-[120px]">
                 <div ref={cardContainerRef} />
               </div>
               <div className="mt-4 pt-4 border-t border-border">
                 <button
                   type="button"
                   onClick={handlePay}
-                  disabled={paying || shipping === null || (!!clientSecret && !cardReady)}
+                  disabled={paying || shipping === null || !cardReady}
                   className="w-full py-3 px-6 rounded-lg border-2 border-tea bg-tea text-white text-[0.9375rem] font-semibold transition-colors hover:bg-tea-light hover:border-tea-light disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {paying ? t.paying : t.payNow}
                 </button>
               </div>
-            </div>
-          ) : (
-            <div className="p-4 rounded-xl bg-[#f0ebe5] border border-border">
-              <p className="m-0 mb-4 text-[0.9375rem] text-ink-muted">
-                下のボタンを押すと支払い情報入力欄が表示されます。入力後に「購入を確定する」を押してください。
-              </p>
-              <button
-                type="button"
-                onClick={handlePay}
-                disabled={paying || shipping === null}
-                className="w-full py-3 px-6 rounded-lg border-2 border-tea bg-tea text-white text-[0.9375rem] font-semibold transition-colors hover:bg-tea-light hover:border-tea-light disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {paying ? "読込中…" : t.payNow}
-              </button>
             </div>
           )}
         </div>
