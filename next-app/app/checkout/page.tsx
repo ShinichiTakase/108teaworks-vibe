@@ -1129,11 +1129,6 @@ export default function CheckoutPage() {
           ) : (
             <div className="p-4 rounded-xl bg-[#f0ebe5] border border-border">
               <h3 className="m-0 mb-4 text-[0.9375rem] font-semibold text-tea-deep">{t.cardOrGooglePay}</h3>
-              <div className="mb-4">
-                <div className="text-[0.8125rem] text-ink-muted mb-2">
-                  {t.enterAddressForShipping}
-                </div>
-              </div>
               <div className="bg-white rounded-lg border-2 border-border p-3 min-h-[120px]">
                 <div ref={cardContainerRef} />
               </div>
