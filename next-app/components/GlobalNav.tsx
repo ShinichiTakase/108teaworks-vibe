@@ -42,7 +42,6 @@ export default function GlobalNav() {
   };
 
   const linkClass = "no-underline font-semibold hover:text-tea-deep hover:underline underline-offset-4";
-  const linkClassMobile = "block px-4 py-1.5 text-sm font-semibold text-ink no-underline hover:bg-washi";
 
   return (
     <div className="relative bg-cream">
@@ -69,25 +68,34 @@ export default function GlobalNav() {
         </ul>
       </nav>
 
+      {/* スマホ: 画面上端付近にフローティング（右配置） */}
       <div className="md:hidden">
-        <div className="flex justify-end pr-3 pt-1 pb-1">
-          <button
-            type="button"
-            className="inline-flex items-center justify-center rounded-full border border-border bg-cream/90 px-3 py-0.5 text-ink shadow-sm"
-            aria-label={t.aria.menuButton}
-            onClick={() => setOpen((prev) => !prev)}
-          >
-            <span className="mr-2 text-sm font-semibold">Menu</span>
-            <span className="flex flex-col gap-[3px]">
-              <span className="block h-[2px] w-4 bg-ink rounded" />
-              <span className="block h-[2px] w-4 bg-ink rounded" />
-              <span className="block h-[2px] w-4 bg-ink rounded" />
-            </span>
-          </button>
-        </div>
+        <button
+          type="button"
+          className="fixed right-0 z-50 flex h-12 w-12 items-center justify-center rounded-l-full border-2 border-r-0 shadow-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2"
+          style={{ top: "8px", backgroundColor: "#F1EEE7", borderColor: "#E7E2D6" }}
+          aria-label={t.aria.menuButton}
+          aria-expanded={open}
+          onClick={() => setOpen((prev) => !prev)}
+        >
+          <span className="flex flex-col gap-[5px]" aria-hidden>
+            <span className="block h-[2px] w-5 rounded" style={{ backgroundColor: "#1a1a1a" }} />
+            <span className="block h-[2px] w-5 rounded" style={{ backgroundColor: "#1a1a1a" }} />
+            <span className="block h-[2px] w-5 rounded" style={{ backgroundColor: "#1a1a1a" }} />
+          </span>
+        </button>
         {open && (
-          <div className="mt-2 pb-2 px-2">
-            <div className="rounded-lg bg-cream/95 shadow-lg py-2 text-sm text-left min-w-[9rem] ml-auto max-w-xs">
+          <>
+            <button
+              type="button"
+              className="fixed inset-0 z-40 bg-black/20"
+              aria-label="メニューを閉じる"
+              onClick={() => setOpen(false)}
+            />
+            <div
+              className="fixed right-0 top-[56px] z-50 min-w-[12rem] max-w-xs rounded-bl-lg rounded-l-lg border-2 border-r-0 border-t-0 py-2 shadow-lg"
+              style={{ backgroundColor: "#F1EEE7", borderColor: "#E7E2D6" }}
+            >
               {NAV_KEYS.map((item) => {
                 const localized = buildLocalizedHref(locale, item.href);
                 const label = t.nav[item.key];
@@ -95,7 +103,7 @@ export default function GlobalNav() {
                   <Link
                     key={item.key}
                     href={localized}
-                    className={linkClassMobile}
+                    className="block px-4 py-2.5 text-sm font-semibold text-ink no-underline hover:bg-black/5"
                     onClick={(e) => handleNavClick(e, localized)}
                   >
                     {label}
@@ -103,7 +111,7 @@ export default function GlobalNav() {
                 );
               })}
             </div>
-          </div>
+          </>
         )}
       </div>
     </div>
