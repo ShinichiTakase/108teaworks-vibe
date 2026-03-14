@@ -106,6 +106,7 @@ export default function CheckoutPage() {
   const expressCheckoutRef = useRef<any>(null);
   const paymentElementRef = useRef<any>(null);
   const amountForIntentRef = useRef<number | null>(null);
+  const cardReadyFallbackIdRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const cardContainerRef = useRef<HTMLDivElement | null>(null);
   const expressContainerRef = useRef<HTMLDivElement | null>(null);
   const [cardReady, setCardReady] = useState(false);
@@ -414,6 +415,14 @@ export default function CheckoutPage() {
         paymentElement.on("ready", () => {
           if (!cancelled) setCardReady(true);
         });
+        // Deferred では ready が発火しない環境があるため、マウント後もボタンを有効化する
+        if (cardReadyFallbackIdRef.current != null) {
+          window.clearTimeout(cardReadyFallbackIdRef.current);
+        }
+        cardReadyFallbackIdRef.current = window.setTimeout(() => {
+          if (!cancelled) setCardReady(true);
+          cardReadyFallbackIdRef.current = null;
+        }, 2000);
       } catch (e) {
         console.error(e);
         if (!cancelled) {
@@ -424,6 +433,10 @@ export default function CheckoutPage() {
     })();
     return () => {
       cancelled = true;
+      if (cardReadyFallbackIdRef.current != null) {
+        window.clearTimeout(cardReadyFallbackIdRef.current);
+        cardReadyFallbackIdRef.current = null;
+      }
     };
   }, [shipping, total, subtotal, t.paymentInitFailed]);
 
