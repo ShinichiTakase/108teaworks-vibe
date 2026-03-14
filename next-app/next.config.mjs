@@ -4,6 +4,17 @@ const nextConfig = {
   experimental: {
     serverComponentsExternalPackages: ["pdfkit"],
   },
+  // 商品画像は差し替え時にすぐ反映されるようキャッシュを短くする
+  async headers() {
+    return [
+      {
+        source: "/images/products/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=0, must-revalidate" },
+        ],
+      },
+    ];
+  },
   // 静的エクスポートする場合: output: 'export', trailingSlash: true
   images: {
     unoptimized: true,
