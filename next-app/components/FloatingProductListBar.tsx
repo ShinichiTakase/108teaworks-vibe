@@ -19,7 +19,8 @@ function buildLocalizedHref(locale: Locale, href: string): string {
 
 /**
  * 左端から突き出る「商品一覧」フローティングバー。
- * トップページへのリンク。スマホでも常にバー全体を表示。
+ * トップページへのリンク。
+ * スマホ: 画面下部から40%、コンパクト表示・文字間標準・アイコン非表示。
  */
 export default function FloatingProductListBar() {
   const pathname = usePathname() || "/";
@@ -30,12 +31,12 @@ export default function FloatingProductListBar() {
   return (
     <Link
       href={href}
-      className="fixed left-0 z-50 flex h-14 min-w-[152px] items-center justify-center gap-2 rounded-r-full bg-lime-600 pl-4 pr-4 py-3 text-white no-underline text-[0.875rem] shadow-lg transition-colors hover:bg-lime-500"
-      style={{ bottom: "50%" }}
+      className="fixed left-0 z-50 flex items-center justify-center gap-2 rounded-r-full bg-lime-600 text-white no-underline shadow-lg transition-colors hover:bg-lime-500 max-md:h-10 max-md:min-w-0 max-md:pl-3 max-md:pr-3 max-md:py-2 max-md:text-xs md:h-14 md:min-w-[152px] md:pl-4 md:pr-4 md:py-3 md:text-[0.875rem]"
+      style={{ bottom: "40%" }}
       aria-label={t.nav.products}
     >
-      <span className="whitespace-nowrap font-bold text-center tracking-[0.2rem]">{t.nav.products}</span>
-      <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center" aria-hidden="true">
+      <span className="whitespace-nowrap font-bold text-center max-md:tracking-normal md:tracking-[0.2rem]">{t.nav.products}</span>
+      <span className="hidden h-8 w-8 shrink-0 items-center justify-center md:inline-flex" aria-hidden="true">
         <Image
           src="/images/kyuusu-icon.png"
           alt=""
