@@ -354,63 +354,26 @@ export default function CheckoutPage() {
     ]
   );
 
-  // 小計で PI を作りフォームを表示。フォームで送料確定なら合計で作り直す。Apple Pay はウォレットの住所で送料を計算して PI を更新する。
+  // 金額・送料が変わったら既存の PaymentIntent を破棄（ボタン押下時のみ新規作成するため）
+  const amountSnapshotRef = useRef({ shipping, total, subtotal });
   useEffect(() => {
-    if (!STRIPE_PK) return;
-    let cancelled = false;
-    (async () => {
+    const prev = amountSnapshotRef.current;
+    if (prev.shipping !== shipping || prev.total !== total || prev.subtotal !== subtotal) {
+      amountSnapshotRef.current = { shipping, total, subtotal };
+      setClientSecret(null);
+      setCardReady(false);
       try {
-        setPaymentInitError(null);
-        const amountForIntent = shipping !== null ? total : subtotal;
-        if (subtotal < 1 || !Number.isFinite(amountForIntent) || amountForIntent < 1) {
-          setClientSecret(null);
-          return;
-        }
-        const res = await fetch("/api/checkout/pay", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            amount: amountForIntent,
-            cancelPreviousId: paymentIntentIdRef.current ?? undefined,
-          }),
-        });
-        const text = await res.text();
-        let data: any = null;
-        try {
-          data = text ? JSON.parse(text) : null;
-        } catch {
-          data = null;
-        }
-
-        const cs = data?.clientSecret;
-        const piId = data?.id;
-        if (!cancelled && res.ok && typeof cs === "string" && cs.length > 10) {
-          if (typeof piId === "string" && piId.startsWith("pi_")) {
-            paymentIntentIdRef.current = piId;
-          }
-          setClientSecret(cs);
-          return;
-        }
-
-        if (!cancelled) {
-          const msg = data?.error
-            ? `${t.paymentInitFailed}（${String(data.error)}）`
-            : `${t.paymentInitFailed}（HTTP ${res.status}）`;
-          setPaymentInitError(msg + (text ? `\n${text}` : ""));
-          setClientSecret(null);
-        }
-      } catch (e) {
-        console.error(e);
-        if (!cancelled) {
-          setPaymentInitError(t.paymentInitFailed);
-          setClientSecret(null);
-        }
+        paymentElementRef.current?.destroy();
+        paymentElementRef.current = null;
+        expressCheckoutRef.current?.destroy();
+        expressCheckoutRef.current = null;
+      } catch {
+        // noop
       }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [shipping, total, subtotal, t.paymentInitFailed]);
+      elementsRef.current = null;
+      elementsClientSecretRef.current = null;
+    }
+  }, [shipping, total, subtotal]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -477,14 +440,62 @@ export default function CheckoutPage() {
   }, [clientSecret, shipping]);
 
   const handlePay = useCallback(async () => {
-    const stripe = stripeRef.current;
-    const elements = elementsRef.current;
-    if (!stripe || !elements) return;
     if (paying) return;
     if (shipping === null && (walletShippingRef.current ?? 0) <= 0) {
       alert(t.shippingRequiredToPay);
       return;
     }
+
+    // clientSecret が無い＝まだ Stripe に送っていない。ボタン押下時のみ PaymentIntent を作成する。
+    if (!clientSecret) {
+      try {
+        setPaying(true);
+        setPaymentInitError(null);
+        const amountForIntent = total;
+        if (subtotal < 1 || !Number.isFinite(amountForIntent) || amountForIntent < 1) {
+          setPaying(false);
+          return;
+        }
+        const res = await fetch("/api/checkout/pay", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            amount: amountForIntent,
+            cancelPreviousId: paymentIntentIdRef.current ?? undefined,
+          }),
+        });
+        const text = await res.text();
+        let data: any = null;
+        try {
+          data = text ? JSON.parse(text) : null;
+        } catch {
+          data = null;
+        }
+        const cs = data?.clientSecret;
+        const piId = data?.id;
+        if (res.ok && typeof cs === "string" && cs.length > 10) {
+          if (typeof piId === "string" && piId.startsWith("pi_")) {
+            paymentIntentIdRef.current = piId;
+          }
+          setClientSecret(cs);
+        } else {
+          const msg = data?.error
+            ? `${t.paymentInitFailed}（${String(data.error)}）`
+            : `${t.paymentInitFailed}（HTTP ${res.status}）`;
+          setPaymentInitError(msg + (text ? `\n${text}` : ""));
+        }
+      } catch (e) {
+        console.error(e);
+        setPaymentInitError(t.paymentInitFailed);
+      } finally {
+        setPaying(false);
+      }
+      return;
+    }
+
+    const stripe = stripeRef.current;
+    const elements = elementsRef.current;
+    if (!stripe || !elements) return;
 
     try {
       setPaying(true);
@@ -604,6 +615,9 @@ export default function CheckoutPage() {
   }, [
     paying,
     shipping,
+    clientSecret,
+    total,
+    subtotal,
     orderPayload,
     name,
     email,
@@ -616,6 +630,7 @@ export default function CheckoutPage() {
     locale,
     approval,
     t.shippingRequiredToPay,
+    t.paymentInitFailed,
     t.paymentFailed,
     t.statusCheckFailed,
     t.paymentProcessingError,
@@ -1114,7 +1129,7 @@ export default function CheckoutPage() {
                 <button
                   type="button"
                   onClick={handlePay}
-                  disabled={paying || shipping === null || !cardReady}
+                  disabled={paying || shipping === null || (!!clientSecret && !cardReady)}
                   className="w-full py-3 px-6 rounded-lg border-2 border-tea bg-tea text-white text-[0.9375rem] font-semibold transition-colors hover:bg-tea-light hover:border-tea-light disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {paying ? t.paying : t.payNow}
@@ -1122,8 +1137,18 @@ export default function CheckoutPage() {
               </div>
             </div>
           ) : (
-            <div className="p-4 rounded-xl bg-[#f0ebe5] border border-border text-ink-muted">
-              {t.paymentLoading}
+            <div className="p-4 rounded-xl bg-[#f0ebe5] border border-border">
+              <p className="m-0 mb-4 text-[0.9375rem] text-ink-muted">
+                下のボタンを押すと支払い情報入力欄が表示されます。入力後に「購入を確定する」を押してください。
+              </p>
+              <button
+                type="button"
+                onClick={handlePay}
+                disabled={paying || shipping === null}
+                className="w-full py-3 px-6 rounded-lg border-2 border-tea bg-tea text-white text-[0.9375rem] font-semibold transition-colors hover:bg-tea-light hover:border-tea-light disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {paying ? "読込中…" : t.payNow}
+              </button>
             </div>
           )}
         </div>
