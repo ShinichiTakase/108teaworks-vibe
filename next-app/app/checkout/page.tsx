@@ -708,8 +708,9 @@ export default function CheckoutPage() {
           {t.continueShopping}
         </Link>
       </div>
-      <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div>
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+        {/* 1. 注文内容（スマホ1番目・デスクトップ左列上） */}
+        <div className="order-1 lg:col-start-1 lg:row-start-1">
           <h2 className="m-0 mb-4 text-base font-semibold text-tea-deep">{t.orderSummary}</h2>
           <ul className="list-none m-0 p-0 flex flex-col gap-3 mb-6">
             {items.map((item) => (
@@ -791,57 +792,10 @@ export default function CheckoutPage() {
               {t.taxIncludedLineSuffix}
             </p>
           </div>
-
-          {/* 支払い方法（デスクトップ / モバイル共通） */}
-          <div className="mt-6">
-            <label className="mb-3 inline-flex items-center gap-2 cursor-pointer text-[0.9375rem] text-ink">
-              <input
-                type="checkbox"
-                checked={approval}
-                onChange={(e) => setApproval(e.target.checked)}
-                className="w-4 h-4 rounded border-border text-tea focus:ring-tea"
-              />
-              <span>{t.promoApproval}</span>
-            </label>
-            <h2 className="m-0 mb-4 text-base font-semibold text-tea-deep">{t.paymentMethod}</h2>
-            {stripeEnvMissing ? (
-              <div className="p-4 rounded-xl bg-[#f0ebe5] border border-border text-ink-muted">
-                {t.stripeKeyMissing}
-              </div>
-            ) : paymentInitError ? (
-              <div className="p-4 rounded-xl bg-[#f0ebe5] border border-border text-red-700">
-                {paymentInitError}
-              </div>
-            ) : clientSecret ? (
-              <div className="p-4 rounded-xl bg-[#f0ebe5] border border-border">
-                <h3 className="m-0 mb-4 text-[0.9375rem] font-semibold text-tea-deep">{t.cardOrGooglePay}</h3>
-                <div className="mb-4">
-                  <div className="text-[0.8125rem] text-ink-muted mb-2">
-                    {t.enterAddressForShipping}
-                  </div>
-                </div>
-                <div className="bg-white rounded-lg border-2 border-border p-3">
-                  <div ref={cardContainerRef} />
-                </div>
-                <div className="mt-4 pt-4 border-t border-border">
-                  <button
-                    type="button"
-                    onClick={handlePay}
-                    disabled={paying || shipping === null || !cardReady}
-                    className="w-full py-3 px-6 rounded-lg border-2 border-tea bg-tea text-white text-[0.9375rem] font-semibold transition-colors hover:bg-tea-light hover:border-tea-light disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {paying ? t.paying : t.payNow}
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <div className="p-4 rounded-xl bg-[#f0ebe5] border border-border text-ink-muted">
-                {t.paymentLoading}
-              </div>
-            )}
-          </div>
         </div>
-        <div>
+
+        {/* 2. 請求先＆お届け先（スマホ2番目・デスクトップ右列） */}
+        <div className="order-2 lg:col-start-2 lg:row-span-2 lg:row-start-1">
           <div className="mb-4 flex items-center justify-between gap-3">
             <h2 className="m-0 text-base font-semibold text-tea-deep">{t.billing}</h2>
             {hasSavedProfile && (
@@ -1123,6 +1077,55 @@ export default function CheckoutPage() {
               </div>
             )}
           </div>
+        </div>
+
+        {/* 3. 支払い方法（スマホ3番目・デスクトップ左列下） */}
+        <div className="order-3 lg:col-start-1 lg:row-start-2">
+          <label className="mb-3 inline-flex items-center gap-2 cursor-pointer text-[0.9375rem] text-ink">
+            <input
+              type="checkbox"
+              checked={approval}
+              onChange={(e) => setApproval(e.target.checked)}
+              className="w-4 h-4 rounded border-border text-tea focus:ring-tea"
+            />
+            <span>{t.promoApproval}</span>
+          </label>
+          <h2 className="m-0 mb-4 text-base font-semibold text-tea-deep">{t.paymentMethod}</h2>
+          {stripeEnvMissing ? (
+            <div className="p-4 rounded-xl bg-[#f0ebe5] border border-border text-ink-muted">
+              {t.stripeKeyMissing}
+            </div>
+          ) : paymentInitError ? (
+            <div className="p-4 rounded-xl bg-[#f0ebe5] border border-border text-red-700">
+              {paymentInitError}
+            </div>
+          ) : clientSecret ? (
+            <div className="p-4 rounded-xl bg-[#f0ebe5] border border-border">
+              <h3 className="m-0 mb-4 text-[0.9375rem] font-semibold text-tea-deep">{t.cardOrGooglePay}</h3>
+              <div className="mb-4">
+                <div className="text-[0.8125rem] text-ink-muted mb-2">
+                  {t.enterAddressForShipping}
+                </div>
+              </div>
+              <div className="bg-white rounded-lg border-2 border-border p-3">
+                <div ref={cardContainerRef} />
+              </div>
+              <div className="mt-4 pt-4 border-t border-border">
+                <button
+                  type="button"
+                  onClick={handlePay}
+                  disabled={paying || shipping === null || !cardReady}
+                  className="w-full py-3 px-6 rounded-lg border-2 border-tea bg-tea text-white text-[0.9375rem] font-semibold transition-colors hover:bg-tea-light hover:border-tea-light disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {paying ? t.paying : t.payNow}
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="p-4 rounded-xl bg-[#f0ebe5] border border-border text-ink-muted">
+              {t.paymentLoading}
+            </div>
+          )}
         </div>
       </form>
     </article>
