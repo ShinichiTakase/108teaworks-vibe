@@ -202,6 +202,7 @@ export async function POST(req: NextRequest) {
     const body = (await req.json()) as {
       paymentIntentId?: string;
       locale?: string;
+      couponCode?: string;
       customer?: {
         email?: string;
         name?: string;
@@ -231,6 +232,20 @@ export async function POST(req: NextRequest) {
     const pi = await stripe.paymentIntents.retrieve(paymentIntentId);
     if (pi.status !== "succeeded") {
       return NextResponse.json({ ok: false, error: "payment_not_succeeded", status: pi.status }, { status: 400 });
+    }
+
+    const usedCouponCode = typeof body.couponCode === "string" ? body.couponCode.trim() : "";
+    if (usedCouponCode) {
+      try {
+        await stripe.paymentIntents.update(paymentIntentId, {
+          metadata: {
+            ...(pi.metadata || {}),
+            couponCode: usedCouponCode,
+          },
+        });
+      } catch (e) {
+        console.error("[api/checkout/complete] failed to update PI metadata", e);
+      }
     }
 
     const order = body.order ?? {};
@@ -380,7 +395,7 @@ export async function POST(req: NextRequest) {
     const orderLabels = ORDER_EMAIL_LABELS[locale];
     const clientSubject = ORDER_EMAIL_SUBJECT[locale](summaryLines[0]?.name ?? "", Math.max(0, summaryLines.length - 1));
 
-    const clientHtml = buildOrderHtml({
+    const clientHtmlBase = buildOrderHtml({
       intro: orderLabels.intro,
       titleLine: orderLabels.titleLine,
       lines: summaryLines,
@@ -393,6 +408,39 @@ export async function POST(req: NextRequest) {
       orderNo,
       labels: orderLabels,
     });
+
+    let clientHtml = clientHtmlBase;
+    if (usedCouponCode) {
+      const nextCode = process.env.NEXT_COUPON_CODE?.trim();
+      if (nextCode) {
+        const nextType = (process.env.NEXT_COUPON_TYPE ?? "percent").toLowerCase();
+        const nextValue = Number(process.env.NEXT_COUPON_VALUE ?? "0");
+        const nextStart = process.env.NEXT_COUPON_START_AT ?? "";
+        const nextEnd = process.env.NEXT_COUPON_END_AT ?? "";
+        const discountLabel =
+          nextType === "amount"
+            ? `${Number.isFinite(nextValue) ? `¥${Math.round(nextValue).toLocaleString()}` : ""}引き`
+            : `${Number.isFinite(nextValue) ? `${nextValue}%OFF` : ""}`;
+        const banner = `
+  <div style="margin:0 0 20px;padding:12px 16px;border:2px solid #16a34a;border-radius:6px;background:#f0fdf4;">
+    <div style="font-size:18px;font-weight:700;color:#166534;margin-bottom:4px;">
+      次回ご利用いただけるクーポンのご案内
+    </div>
+    <div style="font-size:16px;font-weight:700;color:#14532d;">
+      クーポンコード：${nextCode}${discountLabel ? `（${discountLabel}）` : ""}
+    </div>
+    <div style="font-size:13px;color:#374151;margin-top:4px;">
+      ご利用期間：${nextStart || "未定"} ～ ${nextEnd || "未定"}
+    </div>
+  </div>
+`;
+        const marker = "\n  <div style=\"font-family";
+        const idx = clientHtmlBase.indexOf(marker);
+        if (idx !== -1) {
+          clientHtml = clientHtmlBase.slice(0, idx) + banner + clientHtmlBase.slice(idx);
+        }
+      }
+    }
 
     try {
       await transporter.sendMail({

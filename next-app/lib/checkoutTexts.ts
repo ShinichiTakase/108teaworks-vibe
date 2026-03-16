@@ -57,6 +57,10 @@ export const CHECKOUT_TEXTS: Record<
     freeShipping: string;
     freeShippingRemainPrefix: string;
     freeShippingRemain: string;
+    couponLabel: string;
+    couponPlaceholder: string;
+    couponInvalid: string;
+    couponApplied: string;
   }
 > = {
   ja: {
@@ -115,6 +119,10 @@ export const CHECKOUT_TEXTS: Record<
     freeShipping: "送料無料です",
     freeShippingRemainPrefix: "あと ",
     freeShippingRemain: " のお買い上げで送料無料です",
+    couponLabel: "クーポンコード",
+    couponPlaceholder: "6～8文字のコード",
+    couponInvalid: "クーポンコードはお使いになれません。",
+    couponApplied: "クーポンが適用されました。",
   },
   en: {
     title: "Checkout",
@@ -172,6 +180,10 @@ export const CHECKOUT_TEXTS: Record<
     freeShipping: "Free shipping",
     freeShippingRemainPrefix: "Add ",
     freeShippingRemain: " more for free shipping",
+    couponLabel: "Coupon code",
+    couponPlaceholder: "Enter code",
+    couponInvalid: "Coupon code is not valid.",
+    couponApplied: "Coupon applied.",
   },
   ko: {
     title: "결제",
@@ -229,6 +241,10 @@ export const CHECKOUT_TEXTS: Record<
     freeShipping: "무료 배송입니다",
     freeShippingRemainPrefix: " ",
     freeShippingRemain: " 원 더 구매 시 무료 배송",
+    couponLabel: "쿠폰 코드",
+    couponPlaceholder: "코드를 입력",
+    couponInvalid: "쿠폰 코드를 사용할 수 없습니다.",
+    couponApplied: "쿠폰이 적용되었습니다.",
   },
   zh: {
     title: "结算",
@@ -286,6 +302,10 @@ export const CHECKOUT_TEXTS: Record<
     freeShipping: "免运费",
     freeShippingRemainPrefix: "再购 ",
     freeShippingRemain: " 即免运费",
+    couponLabel: "优惠券代码",
+    couponPlaceholder: "输入代码",
+    couponInvalid: "无法使用该优惠券代码。",
+    couponApplied: "已应用优惠券。",
   },
 };
 

@@ -116,6 +116,12 @@ export default function CheckoutPage() {
   const itemsRef = useRef<typeof items>([]);
   const walletShippingRef = useRef<number | null>(null);
 
+  const [couponCode, setCouponCode] = useState("");
+  const [discountAmount, setDiscountAmount] = useState(0);
+  const [couponMessage, setCouponMessage] = useState<string | null>(null);
+  const [couponChecking, setCouponChecking] = useState(false);
+  const appliedCouponCodeRef = useRef<string | null>(null);
+
   const zip7 = normalizePostalCode(postalCode);
   const zip7Ship = normalizePostalCode(shipPostalCode);
 
@@ -212,9 +218,10 @@ export default function CheckoutPage() {
   }, []);
 
   const subtotal = items.reduce((sum, x) => sum + x.price * x.quantity, 0);
-  const total = subtotal + (shipping ?? 0);
+  const effectiveSubtotal = Math.max(0, subtotal - discountAmount);
+  const total = effectiveSubtotal + (shipping ?? 0);
   const taxAmount = taxIncluded(total);
-  subtotalRef.current = subtotal;
+  subtotalRef.current = effectiveSubtotal;
   itemsRef.current = items;
 
   const effectivePrefecture = shipToDifferent ? shipPrefecture.trim() : prefecture.trim();
@@ -284,6 +291,49 @@ export default function CheckoutPage() {
   const handleShipPostalInput = (raw: string) => {
     setShipPostalCode(formatPostal(raw));
   };
+
+  const handleCouponBlur = useCallback(async () => {
+    const code = couponCode.trim();
+    if (!code) {
+      setDiscountAmount(0);
+      setCouponMessage(null);
+      appliedCouponCodeRef.current = null;
+      return;
+    }
+    if (subtotal <= 0) {
+      setDiscountAmount(0);
+      setCouponMessage(null);
+      appliedCouponCodeRef.current = null;
+      return;
+    }
+    try {
+      setCouponChecking(true);
+      setCouponMessage(null);
+      const res = await fetch("/api/coupon/validate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code, subtotal }),
+      });
+      const data = await res.json();
+      if (res.ok && data.ok && typeof data.discountAmount === "number") {
+        setDiscountAmount(data.discountAmount);
+        appliedCouponCodeRef.current = data.code ?? code;
+        setCouponMessage(
+          `${t.couponApplied} (${data.label ?? ""} -${formatPrice(data.discountAmount)})`.trim()
+        );
+      } else {
+        setDiscountAmount(0);
+        appliedCouponCodeRef.current = null;
+        setCouponMessage(t.couponInvalid);
+      }
+    } catch {
+      setDiscountAmount(0);
+      appliedCouponCodeRef.current = null;
+      setCouponMessage(t.couponInvalid);
+    } finally {
+      setCouponChecking(false);
+    }
+  }, [couponCode, subtotal, t.couponApplied, t.couponInvalid]);
 
   const orderPayload = useMemo(
     () => ({
@@ -553,6 +603,7 @@ export default function CheckoutPage() {
           paymentIntentId: pi.id,
           order: effectiveOrder,
           locale,
+          couponCode: appliedCouponCodeRef.current,
           customer: {
             email,
             name,
@@ -811,6 +862,37 @@ export default function CheckoutPage() {
               <span className="text-ink-muted">{t.shipping}</span>
               <span className="font-medium">{shippingDisplay}</span>
             </div>
+            <div className="flex items-center justify-between text-[0.9375rem] pb-2 border-b border-border">
+              <span className="text-ink-muted">{t.couponLabel}</span>
+              <input
+                type="text"
+                value={couponCode}
+                onChange={(e) => {
+                  setCouponCode(e.target.value);
+                  setCouponMessage(null);
+                  setDiscountAmount(0);
+                  appliedCouponCodeRef.current = null;
+                }}
+                onBlur={handleCouponBlur}
+                maxLength={32}
+                className="w-40 rounded border border-border bg-white px-2 py-1 text-right text-[0.875rem]"
+                placeholder={t.couponPlaceholder}
+                autoComplete="off"
+              />
+            </div>
+            {couponMessage && (
+              <p
+                className="m-0 mt-1 text-[0.8125rem] text-right"
+              >
+                {couponMessage}
+              </p>
+            )}
+            {discountAmount > 0 && (
+              <div className="flex justify-between text-[0.9375rem] text-tea-deep">
+                <span className="text-ink-muted">割引</span>
+                <span className="font-medium">-{formatPrice(discountAmount)}</span>
+              </div>
+            )}
             <div className="flex justify-between text-base font-semibold text-tea-deep pt-2">
               <span>{t.totalTaxIncluded}</span>
               <span>{shipping !== null ? formatPrice(total) : "—"}</span>
