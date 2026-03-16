@@ -50,6 +50,7 @@ export async function POST(req: NextRequest) {
   }
 
   const from = getMailFrom(fromAddr);
+  const adminTo = process.env.ORDER_ADMIN_TO || process.env.INQUERY_TO || "";
   const transporter = nodemailer.createTransport({
     host,
     port,
@@ -57,13 +58,18 @@ export async function POST(req: NextRequest) {
     auth: { user, pass },
   });
 
+  const mailOptions: Parameters<typeof transporter.sendMail>[0] = {
+    from,
+    to: toEmail,
+    subject: SHIPPING_COMPLETE_EMAIL.subject,
+    html: SHIPPING_COMPLETE_EMAIL.bodyHtml(orderNo, trackingNumber, orderSummaryHtml),
+  };
+  if (adminTo.trim() && adminTo !== toEmail) {
+    mailOptions.cc = adminTo.trim();
+  }
+
   try {
-    await transporter.sendMail({
-      from,
-      to: toEmail,
-      subject: SHIPPING_COMPLETE_EMAIL.subject,
-      html: SHIPPING_COMPLETE_EMAIL.bodyHtml(orderNo, trackingNumber, orderSummaryHtml),
-    });
+    await transporter.sendMail(mailOptions);
     return NextResponse.json({ ok: true });
   } catch (e) {
     console.error("[api/admin/send-shipping-email]", e);
