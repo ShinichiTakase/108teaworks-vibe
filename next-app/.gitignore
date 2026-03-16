@@ -25,5 +25,8 @@ yarn-error.log*
 # 注文スナップショット（ファイル保存）
 .data/
 
+# ローカルデータ（レビューキューなど）は同期しない
+data/
+
 # TypeScript
 next-env.d.ts
