@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import { getMailFrom } from "@/lib/mailFrom";
 import { SHIPPING_COMPLETE_EMAIL } from "@/lib/emailClientTexts";
-import { getOrderSnapshotByOrderNoAndEmail } from "@/lib/microcmsOrderSnapshots";
+import { getOrderSnapshotByOrderNoAndEmail } from "@/lib/orderSnapshotsStorage";
 
 const ADMIN_SECRET = process.env.ADMIN_SHIPPING_SECRET?.trim();
 

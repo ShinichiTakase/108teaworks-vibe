@@ -7,7 +7,7 @@ import { ORDER_EMAIL_LABELS, ORDER_EMAIL_SUBJECT } from "@/lib/emailClientTexts"
 import { getMailFrom } from "@/lib/mailFrom";
 import type { Locale } from "@/lib/i18n";
 import { upsertCustomerOnce } from "@/lib/microcmsCustomers";
-import { saveOrderSnapshot } from "@/lib/microcmsOrderSnapshots";
+import { saveOrderSnapshot } from "@/lib/orderSnapshotsStorage";
 import { enqueueReviewRequest } from "@/lib/reviewsStorage";
 
 type OrderEmailLabels = (typeof ORDER_EMAIL_LABELS)[Locale];

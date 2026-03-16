@@ -22,5 +22,8 @@ yarn-error.log*
 # local env
 .env*.local
 
+# 注文スナップショット（ファイル保存）
+.data/
+
 # TypeScript
 next-env.d.ts
