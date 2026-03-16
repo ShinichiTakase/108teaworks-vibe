@@ -4,6 +4,7 @@ import { Noto_Serif_JP } from "next/font/google";
 import "./globals.css";
 import Layout from "@/components/Layout";
 import Providers from "@/components/Providers";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { CHACHAMARU_TEXTS } from "@/lib/chachamaruTexts";
 import { OG_IMAGE_URL, ORGANIZATION_LOGO_URL, ORGANIZATION_NAME_JA, ORGANIZATION_NAME_EN, ORGANIZATION_URL, ORGANIZATION_INSTAGRAM } from "@/lib/siteConstants";
 
@@ -13,6 +14,8 @@ const notoSerif = Noto_Serif_JP({
   weight: ["400", "600", "700"],
   variable: "--font-body",
 });
+
+const GSC_VERIFICATION = process.env.NEXT_PUBLIC_GSC_VERIFICATION?.trim();
 
 export const metadata: Metadata = {
   title: "伊勢茶の藤八茶寮｜シングルオリジン伊勢茶・お茶の魅力を三重から世界へ",
@@ -25,6 +28,9 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     images: [OG_IMAGE_URL],
   },
+  ...(GSC_VERIFICATION && {
+    verification: { google: GSC_VERIFICATION },
+  }),
 };
 
 const organizationSchema = {
@@ -74,6 +80,7 @@ export default function RootLayout({
           {`window.chachamaruVars={iconUrl:"/images/chachamaru-icon.png",proxyUrl:"/api/chachamaru/ask",texts:${JSON.stringify(CHACHAMARU_TEXTS)},useReactBar:true};`}
         </Script>
         <Script src="/js/chachamaru.js" strategy="beforeInteractive" />
+        <GoogleAnalytics />
       </body>
     </html>
   );

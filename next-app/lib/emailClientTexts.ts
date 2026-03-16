@@ -273,3 +273,32 @@ export const ORDER_EMAIL_SUBJECT: Record<Locale, (firstItemName: string, othersC
   ko: (first, others) => (others > 0 ? `토하치 사료 주문 확인: ${first} 외 ${others}건` : `토하치 사료 주문 확인: ${first}`),
   zh: (first, others) => (others > 0 ? `藤八茶寮 订单确认：${first} 等 ${others} 件` : `藤八茶寮 订单确认：${first}`),
 };
+
+/** 発送完了メール（顧客宛）の件名・本文。orderNo と trackingNumber は任意。orderSummaryHtml があると「お届けしたご注文内容」として埋め込む。 */
+export const SHIPPING_COMPLETE_EMAIL = {
+  subject: "【藤八茶寮】ご注文品を発送いたしました",
+  bodyHtml: (orderNo?: string, trackingNumber?: string, orderSummaryHtml?: string): string => {
+    const orderLine =
+      orderNo?.trim() ?
+        `<p style="margin:12px 0;">注文番号：${orderNo.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p>`
+      : "";
+    const trackingLine =
+      trackingNumber?.trim() ?
+        `<p style="margin:12px 0;">お問い合わせ番号（追跡用）：${trackingNumber.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p>`
+      : "";
+    const orderBlock =
+      orderSummaryHtml?.trim() ?
+        `<p style="margin:16px 0 8px; font-weight:700;">お届けしたご注文内容</p><div style="margin:0 0 16px;">${orderSummaryHtml}</div>`
+      : "";
+    return `
+<div style="font-family: 'Noto Serif JP', 'Hiragino Mincho ProN', 'Yu Mincho', serif; color:#111827; line-height:1.8;">
+  <p>いつも藤八茶寮をご利用いただき、ありがとうございます。</p>
+  <p>お客様のご注文品を発送いたしましたので、お知らせいたします。</p>
+  ${orderLine}
+  ${trackingLine}
+  ${orderBlock}
+  <p style="margin:16px 0 0;">到着まで今しばらくお待ちください。</p>
+  <p style="margin:24px 0 0;">藤八茶寮</p>
+</div>`;
+  },
+};

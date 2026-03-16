@@ -7,6 +7,7 @@ import { ORDER_EMAIL_LABELS, ORDER_EMAIL_SUBJECT } from "@/lib/emailClientTexts"
 import { getMailFrom } from "@/lib/mailFrom";
 import type { Locale } from "@/lib/i18n";
 import { upsertCustomerOnce } from "@/lib/microcmsCustomers";
+import { saveOrderSnapshot } from "@/lib/microcmsOrderSnapshots";
 import { enqueueReviewRequest } from "@/lib/reviewsStorage";
 
 type OrderEmailLabels = (typeof ORDER_EMAIL_LABELS)[Locale];
@@ -403,6 +404,12 @@ export async function POST(req: NextRequest) {
       });
     } catch (clientErr) {
       console.error("[api/checkout/complete] client mail failed", clientErr);
+    }
+
+    try {
+      await saveOrderSnapshot(orderNo, billingAddr.email, clientHtml);
+    } catch (e) {
+      console.error("[api/checkout/complete] saveOrderSnapshot failed", e);
     }
 
     return NextResponse.json({
