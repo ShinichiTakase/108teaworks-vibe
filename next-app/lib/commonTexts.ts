@@ -46,6 +46,8 @@ export const COMMON_TEXTS: Record<
       buyNow: string;
     };
     aria: { mainMenu: string; menuButton: string };
+    /** ヘッダー下のクーポン告知（空なら非表示） */
+    couponBanner: string;
     cart: {
       title: string;
       empty: string;
@@ -90,6 +92,7 @@ export const COMMON_TEXTS: Record<
     notice: { title: "お知らせ", empty: "現在、お知らせはありません。", backToList: "← お知らせ一覧へ" },
     product: { taxIncluded: "(税込)", productCode: "商品コード", janCode: "JANコード", relatedProducts: "関連商品", viewDetails: "詳しく見る >>", quantity: "数量", addToCart: "カートに追加", buyNow: "今すぐ買う" },
     aria: { mainMenu: "メインメニュー", menuButton: "メニュー" },
+    couponBanner: "リニューアル記念！クーポンコードGOKIGENで全品20%オフ！(3月30日まで)",
     cart: {
       title: "ショッピングカート",
       empty: "カートに商品はありません。",
@@ -133,6 +136,7 @@ export const COMMON_TEXTS: Record<
     notice: { title: "News", empty: "There are no news items at the moment.", backToList: "← Back to news" },
     product: { taxIncluded: "(tax incl.)", productCode: "Product code", janCode: "JAN", relatedProducts: "Related products", viewDetails: "View details >>", quantity: "Quantity", addToCart: "Add to cart", buyNow: "Buy now" },
     aria: { mainMenu: "Main menu", menuButton: "Menu" },
+    couponBanner: "Renewal sale: Use code GOKIGEN for 20% off! (Until Mar 30)",
     cart: {
       title: "Shopping Cart",
       empty: "Your cart is empty.",
@@ -176,6 +180,7 @@ export const COMMON_TEXTS: Record<
     notice: { title: "소식", empty: "현재 소식이 없습니다.", backToList: "← 소식 목록으로" },
     product: { taxIncluded: "(세금 포함)", productCode: "상품 코드", janCode: "JAN 코드", relatedProducts: "관련 상품", viewDetails: "자세히 보기 >>", quantity: "수량", addToCart: "장바구니에 담기", buyNow: "지금 구매" },
     aria: { mainMenu: "메인 메뉴", menuButton: "메뉴" },
+    couponBanner: "리뉴얼 기념! 쿠폰 코드 GOKIGEN으로 전품목 20% 할인! (3월 30일까지)",
     cart: {
       title: "쇼핑 카트",
       empty: "장바구니에 상품이 없습니다.",
@@ -219,6 +224,7 @@ export const COMMON_TEXTS: Record<
     notice: { title: "公告", empty: "暂无公告。", backToList: "← 返回公告列表" },
     product: { taxIncluded: "（含税）", productCode: "商品代码", janCode: "JAN码", relatedProducts: "相关商品", viewDetails: "查看详情 >>", quantity: "数量", addToCart: "加入购物车", buyNow: "立即购买" },
     aria: { mainMenu: "主导航", menuButton: "菜单" },
+    couponBanner: "焕新纪念！优惠码GOKIGEN全场8折！（至3月30日）",
     cart: {
       title: "购物车",
       empty: "购物车为空。",

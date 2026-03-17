@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import Header from "./Header";
 import GlobalNav from "./GlobalNav";
+import CouponBanner from "./CouponBanner";
 import Footer from "./Footer";
 import LanguageSwitcher from "./LanguageSwitcher";
 import FloatingCartBar from "./FloatingCartBar";
@@ -21,6 +22,7 @@ export default function Layout({ children, withInner = true }: LayoutProps) {
     <>
       <Header />
       <GlobalNav />
+      <CouponBanner />
       <main className={MAIN_CLASS} id="main-content" role="main">
         {withInner ? (
           <div className={INNER_CLASS}>{children}</div>
