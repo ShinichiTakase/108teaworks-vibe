@@ -13,15 +13,10 @@ const getBaseUrl = (): string => {
   return "https://108teaworks.com";
 };
 
-/** パスに対する各言語のURLを alternates 用に生成 */
-function localeUrls(baseUrl: string, path: string): Record<string, string> {
+function localizedUrl(baseUrl: string, locale: Locale, path: string): string {
   const pathNorm = path.startsWith("/") ? path : `/${path}`;
-  const rec: Record<string, string> = {};
-  rec.ja = `${baseUrl}${pathNorm}`;
-  for (const lang of ["en", "ko", "zh"] as const) {
-    rec[lang] = `${baseUrl}/${lang}${pathNorm}`;
-  }
-  return rec;
+  if (locale === "ja") return `${baseUrl}${pathNorm}`;
+  return `${baseUrl}/${locale}${pathNorm}`;
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -46,17 +41,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ];
 
   for (const { path, changeFrequency, priority } of staticPaths) {
-    const pathNorm = path.startsWith("/") ? path : `/${path}`;
-    const url = `${baseUrl}${pathNorm}`;
-    entries.push({
-      url,
-      lastModified: new Date(),
-      changeFrequency,
-      priority,
-      alternates: {
-        languages: localeUrls(baseUrl, pathNorm),
-      },
-    });
+    for (const locale of LOCALES) {
+      entries.push({
+        url: localizedUrl(baseUrl, locale, path),
+        lastModified: new Date(),
+        changeFrequency,
+        priority,
+      });
+    }
   }
 
   try {
@@ -64,16 +56,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     for (const p of products) {
       const slug = p.SLUG ?? (p as { slug?: string }).slug ?? p.id;
       if (!slug) continue;
-      const pathNorm = `/products/${slug}`;
-      entries.push({
-        url: `${baseUrl}${pathNorm}`,
-        lastModified: new Date(),
-        changeFrequency: "weekly",
-        priority: 0.8,
-        alternates: {
-          languages: localeUrls(baseUrl, pathNorm),
-        },
-      });
+      const path = `/products/${slug}`;
+      for (const locale of LOCALES) {
+        entries.push({
+          url: localizedUrl(baseUrl, locale, path),
+          lastModified: new Date(),
+          changeFrequency: "weekly",
+          priority: 0.8,
+        });
+      }
     }
   } catch (e) {
     console.error("[sitemap] getProducts error", e);
@@ -84,16 +75,20 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     for (const n of notices) {
       const slug = n.slug ?? n.id;
       if (!slug) continue;
-      const pathNorm = `/notice/${slug}`;
-      entries.push({
-        url: `${baseUrl}${pathNorm}`,
-        lastModified: n.revisedAt ? new Date(n.revisedAt) : n.publishedAt ? new Date(n.publishedAt) : new Date(),
-        changeFrequency: "weekly",
-        priority: 0.7,
-        alternates: {
-          languages: localeUrls(baseUrl, pathNorm),
-        },
-      });
+      const path = `/notice/${slug}`;
+      const lastModified = n.revisedAt
+        ? new Date(n.revisedAt)
+        : n.publishedAt
+          ? new Date(n.publishedAt)
+          : new Date();
+      for (const locale of LOCALES) {
+        entries.push({
+          url: localizedUrl(baseUrl, locale, path),
+          lastModified,
+          changeFrequency: "weekly",
+          priority: 0.7,
+        });
+      }
     }
   } catch (e) {
     console.error("[sitemap] getNotices error", e);
