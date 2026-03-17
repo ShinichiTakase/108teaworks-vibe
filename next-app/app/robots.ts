@@ -10,7 +10,14 @@ function getBaseUrl(): string {
 export default function robots(): MetadataRoute.Robots {
   const baseUrl = getBaseUrl();
   return {
-    rules: [{ userAgent: "*", disallow: "/" }],
+    // すべての一般ページ（日本語・多言語）をクロール / インデックス可能にする。
+    // インデックスさせたくないページ（管理画面など）は個別に meta robots=noindex を付ける方針。
+    rules: [
+      {
+        userAgent: "*",
+        allow: "/",
+      },
+    ],
     sitemap: `${baseUrl}/sitemap.xml`,
   };
 }
