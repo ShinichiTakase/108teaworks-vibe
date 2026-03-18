@@ -24,6 +24,8 @@ export interface ReceiptData {
   items: ReceiptLineItem[];
   /** 送料（税込） */
   shipping: number;
+  /** 割引額（税込） */
+  discount?: number;
   /** 小計（税込） */
   subtotal: number;
   /** 消費税額 */
@@ -224,7 +226,10 @@ export function buildReceiptPdf(data: ReceiptData): Promise<Buffer> {
 
     // 内税計算（合計=商品合計+送料、内消費税=合計-⌊合計/1.08⌋）※軽減税率 8%
     const itemsTotal = data.items.reduce((sum, r) => sum + (typeof r.amount === "number" ? r.amount : 0), 0);
-    const grandTotal = itemsTotal + (data.shipping ?? 0);
+    const shipping = data.shipping ?? 0;
+    const discount = Math.max(0, Math.round(data.discount ?? 0));
+    const grossTotal = itemsTotal + shipping;
+    const grandTotal = Math.max(0, grossTotal - discount);
     const net = Math.floor(grandTotal / 1.08);
     const includedTax = grandTotal - net;
 
@@ -235,8 +240,9 @@ export function buildReceiptPdf(data: ReceiptData): Promise<Buffer> {
     const xValueStart = xLabelStart + summaryLabelWidth; // 金額列の開始
     const xValueEnd = xValueStart + summaryValueWidth; // 金額列の右端
     const summaryRows = [
-      { label: "送料", amount: data.shipping },
-      { label: "合計", amount: grandTotal }, // 旧「小計」
+      { label: "送料", amount: shipping },
+      ...(discount > 0 ? [{ label: "割引", amount: -discount }] : []),
+      { label: "合計", amount: grandTotal },
       { label: "内消費税", amount: includedTax },
     ];
 

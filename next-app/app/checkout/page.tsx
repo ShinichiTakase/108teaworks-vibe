@@ -345,6 +345,7 @@ export default function CheckoutPage() {
         amount: it.price * it.quantity,
       })),
       shipping: shipping ?? 0,
+      discount: discountAmount,
       giftNoInvoice,
       memo: orderMemo,
       billingAddress: {
@@ -377,6 +378,7 @@ export default function CheckoutPage() {
     [
       items,
       shipping,
+      discountAmount,
       giftNoInvoice,
       orderMemo,
       name,

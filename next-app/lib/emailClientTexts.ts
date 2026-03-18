@@ -187,6 +187,7 @@ export const ORDER_EMAIL_LABELS: Record<
     thUnitPrice: string;
     thAmount: string;
     shipping: string;
+    discount: string;
     total: string;
     taxIncluded: string;
     shippingDate: string;
@@ -205,6 +206,7 @@ export const ORDER_EMAIL_LABELS: Record<
     thUnitPrice: "単価",
     thAmount: "金額",
     shipping: "送料",
+    discount: "割引",
     total: "合計",
     taxIncluded: "内消費税",
     shippingDate: "発送予定日：本日より2～5営業日",
@@ -222,6 +224,7 @@ export const ORDER_EMAIL_LABELS: Record<
     thUnitPrice: "Unit price",
     thAmount: "Amount",
     shipping: "Shipping",
+    discount: "Discount",
     total: "Total",
     taxIncluded: "Tax included",
     shippingDate: "Estimated delivery: 2–5 business days.",
@@ -239,6 +242,7 @@ export const ORDER_EMAIL_LABELS: Record<
     thUnitPrice: "단가",
     thAmount: "금액",
     shipping: "배송비",
+    discount: "할인",
     total: "합계",
     taxIncluded: "포함 세금",
     shippingDate: "배송 예정: 2~5 영업일.",
@@ -256,6 +260,7 @@ export const ORDER_EMAIL_LABELS: Record<
     thUnitPrice: "单价",
     thAmount: "金额",
     shipping: "运费",
+    discount: "折扣",
     total: "合计",
     taxIncluded: "含税",
     shippingDate: "预计发货：2～5个工作日。",

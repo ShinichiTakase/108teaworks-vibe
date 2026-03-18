@@ -63,6 +63,7 @@ function buildOrderHtml(params: {
   titleLine: string;
   lines: OrderLine[];
   shipping: number;
+  discount?: number;
   total: number;
   includedTax: number;
   billing: Address;
@@ -76,6 +77,7 @@ function buildOrderHtml(params: {
     titleLine,
     lines,
     shipping,
+    discount = 0,
     total,
     includedTax,
     billing,
@@ -128,6 +130,7 @@ function buildOrderHtml(params: {
   const thUnitPrice = L?.thUnitPrice ?? "単価";
   const thAmount = L?.thAmount ?? "金額";
   const shipLabel = L?.shipping ?? "送料";
+  const discountLabel = L?.discount ?? "割引";
   const totalLabel = L?.total ?? "合計";
   const taxLabel = L?.taxIncluded ?? "内消費税";
   const shippingDate = L?.shippingDate ?? "発送予定日：本日より2～5営業日";
@@ -160,6 +163,16 @@ function buildOrderHtml(params: {
           <td style="padding:8px 10px;text-align:right;white-space:nowrap;">${escapeHtml(shipLabel)}</td>
           <td style="padding:8px 10px;text-align:right;white-space:nowrap;">${formatYen(shipping)}</td>
         </tr>
+        ${
+          discount > 0
+            ? `<tr>
+          <td style="padding:8px 10px;"></td>
+          <td style="padding:8px 10px;"></td>
+          <td style="padding:8px 10px;text-align:right;white-space:nowrap;">${escapeHtml(discountLabel)}</td>
+          <td style="padding:8px 10px;text-align:right;white-space:nowrap;color:#b91c1c;">- ${formatYen(discount)}</td>
+        </tr>`
+            : ""
+        }
         <tr>
           <td style="padding:8px 10px;"></td>
           <td style="padding:8px 10px;"></td>
@@ -216,6 +229,7 @@ export async function POST(req: NextRequest) {
       order?: {
         lines?: OrderLine[];
         shipping?: number;
+        discount?: number;
         billingAddress?: Address;
         shippingAddress?: ShipAddress;
         giftNoInvoice?: boolean;
@@ -251,7 +265,10 @@ export async function POST(req: NextRequest) {
     const order = body.order ?? {};
     const lines = (order.lines ?? []).filter((x) => x && typeof x.name === "string");
     const shipping = Math.max(0, Math.round(order.shipping ?? 0));
-    const total = lines.reduce((s, l) => s + Math.round(l.amount ?? 0), 0) + shipping;
+    const discount = Math.max(0, Math.round(order.discount ?? 0));
+    const itemsTotal = lines.reduce((s, l) => s + Math.round(l.amount ?? 0), 0);
+    const grossTotal = itemsTotal + shipping;
+    const total = Math.max(0, grossTotal - discount);
     const net = Math.floor(total / 1.08);
     const includedTax = total - net;
 
@@ -303,6 +320,7 @@ export async function POST(req: NextRequest) {
       titleLine: "ご注文の確認",
       lines,
       shipping,
+      discount,
       total,
       includedTax,
       billing: billingAddr,
@@ -321,6 +339,7 @@ export async function POST(req: NextRequest) {
         amount: l.amount,
       })),
       shipping,
+      discount,
       subtotal: total,
       taxAmount: includedTax,
       total,
@@ -400,6 +419,7 @@ export async function POST(req: NextRequest) {
       titleLine: orderLabels.titleLine,
       lines: summaryLines,
       shipping,
+      discount,
       total,
       includedTax,
       billing: billingAddr,
