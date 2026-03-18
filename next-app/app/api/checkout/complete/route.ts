@@ -208,6 +208,7 @@ function buildOrderHtml(params: {
 
 export async function POST(req: NextRequest) {
   try {
+    console.info("[api/checkout/complete] POST start");
     if (!stripe) {
       return NextResponse.json({ ok: false, error: "stripe_not_configured" }, { status: 500 });
     }
@@ -474,6 +475,7 @@ export async function POST(req: NextRequest) {
       console.error("[api/checkout/complete] client mail failed", clientErr);
     }
 
+    console.info("[api/checkout/complete] saving snapshot", orderNo, billingAddr.email);
     try {
       await saveOrderSnapshot(orderNo, billingAddr.email, clientHtml);
     } catch (e) {

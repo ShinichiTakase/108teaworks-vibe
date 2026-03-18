@@ -3,7 +3,8 @@
  * microCMS を使わず、サーバーの書き込み可能なディレクトリに JSON で保存する。
  *
  * 環境変数 ORDER_SNAPSHOTS_DIR に保存先ディレクトリのパスを指定する。
- * 例: ORDER_SNAPSHOTS_DIR=./data/order_snapshots
+ * 絶対パス（例: /mnt/nvme01/project/108teaworks-vibe/next-app/data/orders）を推奨。
+ * 相対パスは process.cwd() 基準のため、起動ディレクトリで保存先が変わる。
  * 未設定または書き込み不可の場合は保存・取得ともスキップ（発送完了メールは注文明細なしで送信可能）。
  *
  * ※ Vercel など書き込み不可の環境では保存されません。Docker / 自前サーバーなど
@@ -18,8 +19,10 @@ const DEFAULT_DIR = ".data/order_snapshots";
 
 function getDir(): string | null {
   const env = process.env.ORDER_SNAPSHOTS_DIR?.trim();
-  if (env) return path.resolve(process.cwd(), env);
-  return path.resolve(process.cwd(), DEFAULT_DIR);
+  if (!env) return path.resolve(process.cwd(), DEFAULT_DIR);
+  // 絶対パスならそのまま使用（起動ディレクトリに依存しない）
+  if (path.isAbsolute(env)) return env;
+  return path.resolve(process.cwd(), env);
 }
 
 function sanitizeOrderNo(orderNo: string): string {
@@ -53,6 +56,7 @@ export async function saveOrderSnapshot(
   try {
     await mkdir(path.dirname(filePath), { recursive: true });
     await writeFile(filePath, payload, "utf8");
+    console.info("[orderSnapshotsStorage] saved:", filePath);
   } catch (e) {
     console.warn("[orderSnapshotsStorage] save failed (dir may be read-only):", (e as Error).message);
   }
