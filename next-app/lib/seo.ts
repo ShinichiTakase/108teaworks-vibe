@@ -28,7 +28,6 @@ function withoutTrailingSlash(pathname: string): string {
 }
 
 const ALIASES: Record<string, string[]> = {
-  "/isecha": ["/ise-cha/", "/ise-cha"],
   "/how-to-brew": ["/how2brew/", "/how2brew"],
 };
 

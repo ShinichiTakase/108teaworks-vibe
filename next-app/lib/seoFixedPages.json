@@ -37,18 +37,18 @@
         "zh": "源自幕末的傳統製茶工藝。為您介紹堅持100%三重縣產「單一農園」伊勢茶的「藤八茶寮」。我們致力於守護不經混雜、茶葉最原始的清香與甘醇。深入了解我們對日本茶的熱情、對產地直送品質的承諾。"
       }
     },
-    "/ise-cha/": {
+    "/isecha/": {
       "title": {
-        "ja": "日本三大茶「伊勢茶」の魅力。シングルオリジンの極み | 伊勢茶の藤八茶寮",
-        "en": "The Art of Ise Tea: Exploring 100% Single-Origin Quality | 伊勢茶の藤八茶寮",
-        "ko": "일본 3대 차 '이세차'의 매력. 싱글 오리진의 정수 | 伊勢茶の藤八茶寮",
-        "zh": "日本三大茶「伊勢茶」的魅力。單一品種的極致追求 | 伊勢茶の藤八茶寮"
+        "ja": "【創業明治】伊勢茶の真実｜日本茶インストラクターリーダー著の専門書を全編公開 | 伊勢茶の藤八茶寮",
+        "en": "Ise-cha Truth: Full 139-page Book by Tea Expert | 伊勢茶の藤八茶寮",
+        "ko": "이세차의 진실｜전문가 저서 139쪽 전편 공개 | 伊勢茶の藤八茶寮",
+        "zh": "伊势茶真相｜专家专著139页全文公开 | 伊勢茶の藤八茶寮"
       },
       "description": {
-        "ja": "全国3位の生産量を誇る三重県の至宝「伊勢茶」。幕末より続く藤八茶寮では、他の農園と混ぜない100%シングルオリジン（単一農園）にこだわっています。濃厚な旨み、豊かな香り、そして歴史が育んだ本物の味わい。知られざる伊勢茶の秘密と、私たちの情熱をご紹介します。",
-        "en": "Ise Tea, one of Japan's top three teas, is a hidden gem from Mie Prefecture. Touhachi Saryo offers an unblended, \"Single-Origin\" experience, preserving the unique terroir of our historic farm. Discover the rich umami and deep heritage of Ise Tea, crafted with traditions since the late Edo period.",
-        "ko": "일본 내 생산량 3위를 자랑하는 미에현의 보물, '이세차'를 소개합니다. 토하치 사료는 다른 농장과 섞지 않은 100% 싱글 오리진(단일 농원)만을 고집합니다. 깊은 감칠맛과 풍부한 향, 그리고 에도 시대부터 이어진 전통이 빚어낸 진정한 일본차의 세계를 경험해 보세요.",
-        "zh": "深入了解日本三重縣的珍寶「伊勢茶」。藤八茶寮堅持自幕末以來的傳統，提供100%「單一農園（Single Origin）」、不經混茶的純粹品質。為您揭開伊勢茶濃厚鮮甜與芳香の秘密，感受傳承百年的職人精神與產地直送的頂級味蕾饗宴。"
+        "ja": "伊勢茶の特徴や濃厚なコクの秘密を、日本茶インストラクターリーダー高瀬孝二が解説。歴史的名著『伊勢茶発祥の地 川俣谷のお茶』139ページ分を公式サイトで特別全文公開しています。Wikipediaには載っていない、産地の息づかいと深い歴史を今すぐチェック",
+        "en": "Explore the unique characteristics and rich umami of Ise-cha, explained by Koji Takase, a leading Japanese Tea Instructor. We are proud to offer an exclusive, full-text release of the 139-page historical masterpiece, 'The Origin of Ise-cha: Tea of Kawamata Valley.' Discover the profound history and authentic local spirit that you won't find on Wikipedia.",
+        "ko": "일본차 인스트럭터 리더 타카세 코지가 전하는 이세차의 특징과 깊은 풍미의 비밀. 역사적 명저 『이세차 발상지 카와마타다니의 차』 139페이지 전 분량을 공식 사이트에서 특별 공개 중입니다. 위키백과에서도 볼 수 없는 생산지의 생생한 숨결과 깊은 역사를 지금 바로 확인해 보세요.",
+        "zh": "由日本茶讲师领袖高濑孝二亲身解密伊势茶的特点及其浓郁回甘的奥秘。历史名著《伊势茶发祥地 川俣谷之茶》全书139页现已在官网特别全文公开。带您领略维基百科也无法查到的产地原貌与深厚历史，立即点击查阅。"
       }
     },
     "/how2brew/": {
