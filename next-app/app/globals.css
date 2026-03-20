@@ -23,6 +23,11 @@
     -webkit-line-clamp: 3;
     overflow: hidden;
   }
+  .hero-lead--expanded {
+    display: block;
+    -webkit-line-clamp: unset;
+    overflow: visible;
+  }
 
   .hero-lead-more {
     display: block;
@@ -33,6 +38,10 @@
     text-align: right;
     font-size: 0.875rem;
     color: #2d5016; /* 茶系アクセント */
+    background: transparent;
+    border: 0;
+    width: 100%;
+    cursor: pointer;
   }
 }
 

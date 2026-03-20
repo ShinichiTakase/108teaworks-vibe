@@ -311,15 +311,19 @@
   padding: 12px;
   background: rgba(0, 0, 0, 0.08);
   flex-shrink: 0;
+  align-items: center;
+  padding-right: calc(12px + env(safe-area-inset-right, 0px));
 }
 .chachamaru-panel__footer input {
   flex: 1;
+  min-width: 0;
   padding: 12px 14px;
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 24px;
   background: #fff;
   font-size: 14px;
   color: #1f2937;
+  box-sizing: border-box;
 }
 .chachamaru-panel__footer input::placeholder {
   color: #9ca3af;
@@ -339,6 +343,8 @@
   cursor: pointer;
   flex-shrink: 0;
   transition: background 0.2s;
+  white-space: nowrap;
+  box-sizing: border-box;
 }
 .chachamaru-panel__footer button[type="button"]:hover {
   background: #047857;
