@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import nodemailer from "nodemailer";
+import { buildReceiptPdf } from "@/lib/receiptPdf";
 import { translateManyForLocale } from "@/lib/translateForLocale";
 import { ORDER_EMAIL_LABELS, ORDER_EMAIL_SUBJECT } from "@/lib/emailClientTexts";
 import { getMailFrom } from "@/lib/mailFrom";
@@ -292,7 +293,9 @@ export async function POST(req: NextRequest) {
     const port = Number(process.env.SMTP_PORT || 587);
     const user = process.env.SMTP_USER;
     const pass = process.env.SMTP_PASS;
-    const fromAddr = process.env.ORDER_FROM || process.env.INQUERY_FROM || "info@108teaworks.com";
+    const adminTo = process.env.ORDER_ADMIN_TO || process.env.INQUERY_TO || "info@108teaworks.com";
+    const fromAddr = process.env.ORDER_FROM || process.env.INQUERY_FROM || adminTo;
+    const from = getMailFrom(fromAddr);
     const clientFromAddr = process.env.CLIENT_MAIL_FROM || fromAddr;
     const clientFrom = getMailFrom(clientFromAddr);
 
@@ -305,6 +308,57 @@ export async function POST(req: NextRequest) {
       port,
       secure: port === 465,
       auth: { user, pass },
+    });
+
+    const firstName = lines[0]?.name ?? "ご注文";
+    const others = Math.max(0, lines.length - 1);
+    const subjectSuffix = others > 0 ? `${firstName} 他 ${others} 点` : firstName;
+
+    // 管理者（領収書PDF添付あり）
+    const adminSubject = `藤八茶寮から${billingAddr.name}様のご注文 ${subjectSuffix}`;
+    const adminHtml = buildOrderHtml({
+      intro: "藤八茶寮 から注文が入りました。",
+      titleLine: "ご注文の確認",
+      lines,
+      shipping,
+      discount,
+      total,
+      includedTax,
+      billing: billingAddr,
+      shippingAddr: shipAddr,
+      memoText,
+      orderNo,
+    });
+
+    const receiptPdf = await buildReceiptPdf({
+      transactionAt: new Date(pi.created * 1000),
+      recipientName: billingAddr.name,
+      items: lines.map((l) => ({
+        name: l.name,
+        quantity: l.quantity,
+        unitPrice: l.unitPrice,
+        amount: l.amount,
+      })),
+      shipping,
+      discount,
+      subtotal: total,
+      taxAmount: includedTax,
+      total,
+    });
+
+    await transporter.sendMail({
+      from,
+      to: adminTo,
+      subject: adminSubject,
+      html: adminHtml,
+      replyTo: billingAddr.email,
+      attachments: [
+        {
+          filename: `${orderNo}.pdf`,
+          content: receiptPdf,
+          contentType: "application/pdf",
+        },
+      ],
     });
 
     // レビュー依頼用キューに購入情報を登録（失敗しても注文処理は継続）
