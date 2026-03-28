@@ -92,7 +92,7 @@ export const COMMON_TEXTS: Record<
     notice: { title: "お知らせ", empty: "現在、お知らせはありません。", backToList: "← お知らせ一覧へ" },
     product: { taxIncluded: "(税込)", productCode: "商品コード", janCode: "JANコード", relatedProducts: "関連商品", viewDetails: "詳しく見る >>", quantity: "数量", addToCart: "カートに追加", buyNow: "今すぐ買う" },
     aria: { mainMenu: "メインメニュー", menuButton: "メニュー" },
-    couponBanner: "リニューアル記念！クーポンコードGOKIGENで全品20%オフ！(3月30日まで)",
+    couponBanner: "リニューアル記念！クーポンコードGOKIGENで全品20%オフ！(3月31日まで)",
     cart: {
       title: "ショッピングカート",
       empty: "カートに商品はありません。",
