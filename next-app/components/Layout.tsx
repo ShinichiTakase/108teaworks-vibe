@@ -32,8 +32,8 @@ export default function Layout({ children, withInner = true }: LayoutProps) {
         )}
       </main>
       <Footer />
-      <FloatingBooksBanner />
       <LanguageSwitcher />
+      <FloatingBooksBanner />
       <FloatingProductListBar />
       <FloatingChachamaruBar />
       <FloatingCartBar />

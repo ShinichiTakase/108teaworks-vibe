@@ -128,7 +128,7 @@ export default function FloatingBooksBanner() {
       }
     >
       <div className="border-t-2 border-tea-deep/25 bg-gradient-to-b from-washi via-cream to-[#e8e3d9] shadow-[0_-8px_28px_rgba(45,55,40,0.09)] backdrop-blur-sm [writing-mode:horizontal-tb]">
-        <div className="mx-auto flex max-w-wide flex-col items-stretch gap-2 py-2 pl-2 pr-24 min-[640px]:flex-row min-[640px]:flex-nowrap min-[640px]:items-center sm:gap-3 sm:py-2.5 sm:pl-3 sm:pr-28 md:gap-4 md:py-3 md:pl-4 md:pr-32">
+        <div className="mx-auto flex max-w-wide flex-col items-stretch gap-2 py-2 pl-2 pr-24 min-[640px]:flex-row min-[640px]:flex-nowrap min-[640px]:items-center sm:gap-3 sm:pl-3 sm:pr-28 md:gap-4 md:pl-4 md:pr-32">
           <div className="hidden shrink-0 md:flex md:items-center">
             <Image
               src="/images/books/Organization.png"
@@ -214,16 +214,6 @@ export default function FloatingBooksBanner() {
                 <span className={authorNameClass}>{t.authorName}</span>
               </p>
             </div>
-          </div>
-
-          <div className="hidden min-[640px]:flex w-full shrink-0 justify-end min-[640px]:w-auto">
-            <Image
-              src="/images/books/ise-shrin.jpg"
-              alt=""
-              width={800}
-              height={534}
-              className="h-12 w-auto max-h-12 object-contain object-center min-[640px]:h-14 min-[640px]:max-h-14 md:h-16 md:max-h-16"
-            />
           </div>
         </div>
       </div>
