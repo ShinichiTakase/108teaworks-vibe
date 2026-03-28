@@ -380,36 +380,6 @@ export async function POST(req: NextRequest) {
       console.error("[api/checkout/complete] enqueueReviewRequest failed", e);
     }
 
-    // customers 登録（同一メールが既にあればスキップ）。失敗しても注文完了自体は妨げない。
-    try {
-      const c = body.customer;
-      if (c?.email && c?.tel) {
-        await upsertCustomerOnce({
-          email: c.email,
-          name: c.name ?? billingAddr.name,
-          tel: c.tel,
-          zipcode: c.zipcode ?? billingAddr.postalCode,
-          prefectures: c.prefectures ?? billingAddr.prefecture,
-          city: c.city ?? billingAddr.city,
-          address: c.address ?? billingAddr.addressLine,
-          approval: c.approval === 0 ? 0 : 1,
-        });
-      } else if (billingAddr.email && billingAddr.phone) {
-        await upsertCustomerOnce({
-          email: billingAddr.email,
-          name: billingAddr.name,
-          tel: billingAddr.phone,
-          zipcode: billingAddr.postalCode,
-          prefectures: billingAddr.prefecture,
-          city: billingAddr.city,
-          address: billingAddr.addressLine,
-          approval: 1,
-        });
-      }
-    } catch (e) {
-      console.error("[api/checkout/complete] customers upsert failed", e);
-    }
-
     const itemNamesForSummary = locale === "ja" ? lines.map((l) => l.name) : await translateManyForLocale(lines.map((l) => l.name), locale);
     const summaryLines = lines.map((l, i) => ({ ...l, name: itemNamesForSummary[i] ?? l.name }));
 
@@ -465,6 +435,7 @@ export async function POST(req: NextRequest) {
     }
 
     try {
+      // ① 顧客向け注文確認メール
       await transporter.sendMail({
         from: clientFrom,
         to: billingAddr.email,
@@ -474,10 +445,41 @@ export async function POST(req: NextRequest) {
         replyTo: fromAddr,
       });
 
-      // 注文確認メール送信成功後にローカルスナップショットと microCMS orders を登録
-      console.info("[api/checkout/complete] post-client-mail: snapshot + microCMS", orderNo, billingAddr.email);
+      // ② スナップショット
+      console.info("[api/checkout/complete] ② snapshot", orderNo, billingAddr.email);
       await saveOrderSnapshot(orderNo, billingAddr.email, clientHtml);
 
+      // ③ customers（同一メールが既にあればスキップ）
+      try {
+        const c = body.customer;
+        if (c?.email && c?.tel) {
+          await upsertCustomerOnce({
+            email: c.email,
+            name: c.name ?? billingAddr.name,
+            tel: c.tel,
+            zipcode: c.zipcode ?? billingAddr.postalCode,
+            prefectures: c.prefectures ?? billingAddr.prefecture,
+            city: c.city ?? billingAddr.city,
+            address: c.address ?? billingAddr.addressLine,
+            approval: c.approval === 0 ? 0 : 1,
+          });
+        } else if (billingAddr.email && billingAddr.phone) {
+          await upsertCustomerOnce({
+            email: billingAddr.email,
+            name: billingAddr.name,
+            tel: billingAddr.phone,
+            zipcode: billingAddr.postalCode,
+            prefectures: billingAddr.prefecture,
+            city: billingAddr.city,
+            address: billingAddr.addressLine,
+            approval: 1,
+          });
+        }
+      } catch (custErr) {
+        console.error("[api/checkout/complete] ③ customers upsert failed", custErr);
+      }
+
+      // ④ microCMS orders
       try {
         if (!(await orderExistsByOrderNo(orderNo))) {
           const ok = await postOrder({
@@ -495,16 +497,19 @@ export async function POST(req: NextRequest) {
             })),
           });
           if (!ok) {
-            console.warn("[api/checkout/complete] microCMS postOrder not sent or failed", orderNo);
+            console.warn("[api/checkout/complete] ④ microCMS postOrder not sent or failed", orderNo);
           }
         } else {
-          console.info("[api/checkout/complete] microCMS order already exists, skip POST", orderNo);
+          console.info("[api/checkout/complete] ④ microCMS order already exists, skip POST", orderNo);
         }
       } catch (mcErr) {
-        console.error("[api/checkout/complete] microCMS postOrder error", mcErr);
+        console.error("[api/checkout/complete] ④ microCMS postOrder error", mcErr);
       }
     } catch (clientErr) {
-      console.error("[api/checkout/complete] client mail failed (snapshot/microCMS orders skipped)", clientErr);
+      console.error(
+        "[api/checkout/complete] ① client mail failed → ②③④ skipped",
+        clientErr
+      );
     }
 
     return NextResponse.json({
