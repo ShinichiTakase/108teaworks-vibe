@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { WorkerMessageHandler } from "pdfjs-dist/build/pdf.worker.min.mjs";
 
@@ -11,18 +11,72 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
 
 const DEFAULT_PDF_URL = "/pdf/kahadadani_no_ocha.pdf";
 
+/** 見開きではなく1ページ表示に切り替える上限幅（Tailwind の sm 相当） */
+const NARROW_MAX_PX = 640;
+
+const GAP_SPREAD = 12;
+const MAX_COVER_WIDTH = 520;
+const MAX_SPREAD_HALF = 480;
+const MIN_PAGE_WIDTH = 108;
+
 type KabatadaniViewerProps = {
   pdfUrl?: string;
 };
 
 export default function KabatadaniViewer({ pdfUrl = DEFAULT_PDF_URL }: KabatadaniViewerProps) {
   const [numPages, setNumPages] = useState<number | null>(null);
-  const [currentPage, setCurrentPage] = useState(1); // 1ページ目＝表紙
-  const [zoom, setZoom] = useState(1); // 1.0 = 等倍
+  const [currentPage, setCurrentPage] = useState(1);
+  const [zoom, setZoom] = useState(1);
+  const [isNarrow, setIsNarrow] = useState(false);
+  const [containerWidth, setContainerWidth] = useState(() =>
+    typeof window !== "undefined" ? Math.max(240, window.innerWidth - 64) : 600,
+  );
 
-  const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
-    setNumPages(numPages);
+  const paneRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const mq = window.matchMedia(`(max-width: ${NARROW_MAX_PX}px)`);
+    const syncNarrow = () => setIsNarrow(mq.matches);
+    syncNarrow();
+    mq.addEventListener("change", syncNarrow);
+    return () => mq.removeEventListener("change", syncNarrow);
+  }, []);
+
+  const measurePane = useCallback(() => {
+    const el = paneRef.current;
+    if (!el) return;
+    const w = el.clientWidth;
+    if (w > 0) setContainerWidth(w);
+  }, []);
+
+  useEffect(() => {
+    const el = paneRef.current;
+    if (!el) return;
+    measurePane();
+    const ro = new ResizeObserver(() => measurePane());
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, [measurePane]);
+
+  const onDocumentLoadSuccess = ({ numPages: n }: { numPages: number }) => {
+    setNumPages(n);
+    requestAnimationFrame(measurePane);
   };
+
+  const isCover = currentPage === 1;
+  /** 狭い画面：常に1ページ。広い画面：表紙以外は見開き */
+  const spreadMode = !isNarrow && !isCover;
+
+  const rightPage = currentPage;
+  const leftPage = numPages && currentPage + 1 <= numPages ? currentPage + 1 : null;
+
+  const innerAvail = Math.max(240, containerWidth);
+  const coverW = Math.max(MIN_PAGE_WIDTH, Math.min(MAX_COVER_WIDTH * zoom, innerAvail));
+  const singleW = Math.max(MIN_PAGE_WIDTH, Math.min(MAX_COVER_WIDTH * zoom, innerAvail));
+  const spreadHalfW = Math.max(
+    MIN_PAGE_WIDTH,
+    Math.min(MAX_SPREAD_HALF * zoom, Math.floor((innerAvail - GAP_SPREAD) / 2)),
+  );
 
   const canGoPrev = currentPage > 1;
   const canGoNext = numPages ? currentPage < numPages : false;
@@ -30,7 +84,10 @@ export default function KabatadaniViewer({ pdfUrl = DEFAULT_PDF_URL }: Kabatadan
   const handlePrev = () => {
     if (!canGoPrev) return;
     setZoom(1);
-    // 表紙以外は2ページずつ戻す
+    if (isNarrow) {
+      setCurrentPage((p) => p - 1);
+      return;
+    }
     if (currentPage === 2) {
       setCurrentPage(1);
     } else {
@@ -41,21 +98,17 @@ export default function KabatadaniViewer({ pdfUrl = DEFAULT_PDF_URL }: Kabatadan
   const handleNext = () => {
     if (!canGoNext || !numPages) return;
     setZoom(1);
+    if (isNarrow) {
+      setCurrentPage((p) => Math.min(p + 1, numPages));
+      return;
+    }
     if (currentPage === 1) {
-      // 表紙の次は見開き開始（2ページ目から）
       setCurrentPage(2);
     } else {
       const next = currentPage + 2;
       setCurrentPage(Math.min(next, numPages));
     }
   };
-
-  // 表紙かどうかでレイアウトを切り替え
-  const isCover = currentPage === 1;
-
-  // 見開き時：右ページ＝currentPage、左ページ＝currentPage+1（存在すれば）
-  const rightPage = currentPage;
-  const leftPage = numPages && currentPage + 1 <= numPages ? currentPage + 1 : null;
 
   const handleZoomIn = () => {
     setZoom((prev) => Math.min(1.6, prev + 0.2));
@@ -65,10 +118,26 @@ export default function KabatadaniViewer({ pdfUrl = DEFAULT_PDF_URL }: Kabatadan
     setZoom((prev) => Math.max(0.6, prev - 0.2));
   };
 
+  const pageLabel =
+    numPages == null
+      ? "ページ数を取得中…"
+      : isCover
+        ? `1 / ${numPages} ページ（表紙）`
+        : isNarrow
+          ? `${currentPage} / ${numPages} ページ`
+          : `${rightPage}${leftPage ? `–${leftPage}` : ""} / ${numPages} ページ`;
+
+  const navBtnClass = (enabled: boolean) =>
+    `inline-flex items-center justify-center gap-1 rounded-full border px-2 py-1 min-[641px]:px-3 transition-colors ${
+      enabled
+        ? "border-border bg-white text-ink hover:border-tea-deep hover:text-tea-deep"
+        : "border-border/40 bg-cream text-ink-muted cursor-not-allowed"
+    }`;
+
   return (
     <div className="mx-auto max-w-[1200px] rounded-xl bg-cream p-2 md:p-3 shadow-md">
       <div className="relative flex h-[70vh] flex-col rounded-lg bg-cream shadow-inner">
-        <div className="flex-1 overflow-hidden">
+        <div ref={paneRef} className="min-h-0 flex-1 overflow-hidden">
           <Document
             file={pdfUrl}
             onLoadSuccess={onDocumentLoadSuccess}
@@ -92,34 +161,38 @@ export default function KabatadaniViewer({ pdfUrl = DEFAULT_PDF_URL }: Kabatadan
           >
             <div className="flex h-full items-center justify-center px-1.5 py-2 md:px-3 md:py-3">
               {isCover ? (
-                // 表紙：1ページのみ中央に表示
                 <Page
                   pageNumber={1}
                   renderTextLayer={false}
                   renderAnnotationLayer={false}
-                  className="shadow-md !m-0"
-                  width={520 * zoom}
+                  className="shadow-md !m-0 max-h-full w-auto max-w-full"
+                  width={coverW}
+                />
+              ) : isNarrow ? (
+                <Page
+                  pageNumber={currentPage}
+                  renderTextLayer={false}
+                  renderAnnotationLayer={false}
+                  className="shadow-md !m-0 max-h-full w-auto max-w-full"
+                  width={singleW}
                 />
               ) : (
-                // 見開き：右開き（右が偶数／奇数関係なく currentPage、左が currentPage+1）
-                <div className="flex h-full items-center justify-center gap-2 md:gap-3">
-                  {/* 左：ページ番号が大きい方 */}
-                  {leftPage && (
+                <div className="flex h-full max-w-full items-center justify-center gap-2 md:gap-3">
+                  {leftPage != null && (
                     <Page
                       pageNumber={leftPage}
                       renderTextLayer={false}
                       renderAnnotationLayer={false}
-                      className="shadow-md !m-0"
-                      width={480 * zoom}
+                      className="shadow-md !m-0 max-h-full w-auto shrink"
+                      width={spreadHalfW}
                     />
                   )}
-                  {/* 右：ページ番号が小さい方 */}
                   <Page
                     pageNumber={rightPage}
                     renderTextLayer={false}
                     renderAnnotationLayer={false}
-                    className="shadow-md !m-0"
-                    width={480 * zoom}
+                    className="shadow-md !m-0 max-h-full w-auto shrink"
+                    width={spreadHalfW}
                   />
                 </div>
               )}
@@ -127,34 +200,29 @@ export default function KabatadaniViewer({ pdfUrl = DEFAULT_PDF_URL }: Kabatadan
           </Document>
         </div>
 
-        {/* ページ送りコントロール */}
-        <div className="flex items-center justify-between border-t border-border bg-cream/90 px-3 py-1 text-xs md:text-[0.8125rem] text-ink">
+        <div className="flex shrink-0 items-center justify-between gap-1 border-t border-border bg-cream/90 px-2 py-1 text-xs min-[641px]:gap-2 min-[641px]:px-3 md:text-[0.8125rem] text-ink">
           <button
             type="button"
             onClick={handleNext}
             disabled={!canGoNext}
-            className={`inline-flex items-center gap-1 rounded-full border px-3 py-1 transition-colors ${
-              canGoNext
-                ? "border-border bg-white text-ink hover:border-tea-deep hover:text-tea-deep"
-                : "border-border/40 bg-cream text-ink-muted cursor-not-allowed"
-            }`}
+            aria-label="次のページ"
+            className={navBtnClass(!!canGoNext)}
           >
-            <span className="text-sm">◀</span>
-            <span>次のページ</span>
+            <span className="text-base leading-none" aria-hidden="true">
+              ◀
+            </span>
+            <span className="hidden min-[641px]:inline">次のページ</span>
           </button>
 
-          <div className="flex items-center gap-3">
-            <div className="text-[0.75rem] text-ink-muted">
-              {numPages
-                ? isCover
-                  ? `1 / ${numPages} ページ（表紙）`
-                  : `${rightPage}${leftPage ? `–${leftPage}` : ""} / ${numPages} ページ`
-                : "ページ数を取得中…"}
+          <div className="flex min-w-0 flex-1 items-center justify-center gap-2 min-[641px]:gap-3">
+            <div className="truncate text-center text-[0.7rem] text-ink-muted min-[641px]:text-[0.75rem]">
+              {pageLabel}
             </div>
-            <div className="flex items-center gap-1">
+            <div className="flex shrink-0 items-center gap-1">
               <button
                 type="button"
                 onClick={handleZoomOut}
+                aria-label="縮小"
                 className="inline-flex items-center justify-center rounded-full border border-border bg-white px-2 py-0.5 text-[0.75rem] hover:border-tea-deep hover:text-tea-deep"
               >
                 －
@@ -162,6 +230,7 @@ export default function KabatadaniViewer({ pdfUrl = DEFAULT_PDF_URL }: Kabatadan
               <button
                 type="button"
                 onClick={handleZoomIn}
+                aria-label="拡大"
                 className="inline-flex items-center justify-center rounded-full border border-border bg-white px-2 py-0.5 text-[0.75rem] hover:border-tea-deep hover:text-tea-deep"
               >
                 ＋
@@ -173,18 +242,16 @@ export default function KabatadaniViewer({ pdfUrl = DEFAULT_PDF_URL }: Kabatadan
             type="button"
             onClick={handlePrev}
             disabled={!canGoPrev}
-            className={`inline-flex items-center gap-1 rounded-full border px-3 py-1 transition-colors ${
-              canGoPrev
-                ? "border-border bg-white text-ink hover:border-tea-deep hover:text-tea-deep"
-                : "border-border/40 bg-cream text-ink-muted cursor-not-allowed"
-            }`}
+            aria-label="前のページ"
+            className={navBtnClass(!!canGoPrev)}
           >
-            <span>前のページ</span>
-            <span className="text-sm">▶</span>
+            <span className="hidden min-[641px]:inline">前のページ</span>
+            <span className="text-base leading-none" aria-hidden="true">
+              ▶
+            </span>
           </button>
         </div>
       </div>
     </div>
   );
 }
-
