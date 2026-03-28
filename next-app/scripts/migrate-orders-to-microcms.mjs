@@ -2,22 +2,23 @@
 /**
  * next-app/data/orders（または .data/order_snapshots）の JSON を microCMS orders API に POST する。
  *
+ * 進め方（推奨）:
+ *   1) ペイロード確認（microCMS には書かない）
+ *        node scripts/migrate-orders-to-microcms.mjs --dry-run
+ *        curl 用 JSON をファイルへ: --export ./data/orders-microcms-export を追加
+ *   2) 問題なければ POST（--dry-run を外す）
+ *        node scripts/migrate-orders-to-microcms.mjs
+ *   手動 POST: ./scripts/post-microcms-orders-curl.sh ./data/orders-microcms-export
+ *
  * 想定するローカル JSON:
  * - 従来スナップショット: { orderNo, email, body }（body は注文確認メール HTML）
- * - または既に構造化: { orderNo, email, orderDateTime?, shipping?, discount?, orderTotal?, orderLines: [{product,count,price}] }
+ * - または既に構造化: { orderNo, email, orderDateTime?, shipping?, discount?, orderTotal?, orderLines: [...] }
  *
- * 環境変数（.env.local 可）:
- * - MICROCMS_SERVICE_DOMAIN
- * - MICROCMS_API_KEY（orders への POST 権限あり）
+ * 環境変数（.env.local 可）: MICROCMS_SERVICE_DOMAIN, MICROCMS_API_KEY
+ * CLI: --dry-run  --source DIR  --export DIR  --help
+ * 環境変数: MIGRATE_ORDERS_DIR, MIGRATE_DRY_RUN=1, MIGRATE_EXPORT_DIR, MIGRATE_OMIT_TITLE=1
  *
- * オプション:
- * - MIGRATE_ORDERS_DIR … 読み込みディレクトリ（未設定時は data/orders → .data/order_snapshots の順で存在する方）
- * - MIGRATE_DRY_RUN=1 … POST せずペイロードのみ表示
- * - MIGRATE_OMIT_TITLE=1 … ペイロードに title を付けない（スキーマに title が無い場合）
- *
- * 実行:
- *   node scripts/migrate-orders-to-microcms.mjs
- * Ubuntu: ./scripts/migrate-orders-to-microcms.sh（.env.local を source してから node 実行）
+ * Ubuntu: ./scripts/migrate-orders-to-microcms.sh
  */
 import fs from "fs";
 import path from "path";
@@ -150,6 +151,45 @@ function parseOrderHtmlBody(body) {
   return { lines, shipping, discount, orderTotal, parseError: null };
 }
 
+function parseCli(argv) {
+  let dry = env.MIGRATE_DRY_RUN === "1" || env.MIGRATE_DRY_RUN === "true";
+  let sourceOverride = env.MIGRATE_ORDERS_DIR?.trim() || null;
+  let exportDir = env.MIGRATE_EXPORT_DIR?.trim() || null;
+  const args = argv.slice(2);
+  for (let i = 0; i < args.length; i++) {
+    const a = args[i];
+    if (a === "--dry-run") dry = true;
+    else if (a === "--source") {
+      if (!args[i + 1]) {
+        say("error: --source の後にディレクトリを指定してください");
+        process.exit(1);
+      }
+      sourceOverride = args[++i];
+    } else if (a === "--export") {
+      if (!args[i + 1]) {
+        say("error: --export の後に出力ディレクトリを指定してください");
+        process.exit(1);
+      }
+      exportDir = args[++i];
+    } else if (a === "-h" || a === "--help") {
+      say(`migrate-orders-to-microcms — data/orders → microCMS orders
+
+  node scripts/migrate-orders-to-microcms.mjs --dry-run
+  node scripts/migrate-orders-to-microcms.mjs --dry-run --export ./data/orders-microcms-export
+  node scripts/migrate-orders-to-microcms.mjs --source /path/to/json
+  node scripts/migrate-orders-to-microcms.mjs
+
+要: MICROCMS_SERVICE_DOMAIN, MICROCMS_API_KEY（--dry-run 時は不要）
+`);
+      process.exit(0);
+    } else {
+      say("error: 不明な引数:", a, "（--dry-run / --source DIR / --export DIR / --help）");
+      process.exit(1);
+    }
+  }
+  return { dry, sourceOverride, exportDir };
+}
+
 function resolveSourceDir() {
   const fromEnv = env.MIGRATE_ORDERS_DIR?.trim();
   if (fromEnv) {
@@ -247,14 +287,40 @@ async function orderExists(apiBase, apiKey, orderNo) {
   return Array.isArray(json.contents) && json.contents.length > 0;
 }
 
+function writeExportPayload(exportRoot, sourceFileName, payload) {
+  fs.mkdirSync(exportRoot, { recursive: true });
+  const base = path.basename(sourceFileName, ".json");
+  const safe = base.replace(/[^a-zA-Z0-9._-]/g, "_");
+  const dest = path.join(exportRoot, `${safe}.microcms.json`);
+  fs.writeFileSync(dest, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
+  say("[export]", dest);
+}
+
 async function main() {
+  const cli = parseCli(process.argv);
+  if (cli.sourceOverride) {
+    env.MIGRATE_ORDERS_DIR = cli.sourceOverride;
+  }
+  if (cli.exportDir) {
+    env.MIGRATE_EXPORT_DIR = cli.exportDir;
+  }
+
   const domain = env.MICROCMS_SERVICE_DOMAIN?.trim();
   const apiKey = env.MICROCMS_API_KEY?.trim();
-  const dry = env.MIGRATE_DRY_RUN === "1" || env.MIGRATE_DRY_RUN === "true";
+  const dry = cli.dry;
+  const exportDirRaw = env.MIGRATE_EXPORT_DIR?.trim();
+  const exportDirAbs = exportDirRaw
+    ? path.isAbsolute(exportDirRaw)
+      ? exportDirRaw
+      : path.resolve(ROOT, exportDirRaw)
+    : null;
 
   say("[migrate-orders] 開始");
   if (dry) {
-    say("[migrate-orders] DRY RUN: microCMS には書き込みません（登録するには --dry-run を付けずに実行）");
+    say("[migrate-orders] DRY RUN: microCMS には書き込みません（本番は --dry-run を付けずに実行）");
+  }
+  if (exportDirAbs) {
+    say("[migrate-orders] エクスポート先:", exportDirAbs);
   }
 
   if (!dry && (!domain || !apiKey)) {
@@ -323,6 +389,10 @@ async function main() {
 
     const { payload } = built;
 
+    if (exportDirAbs) {
+      writeExportPayload(exportDirAbs, file, payload);
+    }
+
     if (dry) {
       say("---", file, "---");
       say(JSON.stringify(payload, null, 2));
@@ -360,8 +430,15 @@ async function main() {
   say("[migrate-orders] 完了 ok=", String(ok), "skip=", String(skip), "fail=", String(fail));
   if (dry && ok > 0) {
     say(
-      "[migrate-orders] 上記が問題なければ、--dry-run を外して再実行すると microCMS に POST されます。",
+      "[migrate-orders] 問題なければ --dry-run を外して再実行すると microCMS に POST されます。",
     );
+    if (exportDirAbs) {
+      say(
+        "[migrate-orders] または ./scripts/post-microcms-orders-curl.sh",
+        exportDirAbs,
+        "で curl POST できます。",
+      );
+    }
   }
   if (fail > 0) process.exit(1);
 }

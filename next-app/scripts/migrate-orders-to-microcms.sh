@@ -5,6 +5,7 @@
 #   chmod +x scripts/migrate-orders-to-microcms.sh
 #   ./scripts/migrate-orders-to-microcms.sh
 #   ./scripts/migrate-orders-to-microcms.sh --dry-run
+#   ./scripts/migrate-orders-to-microcms.sh --dry-run --export ./data/orders-microcms-export
 #   ./scripts/migrate-orders-to-microcms.sh --source /var/app/data/orders
 #
 # Node が見つからない場合:
@@ -99,12 +100,23 @@ while [ $# -gt 0 ]; do
       export MIGRATE_ORDERS_DIR="$2"
       shift 2
       ;;
+    --export)
+      if [ $# -lt 2 ]; then
+        echo "error: --export には出力ディレクトリが必要です" >&2
+        exit 1
+      fi
+      export MIGRATE_EXPORT_DIR="$2"
+      shift 2
+      ;;
     -h|--help)
       cat <<'USAGE'
 注文 JSON を microCMS orders に移行（next-app 直下で実行）
 
-  ./scripts/migrate-orders-to-microcms.sh
-  ./scripts/migrate-orders-to-microcms.sh --dry-run
+  1) 確認のみ: ./scripts/migrate-orders-to-microcms.sh --dry-run
+     curl 用 JSON 出力: --export ./data/orders-microcms-export を追加
+  2) 本番 POST: ./scripts/migrate-orders-to-microcms.sh
+     手動 POST: ./scripts/post-microcms-orders-curl.sh ./data/orders-microcms-export
+
   ./scripts/migrate-orders-to-microcms.sh --source /path/to/orders
 
 環境変数: .env.local に MICROCMS_SERVICE_DOMAIN, MICROCMS_API_KEY
@@ -116,7 +128,7 @@ USAGE
       exit 0
       ;;
     *)
-      echo "error: 不明な引数: $1（--dry-run / --source DIR / --help）" >&2
+      echo "error: 不明な引数: $1（--dry-run / --source DIR / --export DIR / --help）" >&2
       exit 1
       ;;
   esac
