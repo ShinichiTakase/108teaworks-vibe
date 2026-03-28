@@ -25,6 +25,7 @@ export default function Footer() {
 
   return (
     <footer
+      id="site-footer"
       className="mt-16 bg-footer-top border-t border-b border-border"
       role="contentinfo"
     >

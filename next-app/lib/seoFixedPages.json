@@ -135,6 +135,20 @@
         "zh": "歡迎查看伊勢茶藤八茶寮的隱私權保護政策。我們極其重視您的個人資料安全，承諾以最嚴謹的標準管理與保護您的資訊。為了讓您能安心選購優質的伊勢茶，在此詳述我們在資安防護與遵循法規方面的具體措施。"
       }
     },
+    "/isecha_no_rekushi/": {
+      "title": {
+        "ja": "伊勢茶の歴史 お茶のおもしろ知識｜伊勢茶の藤八茶寮",
+        "en": "History of Ise Tea — Fun Facts About Tea | 伊勢茶の藤八茶寮",
+        "ko": "이세차의 역사·차의 재미있는 지식 | 伊勢茶の藤八茶寮",
+        "zh": "伊勢茶歷史與茶的趣味知識 | 伊勢茶の藤八茶寮"
+      },
+      "description": {
+        "ja": "伊勢茶の歴史とお茶のおもしろ知識（PDF版）を、右開きの縦書き冊子イメージでご覧いただけます。パソコン・スマートフォン向けの読み方のヒントもご案内しています。",
+        "en": "Browse the PDF of “History of Ise Tea — Fun Facts About Tea” in a right-opening, booklet-style spread. Tips for comfortable reading on desktop and mobile.",
+        "ko": "『이세차의 역사·차의 재미있는 지식』 PDF를 오른쪽으로 넘기는 책자처럼 감상할 수 있습니다. PC·모바일에서의 편한 보기 팁도 안내합니다.",
+        "zh": "以右開本冊式版面閱讀《伊勢茶歷史與茶的趣味知識》PDF。提供電腦與手機上的舒適閱讀建議。"
+      }
+    },
     "/legal/": {
       "title": {
         "ja": "特定商取引法に基づく表記：安心のお買い物ガイド | 伊勢茶の藤八茶寮",

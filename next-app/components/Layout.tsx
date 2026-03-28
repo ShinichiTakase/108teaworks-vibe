@@ -7,8 +7,9 @@ import LanguageSwitcher from "./LanguageSwitcher";
 import FloatingCartBar from "./FloatingCartBar";
 import FloatingChachamaruBar from "./FloatingChachamaruBar";
 import FloatingProductListBar from "./FloatingProductListBar";
+import FloatingBooksBanner from "./FloatingBooksBanner";
 
-const MAIN_CLASS = "pt-10 pb-16 px-4 md:py-16";
+const MAIN_CLASS = "pt-10 pb-28 px-4 md:pt-16 md:pb-36";
 const INNER_CLASS = "w-[90%] max-w-wide mx-auto";
 
 type LayoutProps = {
@@ -31,6 +32,7 @@ export default function Layout({ children, withInner = true }: LayoutProps) {
         )}
       </main>
       <Footer />
+      <FloatingBooksBanner />
       <LanguageSwitcher />
       <FloatingProductListBar />
       <FloatingChachamaruBar />

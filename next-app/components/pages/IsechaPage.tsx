@@ -9,11 +9,16 @@ const ISECHA_TEXTS: Record<
   {
     h1: string;
     intro: string;
-    sec1Title: string;
-    sec1P1: string;
-    sec1P2: string;
-    sec1P3: string;
-    sec1LinkText: string;
+    bookHistoryTitle: string;
+    bookHistoryP1: string;
+    bookHistoryP2: string;
+    bookHistoryLinkText: string;
+    altHistoryCover: string;
+    bookKawamataTitle: string;
+    bookKawamataP1: string;
+    bookKawamataP2: string;
+    bookKawamataLinkText: string;
+    authorBio: string;
     sec2Title1: string;
     sec2P1: string;
     sec2Title2: string;
@@ -45,14 +50,21 @@ const ISECHA_TEXTS: Record<
     h1: "伊勢茶とは",
     intro:
       "伊勢茶は、三重県内で生産されるお茶の総称として親しまれているブランド名です。その歴史は古く、江戸時代には既に「伊勢国（現在の三重県）」の特産品として広く栽培されていました。現在では三重県全域が産地となっており、地域の豊かな風土がその深い味わいを育んでいます。",
-    sec1Title: "伊勢茶発祥の地　川俣谷のお茶",
-    sec1P1:
-      "店主の大叔父であり日本茶インストラクターリーダーである高瀬孝二の著書「伊勢茶発祥の地　川俣谷のお茶」がPDFで全文ご覧いただけるようになりました。",
-    sec1P2:
-      "伊勢茶発祥の地・川俣谷を舞台に、将軍への献上や明治の対米輸出を主導した先駆者たちの情熱と歩みを日本茶インストラクターリーダーである著者が専門的知見から紐解きます。幻の手もみ技法から戦後の復活劇まで、一千年にわたる良質な伊勢茶の歴史を凝縮したお茶のプロならではの視点が光る読み物です。古の伊勢商人が世界を夢見た軌跡をたどり、深蒸し茶の香りに隠された驚きの物語をぜひご覧ください。",
-    sec1P3:
+    bookHistoryTitle: "伊勢茶の歴史 お茶のおもしろ知識",
+    bookHistoryP1:
+      "三重県の伝統ブランド「伊勢茶」は、鎌倉時代から続く深い歴史を持ち、江戸時代には将軍家への献上や海外輸出で日本の茶業を牽引しました。現在は全国第3位の生産量を誇り、その濃厚な風味と高い品質が特徴です。",
+    bookHistoryP2:
+      "本書は、緑茶の製法やカテキン等の健康成分、適切な温度での淹れ方など、お茶の基礎知識を幅広く解説しています。茶器の文化や「茶寿」などの習わし、保存法や茶殻の活用まで、日常でのお茶の楽しみ方を提案。先人が築いた伝統を背景に、一杯のお茶が暮らしに健やかさと彩りをもたらすことを伝える一冊です。",
+    bookHistoryLinkText: "伊勢茶の歴史 お茶のおもしろ知識を読む",
+    altHistoryCover: "伊勢茶の歴史 お茶のおもしろ知識 表紙",
+    bookKawamataTitle: "伊勢茶発祥の地　川俣谷のお茶",
+    bookKawamataP1:
+      "三重県「伊勢茶」の発祥地とされる川俣谷を中心に、鎌倉時代から現代までの歩みを記した記録です。江戸時代、紀州藩の保護や伊勢商人の活躍により、伊勢茶は将軍家への献上や全国への広範な流通網を持つ一大ブランドへと成長しました。",
+    bookKawamataP2:
+      "明治以降は、大谷嘉兵衛らの尽力で横浜・神戸・四日市港から米国等へ盛んに輸出され、日本茶貿易の主力を担いました。戦後の衰退期も、深蒸し茶の普及や降霜防止技術などの革新により復興を遂げます。本書は、豊富な古文書や取引記録を基に、伝統を守りつつ世界へ挑んだ先人たちの情熱と産業史を浮き彫りにしています。",
+    bookKawamataLinkText: "伊勢茶発祥の地　川俣谷のお茶を読む",
+    authorBio:
       "【著者略歴】高瀬　孝二：松阪市在住（元三重県職員）。三重県農業技術センター主席研究員兼茶業センター場長を最後に定年退職。退職後は三重県茶業会議所常務理事に就任。日本茶インストラクター協会認定・日本茶インストラクターリーダー、日本茶アドバイザー養成講座専任講師。令和６年 瑞宝双光章を受章。主な著書に「三重県茶業史」がある。",
-    sec1LinkText: "伊勢茶発祥の地 川俣谷のお茶を読む",
     sec2Title1: "全国第3位を誇る「お茶どころ」",
     sec2P1:
       "三重県は静岡県・鹿児島県に次いで全国第3位の生産量を誇る日本有数の茶産地です。意外と知られていない事実ですが、日本のお茶の多くがここ三重県で支えられています。",
@@ -102,14 +114,21 @@ const ISECHA_TEXTS: Record<
     h1: "What is Ise Tea",
     intro:
       "Ise tea is the name given to tea produced in Mie Prefecture. Its history is long: by the Edo period it was already grown as a specialty of Ise (today’s Mie). The whole of Mie is now a production area, and the region’s climate and soil give the tea its deep flavour.",
-    sec1Title: "Tea of Kawamatadani, the birthplace of Ise tea",
-    sec1P1:
-      "The full text of “Tea of Kawamatadani, the Birthplace of Ise Tea” by Takase Koji—Japanese Tea Instructor Leader and great-uncle of the owner, Takase Haruka—is now available as a PDF.",
-    sec1P2:
-      "Set in Kawamatadani, the birthplace of Ise tea, the book traces the passion and history of pioneers who offered tea to the shogunate and led Meiji-era exports to the US. The author, a Japanese Tea Instructor Leader, draws on his expertise to cover everything from the lost hand-rolling technique to postwar revival. A concise history of a thousand years of fine Ise tea, from a tea professional’s perspective.",
-    sec1P3:
-      "[About the author] Takase Koji: Based in Matsusaka (former Mie Prefecture official). Retired as Senior Researcher and Director of the Tea Research Center, Mie Agricultural Technology Center. Later served as Managing Director of the Mie Prefecture Tea Council. Certified Japanese Tea Instructor Leader; dedicated lecturer for the Japanese Tea Adviser training course. Received the Order of the Sacred Treasure, Gold and Silver Rays (Reiwa 6). Author of “History of Tea in Mie Prefecture,” among others.",
-    sec1LinkText: "Read Tea of Kawamatadani",
+    bookHistoryTitle: "History of Ise Tea — Fun Facts About Tea",
+    bookHistoryP1:
+      "Mie’s traditional brand “Ise tea” has deep roots from the Kamakura period; in the Edo period it was presented to the shogun’s household and exported abroad, helping drive Japan’s tea industry. Today it ranks third in national production, known for rich flavour and high quality.",
+    bookHistoryP2:
+      "This book explains green tea processing, health-related components such as catechins, and brewing at the right temperature, plus tea utensils, customs like “chajuu,” storage, and ways to reuse spent leaves—ideas for enjoying tea in daily life. Against traditions built by past generations, it shows how one cup can bring wellbeing and colour to everyday living.",
+    bookHistoryLinkText: "Read History of Ise Tea — Fun Facts About Tea",
+    altHistoryCover: "Cover: History of Ise Tea — Fun Facts About Tea",
+    bookKawamataTitle: "Tea of Kawamatadani, the birthplace of Ise tea",
+    bookKawamataP1:
+      "A record centred on Kawamatadani, regarded as the birthplace of “Ise tea” in Mie, from the Kamakura period to the present. Under Kishū domain patronage and the efforts of Ise merchants, Ise tea grew into a major brand with tribute to the shogun and a nationwide distribution network.",
+    bookKawamataP2:
+      "From the Meiji era, figures such as Ōtani Kahei promoted exports from Yokohama, Kobe, and Yokkaichi to the United States and beyond, making it a pillar of Japan’s tea trade. Even after postwar decline, innovations such as fukamushi tea and frost-prevention technology spurred revival. Drawing on extensive archival materials and trade records, the book highlights the passion and industrial history of those who upheld tradition while reaching for the world.",
+    bookKawamataLinkText: "Read Tea of Kawamatadani",
+    authorBio:
+      "[About the author] Takase Koji: Based in Matsusaka (former Mie Prefecture official). Retired as Senior Researcher and Director of the Tea Research Center, Mie Agricultural Technology Center. Later served as Managing Director of the Mie Prefecture Tea Council. Certified Japanese Tea Instructor Leader; dedicated lecturer for the Japanese Tea Adviser training course. Received the Order of the Sacred Treasure, Gold and Silver Rays (Reiwa 6). His publications include “History of Tea in Mie Prefecture.”",
     sec2Title1: "Japan’s third-largest tea-growing region",
     sec2P1:
       "Mie Prefecture is one of Japan’s leading tea-producing areas, ranking third in production after Shizuoka and Kagoshima. A little-known fact: much of Japan’s tea is grown here in Mie.",
@@ -159,14 +178,21 @@ const ISECHA_TEXTS: Record<
     h1: "이세차란",
     intro:
       "이세차는 미에현에서 생산되는 차의 총칭으로 사랑받는 브랜드 이름입니다. 역사는 오래되어 에도 시대에는 이미 「이세국(현재의 미에현)」의 특산품으로 널리 재배되고 있었습니다. 현재는 미에현 전역이 산지이며, 지역의 풍부한 풍토가 그 깊은 맛을 키우고 있습니다.",
-    sec1Title: "이세차 발상지 가와마타다니의 차",
-    sec1P1:
-      "점주 다카세 하루카의 대숙부이자 일본차 인스트럭터 리더인 다카세 고지의 저서 「이세차 발상지 가와마타다니의 차」가 PDF로 전문 열람 가능해졌습니다.",
-    sec1P2:
-      "이세차 발상지 가와마타다니를 무대로, 장군에게의 헌상과 메이지 대미 수출을 주도한 선구자들의 열정과 발자취를 일본차 인스트럭터 리더인 저자가 전문적 견해로 풀어냅니다. 환상의 손으로 비비는 기법에서 전후 부활극까지, 천 년에 걸친 양질의 이세차 역사를 응축한, 차 전문가만의 시각이 돋보이는 읽을거리입니다.",
-    sec1P3:
-      "【저자 약력】다카세 고지: 마쓰사카 시 거주(전 미에현 직원). 미에현 농업기술센터 수석연구원 겸 차업센터 소장으로 정년 퇴직. 퇴직 후 미에현 차업회의소 상무이사 취임. 일본차 인스트럭터 협회 인정·일본차 인스트럭터 리더, 일본차 어드바이저 양성 강좌 전임 강사. 레이와 6년 수보쌍광장 수훈. 저서에 「미에현 차업사」가 있음.",
-    sec1LinkText: "이세차 발상지 가와마타다니의 차 읽기",
+    bookHistoryTitle: "이세차의 역사·차의 재미있는 지식",
+    bookHistoryP1:
+      "미에현의 전통 브랜드 「이세차」는 가마쿠라 시대부터 이어진 깊은 역사를 지니며, 에도 시대에는 장군가에 헌상되고 해외 수출로 일본 차업을 이끌었습니다. 현재는 전국 제3위의 생산량과 진한 풍미·높은 품질로 알려져 있습니다.",
+    bookHistoryP2:
+      "이 책은 녹차 제법, 카테킨 등 건강 성분, 적절한 온도에서 우리는 법 등 차의 기초를 폭넓게 설명합니다. 다구의 문화와 「차수」 등 풍습, 보관법과 찻잎 찌꺼기 활용까지 일상에서 차를 즐기는 방법을 제안합니다. 선조가 쌓아 온 전통을 배경으로, 한 잔의 차가 삶에 건강과 색채를 가져다준다는 메시지를 담은 한 권입니다.",
+    bookHistoryLinkText: "『이세차의 역사·차의 재미있는 지식』 읽기",
+    altHistoryCover: "표지: 이세차의 역사·차의 재미있는 지식",
+    bookKawamataTitle: "이세차 발상지 가와마타다니의 차",
+    bookKawamataP1:
+      "미에현 「이세차」의 발상지로 여겨지는 가와마타다니를 중심으로 가마쿠라 시대부터 현대까지의 발자취를 기록했습니다. 에도 시대에는 기슈번의 보호와 이세 상인들의 활약으로 장군가 헌상과 전국 유통망을 갖춘 대 브랜드로 성장했습니다.",
+    bookKawamataP2:
+      "메이지 이후에는 오타니 가헤이 등의 노력으로 요코하마·고베·욧카이치항에서 미국 등으로 활발히 수출되어 일본 차 무역의 주력을 담당했습니다. 전후 쇠퇴기에도 후카무시차 보급·상서 방지 기술 등 혁신으로 부활을 이룹니다. 풍부한 고문서와 거래 기록을 바탕으로 전통을 지키며 세계에 도전한 선조들의 열정과 산업사를 부각합니다.",
+    bookKawamataLinkText: "『이세차 발상지 가와마타다니의 차』 읽기",
+    authorBio:
+      "【저자 약력】다카세 고지: 마쓰사카 시 거주(전 미에현 직원). 미에현 농업기술센터 수석연구원 겸 차업센터 소장으로 정년 퇴직. 퇴직 후 미에현 차업회의소 상무이사 취임. 일본차 인스트럭터 협회 인정·일본차 인스트럭터 리더, 일본차 어드바이저 양성 강좌 전임 강사. 레이와 6년 수보쌍광장 수훈. 주요 저서에 「미에현 차업사」가 있음.",
     sec2Title1: "전국 3위를 자랑하는 「차 고장」",
     sec2P1:
       "미에현은 시즈오카현·가고시마현에 이어 전국 3위의 생산량을 자랑하는 일본 굴지의 차 산지입니다. 잘 알려지지 않은 사실이지만, 일본 차의 상당 부분이 이 미에현에서 지탱되고 있습니다.",
@@ -216,14 +242,21 @@ const ISECHA_TEXTS: Record<
     h1: "什么是伊势茶",
     intro:
       "伊势茶是在三重县内生产的茶的总称，是广为人知的品牌名。其历史久远，在江户时代已作为「伊势国（现三重县）」的特产广泛栽培。如今三重县全域均为产地，当地的风土孕育了其深厚的滋味。",
-    sec1Title: "伊势茶发祥地 川俣谷之茶",
-    sec1P1:
-      "店主高瀬晴香的叔祖父、日本茶讲师领袖高瀬孝二的著作《伊势茶发祥地 川俣谷之茶》已可全文以PDF形式阅览。",
-    sec1P2:
-      "以伊势茶发祥地川俣谷为舞台，由身为日本茶讲师领袖的著者从专业角度解读向将军进贡与明治对美出口的先驱者的热情与历程。从幻之手揉技法到战后复兴，浓缩千年优质伊势茶历史，呈现茶业专业人士的视角。追溯昔日伊势商人对世界的梦想，深蒸茶香气背后令人惊叹的故事，敬请一读。",
-    sec1P3:
-      "【作者简介】高瀬孝二：居住于松阪市（原三重县职员）。曾任三重县农业技术中心首席研究员兼茶业中心主任后退休。退休后任三重县茶业会议所常务理事。日本茶讲师协会认定·日本茶讲师领袖、日本茶顾问养成讲座专任讲师。令和6年受勋瑞宝双光章。主要著作有《三重县茶业史》等。",
-    sec1LinkText: "阅读《伊势茶发祥地 川俣谷之茶》",
+    bookHistoryTitle: "伊势茶历史与茶的趣味知识",
+    bookHistoryP1:
+      "三重县的传统品牌「伊势茶」自镰仓时代起便有深厚历史，江户时代曾进献将军家并外销海外，引领日本茶业。如今产量居全国第三位，以浓郁风味与高品质著称。",
+    bookHistoryP2:
+      "本书广泛解说绿茶制法、儿茶素等健康成分、适温冲泡等基础知识，并介绍茶具文化、「茶寿」等习俗、保存与茶渣活用，提案日常生活中的品茶方式。在先人奠定的传统背景下，传达一杯茶如何为生活带来健康与色彩。",
+    bookHistoryLinkText: "阅读《伊势茶历史与茶的趣味知识》",
+    altHistoryCover: "封面：伊势茶历史与茶的趣味知识",
+    bookKawamataTitle: "伊势茶发祥地 川俣谷之茶",
+    bookKawamataP1:
+      "以被视为三重县「伊势茶」发祥地的川俣谷为中心，记录从镰仓时代至现代的历程。江户时代在纪州藩保护与伊势商人推动下，伊势茶成长为进献将军家并拥有全国流通网络的大品牌。",
+    bookKawamataP2:
+      "明治以后，经大谷嘉兵卫等人努力，从横滨、神户、四日市港向美国等地大量出口，成为日本茶贸易主力。战后衰退期亦靠深蒸茶普及、防霜技术等创新实现复兴。本书依据丰富古籍与交易记录，凸显坚守传统同时向世界挑战的先人与产业史。",
+    bookKawamataLinkText: "阅读《伊势茶发祥地 川俣谷之茶》",
+    authorBio:
+      "【作者简介】高瀬孝二：居住于松阪市（原三重县职员）。曾任三重县农业技术中心首席研究员兼茶业中心主任后退休。退休后任三重县茶业会议所常务理事。日本茶讲师协会认定·日本茶讲师领袖、日本茶顾问养成讲座专任讲师。令和6年受勋瑞宝双光章。主要著作有《三重县茶业史》。",
     sec2Title1: "位居全国第三的「茶乡」",
     sec2P1:
       "三重县是仅次于静冈县、鹿儿岛县的全国第三大产地，是日本屈指可数的茶产区。意外的是，日本许多茶都产自三重县。",
@@ -275,6 +308,10 @@ function kabatadaniHref(locale: Locale): string {
   return locale === "ja" ? "/kabatadani_no_ocha" : `/${locale}/kabatadani_no_ocha`;
 }
 
+function isechaNoRekushiHref(locale: Locale): string {
+  return locale === "ja" ? "/isecha_no_rekushi" : `/${locale}/isecha_no_rekushi`;
+}
+
 /** トップページの商品一覧を指定フィルターで絞り込んだURL（filter=深蒸し茶 など） */
 function productsFilterHref(locale: Locale, filterValue: string): string {
   const base = locale === "ja" ? "" : `/${locale}`;
@@ -290,46 +327,102 @@ type Props = {
 export default function IsechaPage({ locale }: Props) {
   const t = ISECHA_TEXTS[locale];
   const kabatadani = kabatadaniHref(locale);
+  const rekushi = isechaNoRekushiHref(locale);
+
+  const booksRegionLabel =
+    locale === "ja"
+      ? "高瀬孝二著の電子書籍"
+      : locale === "en"
+        ? "E-books by Koji Takase"
+        : locale === "ko"
+          ? "다카세 고지 저 전자책"
+          : "高瀬孝二著作电子书";
 
   return (
     <main className={MAIN_CLASS} id="main-content" role="main">
       <div className={INNER_CLASS}>
         <section aria-labelledby="isecha-heading" className="mb-12">
-          <div className="mb-12 grid grid-cols-1 items-start gap-6 md:grid-cols-2 md:gap-8">
-            <figure className="overflow-hidden rounded-md">
-              <Link href={kabatadani}>
-                <Image
-                  src="/images/isecha-kawamata.jpg"
-                  alt={t.altKawamata}
-                  width={716}
-                  height={1024}
-                  className="h-auto w-full object-cover"
-                />
-              </Link>
-            </figure>
-            <div className="text-left">
-              <h2 className="mt-0 mb-3 text-lg font-semibold text-tea-deep md:text-xl">
-                <Link href={kabatadani} className="no-underline hover:underline underline-offset-4">
-                  {t.sec1Title}
-                </Link>
-              </h2>
-              <p className="mb-4 text-[0.9375rem] leading-relaxed text-ink-muted">
-                {t.sec1P1}
-              </p>
-              <p className="mb-0 text-[0.9375rem] leading-relaxed text-ink-muted">
-                {t.sec1P2}
-              </p>
-              <p className="mt-4 mb-2 text-[0.9375rem] leading-relaxed text-ink-muted">
-                {t.sec1P3}
-              </p>
-              <p className="mb-0 text-[0.9375rem] leading-relaxed text-ink-muted">
-                <Link
-                  href={kabatadani}
-                  className="text-tea-deep underline underline-offset-4 hover:text-tea-deeper"
-                >
-                  {t.sec1LinkText}
-                </Link>
-              </p>
+          <div className="mb-12" role="region" aria-label={booksRegionLabel}>
+            <div className="mb-8 grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-8">
+              <article className="flex flex-col text-left">
+                <figure className="mb-4 overflow-hidden rounded-md">
+                  <Link href={rekushi} target="_self">
+                    <Image
+                      src="/images/isecha_no_rekushi.jpg"
+                      alt={t.altHistoryCover}
+                      width={716}
+                      height={1024}
+                      className="h-auto w-full object-cover"
+                    />
+                  </Link>
+                </figure>
+                <h2 className="mt-0 mb-3 text-lg font-semibold text-tea-deep md:text-xl">
+                  <Link
+                    href={rekushi}
+                    target="_self"
+                    className="no-underline hover:underline underline-offset-4"
+                  >
+                    {t.bookHistoryTitle}
+                  </Link>
+                </h2>
+                <p className="mb-4 text-[0.9375rem] leading-relaxed text-ink-muted">
+                  {t.bookHistoryP1}
+                </p>
+                <p className="mb-4 flex-1 text-[0.9375rem] leading-relaxed text-ink-muted">
+                  {t.bookHistoryP2}
+                </p>
+                <p className="mb-0 text-right text-[0.9375rem] leading-relaxed text-ink-muted">
+                  <Link
+                    href={rekushi}
+                    target="_self"
+                    className="text-tea-deep underline underline-offset-4 hover:text-tea-deeper"
+                  >
+                    {t.bookHistoryLinkText}
+                  </Link>
+                </p>
+              </article>
+
+              <article className="flex flex-col text-left">
+                <figure className="mb-4 overflow-hidden rounded-md">
+                  <Link href={kabatadani} target="_self">
+                    <Image
+                      src="/images/isecha-kawamata.jpg"
+                      alt={t.altKawamata}
+                      width={716}
+                      height={1024}
+                      className="h-auto w-full object-cover"
+                    />
+                  </Link>
+                </figure>
+                <h2 className="mt-0 mb-3 text-lg font-semibold text-tea-deep md:text-xl">
+                  <Link
+                    href={kabatadani}
+                    target="_self"
+                    className="no-underline hover:underline underline-offset-4"
+                  >
+                    {t.bookKawamataTitle}
+                  </Link>
+                </h2>
+                <p className="mb-4 text-[0.9375rem] leading-relaxed text-ink-muted">
+                  {t.bookKawamataP1}
+                </p>
+                <p className="mb-4 flex-1 text-[0.9375rem] leading-relaxed text-ink-muted">
+                  {t.bookKawamataP2}
+                </p>
+                <p className="mb-0 text-right text-[0.9375rem] leading-relaxed text-ink-muted">
+                  <Link
+                    href={kabatadani}
+                    target="_self"
+                    className="text-tea-deep underline underline-offset-4 hover:text-tea-deeper"
+                  >
+                    {t.bookKawamataLinkText}
+                  </Link>
+                </p>
+              </article>
+            </div>
+
+            <div className="rounded-lg border-2 border-tea-deep bg-white px-4 py-4 text-[0.875rem] leading-relaxed text-ink-muted md:px-6 md:py-4">
+              <p className="m-0">{t.authorBio}</p>
             </div>
           </div>
 

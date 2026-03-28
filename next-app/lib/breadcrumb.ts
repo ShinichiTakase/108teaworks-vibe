@@ -28,6 +28,12 @@ const PATH_LITERALS: Record<string, Record<Locale, string>> = {
     ko: "카바타다니의 차",
     zh: "蕪谷之茶",
   },
+  "/isecha_no_rekushi": {
+    ja: "伊勢茶の歴史 お茶のおもしろ知識",
+    en: "History of Ise Tea — Fun Facts",
+    ko: "이세차의 역사·차의 재미있는 지식",
+    zh: "伊勢茶歷史與茶的趣味知識",
+  },
 };
 
 function getLabelFromKey(key: string, locale: Locale): string {

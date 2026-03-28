@@ -9,9 +9,13 @@ pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   import.meta.url,
 ).toString();
 
-const PDF_URL = "/pdf/kahadadani_no_ocha.pdf";
+const DEFAULT_PDF_URL = "/pdf/kahadadani_no_ocha.pdf";
 
-export default function KabatadaniViewer() {
+type KabatadaniViewerProps = {
+  pdfUrl?: string;
+};
+
+export default function KabatadaniViewer({ pdfUrl = DEFAULT_PDF_URL }: KabatadaniViewerProps) {
   const [numPages, setNumPages] = useState<number | null>(null);
   const [currentPage, setCurrentPage] = useState(1); // 1ページ目＝表紙
   const [zoom, setZoom] = useState(1); // 1.0 = 等倍
@@ -66,7 +70,7 @@ export default function KabatadaniViewer() {
       <div className="relative flex h-[70vh] flex-col rounded-lg bg-cream shadow-inner">
         <div className="flex-1 overflow-hidden">
           <Document
-            file={PDF_URL}
+            file={pdfUrl}
             onLoadSuccess={onDocumentLoadSuccess}
             loading={
               <div className="flex h-full items-center justify-center text-[0.9375rem] text-ink-muted">
@@ -77,7 +81,7 @@ export default function KabatadaniViewer() {
               <div className="flex h-full items-center justify-center px-4 text-[0.9375rem] leading-relaxed text-ink-muted">
                 PDF を読み込めませんでした。
                 <a
-                  href={PDF_URL}
+                  href={pdfUrl}
                   className="ml-1 text-tea-deep underline underline-offset-4"
                 >
                   ダウンロードはこちら
