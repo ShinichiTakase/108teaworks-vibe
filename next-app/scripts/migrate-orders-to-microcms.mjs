@@ -15,8 +15,14 @@
  * - または既に構造化: { orderNo, email, orderDateTime?, shipping?, discount?, orderTotal?, orderLines: [...] }
  *
  * 環境変数（.env.local 可）: MICROCMS_SERVICE_DOMAIN, MICROCMS_API_KEY
+ * 注文 JSON の場所:
+ *   - .env.local の ORDER_SNAPSHOTS_DIR は Docker だと /app/... になりがち。ホストでこのスクリプトを
+ *     実行するときは、そのパス上に *.json が無ければ無視し、next-app 直下の data/orders 等を探す。
+ *   - ホストの絶対パスを明示したいときは --source または、ホスト用に ORDER_SNAPSHOTS_DIR を
+ *     /mnt/.../next-app/data/orders のように書く（microCMS 用のキーはそのまま .env.local でよい）。
  * CLI: --dry-run  --source DIR  --export DIR  --help
- * 環境変数: MIGRATE_ORDERS_DIR, MIGRATE_DRY_RUN=1, MIGRATE_EXPORT_DIR, MIGRATE_OMIT_TITLE=1
+ * 環境変数: ORDER_SNAPSHOTS_DIR → MIGRATE_ORDERS_DIR の順（いずれも「このマシンで *.json が取れる」ときだけ採用）、
+ *           MIGRATE_DRY_RUN=1, MIGRATE_EXPORT_DIR, MIGRATE_OMIT_TITLE=1
  *
  * Ubuntu: ./scripts/migrate-orders-to-microcms.sh
  */
@@ -63,6 +69,7 @@ const MIGRATE_SHELL_KEYS = [
   "MIGRATE_ORDERS_DIR",
   "MIGRATE_DRY_RUN",
   "MIGRATE_OMIT_TITLE",
+  "ORDER_SNAPSHOTS_DIR",
 ];
 for (const k of MIGRATE_SHELL_KEYS) {
   const fromShell = process.env[k];
@@ -167,7 +174,8 @@ function parseOrderHtmlBody(body) {
 
 function parseCli(argv) {
   let dry = env.MIGRATE_DRY_RUN === "1" || env.MIGRATE_DRY_RUN === "true";
-  let sourceOverride = env.MIGRATE_ORDERS_DIR?.trim() || null;
+  /** --source のみ（.env のパスは resolveSourceDir で別扱い。Docker 内パスを誤採用しない） */
+  let sourceOverride = null;
   let exportDir = env.MIGRATE_EXPORT_DIR?.trim() || null;
   const args = argv.slice(2);
   for (let i = 0; i < args.length; i++) {
@@ -213,22 +221,41 @@ function listJsonInDir(dirAbs) {
   return fs.readdirSync(dirAbs).filter(isJsonFileName).sort();
 }
 
+function resolveEnvPath(raw) {
+  const t = raw.trim();
+  if (!t) return null;
+  return path.isAbsolute(t) ? t : path.resolve(ROOT, t);
+}
+
 /** どのパスが採用されるか・件数がターミナルで追えるようにする */
-function logSourceDirResolution() {
+function logSourceDirResolution(sourceFromArgv) {
   const rootAbs = path.resolve(ROOT);
   say("[migrate-orders] ROOT（next-app）:", rootAbs);
-  const fromEnv = env.MIGRATE_ORDERS_DIR?.trim();
-  if (fromEnv) {
-    const abs = path.isAbsolute(fromEnv) ? fromEnv : path.resolve(ROOT, fromEnv);
+  if (sourceFromArgv) {
+    const abs = resolveEnvPath(sourceFromArgv);
     const n = listJsonInDir(abs).length;
-    say("[migrate-orders] MIGRATE_ORDERS_DIR / --source を使用:", abs, "→ *.json", String(n), "件");
+    say("[migrate-orders] --source（明示）:", abs, "→ *.json", String(n), "件");
     return;
+  }
+  const envKeys = ["ORDER_SNAPSHOTS_DIR", "MIGRATE_ORDERS_DIR"];
+  say(
+    "[migrate-orders] 環境変数（このマシンで *.json が1件以上あるときだけ採用。Docker の /app/... はホストでは 0 件扱いでスキップ）:",
+  );
+  for (const key of envKeys) {
+    const raw = env[key]?.trim();
+    if (!raw) {
+      say(" ", key, "=（未設定）");
+      continue;
+    }
+    const abs = resolveEnvPath(raw);
+    const n = listJsonInDir(abs).length;
+    say(" ", key, "=", abs, "→ *.json", String(n), "件");
   }
   const candidates = [
     path.join(ROOT, "data", "orders"),
     path.join(ROOT, ".data", "order_snapshots"),
   ];
-  say("[migrate-orders] 自動候補（上から *.json が1件以上ある最初のディレクトリを採用）:");
+  say("[migrate-orders] 上記が使えない場合の自動候補（*.json が1件以上ある最初のディレクトリを採用）:");
   for (const c of candidates) {
     const abs = path.resolve(c);
     if (!fs.existsSync(abs)) {
@@ -243,14 +270,27 @@ function logSourceDirResolution() {
     const j = all.filter(isJsonFileName);
     say(" ", abs, "→ *.json", String(j.length), "件（エントリ計", String(all.length), "）");
   }
-  say("[migrate-orders] いずれも 0 件なら既定として参照するパス:", path.resolve(ROOT, "data", "orders"));
+  say("[migrate-orders] いずれも 0 件なら参照のみ試すパス:", path.resolve(ROOT, "data", "orders"));
 }
 
-function resolveSourceDir() {
-  const fromEnv = env.MIGRATE_ORDERS_DIR?.trim();
-  if (fromEnv) {
-    const abs = path.isAbsolute(fromEnv) ? fromEnv : path.resolve(ROOT, fromEnv);
-    return abs;
+/**
+ * --source: ユーザー指定をそのまま返す（存在・件数は main で検証）
+ * それ以外: ORDER_SNAPSHOTS_DIR → MIGRATE_ORDERS_DIR の順で「*.json が取れる」パスのみ採用し、
+ *           だめなら data/orders / .data/order_snapshots を探索
+ */
+function resolveSourceDir(sourceFromArgv) {
+  if (sourceFromArgv) {
+    return resolveEnvPath(sourceFromArgv);
+  }
+  const envKeysOrder = ["ORDER_SNAPSHOTS_DIR", "MIGRATE_ORDERS_DIR"];
+  for (const key of envKeysOrder) {
+    const raw = env[key]?.trim();
+    if (!raw) continue;
+    const abs = resolveEnvPath(raw);
+    if (listJsonInDir(abs).length > 0) {
+      say("[migrate-orders] 採用:", key, "→", abs);
+      return abs;
+    }
   }
   const candidates = [
     path.join(ROOT, "data", "orders"),
@@ -354,12 +394,10 @@ function writeExportPayload(exportRoot, sourceFileName, payload) {
 
 async function main() {
   const cli = parseCli(process.argv);
-  if (cli.sourceOverride) {
-    env.MIGRATE_ORDERS_DIR = cli.sourceOverride;
-  }
   if (cli.exportDir) {
     env.MIGRATE_EXPORT_DIR = cli.exportDir;
   }
+  const sourceFromArgv = cli.sourceOverride;
 
   const domain = env.MICROCMS_SERVICE_DOMAIN?.trim();
   const apiKey = env.MICROCMS_API_KEY?.trim();
@@ -385,14 +423,18 @@ async function main() {
   }
 
   const apiBase = domain ? `https://${domain}.microcms.io/api/v1` : "";
-  logSourceDirResolution();
-  const sourceDir = resolveSourceDir();
+  logSourceDirResolution(sourceFromArgv);
+  const sourceDir = resolveSourceDir(sourceFromArgv);
 
   if (!fs.existsSync(sourceDir)) {
     say("[migrate-orders] ソースディレクトリがありません:", sourceDir);
-    say(
-      "[migrate-orders] mkdir するか、MIGRATE_ORDERS_DIR または --source で既存パスを指定してください。",
-    );
+    if (sourceFromArgv) {
+      say("[migrate-orders] --source のパスを確認してください（ホスト上の絶対パスか、next-app からの相対パス）。");
+    } else {
+      say(
+        "[migrate-orders] mkdir するか、--source /mnt/.../next-app/data/orders のようにホストパスを指定してください。",
+      );
+    }
     process.exit(1);
   }
 
@@ -414,8 +456,8 @@ async function main() {
       say("[migrate-orders] ディレクトリ一覧の取得に失敗:", e.message);
     }
     say("[migrate-orders] 次を確認してください:");
-    say("  ・ホストで実行している場合、.env.local の MIGRATE_ORDERS_DIR がコンテナ内パス（例 /app/data/orders）になっていないか");
-    say("  ・注文 JSON の実パスを --source で指定: ./scripts/migrate-orders-to-microcms.sh --dry-run --source /絶対パス/orders");
+    say("  ・.env.local の ORDER_SNAPSHOTS_DIR が Docker 用（例 /app/data/orders）だけのとき、ホストでは参照されず data/orders を見に行きます。JSON が無ければ --source でホスト絶対パスを指定:");
+    say("    例: --source /mnt/nvme01/project/108teaworks-vibe/next-app/data/orders");
     say("  ・Docker のボリュームなら、マウント先のホスト側ディレクトリを指定する");
     process.exit(0);
   }
