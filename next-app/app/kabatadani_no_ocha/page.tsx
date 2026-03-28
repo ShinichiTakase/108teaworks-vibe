@@ -1,5 +1,14 @@
+import dynamic from "next/dynamic";
 import { MAIN_CLASS, INNER_CLASS } from "@/components/Layout";
-import KabatadaniViewer from "@/components/KabatadaniViewer";
+
+const KabatadaniViewer = dynamic(() => import("@/components/KabatadaniViewer"), {
+  ssr: false,
+  loading: () => (
+    <div className="flex min-h-[50vh] items-center justify-center text-[0.9375rem] text-ink-muted">
+      読み込み中…
+    </div>
+  ),
+});
 import PageEndProductList from "@/components/PageEndProductList";
 import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import { getFixedSeo, buildAlternatesForLocales } from "@/lib/seo";
