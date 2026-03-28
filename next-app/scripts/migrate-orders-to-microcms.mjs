@@ -205,6 +205,12 @@ function parseCli(argv) {
   const args = [];
   for (let i = 0; i < raw.length; i++) {
     const a = raw[i];
+    const prev = i > 0 ? raw[i - 1] : "";
+    /** --source DIR / --export DIR の DIR はディレクトリ短縮形にしない（二重 --source になる） */
+    if (prev === "--source" || prev === "--export") {
+      args.push(a);
+      continue;
+    }
     const dir = tryResolveDirArg(a);
     if (dir) {
       args.push("--source", dir);
