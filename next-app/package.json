@@ -10,6 +10,8 @@
     "dev:3030": "next dev -p 3030",
     "receipt-font": "node scripts/download-receipt-font.mjs",
     "test:shipping-json": "node scripts/verify-shipping-json.mjs",
+    "orders:migrate-microcms": "node scripts/migrate-orders-to-microcms.mjs",
+    "orders:migrate-microcms:sh": "bash scripts/migrate-orders-to-microcms.sh",
     "build": "next build",
     "start": "next start",
     "start:prod": "next start",
