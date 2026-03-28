@@ -12,6 +12,7 @@
 #   - バイナリを直接指定: export MIGRATE_NODE=/path/to/node
 #
 # 要: Node.js 18+、.env.local に MICROCMS_SERVICE_DOMAIN / MICROCMS_API_KEY（--dry-run 時はキー不要）
+# .env.local は CRLF でも可（読み込み時に CR を除去）
 #
 set -euo pipefail
 
@@ -20,11 +21,12 @@ ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 cd "${ROOT}"
 
 # .env.local を先に読む（PATH や MIGRATE_NODE を書けるようにする）
+# Windows 由来の CRLF だと source で $'\r': command not found になるため CR を除去する
 ENV_FILE="${ROOT}/.env.local"
 if [ -f "${ENV_FILE}" ]; then
   set -a
   # shellcheck disable=SC1090
-  source "${ENV_FILE}"
+  source <(sed 's/\r$//' "${ENV_FILE}")
   set +a
 fi
 

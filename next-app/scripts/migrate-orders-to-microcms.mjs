@@ -30,8 +30,8 @@ function loadEnvLocal() {
   if (!fs.existsSync(p)) return {};
   const text = fs.readFileSync(p, "utf8");
   const env = {};
-  for (const line of text.split("\n")) {
-    const trimmed = line.trim();
+  for (const line of text.split(/\r?\n/)) {
+    const trimmed = line.replace(/\r/g, "").trim();
     if (!trimmed || trimmed.startsWith("#")) continue;
     const eq = trimmed.indexOf("=");
     if (eq <= 0) continue;
