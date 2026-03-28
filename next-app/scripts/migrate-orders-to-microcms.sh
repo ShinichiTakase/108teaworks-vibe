@@ -86,10 +86,14 @@ if [ "${NODE_MAJOR}" -lt 18 ] 2>/dev/null; then
   exit 1
 fi
 
+# Node にそのまま渡す（.env.local マージで MIGRATE_* が消えるのを防ぐ）
+NODE_SCRIPT_ARGS=()
+
 while [ $# -gt 0 ]; do
   case "$1" in
     --dry-run)
       export MIGRATE_DRY_RUN=1
+      NODE_SCRIPT_ARGS+=(--dry-run)
       shift
       ;;
     --source)
@@ -98,6 +102,7 @@ while [ $# -gt 0 ]; do
         exit 1
       fi
       export MIGRATE_ORDERS_DIR="$2"
+      NODE_SCRIPT_ARGS+=(--source "$2")
       shift 2
       ;;
     --export)
@@ -106,6 +111,7 @@ while [ $# -gt 0 ]; do
         exit 1
       fi
       export MIGRATE_EXPORT_DIR="$2"
+      NODE_SCRIPT_ARGS+=(--export "$2")
       shift 2
       ;;
     -h|--help)
@@ -138,5 +144,5 @@ echo "working directory: ${ROOT}" >&2
 echo "using node: ${NODE_CMD} ($("${NODE_CMD}" -v))" >&2
 echo "（--dry-run 時は microCMS へは書き込みません）" >&2
 # exec だと子プロセスの出力が環境によって取りこぼすことがあるため通常起動にする
-"${NODE_CMD}" "${ROOT}/scripts/migrate-orders-to-microcms.mjs"
+"${NODE_CMD}" "${ROOT}/scripts/migrate-orders-to-microcms.mjs" "${NODE_SCRIPT_ARGS[@]}"
 exit $?

@@ -55,7 +55,21 @@ function loadEnvLocal() {
   return env;
 }
 
-const env = { ...process.env, ...loadEnvLocal() };
+const fromEnvLocal = loadEnvLocal();
+const env = { ...process.env, ...fromEnvLocal };
+/** シェル（migrate-orders-to-microcms.sh の --export 等）で渡した MIGRATE_* は .env.local の空行で消さない */
+const MIGRATE_SHELL_KEYS = [
+  "MIGRATE_EXPORT_DIR",
+  "MIGRATE_ORDERS_DIR",
+  "MIGRATE_DRY_RUN",
+  "MIGRATE_OMIT_TITLE",
+];
+for (const k of MIGRATE_SHELL_KEYS) {
+  const fromShell = process.env[k];
+  if (fromShell != null && String(fromShell).trim() !== "") {
+    env[k] = fromShell;
+  }
+}
 
 function stripTags(html) {
   return html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
