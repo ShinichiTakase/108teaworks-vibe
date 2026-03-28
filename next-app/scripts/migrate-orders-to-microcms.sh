@@ -1,9 +1,10 @@
 #!/usr/bin/env bash
 # Ubuntu 等で注文 JSON を microCMS orders に移行するラッパー。
 #
-# 使い方（next-app ディレクトリで）:
-#   chmod +x scripts/migrate-orders-to-microcms.sh
-#   ./scripts/migrate-orders-to-microcms.sh
+# 使い方:
+#   リポジトリルート: ./scripts/migrate-orders-to-microcms.sh …
+#   next-app 内:      ./scripts/migrate-orders-to-microcms.sh …
+#   chmod +x …（初回のみ）
 #   ./scripts/migrate-orders-to-microcms.sh --dry-run
 #   ./scripts/migrate-orders-to-microcms.sh --dry-run --export ./data/orders-microcms-export
 #   ./scripts/migrate-orders-to-microcms.sh --source /var/app/data/orders
@@ -140,9 +141,21 @@ USAGE
   esac
 done
 
-echo "working directory: ${ROOT}" >&2
-echo "using node: ${NODE_CMD} ($("${NODE_CMD}" -v))" >&2
-echo "（--dry-run 時は microCMS へは書き込みません）" >&2
+emit_both() {
+  echo "$1" >&2
+  echo "$1"
+}
+emit_both "[migrate-orders.sh] next-app ディレクトリ: ${ROOT}"
+emit_both "[migrate-orders.sh] node: ${NODE_CMD} ($("${NODE_CMD}" -v))"
+if [ "${#NODE_SCRIPT_ARGS[@]}" -eq 0 ]; then
+  emit_both "[migrate-orders.sh] 引数→node: （なし）"
+else
+  emit_both "[migrate-orders.sh] 引数→node: ${NODE_SCRIPT_ARGS[*]}"
+fi
+emit_both "[migrate-orders.sh] （--dry-run 時は microCMS へは書き込みません）"
 # Node の stderr を stdout に合流（SSH 等で片方だけ見えない環境向け）
+set +e
 "${NODE_CMD}" "${ROOT}/scripts/migrate-orders-to-microcms.mjs" "${NODE_SCRIPT_ARGS[@]}" 2>&1
-exit $?
+CODE=$?
+emit_both "[migrate-orders.sh] node の終了コード: ${CODE}"
+exit "${CODE}"
