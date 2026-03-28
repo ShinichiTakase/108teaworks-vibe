@@ -283,7 +283,7 @@ export async function POST(req: NextRequest) {
     const orderNo = formatOrderNoFromUnixSeconds(pi.created);
     const memoParts: string[] = [];
     if (order.giftNoInvoice) {
-      memoParts.push("金額記載の明細書は不要（ギフト用）");
+      memoParts.push("金額記載の明細書は不要");
     }
     if (order.memo?.trim()) {
       memoParts.push(order.memo.trim());
