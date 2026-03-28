@@ -80,7 +80,7 @@ export default function FloatingBooksBanner() {
   const pathname = usePathname() || "/";
   const locale = detectLocaleFromPath(pathname);
   const t = BANNER_TEXTS[locale];
-  const href1 = buildLocalizedHref(locale, "/isecha_no_rekushi");
+  const href1 = buildLocalizedHref(locale, "/isecha_no_rekishi");
   const href2 = buildLocalizedHref(locale, "/kabatadani_no_ocha");
 
   const [footerVisible, setFooterVisible] = useState(false);

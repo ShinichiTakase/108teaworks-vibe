@@ -17,6 +17,38 @@ const nextConfig = {
   },
   // 静的エクスポートする場合: output: 'export', trailingSlash: true
   // remotePatterns は許可ホストのみに限定（GHSA-9g9p-9gw9-jx7f 対策）
+  async redirects() {
+    return [
+      { source: "/isecha_no_rekushi", destination: "/isecha_no_rekishi", permanent: true },
+      { source: "/isecha_no_rekushi/", destination: "/isecha_no_rekishi", permanent: true },
+      { source: "/en/isecha_no_rekushi", destination: "/en/isecha_no_rekishi", permanent: true },
+      { source: "/en/isecha_no_rekushi/", destination: "/en/isecha_no_rekishi", permanent: true },
+      { source: "/ko/isecha_no_rekushi", destination: "/ko/isecha_no_rekishi", permanent: true },
+      { source: "/ko/isecha_no_rekushi/", destination: "/ko/isecha_no_rekishi", permanent: true },
+      { source: "/zh/isecha_no_rekushi", destination: "/zh/isecha_no_rekishi", permanent: true },
+      { source: "/zh/isecha_no_rekushi/", destination: "/zh/isecha_no_rekishi", permanent: true },
+      {
+        source: "/pdf/isecha_no_rekushi.pdf",
+        destination: "/pdf/isecha_no_rekishi.pdf",
+        permanent: true,
+      },
+      {
+        source: "/images/isecha_no_rekushi.jpg",
+        destination: "/images/isecha_no_rekishi.jpg",
+        permanent: true,
+      },
+      {
+        source: "/images/books/isecha_no_rekushi.jpg",
+        destination: "/images/books/isecha_no_rekishi.jpg",
+        permanent: true,
+      },
+      {
+        source: "/images/books/isecha_no_rekushi.png",
+        destination: "/images/books/isecha_no_rekishi.png",
+        permanent: true,
+      },
+    ];
+  },
   images: {
     unoptimized: true,
     remotePatterns: [

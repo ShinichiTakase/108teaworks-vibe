@@ -1,4 +1,4 @@
-import IsechaNoRekushiPage from "@/app/isecha_no_rekushi/page";
+import IsechaNoRekishiPage from "@/app/isecha_no_rekishi/page";
 import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import type { Locale } from "@/lib/i18n";
 import { getFixedSeo, buildAlternatesForLocales } from "@/lib/seo";
@@ -14,22 +14,22 @@ export async function generateMetadata({ params }: Props) {
   const { lang } = await params;
   const supported: Locale[] = ["ja", "en", "ko", "zh"];
   const locale: Locale = supported.includes(lang as Locale) ? (lang as Locale) : "ja";
-  const seo = getFixedSeo("/isecha_no_rekushi", locale);
+  const seo = getFixedSeo("/isecha_no_rekishi", locale);
   return {
     title: seo?.title,
     description: seo?.description,
-    alternates: buildAlternatesForLocales("/isecha_no_rekushi"),
+    alternates: buildAlternatesForLocales("/isecha_no_rekishi"),
   };
 }
 
-export default async function LocalizedIsechaNoRekushiPage({ params }: Props) {
+export default async function LocalizedIsechaNoRekishiPage({ params }: Props) {
   const { lang } = await params;
   const supported: Locale[] = ["ja", "en", "ko", "zh"];
   const locale: Locale = supported.includes(lang as Locale) ? (lang as Locale) : "ja";
   return (
     <>
-      <BreadcrumbListSchema items={getBreadcrumbItems(`/${locale}/isecha_no_rekushi`, locale)} />
-      <IsechaNoRekushiPage />
+      <BreadcrumbListSchema items={getBreadcrumbItems(`/${locale}/isecha_no_rekishi`, locale)} />
+      <IsechaNoRekishiPage />
     </>
   );
 }

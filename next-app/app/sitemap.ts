@@ -38,7 +38,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/privacy-policy", changeFrequency: "monthly", priority: 0.4 },
     { path: "/legal", changeFrequency: "monthly", priority: 0.4 },
     { path: "/kabatadani_no_ocha", changeFrequency: "monthly", priority: 0.7 },
-    { path: "/isecha_no_rekushi", changeFrequency: "monthly", priority: 0.7 },
+    { path: "/isecha_no_rekishi", changeFrequency: "monthly", priority: 0.7 },
   ];
 
   for (const { path, changeFrequency, priority } of staticPaths) {

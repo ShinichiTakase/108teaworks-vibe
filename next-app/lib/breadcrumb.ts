@@ -28,7 +28,7 @@ const PATH_LITERALS: Record<string, Record<Locale, string>> = {
     ko: "카바타다니의 차",
     zh: "蕪谷之茶",
   },
-  "/isecha_no_rekushi": {
+  "/isecha_no_rekishi": {
     ja: "伊勢茶の歴史 お茶のおもしろ知識",
     en: "History of Ise Tea — Fun Facts",
     ko: "이세차의 역사·차의 재미있는 지식",

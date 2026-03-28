@@ -308,8 +308,8 @@ function kabatadaniHref(locale: Locale): string {
   return locale === "ja" ? "/kabatadani_no_ocha" : `/${locale}/kabatadani_no_ocha`;
 }
 
-function isechaNoRekushiHref(locale: Locale): string {
-  return locale === "ja" ? "/isecha_no_rekushi" : `/${locale}/isecha_no_rekushi`;
+function isechaNoRekishiHref(locale: Locale): string {
+  return locale === "ja" ? "/isecha_no_rekishi" : `/${locale}/isecha_no_rekishi`;
 }
 
 /** トップページの商品一覧を指定フィルターで絞り込んだURL（filter=深蒸し茶 など） */
@@ -327,7 +327,7 @@ type Props = {
 export default function IsechaPage({ locale }: Props) {
   const t = ISECHA_TEXTS[locale];
   const kabatadani = kabatadaniHref(locale);
-  const rekushi = isechaNoRekushiHref(locale);
+  const rekishi = isechaNoRekishiHref(locale);
 
   const booksRegionLabel =
     locale === "ja"
@@ -346,9 +346,9 @@ export default function IsechaPage({ locale }: Props) {
             <div className="mb-8 grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-8">
               <article className="flex flex-col text-left">
                 <figure className="mb-4 overflow-hidden rounded-md">
-                  <Link href={rekushi} target="_self">
+                  <Link href={rekishi} target="_self">
                     <Image
-                      src="/images/isecha_no_rekushi.jpg"
+                      src="/images/isecha_no_rekishi.jpg"
                       alt={t.altHistoryCover}
                       width={716}
                       height={1024}
@@ -358,7 +358,7 @@ export default function IsechaPage({ locale }: Props) {
                 </figure>
                 <h2 className="mt-0 mb-3 text-lg font-semibold text-tea-deep md:text-xl">
                   <Link
-                    href={rekushi}
+                    href={rekishi}
                     target="_self"
                     className="no-underline hover:underline underline-offset-4"
                   >
@@ -373,7 +373,7 @@ export default function IsechaPage({ locale }: Props) {
                 </p>
                 <p className="mb-0 text-right text-[0.9375rem] leading-relaxed text-ink-muted">
                   <Link
-                    href={rekushi}
+                    href={rekishi}
                     target="_self"
                     className="text-tea-deep underline underline-offset-4 hover:text-tea-deeper"
                   >

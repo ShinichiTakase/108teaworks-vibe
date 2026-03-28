@@ -16,10 +16,10 @@ import { getBreadcrumbItems } from "@/lib/breadcrumb";
 
 export const dynamic = "force-dynamic";
 
-const PDF_URL = "/pdf/isecha_no_rekushi.pdf";
+const PDF_URL = "/pdf/isecha_no_rekishi.pdf";
 
 export async function generateMetadata() {
-  const seo = getFixedSeo("/isecha_no_rekushi", "ja");
+  const seo = getFixedSeo("/isecha_no_rekishi", "ja");
   return {
     title:
       seo?.title ??
@@ -27,21 +27,21 @@ export async function generateMetadata() {
     description:
       seo?.description ??
       "伊勢茶の歴史とお茶のおもしろ知識（PDF版）を、右開きの冊子イメージでご覧いただけます。",
-    alternates: buildAlternatesForLocales("/isecha_no_rekushi"),
+    alternates: buildAlternatesForLocales("/isecha_no_rekishi"),
   };
 }
 
-export default function IsechaNoRekushiPage() {
+export default function IsechaNoRekishiPage() {
   return (
     <main className={MAIN_CLASS} id="main-content" role="main">
-      <BreadcrumbListSchema items={getBreadcrumbItems("/isecha_no_rekushi", "ja")} />
+      <BreadcrumbListSchema items={getBreadcrumbItems("/isecha_no_rekishi", "ja")} />
       <div className={INNER_CLASS}>
         <section
-          aria-labelledby="isecha-rekushi-heading"
+          aria-labelledby="isecha-rekishi-heading"
           className="mb-12"
         >
           <h1
-            id="isecha-rekushi-heading"
+            id="isecha-rekishi-heading"
             className="m-0 mb-4 font-heading text-xl font-semibold text-tea-deep"
           >
             伊勢茶の歴史 お茶のおもしろ知識
