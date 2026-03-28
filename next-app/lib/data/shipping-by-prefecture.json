@@ -1,0 +1,193 @@
+{
+  "contents": [
+    {
+      "prefectures": "沖縄県",
+      "fee": 1450
+    },
+    {
+      "prefectures": "福岡県",
+      "fee": 1410
+    },
+    {
+      "prefectures": "佐賀県",
+      "fee": 1410
+    },
+    {
+      "prefectures": "長崎県",
+      "fee": 1410
+    },
+    {
+      "prefectures": "熊本県",
+      "fee": 1410
+    },
+    {
+      "prefectures": "大分県",
+      "fee": 1410
+    },
+    {
+      "prefectures": "宮崎県",
+      "fee": 1410
+    },
+    {
+      "prefectures": "鹿児島県",
+      "fee": 1410
+    },
+    {
+      "prefectures": "鳥取県",
+      "fee": 1150
+    },
+    {
+      "prefectures": "山口県",
+      "fee": 1150
+    },
+    {
+      "prefectures": "広島県",
+      "fee": 1150
+    },
+    {
+      "prefectures": "岡山県",
+      "fee": 1150
+    },
+    {
+      "prefectures": "島根県",
+      "fee": 1150
+    },
+    {
+      "prefectures": "高知県",
+      "fee": 1150
+    },
+    {
+      "prefectures": "愛媛県",
+      "fee": 1150
+    },
+    {
+      "prefectures": "香川県",
+      "fee": 1150
+    },
+    {
+      "prefectures": "徳島県",
+      "fee": 1150
+    },
+    {
+      "prefectures": "和歌山県",
+      "fee": 990
+    },
+    {
+      "prefectures": "奈良県",
+      "fee": 990
+    },
+    {
+      "prefectures": "兵庫県",
+      "fee": 990
+    },
+    {
+      "prefectures": "滋賀県",
+      "fee": 990
+    },
+    {
+      "prefectures": "大阪府",
+      "fee": 990
+    },
+    {
+      "prefectures": "京都府",
+      "fee": 990
+    },
+    {
+      "prefectures": "山梨県",
+      "fee": 880
+    },
+    {
+      "prefectures": "三重県",
+      "fee": 880
+    },
+    {
+      "prefectures": "愛知県",
+      "fee": 880
+    },
+    {
+      "prefectures": "静岡県",
+      "fee": 880
+    },
+    {
+      "prefectures": "岐阜県",
+      "fee": 880
+    },
+    {
+      "prefectures": "福井県",
+      "fee": 880
+    },
+    {
+      "prefectures": "石川県",
+      "fee": 880
+    },
+    {
+      "prefectures": "富山県",
+      "fee": 880
+    },
+    {
+      "prefectures": "長野県",
+      "fee": 880
+    },
+    {
+      "prefectures": "新潟県",
+      "fee": 880
+    },
+    {
+      "prefectures": "神奈川県",
+      "fee": 880
+    },
+    {
+      "prefectures": "東京都",
+      "fee": 880
+    },
+    {
+      "prefectures": "千葉県",
+      "fee": 880
+    },
+    {
+      "prefectures": "埼玉県",
+      "fee": 880
+    },
+    {
+      "prefectures": "群馬県",
+      "fee": 880
+    },
+    {
+      "prefectures": "栃木県",
+      "fee": 880
+    },
+    {
+      "prefectures": "茨城県",
+      "fee": 880
+    },
+    {
+      "prefectures": "福島県",
+      "fee": 880
+    },
+    {
+      "prefectures": "山形県",
+      "fee": 880
+    },
+    {
+      "prefectures": "秋田県",
+      "fee": 880
+    },
+    {
+      "prefectures": "宮城県",
+      "fee": 880
+    },
+    {
+      "prefectures": "岩手県",
+      "fee": 880
+    },
+    {
+      "prefectures": "青森県",
+      "fee": 880
+    },
+    {
+      "prefectures": "北海道",
+      "fee": 1440
+    }
+  ],
+  "totalCount": 47
+}

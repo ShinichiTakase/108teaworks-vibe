@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getProducts, getShippingByPrefecture } from "@/lib/microcms";
+import { getProducts } from "@/lib/microcms";
+import { getShippingByPrefecture } from "@/lib/shippingByPrefecture";
 
 const FREE_SHIPPING_THRESHOLD = 20000;
 const FLAT_SHIPPING = 280;

@@ -9,6 +9,7 @@
     "dev": "next dev",
     "dev:3030": "next dev -p 3030",
     "receipt-font": "node scripts/download-receipt-font.mjs",
+    "test:shipping-json": "node scripts/verify-shipping-json.mjs",
     "build": "next build",
     "start": "next start",
     "start:prod": "next start",

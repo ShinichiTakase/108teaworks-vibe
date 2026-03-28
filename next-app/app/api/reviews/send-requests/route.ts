@@ -82,6 +82,8 @@ const TEMPLATES: Record<Locale, Template> = {
 };
 
 const SHOP_NAME = "藤八茶寮";
+/** レビュー依頼メールの控え（購入者宛と同文面が BCC で届く） */
+const REVIEW_REQUEST_BCC = "info@108teaworks.com";
 
 async function sendMailForQueueItem(
   item: ReviewQueueItem,
@@ -108,6 +110,7 @@ async function sendMailForQueueItem(
   await transporter.sendMail({
     from: sender,
     to: item.email,
+    bcc: REVIEW_REQUEST_BCC,
     subject,
     text,
   });
