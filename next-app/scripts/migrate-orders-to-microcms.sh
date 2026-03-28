@@ -87,6 +87,30 @@ if [ "${NODE_MAJOR}" -lt 18 ] 2>/dev/null; then
   exit 1
 fi
 
+# ディレクトリだけ渡した場合は --source 相当（例: ./script.sh /path/orders --dry-run）
+# --source /path のときはここで値をまとめて渡し、直後の /path を再度 --source しない
+PREP=()
+while [ $# -gt 0 ]; do
+  if [[ "$1" == -* ]]; then
+    PREP+=("$1")
+    if [[ "$1" == --source || "$1" == --export ]] && [ -n "${2:-}" ] && [[ "$2" != -* ]]; then
+      PREP+=("$2")
+      shift 2
+    else
+      shift
+    fi
+    continue
+  fi
+  if [ -d "$1" ]; then
+    PREP+=(--source "$1")
+    shift
+    continue
+  fi
+  PREP+=("$1")
+  shift
+done
+set -- "${PREP[@]}"
+
 # Node にそのまま渡す（.env.local マージで MIGRATE_* が消えるのを防ぐ）
 NODE_SCRIPT_ARGS=()
 
@@ -125,6 +149,7 @@ while [ $# -gt 0 ]; do
      手動 POST: ./scripts/post-microcms-orders-curl.sh ./data/orders-microcms-export
 
   ./scripts/migrate-orders-to-microcms.sh --source /path/to/orders
+  ./scripts/migrate-orders-to-microcms.sh /path/to/orders --dry-run
 
 環境変数: .env.local に MICROCMS_SERVICE_DOMAIN, MICROCMS_API_KEY
           （--dry-run 時は API キー不要）

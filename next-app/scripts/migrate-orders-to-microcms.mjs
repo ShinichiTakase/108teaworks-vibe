@@ -33,22 +33,33 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
 
-/** ログは stderr のみ（SSH / リダイレクトで stdout が見えない場合があるため） */
+/** ログは stderr のみ */
 function say(...args) {
   console.error(...args);
 }
 
-/** 注文 JSON を読めたときのファイル名は stdout にも出す（表示されない端末対策） */
-function announceOrderFileRead(step, file) {
-  const line = `[読込] ${step} ${file}`;
+/** ファイル読込・サマリーは stdout / stderr 両方 */
+function sayBoth(...args) {
+  const line = args.map(String).join(" ");
   console.error(line);
   console.log(line);
 }
 
-function announceOrderFileError(step, file, errMsg) {
-  const line = `[読込失敗] ${step} ${file} — ${errMsg}`;
-  console.error(line);
-  console.log(line);
+/** 単独引数のディレクトリパス解決（cwd または next-app 基準） */
+function tryResolveDirArg(a) {
+  if (typeof a !== "string" || a.startsWith("-")) return null;
+  const candidates = [
+    path.isAbsolute(a) ? a : path.resolve(process.cwd(), a),
+    path.isAbsolute(a) ? a : path.resolve(ROOT, a),
+  ];
+  for (const p of candidates) {
+    try {
+      if (fs.existsSync(p) && fs.statSync(p).isDirectory()) return p;
+    } catch {
+      /* ignore */
+    }
+  }
+  return null;
 }
 
 function loadEnvLocal() {
@@ -190,7 +201,17 @@ function parseCli(argv) {
   /** --source のみ（.env のパスは resolveSourceDir で別扱い。Docker 内パスを誤採用しない） */
   let sourceOverride = null;
   let exportDir = env.MIGRATE_EXPORT_DIR?.trim() || null;
-  const args = argv.slice(2);
+  const raw = argv.slice(2);
+  const args = [];
+  for (let i = 0; i < raw.length; i++) {
+    const a = raw[i];
+    const dir = tryResolveDirArg(a);
+    if (dir) {
+      args.push("--source", dir);
+      continue;
+    }
+    args.push(a);
+  }
   for (let i = 0; i < args.length; i++) {
     const a = args[i];
     if (a === "--dry-run") dry = true;
@@ -423,6 +444,7 @@ async function main() {
     : null;
 
   say("[migrate-orders] 開始");
+  sayBoth("[migrate-orders] 開始（この行が見えれば Node は起動しています）");
   if (dry) {
     say("[migrate-orders] DRY RUN: microCMS には書き込みません（本番は --dry-run を付けずに実行）");
   }
@@ -431,7 +453,8 @@ async function main() {
   }
 
   if (!dry && (!domain || !apiKey)) {
-    say("本番移行時は MICROCMS_SERVICE_DOMAIN と MICROCMS_API_KEY が必要です。");
+    sayBoth("[migrate-orders] エラー: 本番 POST には MICROCMS_SERVICE_DOMAIN と MICROCMS_API_KEY が必要です（.env.local）。");
+    sayBoth("[migrate-orders] 確認だけなら: --dry-run を付けて再実行してください。");
     process.exit(1);
   }
 
@@ -440,19 +463,21 @@ async function main() {
   const sourceDir = resolveSourceDir(sourceFromArgv);
 
   if (!fs.existsSync(sourceDir)) {
-    say("[migrate-orders] ソースディレクトリがありません:", sourceDir);
+    sayBoth("[migrate-orders] エラー: ソースディレクトリがありません:", path.resolve(sourceDir));
     if (sourceFromArgv) {
-      say("[migrate-orders] --source のパスを確認してください（ホスト上の絶対パスか、next-app からの相対パス）。");
+      sayBoth("[migrate-orders] --source のパスを確認（コマンドが改行で分断されていないかも確認）。");
     } else {
-      say(
-        "[migrate-orders] mkdir するか、--source /mnt/.../next-app/data/orders のようにホストパスを指定してください。",
-      );
+      sayBoth("[migrate-orders] --source /mnt/.../next-app/data/orders のようにホストの絶対パスを指定してください。");
     }
     process.exit(1);
   }
 
   const files = listJsonInDir(sourceDir);
   if (files.length === 0) {
+    sayBoth("========== [migrate-orders] 終了サマリー ==========");
+    sayBoth("[migrate-orders] 参照ディレクトリ:", path.resolve(sourceDir));
+    sayBoth("[migrate-orders] 一覧の *.json 件数: 0（処理したファイルはありません）");
+    sayBoth("====================================================");
     say("[migrate-orders] 移行対象の *.json が 0 件です（このため microCMS は空のままです）。");
     say("[migrate-orders] 参照ディレクトリ（絶対パス）:", path.resolve(sourceDir));
     try {
@@ -496,24 +521,27 @@ async function main() {
   let ok = 0;
   let skip = 0;
   let fail = 0;
+  let jsonReadOk = 0;
 
   for (let fi = 0; fi < files.length; fi++) {
     const file = files[fi];
     const step = `${fi + 1}/${files.length}`;
     const filePath = path.join(sourceDir, file);
+    const fileAbs = path.resolve(filePath);
     let record;
     try {
       record = JSON.parse(fs.readFileSync(filePath, "utf8"));
-      announceOrderFileRead(step, file);
+      jsonReadOk += 1;
+      sayBoth("[オープン・読込OK]", step, fileAbs);
     } catch (e) {
-      announceOrderFileError(step, file, e.message);
+      sayBoth("[オープン失敗]", step, fileAbs, "—", e.message);
       fail += 1;
       continue;
     }
 
     const built = buildPayload(record);
     if (built.error) {
-      console.error("[skip]", file, built.error);
+      sayBoth("[ペイロード不可]", fileAbs, "—", built.error);
       fail += 1;
       continue;
     }
@@ -559,6 +587,22 @@ async function main() {
   }
 
   say("[migrate-orders] 完了 ok=", String(ok), "skip=", String(skip), "fail=", String(fail));
+  sayBoth("========== [migrate-orders] 終了サマリー ==========");
+  sayBoth("[migrate-orders] ソースディレクトリ:", path.resolve(sourceDir));
+  sayBoth("[migrate-orders] 一覧の *.json 件数:", String(files.length));
+  sayBoth(
+    "[migrate-orders] ファイルを開いて JSON として読み込めた件数:",
+    String(jsonReadOk),
+    "件",
+  );
+  if (dry) {
+    sayBoth("[migrate-orders] dry-run: ペイロード確認まで成功した件数:", String(ok), "件");
+  } else {
+    sayBoth("[migrate-orders] microCMS 新規 POST 成功:", String(ok), "件");
+    sayBoth("[migrate-orders] 既存 orderNo でスキップ:", String(skip), "件");
+  }
+  sayBoth("[migrate-orders] 失敗（読込・ペイロード・POST）合計:", String(fail), "件");
+  sayBoth("====================================================");
   if (dry && ok > 0) {
     say(
       "[migrate-orders] 問題なければ --dry-run を外して再実行すると microCMS に POST されます。",
