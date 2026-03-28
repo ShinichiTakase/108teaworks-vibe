@@ -70,6 +70,7 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
         />
+        <GoogleAnalytics />
       </head>
       <body className="font-body">
         <Providers>
@@ -80,7 +81,6 @@ export default function RootLayout({
           {`window.chachamaruVars={iconUrl:"/images/chachamaru-icon.png",proxyUrl:"/api/chachamaru/ask",texts:${JSON.stringify(CHACHAMARU_TEXTS)},useReactBar:true};`}
         </Script>
         <Script src="/js/chachamaru.js" strategy="beforeInteractive" />
-        <GoogleAnalytics />
       </body>
     </html>
   );
