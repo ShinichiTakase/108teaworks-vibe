@@ -204,6 +204,48 @@ function parseCli(argv) {
   return { dry, sourceOverride, exportDir };
 }
 
+function isJsonFileName(name) {
+  return name.toLowerCase().endsWith(".json");
+}
+
+function listJsonInDir(dirAbs) {
+  if (!fs.existsSync(dirAbs) || !fs.statSync(dirAbs).isDirectory()) return [];
+  return fs.readdirSync(dirAbs).filter(isJsonFileName).sort();
+}
+
+/** どのパスが採用されるか・件数がターミナルで追えるようにする */
+function logSourceDirResolution() {
+  const rootAbs = path.resolve(ROOT);
+  say("[migrate-orders] ROOT（next-app）:", rootAbs);
+  const fromEnv = env.MIGRATE_ORDERS_DIR?.trim();
+  if (fromEnv) {
+    const abs = path.isAbsolute(fromEnv) ? fromEnv : path.resolve(ROOT, fromEnv);
+    const n = listJsonInDir(abs).length;
+    say("[migrate-orders] MIGRATE_ORDERS_DIR / --source を使用:", abs, "→ *.json", String(n), "件");
+    return;
+  }
+  const candidates = [
+    path.join(ROOT, "data", "orders"),
+    path.join(ROOT, ".data", "order_snapshots"),
+  ];
+  say("[migrate-orders] 自動候補（上から *.json が1件以上ある最初のディレクトリを採用）:");
+  for (const c of candidates) {
+    const abs = path.resolve(c);
+    if (!fs.existsSync(abs)) {
+      say(" ", abs, "→ パスなし");
+      continue;
+    }
+    if (!fs.statSync(abs).isDirectory()) {
+      say(" ", abs, "→ ディレクトリではない");
+      continue;
+    }
+    const all = fs.readdirSync(abs);
+    const j = all.filter(isJsonFileName);
+    say(" ", abs, "→ *.json", String(j.length), "件（エントリ計", String(all.length), "）");
+  }
+  say("[migrate-orders] いずれも 0 件なら既定として参照するパス:", path.resolve(ROOT, "data", "orders"));
+}
+
 function resolveSourceDir() {
   const fromEnv = env.MIGRATE_ORDERS_DIR?.trim();
   if (fromEnv) {
@@ -216,11 +258,11 @@ function resolveSourceDir() {
   ];
   for (const c of candidates) {
     if (fs.existsSync(c) && fs.statSync(c).isDirectory()) {
-      const files = fs.readdirSync(c).filter((f) => f.endsWith(".json"));
-      if (files.length > 0) return c;
+      const files = listJsonInDir(c);
+      if (files.length > 0) return path.resolve(c);
     }
   }
-  return path.join(ROOT, "data", "orders");
+  return path.resolve(ROOT, "data", "orders");
 }
 
 function buildPayload(record) {
@@ -343,6 +385,7 @@ async function main() {
   }
 
   const apiBase = domain ? `https://${domain}.microcms.io/api/v1` : "";
+  logSourceDirResolution();
   const sourceDir = resolveSourceDir();
 
   if (!fs.existsSync(sourceDir)) {
@@ -353,23 +396,31 @@ async function main() {
     process.exit(1);
   }
 
-  const files = fs
-    .readdirSync(sourceDir)
-    .filter((f) => f.endsWith(".json"))
-    .sort();
+  const files = listJsonInDir(sourceDir);
   if (files.length === 0) {
     say("[migrate-orders] 移行対象の *.json が 0 件です（このため microCMS は空のままです）。");
-    say("[migrate-orders] 参照ディレクトリ:", sourceDir);
+    say("[migrate-orders] 参照ディレクトリ（絶対パス）:", path.resolve(sourceDir));
+    try {
+      if (fs.existsSync(sourceDir) && fs.statSync(sourceDir).isDirectory()) {
+        const entries = fs.readdirSync(sourceDir);
+        const preview = entries.slice(0, 40);
+        say(
+          "[migrate-orders] ディレクトリ内のファイル例（最大40件）:",
+          preview.length ? preview.join(", ") : "（空）",
+        );
+        if (entries.length > 40) say("  … 他", String(entries.length - 40), "件");
+      }
+    } catch (e) {
+      say("[migrate-orders] ディレクトリ一覧の取得に失敗:", e.message);
+    }
     say("[migrate-orders] 次を確認してください:");
-    say("  ・注文スナップショットの実パス（例: ORDER_SNAPSHOTS_DIR で保存している場所）");
-    say("  ・ファイル名が .json で終わること");
-    say("  ・別ディレクトリなら:");
-    say("    MIGRATE_ORDERS_DIR=/path/to/json ./scripts/migrate-orders-to-microcms.sh --dry-run");
-    say("    または ./scripts/migrate-orders-to-microcms.sh --dry-run --source /path/to/json");
+    say("  ・ホストで実行している場合、.env.local の MIGRATE_ORDERS_DIR がコンテナ内パス（例 /app/data/orders）になっていないか");
+    say("  ・注文 JSON の実パスを --source で指定: ./scripts/migrate-orders-to-microcms.sh --dry-run --source /絶対パス/orders");
+    say("  ・Docker のボリュームなら、マウント先のホスト側ディレクトリを指定する");
     process.exit(0);
   }
 
-  say("[migrate-orders] ソース:", sourceDir);
+  say("[migrate-orders] 採用したソース（絶対パス）:", path.resolve(sourceDir));
   say("[migrate-orders] 件数:", String(files.length), dry ? "(DRY RUN)" : "");
   say("[migrate-orders] 処理順（ファイル名昇順）:");
   const idxW = String(files.length).length;
