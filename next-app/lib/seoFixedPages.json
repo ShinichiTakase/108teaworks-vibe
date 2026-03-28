@@ -135,18 +135,32 @@
         "zh": "歡迎查看伊勢茶藤八茶寮的隱私權保護政策。我們極其重視您的個人資料安全，承諾以最嚴謹的標準管理與保護您的資訊。為了讓您能安心選購優質的伊勢茶，在此詳述我們在資安防護與遵循法規方面的具體措施。"
       }
     },
-    "/isecha_no_rekishi/": {
+    "/kabatadani_no_ocha/": {
       "title": {
-        "ja": "伊勢茶の歴史 お茶のおもしろ知識｜伊勢茶の藤八茶寮",
-        "en": "History of Ise Tea — Fun Facts About Tea | 伊勢茶の藤八茶寮",
-        "ko": "이세차의 역사·차의 재미있는 지식 | 伊勢茶の藤八茶寮",
-        "zh": "伊勢茶歷史與茶的趣味知識 | 伊勢茶の藤八茶寮"
+        "ja": "伝統の香りと歴史を綴る「伊勢茶発祥の地　川俣谷のお茶」｜伊勢茶の藤八茶寮",
+        "en": "Ise Tea: A History of Tradition and Global Ambition | 伊勢茶の藤八茶寮",
+        "ko": "전통의 향기와 역사가 깃든 「이세차의 발상지, 가와마타다니의 차」 | 伊勢茶の藤八茶寮",
+        "zh": "追寻传统之香与历史 「伊势茶发源地 川俣谷之茶」 | 伊勢茶の藤八茶寮"
       },
       "description": {
-        "ja": "伊勢茶の歴史とお茶のおもしろ知識（PDF版）を、右開きの縦書き冊子イメージでご覧いただけます。パソコン・スマートフォン向けの読み方のヒントもご案内しています。",
-        "en": "Browse the PDF of “History of Ise Tea — Fun Facts About Tea” in a right-opening, booklet-style spread. Tips for comfortable reading on desktop and mobile.",
-        "ko": "『이세차의 역사·차의 재미있는 지식』 PDF를 오른쪽으로 넘기는 책자처럼 감상할 수 있습니다. PC·모바일에서의 편한 보기 팁도 안내합니다.",
-        "zh": "以右開本冊式版面閱讀《伊勢茶歷史與茶的趣味知識》PDF。提供電腦與手機上的舒適閱讀建議。"
+        "ja": "三重県「伊勢茶」の発祥地とされる川俣谷を中心に、鎌倉時代から現代までの歩みを記した記録です。江戸時代、紀州藩の保護や伊勢商人の活躍により、伊勢茶は将軍家への献上や全国への広範な流通網を持つ一大ブランドへと成長しました。明治以降は、大谷嘉兵衛らの尽力で横浜・神戸・四日市港から米国等へ盛んに輸出され、日本茶貿易の主力を担いました。戦後の衰退期も、深蒸し茶の普及や降霜防止技術などの革新により復興を遂げます。本書は、豊富な古文書や取引記録を基に、伝統を守りつつ世界へ挑んだ先人たちの情熱と産業史を浮き彫りにしています。",
+        "en": "Centering on the Kawamata Valley—the cradle of Ise Tea—this volume traces the brand's evolution since the Kamakura era. During the Edo period, Ise Tea rose to prominence as a premier brand, favored by the Shogunate and supported by a robust commercial network led by Ise merchants and the Kishu Domain.The Meiji era marked a turning point as Ise Tea took center stage in Japan’s international trade. Led by pioneers like Otani Kahei, vast quantities were exported to the U.S. through the ports of Yokohama, Kobe, and Yokkaichi. Even through the hardships of the post-war era, the industry reinvented itself with technical breakthroughs like frost-prevention and the refinement of deep-steamed tea. Through rich historical archives and trade logs, this book brings to light the enduring spirit of those who built a global legacy from a local tradition.",
+        "ko": "미에현 '이세차'의 발상지인 가와마타다니를 중심으로, 가마쿠라 시대부터 현대까지의 발자취를 기록했습니다.에도 시대, 기슈번의 보호와 이세 상인의 활약으로 쇼군가 진상 및 전국적 유통망을 갖춘 브랜드로 성장했습니다. 메이지 시대 이후에는 오타니 가헤이 등의 노력으로 요코하마·고베·욧카이치항을 통해 미국 등지로 수출되며 일본 차 무역의 주축이 되었습니다. 전후 쇠퇴기 또한 '후카무시차' 보급과 서리 방지 기술 혁신으로 극복했습니다. 본 서적은 방대한 사료를 바탕으로, 전통을 지키며 세계로 뻗어 나간 선조들의 열정과 산업사를 조명합니다.",
+        "zh": "本书以三重县“伊势茶”发源地川俣谷为中心，记录了其从镰仓时代至今的发展历程。江户时代，在纪州藩的保护及伊势商人的推动下，伊势茶作为将军家贡品，形成了遍布日本的流通网。明治以后，在大谷嘉兵卫等人的努力下，伊势茶经由横滨、神户、四日市港大量外销美国，成为日本茶贸易的主力。战后虽经低迷，但凭借深蒸茶的普及与防霜技术的革新实现了复兴。本书基于大量古籍与贸易记录，展现了先辈们坚守传统、勇于开拓全球市场的热情与产业史。"
+      }
+    },
+    "/isecha_no_rekishi/": {
+      "title": {
+        "ja": "お茶を自治上にする本「伊勢茶の歴史 お茶のおもしろ知識」｜伊勢茶の藤八茶寮",
+        "en": "The Legacy of Ise Tea: History, Health, and Harmony | 伊勢茶の藤八茶寮",
+        "ko": "미에현의 전통 브랜드 「이세차(伊勢茶)」: 역사와 건강, 그리고 일상의 조화 | 伊勢茶の藤八茶寮",
+        "zh": "三重县传统品牌「伊势茶」：传承与健康的醇厚之旅 | 伊勢茶の藤八茶寮"
+      },
+      "description": {
+        "ja": "三重県の伝統ブランド「伊勢茶」は、鎌倉時代から続く深い歴史を持ち、江戸時代には将軍家への献上や海外輸出で日本の茶業を牽引しました。現在は全国第3位の生産量を誇り、その濃厚な風味と高い品質が特徴です。本書は、緑茶の製法やカテキン等の健康成分、適切な温度での淹れ方など、お茶の基礎知識を幅広く解説しています。茶器の文化や「茶寿」などの習わし、保存法や茶殻の活用まで、日常でのお茶の楽しみ方を提案。先人が築いた伝統を背景に、一杯のお茶が暮らしに健やかさと彩りをもたらすことを伝える一冊です。",
+        "en": "With roots reaching back to the Kamakura era, Mie Prefecture’s 'Ise Tea' has long been a cornerstone of Japanese tea culture, once exported globally and dedicated to the Shoguns of the Edo period. Now the third-largest producer in the nation, Ise Tea continues to captivate with its profound aroma and premium quality.This book invites you into the world of tea, covering everything from the science of catechins to the delicate ritual of the pour. Beyond the basics, it delves into the cultural significance of tea-related longevity traditions and creative ways to enjoy tea in your home. It is a tribute to a centuries-old craft, showing how the simple act of brewing tea can enrich our lives with wellness and beauty.",
+        "ko": "가마쿠라 시대부터 이어져 온 깊은 역사를 간직한 미에현의 전통 브랜드 '이세차'는 에도 시대 쇼군가에 진상되거나 해외로 수출되며 일본 다업(茶業)을 이끌어 왔습니다. 현재는 일본 전국 제3위의 생산량을 자랑하며, 특유의 진한 풍미와 뛰어난 품질이 특징입니다. 본 서적은 녹차의 제법부터 카테킨 등 건강 성분, 적정 온도에서 차를 우리는 법까지 차에 관한 기초 지식을 폭넓게 해설합니다. 다기(茶器) 문화와 '차수(茶寿, 108세 축하)' 등의 풍습, 보관법 및 찻잎 찌꺼기 활용법에 이르기까지 일상에서 차를 즐기는 다양한 방법을 제안합니다. 선조들이 쌓아온 전통을 배경으로, 한 잔의 차가 우리의 삶에 건강함과 다채로움을 선사한다는 메시지를 전하는 한 권의 안내서입니다.",
+        "zh": "三重县的传统品牌「伊势茶」拥有源自镰仓时代的深厚历史。在江户时代，它曾作为献给将军家的珍品及重要的外销商品，引领着日本茶业的发展。如今，伊势茶的产量位居日本全国第三，以其浓郁的风味和卓越的品质而闻名。本书广泛介绍了茶叶的基础知识，包括绿茶的制作工艺、儿茶素等健康成分，以及在适宜温度下冲泡的方法。此外，书中还探讨了茶具文化、如“茶寿”（108岁长寿庆典）等传统习俗，并提供了茶叶保存及茶渣活用等日常饮茶的实用建议。立足于先辈们筑就的传统底蕴，本书旨在传达：一杯香茗能为现代生活带来健康与绚丽色彩。"
       }
     },
     "/legal/": {
