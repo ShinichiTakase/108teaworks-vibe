@@ -16,11 +16,16 @@
 # 要: Node.js 18+、.env.local に MICROCMS_SERVICE_DOMAIN / MICROCMS_API_KEY（--dry-run 時はキー不要）
 # .env.local は CRLF でも可（読み込み時に CR を除去）
 #
-set -euo pipefail
+# set -u は使わない: .env.local / nvm.sh 内の未設定変数参照で即終了し、ログが一切出ないことがあるため
+set -eo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 cd "${ROOT}"
+printf '%s\n' "[migrate-orders.sh] 起動（この行が見えていればシェルは動いています）" >&2
+printf '%s\n' "[migrate-orders.sh] 起動（この行が見えていればシェルは動いています）"
+printf '%s\n' "[migrate-orders.sh] next-app: ${ROOT}" >&2
+printf '%s\n' "[migrate-orders.sh] next-app: ${ROOT}"
 
 # .env.local を先に読む（PATH や MIGRATE_NODE を書けるようにする）
 # Windows 由来の CRLF だと source で $'\r': command not found になるため CR を除去する
@@ -28,7 +33,7 @@ ENV_FILE="${ROOT}/.env.local"
 if [ -f "${ENV_FILE}" ]; then
   set -a
   # shellcheck disable=SC1090
-  source <(sed 's/\r$//' "${ENV_FILE}")
+  source <(sed 's/\r$//' "${ENV_FILE}") || true
   set +a
 fi
 
@@ -36,7 +41,9 @@ fi
 export NVM_DIR="${NVM_DIR:-${HOME}/.nvm}"
 if [ -s "${NVM_DIR}/nvm.sh" ]; then
   # shellcheck disable=SC1090
-  . "${NVM_DIR}/nvm.sh"
+  set +e
+  . "${NVM_DIR}/nvm.sh" || true
+  set -e
 fi
 
 # fnm
@@ -47,7 +54,7 @@ fi
 # asdf
 if [ -f "${HOME}/.asdf/asdf.sh" ]; then
   # shellcheck disable=SC1090
-  . "${HOME}/.asdf/asdf.sh"
+  . "${HOME}/.asdf/asdf.sh" || true
 fi
 
 resolve_node() {
