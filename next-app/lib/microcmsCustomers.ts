@@ -24,16 +24,13 @@ function escFilterValue(v: string): string {
   return encodeURIComponent(v);
 }
 
-export async function customerExistsByEmailTel(email: string, tel: string): Promise<boolean> {
+/** メールアドレスが既に登録されていれば true（同一メールの再登録を防ぐ） */
+export async function customerExistsByEmail(email: string): Promise<boolean> {
   const base = getBaseUrl();
   const key = getApiKey();
   if (!base || !key) return false;
   const url = new URL(`${base}/customers`);
-  // microCMS filters: field[equals]value[and]field[equals]value
-  url.searchParams.set(
-    "filters",
-    `email[equals]${escFilterValue(email)}[and]tel[equals]${escFilterValue(tel)}`
-  );
+  url.searchParams.set("filters", `email[equals]${escFilterValue(email.trim())}`);
   url.searchParams.set("limit", "1");
   try {
     const res = await fetch(url.toString(), {
@@ -43,7 +40,7 @@ export async function customerExistsByEmailTel(email: string, tel: string): Prom
     if (!res.ok) {
       const text = await res.text().catch(() => "");
       console.error(
-        "[microcmsCustomers] customerExistsByEmailTel failed",
+        "[microcmsCustomers] customerExistsByEmail failed",
         res.status,
         text.slice(0, 500)
       );
@@ -97,7 +94,7 @@ export async function createCustomer(input: CustomerInput): Promise<boolean> {
 
 export async function upsertCustomerOnce(input: CustomerInput): Promise<void> {
   if (!input.email?.trim() || !input.tel?.trim()) return;
-  const exists = await customerExistsByEmailTel(input.email.trim(), input.tel.trim());
+  const exists = await customerExistsByEmail(input.email.trim());
   if (exists) return;
   await createCustomer({
     ...input,
