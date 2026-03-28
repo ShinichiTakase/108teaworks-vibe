@@ -38,6 +38,19 @@ function say(...args) {
   console.error(...args);
 }
 
+/** 注文 JSON を読めたときのファイル名は stdout にも出す（表示されない端末対策） */
+function announceOrderFileRead(step, file) {
+  const line = `[読込] ${step} ${file}`;
+  console.error(line);
+  console.log(line);
+}
+
+function announceOrderFileError(step, file, errMsg) {
+  const line = `[読込失敗] ${step} ${file} — ${errMsg}`;
+  console.error(line);
+  console.log(line);
+}
+
 function loadEnvLocal() {
   const p = path.join(ROOT, ".env.local");
   if (!fs.existsSync(p)) return {};
@@ -487,13 +500,13 @@ async function main() {
   for (let fi = 0; fi < files.length; fi++) {
     const file = files[fi];
     const step = `${fi + 1}/${files.length}`;
-    say("[読込]", step, file);
     const filePath = path.join(sourceDir, file);
     let record;
     try {
       record = JSON.parse(fs.readFileSync(filePath, "utf8"));
+      announceOrderFileRead(step, file);
     } catch (e) {
-      console.error("[skip]", file, "JSON parse error", e.message);
+      announceOrderFileError(step, file, e.message);
       fail += 1;
       continue;
     }

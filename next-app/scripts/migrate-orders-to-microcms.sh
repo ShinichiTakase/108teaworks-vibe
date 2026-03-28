@@ -143,7 +143,6 @@ done
 echo "working directory: ${ROOT}" >&2
 echo "using node: ${NODE_CMD} ($("${NODE_CMD}" -v))" >&2
 echo "（--dry-run 時は microCMS へは書き込みません）" >&2
-echo "migrate-orders: 詳細ログは stderr。表示されないときは次を試す: $0 ... 2>&1 | cat" >&2
-# exec だと子プロセスの出力が環境によって取りこぼすことがあるため通常起動にする
-"${NODE_CMD}" "${ROOT}/scripts/migrate-orders-to-microcms.mjs" "${NODE_SCRIPT_ARGS[@]}"
+# Node の stderr を stdout に合流（SSH 等で片方だけ見えない環境向け）
+"${NODE_CMD}" "${ROOT}/scripts/migrate-orders-to-microcms.mjs" "${NODE_SCRIPT_ARGS[@]}" 2>&1
 exit $?
