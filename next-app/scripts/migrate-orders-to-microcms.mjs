@@ -22,7 +22,8 @@
  *     /mnt/.../next-app/data/orders のように書く（microCMS 用のキーはそのまま .env.local でよい）。
  * CLI: --dry-run  --source DIR  --export DIR  --help
  * 環境変数: ORDER_SNAPSHOTS_DIR → MIGRATE_ORDERS_DIR の順（いずれも「このマシンで *.json が取れる」ときだけ採用）、
- *           MIGRATE_DRY_RUN=1, MIGRATE_EXPORT_DIR, MIGRATE_OMIT_TITLE=1
+ *           MIGRATE_DRY_RUN=1, MIGRATE_EXPORT_DIR
+ *           MIGRATE_INCLUDE_TITLE=1 … スキーマに title がある API だけ付与（既定は付けない）
  *
  * Ubuntu: ./scripts/migrate-orders-to-microcms.sh
  */
@@ -92,6 +93,7 @@ const MIGRATE_SHELL_KEYS = [
   "MIGRATE_EXPORT_DIR",
   "MIGRATE_ORDERS_DIR",
   "MIGRATE_DRY_RUN",
+  "MIGRATE_INCLUDE_TITLE",
   "MIGRATE_OMIT_TITLE",
   "ORDER_SNAPSHOTS_DIR",
 ];
@@ -436,8 +438,12 @@ function buildPayload(record) {
     orderLines,
   };
 
-  // microCMS のリスト型は「タイトル」フィールドが必須のことが多い（スキーマに無ければ MIGRATE_OMIT_TITLE=1）
-  if (env.MIGRATE_OMIT_TITLE !== "1" && env.MIGRATE_OMIT_TITLE !== "true") {
+  // 既定は title なし（'title' is unexpected key 対策）。スキーマに title がある API だけ MIGRATE_INCLUDE_TITLE=1
+  const includeTitle =
+    env.MIGRATE_INCLUDE_TITLE === "1" || env.MIGRATE_INCLUDE_TITLE === "true";
+  const forceOmitTitle =
+    env.MIGRATE_OMIT_TITLE === "1" || env.MIGRATE_OMIT_TITLE === "true";
+  if (includeTitle && !forceOmitTitle) {
     Object.assign(payload, { title: orderNo });
   }
 
