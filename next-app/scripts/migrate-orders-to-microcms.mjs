@@ -255,6 +255,39 @@ function listJsonInDir(dirAbs) {
   return fs.readdirSync(dirAbs).filter(isJsonFileName).sort();
 }
 
+/**
+ * 注文 JSON ディレクトリが有効か検証。ダメなら Error を throw（パス誤りを明示する）
+ */
+function assertReadableOrdersDirectory(absPath, hint) {
+  const resolved = path.resolve(absPath);
+  if (!fs.existsSync(resolved)) {
+    throw new Error(
+      `ソースディレクトリが存在しません。\n  パス: ${resolved}\n  ヒント: ${hint}`,
+    );
+  }
+  const st = fs.statSync(resolved);
+  if (!st.isDirectory()) {
+    throw new Error(
+      `ソースパスはディレクトリではありません（ファイル等）。\n  パス: ${resolved}`,
+    );
+  }
+  try {
+    fs.accessSync(resolved, fs.constants.R_OK | fs.constants.X_OK);
+  } catch (e) {
+    throw new Error(
+      `ソースディレクトリを読み取れません（権限を確認）。\n  パス: ${resolved}\n  詳細: ${e.message}`,
+    );
+  }
+  try {
+    fs.readdirSync(resolved);
+  } catch (e) {
+    throw new Error(
+      `ソースディレクトリの一覧取得に失敗しました。\n  パス: ${resolved}\n  詳細: ${e.message}`,
+    );
+  }
+  return resolved;
+}
+
 function resolveEnvPath(raw) {
   const t = raw.trim();
   if (!t) return null;
@@ -461,28 +494,33 @@ async function main() {
   const apiBase = domain ? `https://${domain}.microcms.io/api/v1` : "";
   logSourceDirResolution(sourceFromArgv);
   const sourceDir = resolveSourceDir(sourceFromArgv);
+  const hint =
+    sourceFromArgv != null
+      ? "--source のパスが正しいか、コマンドが改行で分断されていないか確認してください。"
+      : "--source でホスト上の絶対パス（例: .../next-app/data/orders）を指定するか、ディレクトリを作成してください。";
 
-  if (!fs.existsSync(sourceDir)) {
-    sayBoth("[migrate-orders] エラー: ソースディレクトリがありません:", path.resolve(sourceDir));
-    if (sourceFromArgv) {
-      sayBoth("[migrate-orders] --source のパスを確認（コマンドが改行で分断されていないかも確認）。");
-    } else {
-      sayBoth("[migrate-orders] --source /mnt/.../next-app/data/orders のようにホストの絶対パスを指定してください。");
-    }
+  let sourceDirAbs;
+  try {
+    sourceDirAbs = assertReadableOrdersDirectory(sourceDir, hint);
+    sayBoth("[migrate-orders] ソースディレクトリ検証OK:", sourceDirAbs);
+  } catch (e) {
+    sayBoth("========== [migrate-orders] パス検証エラー ==========");
+    sayBoth(String(e.message));
+    sayBoth("====================================================");
     process.exit(1);
   }
 
-  const files = listJsonInDir(sourceDir);
+  const files = listJsonInDir(sourceDirAbs);
   if (files.length === 0) {
     sayBoth("========== [migrate-orders] 終了サマリー ==========");
-    sayBoth("[migrate-orders] 参照ディレクトリ:", path.resolve(sourceDir));
+    sayBoth("[migrate-orders] 参照ディレクトリ:", sourceDirAbs);
     sayBoth("[migrate-orders] 一覧の *.json 件数: 0（処理したファイルはありません）");
     sayBoth("====================================================");
     say("[migrate-orders] 移行対象の *.json が 0 件です（このため microCMS は空のままです）。");
-    say("[migrate-orders] 参照ディレクトリ（絶対パス）:", path.resolve(sourceDir));
+    say("[migrate-orders] 参照ディレクトリ（絶対パス）:", sourceDirAbs);
     try {
-      if (fs.existsSync(sourceDir) && fs.statSync(sourceDir).isDirectory()) {
-        const entries = fs.readdirSync(sourceDir);
+      if (fs.existsSync(sourceDirAbs) && fs.statSync(sourceDirAbs).isDirectory()) {
+        const entries = fs.readdirSync(sourceDirAbs);
         const preview = entries.slice(0, 40);
         say(
           "[migrate-orders] ディレクトリ内のファイル例（最大40件）:",
@@ -500,7 +538,7 @@ async function main() {
     process.exit(0);
   }
 
-  say("[migrate-orders] 採用したソース（絶対パス）:", path.resolve(sourceDir));
+  say("[migrate-orders] 採用したソース（絶対パス）:", sourceDirAbs);
   say("[migrate-orders] 件数:", String(files.length), dry ? "(DRY RUN)" : "");
   say("[migrate-orders] 処理順（ファイル名昇順）:");
   const idxW = String(files.length).length;
@@ -526,15 +564,17 @@ async function main() {
   for (let fi = 0; fi < files.length; fi++) {
     const file = files[fi];
     const step = `${fi + 1}/${files.length}`;
-    const filePath = path.join(sourceDir, file);
+    const filePath = path.join(sourceDirAbs, file);
     const fileAbs = path.resolve(filePath);
+    sayBoth("[オープン試行]", step, "ディレクトリ:", sourceDirAbs, "ファイル名:", file);
+    sayBoth("[オープン試行]", step, "フルパス:", fileAbs);
     let record;
     try {
       record = JSON.parse(fs.readFileSync(filePath, "utf8"));
       jsonReadOk += 1;
       sayBoth("[オープン・読込OK]", step, fileAbs);
     } catch (e) {
-      sayBoth("[オープン失敗]", step, fileAbs, "—", e.message);
+      sayBoth("[オープン失敗]", step, fileAbs, "—", e.name, e.message);
       fail += 1;
       continue;
     }
@@ -588,7 +628,7 @@ async function main() {
 
   say("[migrate-orders] 完了 ok=", String(ok), "skip=", String(skip), "fail=", String(fail));
   sayBoth("========== [migrate-orders] 終了サマリー ==========");
-  sayBoth("[migrate-orders] ソースディレクトリ:", path.resolve(sourceDir));
+  sayBoth("[migrate-orders] ソースディレクトリ:", sourceDirAbs);
   sayBoth("[migrate-orders] 一覧の *.json 件数:", String(files.length));
   sayBoth(
     "[migrate-orders] ファイルを開いて JSON として読み込めた件数:",
@@ -619,6 +659,11 @@ async function main() {
 }
 
 main().catch((e) => {
-  console.error(e);
+  sayBoth("========== [migrate-orders] 未処理例外 ==========");
+  sayBoth(e instanceof Error ? e.message : String(e));
+  if (e instanceof Error && e.stack) {
+    console.error(e.stack);
+  }
+  sayBoth("====================================================");
   process.exit(1);
 });
