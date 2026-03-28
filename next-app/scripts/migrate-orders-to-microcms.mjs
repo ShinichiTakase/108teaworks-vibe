@@ -353,7 +353,10 @@ async function main() {
     process.exit(1);
   }
 
-  const files = fs.readdirSync(sourceDir).filter((f) => f.endsWith(".json"));
+  const files = fs
+    .readdirSync(sourceDir)
+    .filter((f) => f.endsWith(".json"))
+    .sort();
   if (files.length === 0) {
     say("[migrate-orders] 移行対象の *.json が 0 件です（このため microCMS は空のままです）。");
     say("[migrate-orders] 参照ディレクトリ:", sourceDir);
@@ -368,6 +371,11 @@ async function main() {
 
   say("[migrate-orders] ソース:", sourceDir);
   say("[migrate-orders] 件数:", String(files.length), dry ? "(DRY RUN)" : "");
+  say("[migrate-orders] 処理順（ファイル名昇順）:");
+  const idxW = String(files.length).length;
+  for (let i = 0; i < files.length; i++) {
+    say(" ", String(i + 1).padStart(idxW, " "), "/", String(files.length), files[i]);
+  }
 
   if (!dry && apiKey) {
     const testUrl = `${apiBase}/orders?limit=1`;
@@ -383,7 +391,10 @@ async function main() {
   let skip = 0;
   let fail = 0;
 
-  for (const file of files) {
+  for (let fi = 0; fi < files.length; fi++) {
+    const file = files[fi];
+    const step = `${fi + 1}/${files.length}`;
+    say("[読込]", step, file);
     const filePath = path.join(sourceDir, file);
     let record;
     try {
