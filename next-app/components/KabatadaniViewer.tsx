@@ -15,9 +15,50 @@ const DEFAULT_PDF_URL = "/pdf/kahadadani_no_ocha.pdf";
 const NARROW_MAX_PX = 640;
 
 const GAP_SPREAD = 12;
-const MAX_COVER_WIDTH = 520;
-const MAX_SPREAD_HALF = 480;
-const MIN_PAGE_WIDTH = 108;
+/** 1ページ・表紙: 縦:横 = 1.414:1（A判縦 √2） */
+const PAGE_ASPECT_HEIGHT_OVER_WIDTH = 1.414;
+/** 見開き表示エリアの CSS aspect-ratio（横:縦 = 2:1.414） */
+const SPREAD_VIEW_ASPECT_RATIO = 2 / 1.414;
+/** ビューポート端から PDF 枠までの余白（片側）。枠の横幅 = 100vw - 2×この値 */
+const VIEWPORT_EDGE_GUTTER_PX = 10;
+/** パネル内の PDF 用追加横余白（枠幅は vw 側で確保済みのため 0） */
+const PAGE_SIDE_MARGIN = 0;
+const MIN_PAGE_WIDTH = 100;
+
+function fitPageWidthForAspect(
+  paneInnerWidth: number,
+  paneInnerHeight: number,
+  zoom: number,
+  aspectHW: number,
+): number {
+  const availW = Math.max(MIN_PAGE_WIDTH, paneInnerWidth);
+  const availH = Math.max(80, paneInnerHeight);
+  const wFitByHeight = availH / aspectHW;
+  const baseW = Math.min(availW, wFitByHeight);
+  let w = baseW * zoom;
+  if (w * aspectHW > availH) w = availH / aspectHW;
+  if (w > availW) w = availW;
+  return Math.max(MIN_PAGE_WIDTH, w);
+}
+
+/** 見開き時の各ページ幅（行幅いっぱいを使い、高さだけで縮小） */
+function fitSpreadHalfWidth(
+  paneInnerWidth: number,
+  paneInnerHeight: number,
+  gap: number,
+  zoom: number,
+  singlePageAspectHW: number,
+): number {
+  const availW = Math.max(MIN_PAGE_WIDTH * 2 + gap, paneInnerWidth);
+  const availH = Math.max(80, paneInnerHeight);
+  const maxHalfByRow = (availW - gap) / 2;
+  const maxHalfByHeight = availH / singlePageAspectHW;
+  let base = Math.min(maxHalfByRow, maxHalfByHeight);
+  let w = base * zoom;
+  if (w * singlePageAspectHW > availH) w = availH / singlePageAspectHW;
+  if (w > maxHalfByRow) w = maxHalfByRow;
+  return Math.max(MIN_PAGE_WIDTH, w);
+}
 
 type KabatadaniViewerProps = {
   pdfUrl?: string;
@@ -28,8 +69,13 @@ export default function KabatadaniViewer({ pdfUrl = DEFAULT_PDF_URL }: Kabatadan
   const [currentPage, setCurrentPage] = useState(1);
   const [zoom, setZoom] = useState(1);
   const [isNarrow, setIsNarrow] = useState(false);
-  const [containerWidth, setContainerWidth] = useState(() =>
-    typeof window !== "undefined" ? Math.max(240, window.innerWidth - 64) : 600,
+  const [paneSize, setPaneSize] = useState(() =>
+    typeof window !== "undefined"
+      ? {
+          width: Math.max(240, window.innerWidth - 2 * VIEWPORT_EDGE_GUTTER_PX),
+          height: Math.round(window.innerHeight * 0.55),
+        }
+      : { width: 600, height: 480 },
   );
 
   const paneRef = useRef<HTMLDivElement>(null);
@@ -46,7 +92,8 @@ export default function KabatadaniViewer({ pdfUrl = DEFAULT_PDF_URL }: Kabatadan
     const el = paneRef.current;
     if (!el) return;
     const w = el.clientWidth;
-    if (w > 0) setContainerWidth(w);
+    const h = el.clientHeight;
+    if (w > 0 && h > 0) setPaneSize({ width: w, height: h });
   }, []);
 
   useEffect(() => {
@@ -64,19 +111,18 @@ export default function KabatadaniViewer({ pdfUrl = DEFAULT_PDF_URL }: Kabatadan
   };
 
   const isCover = currentPage === 1;
-  /** 狭い画面：常に1ページ。広い画面：表紙以外は見開き */
-  const spreadMode = !isNarrow && !isCover;
 
   const rightPage = currentPage;
   const leftPage = numPages && currentPage + 1 <= numPages ? currentPage + 1 : null;
 
-  const innerAvail = Math.max(240, containerWidth);
-  const coverW = Math.max(MIN_PAGE_WIDTH, Math.min(MAX_COVER_WIDTH * zoom, innerAvail));
-  const singleW = Math.max(MIN_PAGE_WIDTH, Math.min(MAX_COVER_WIDTH * zoom, innerAvail));
-  const spreadHalfW = Math.max(
-    MIN_PAGE_WIDTH,
-    Math.min(MAX_SPREAD_HALF * zoom, Math.floor((innerAvail - GAP_SPREAD) / 2)),
-  );
+  const innerW = Math.max(0, paneSize.width - 2 * PAGE_SIDE_MARGIN);
+  /** 内側の上下パディング分を差し引き、下端が切れにくくする */
+  const innerH = Math.max(80, paneSize.height - 20);
+  const aspect = PAGE_ASPECT_HEIGHT_OVER_WIDTH;
+
+  const coverW = fitPageWidthForAspect(innerW, innerH, zoom, aspect);
+  const singleW = fitPageWidthForAspect(innerW, innerH, zoom, aspect);
+  const spreadHalfW = fitSpreadHalfWidth(innerW, innerH, GAP_SPREAD, zoom, aspect);
 
   const canGoPrev = currentPage > 1;
   const canGoNext = numPages ? currentPage < numPages : false;
@@ -134,10 +180,29 @@ export default function KabatadaniViewer({ pdfUrl = DEFAULT_PDF_URL }: Kabatadan
         : "border-border/40 bg-cream text-ink-muted cursor-not-allowed"
     }`;
 
+  const vw = `calc(100vw - ${2 * VIEWPORT_EDGE_GUTTER_PX}px)`;
+  const edgeShift = `calc(50% - 50vw + ${VIEWPORT_EDGE_GUTTER_PX}px)`;
+
   return (
-    <div className="mx-auto max-w-[1200px] rounded-xl bg-cream p-2 md:p-3 shadow-md">
-      <div className="relative flex h-[70vh] flex-col rounded-lg bg-cream shadow-inner">
-        <div ref={paneRef} className="min-h-0 flex-1 overflow-hidden">
+    <div
+      className="rounded-xl bg-cream py-2 shadow-md max-[640px]:rounded-lg max-[640px]:py-1 md:py-3"
+      style={{
+        width: vw,
+        maxWidth: vw,
+        marginLeft: edgeShift,
+        marginRight: edgeShift,
+      }}
+    >
+      <div className="relative flex flex-col rounded-lg bg-cream shadow-inner max-[640px]:min-h-[70vh] max-[640px]:rounded-md">
+        <div
+          ref={paneRef}
+          className={
+            isNarrow
+              ? "min-h-0 flex-1 overflow-auto"
+              : "w-full shrink-0 overflow-auto max-h-[min(85vh,90dvh)]"
+          }
+          style={isNarrow ? undefined : { aspectRatio: SPREAD_VIEW_ASPECT_RATIO }}
+        >
           <Document
             file={pdfUrl}
             onLoadSuccess={onDocumentLoadSuccess}
@@ -159,13 +224,13 @@ export default function KabatadaniViewer({ pdfUrl = DEFAULT_PDF_URL }: Kabatadan
               </div>
             }
           >
-            <div className="flex h-full items-center justify-center px-1.5 py-2 md:px-3 md:py-3">
+            <div className="flex min-h-0 w-full items-start justify-center px-0 py-2 max-[640px]:min-h-full max-[640px]:items-center max-[640px]:py-1.5 md:py-2">
               {isCover ? (
                 <Page
                   pageNumber={1}
                   renderTextLayer={false}
                   renderAnnotationLayer={false}
-                  className="shadow-md !m-0 max-h-full w-auto max-w-full"
+                  className="shadow-md !m-0 h-auto w-auto max-w-none shrink-0"
                   width={coverW}
                 />
               ) : isNarrow ? (
@@ -173,17 +238,17 @@ export default function KabatadaniViewer({ pdfUrl = DEFAULT_PDF_URL }: Kabatadan
                   pageNumber={currentPage}
                   renderTextLayer={false}
                   renderAnnotationLayer={false}
-                  className="shadow-md !m-0 max-h-full w-auto max-w-full"
+                  className="shadow-md !m-0 h-auto w-auto max-w-none shrink-0"
                   width={singleW}
                 />
               ) : (
-                <div className="flex h-full max-w-full items-center justify-center gap-2 md:gap-3">
+                <div className="flex w-full max-w-full items-start justify-center gap-2 md:gap-3 max-[640px]:min-h-full max-[640px]:items-center">
                   {leftPage != null && (
                     <Page
                       pageNumber={leftPage}
                       renderTextLayer={false}
                       renderAnnotationLayer={false}
-                      className="shadow-md !m-0 max-h-full w-auto shrink"
+                      className="shadow-md !m-0 h-auto w-auto shrink-0"
                       width={spreadHalfW}
                     />
                   )}
@@ -191,7 +256,7 @@ export default function KabatadaniViewer({ pdfUrl = DEFAULT_PDF_URL }: Kabatadan
                     pageNumber={rightPage}
                     renderTextLayer={false}
                     renderAnnotationLayer={false}
-                    className="shadow-md !m-0 max-h-full w-auto shrink"
+                    className="shadow-md !m-0 h-auto w-auto shrink-0"
                     width={spreadHalfW}
                   />
                 </div>
@@ -200,7 +265,7 @@ export default function KabatadaniViewer({ pdfUrl = DEFAULT_PDF_URL }: Kabatadan
           </Document>
         </div>
 
-        <div className="flex shrink-0 items-center justify-between gap-1 border-t border-border bg-cream/90 px-2 py-1 text-xs min-[641px]:gap-2 min-[641px]:px-3 md:text-[0.8125rem] text-ink">
+        <div className="flex shrink-0 items-center justify-between gap-1 border-t border-border bg-cream/90 px-1 py-1 text-xs max-[640px]:px-1 min-[641px]:gap-2 min-[641px]:px-3 md:text-[0.8125rem] text-ink">
           <button
             type="button"
             onClick={handleNext}
