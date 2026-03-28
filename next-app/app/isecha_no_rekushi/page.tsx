@@ -1,7 +1,7 @@
-import dynamic from "next/dynamic";
+import nextDynamic from "next/dynamic";
 import { MAIN_CLASS, INNER_CLASS } from "@/components/Layout";
 
-const KabatadaniViewer = dynamic(() => import("@/components/KabatadaniViewer"), {
+const KabatadaniViewer = nextDynamic(() => import("@/components/KabatadaniViewer"), {
   ssr: false,
   loading: () => (
     <div className="flex min-h-[50vh] items-center justify-center text-[0.9375rem] text-ink-muted">
