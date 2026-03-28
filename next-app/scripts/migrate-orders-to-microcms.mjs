@@ -241,6 +241,13 @@ async function main() {
   const apiKey = env.MICROCMS_API_KEY?.trim();
   const dry = env.MIGRATE_DRY_RUN === "1" || env.MIGRATE_DRY_RUN === "true";
 
+  console.log("[migrate-orders] 開始");
+  if (dry) {
+    console.log(
+      "[migrate-orders] DRY RUN: microCMS には書き込みません（登録するには --dry-run を付けずに実行）",
+    );
+  }
+
   if (!dry && (!domain || !apiKey)) {
     console.error("本番移行時は MICROCMS_SERVICE_DOMAIN と MICROCMS_API_KEY が必要です。");
     process.exit(1);
@@ -250,18 +257,28 @@ async function main() {
   const sourceDir = resolveSourceDir();
 
   if (!fs.existsSync(sourceDir)) {
-    console.error("ソースディレクトリがありません:", sourceDir);
+    console.error("[migrate-orders] ソースディレクトリがありません:", sourceDir);
+    console.error(
+      "[migrate-orders] mkdir するか、MIGRATE_ORDERS_DIR または --source で既存パスを指定してください。",
+    );
     process.exit(1);
   }
 
   const files = fs.readdirSync(sourceDir).filter((f) => f.endsWith(".json"));
   if (files.length === 0) {
-    console.log("移行対象の JSON がありません:", sourceDir);
+    console.log("[migrate-orders] 移行対象の *.json が 0 件です（このため microCMS は空のままです）。");
+    console.log("[migrate-orders] 参照ディレクトリ:", sourceDir);
+    console.log("[migrate-orders] 次を確認してください:");
+    console.log("  ・注文スナップショットの実パス（例: ORDER_SNAPSHOTS_DIR で保存している場所）");
+    console.log("  ・ファイル名が .json で終わること");
+    console.log("  ・別ディレクトリなら:");
+    console.log("    MIGRATE_ORDERS_DIR=/path/to/json ./scripts/migrate-orders-to-microcms.sh --dry-run");
+    console.log("    または ./scripts/migrate-orders-to-microcms.sh --dry-run --source /path/to/json");
     process.exit(0);
   }
 
-  console.log("ソース:", sourceDir);
-  console.log("件数:", files.length, dry ? "(DRY RUN)" : "");
+  console.log("[migrate-orders] ソース:", sourceDir);
+  console.log("[migrate-orders] 件数:", files.length, dry ? "(DRY RUN)" : "");
 
   let ok = 0;
   let skip = 0;
@@ -321,7 +338,12 @@ async function main() {
     ok += 1;
   }
 
-  console.log("done: ok=", ok, "skip=", skip, "fail=", fail);
+  console.log("[migrate-orders] 完了 ok=", ok, "skip=", skip, "fail=", fail);
+  if (dry && ok > 0) {
+    console.log(
+      "[migrate-orders] 上記が問題なければ、--dry-run を外して再実行すると microCMS に POST されます。",
+    );
+  }
   if (fail > 0) process.exit(1);
 }
 

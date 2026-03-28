@@ -124,4 +124,5 @@ done
 
 echo "working directory: ${ROOT}"
 echo "using node: ${NODE_CMD} ($("${NODE_CMD}" -v))"
+echo "（--dry-run 時は microCMS へは書き込みません）"
 exec "${NODE_CMD}" "${ROOT}/scripts/migrate-orders-to-microcms.mjs"
