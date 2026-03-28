@@ -22,16 +22,16 @@ export default function FloatingCartBar() {
   const locale = detectLocaleFromPath(pathname);
   const { items } = useCart();
   const t = COMMON_TEXTS[locale];
-  const cartHref = buildLocalizedHref(locale, "/cart");
+  const checkoutHref = buildLocalizedHref(locale, "/checkout");
   const isCartOrCheckout = pathname === "/cart" || pathname === "/checkout" || /^\/(en|ko|zh)\/(cart|checkout)(?:\/|$)/.test(pathname || "");
   if (isCartOrCheckout || items.length === 0) return null;
 
   return (
     <Link
-      href={cartHref}
+      href={checkoutHref}
       className="fixed right-0 z-50 flex h-12 w-12 md:h-14 md:min-w-[152px] items-center justify-center md:justify-start gap-2 rounded-l-full border-2 border-r-0 border-tea bg-tea p-0 md:py-3 md:pl-4 md:pr-3 text-white no-underline font-semibold text-[0.875rem] shadow-lg transition-colors hover:bg-tea-light hover:border-tea-light"
       style={{ bottom: "max(calc(35% + 4em), 294px)" }}
-      aria-label={t.floatingCart}
+      aria-label={t.floatingCheckout}
     >
       <span className="inline-flex h-6 w-6 md:h-8 md:w-8 shrink-0 items-center justify-center text-white" aria-hidden="true">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-full w-full">
@@ -40,7 +40,7 @@ export default function FloatingCartBar() {
           <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
         </svg>
       </span>
-      <span className="hidden md:inline whitespace-nowrap">{t.floatingCart}</span>
+      <span className="hidden md:inline whitespace-nowrap">{t.floatingCheckout}</span>
     </Link>
   );
 }

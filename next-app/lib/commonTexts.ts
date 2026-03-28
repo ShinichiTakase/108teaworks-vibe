@@ -15,10 +15,12 @@ export const COMMON_TEXTS: Record<
       wholesale: string;
     };
     header: {
-      cart: string;
+      /** ヘッダーの購入フロー導線（/checkout） */
+      checkout: string;
       inquiry: string;
     };
-    floatingCart: string;
+    /** フローティング導線（/checkout） */
+    floatingCheckout: string;
     footer: {
       privacyPolicy: string;
       legal: string;
@@ -80,8 +82,8 @@ export const COMMON_TEXTS: Record<
       notice: "お知らせ",
       wholesale: "パートナー募集",
     },
-    header: { cart: "カート", inquiry: "お問い合せ" },
-    floatingCart: "カートに移動",
+    header: { checkout: "購入手続きへ", inquiry: "お問い合せ" },
+    floatingCheckout: "購入手続きへ",
     footer: {
       privacyPolicy: "プライバシーポリシー",
       legal: "特定商取引法に基づく表記",
@@ -124,8 +126,8 @@ export const COMMON_TEXTS: Record<
       notice: "News",
       wholesale: "Wholesale",
     },
-    header: { cart: "Cart", inquiry: "Contact" },
-    floatingCart: "Go to Cart",
+    header: { checkout: "Proceed to checkout", inquiry: "Contact" },
+    floatingCheckout: "Proceed to checkout",
     footer: {
       privacyPolicy: "Privacy Policy",
       legal: "Legal Notice",
@@ -168,8 +170,8 @@ export const COMMON_TEXTS: Record<
       notice: "소식",
       wholesale: "도매 문의",
     },
-    header: { cart: "장바구니", inquiry: "문의" },
-    floatingCart: "장바구니로",
+    header: { checkout: "결제하기", inquiry: "문의" },
+    floatingCheckout: "결제하기",
     footer: {
       privacyPolicy: "개인정보처리방침",
       legal: "거래 조건",
@@ -212,8 +214,8 @@ export const COMMON_TEXTS: Record<
       notice: "公告",
       wholesale: "批发合作",
     },
-    header: { cart: "购物车", inquiry: "咨询" },
-    floatingCart: "去购物车",
+    header: { checkout: "去结账", inquiry: "咨询" },
+    floatingCheckout: "去结账",
     footer: {
       privacyPolicy: "隐私政策",
       legal: "特定商交易法表记",

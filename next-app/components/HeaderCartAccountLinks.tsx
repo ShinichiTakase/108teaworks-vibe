@@ -47,19 +47,19 @@ export default function HeaderCartAccountLinks() {
   const pathname = usePathname() || "/";
   const locale = detectLocaleFromPath(pathname);
   const t = COMMON_TEXTS[locale];
-  const cartHref = buildLocalizedHref(locale, "/cart");
+  const checkoutHref = buildLocalizedHref(locale, "/checkout");
   const inquiryHref = buildLocalizedHref(locale, "/inquery");
 
   return (
     <div className="flex items-center gap-3 md:gap-4">
       <Link
-        href={cartHref}
+        href={checkoutHref}
         className="inline-flex items-center gap-1.5 text-[0.8125rem] font-semibold text-tea-deep no-underline hover:text-tea hover:underline"
       >
         <span className="flex-shrink-0 w-[1.1em] h-[1.1em]">
           <CartIcon className="w-full h-full" />
         </span>
-        {t.header.cart}
+        {t.header.checkout}
       </Link>
       <Link
         href={inquiryHref}
