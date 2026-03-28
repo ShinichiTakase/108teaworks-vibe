@@ -122,7 +122,9 @@ USAGE
   esac
 done
 
-echo "working directory: ${ROOT}"
-echo "using node: ${NODE_CMD} ($("${NODE_CMD}" -v))"
-echo "（--dry-run 時は microCMS へは書き込みません）"
-exec "${NODE_CMD}" "${ROOT}/scripts/migrate-orders-to-microcms.mjs"
+echo "working directory: ${ROOT}" >&2
+echo "using node: ${NODE_CMD} ($("${NODE_CMD}" -v))" >&2
+echo "（--dry-run 時は microCMS へは書き込みません）" >&2
+# exec だと子プロセスの出力が環境によって取りこぼすことがあるため通常起動にする
+"${NODE_CMD}" "${ROOT}/scripts/migrate-orders-to-microcms.mjs"
+exit $?

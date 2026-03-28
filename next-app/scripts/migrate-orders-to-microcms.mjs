@@ -13,6 +13,7 @@
  * オプション:
  * - MIGRATE_ORDERS_DIR … 読み込みディレクトリ（未設定時は data/orders → .data/order_snapshots の順で存在する方）
  * - MIGRATE_DRY_RUN=1 … POST せずペイロードのみ表示
+ * - MIGRATE_OMIT_TITLE=1 … ペイロードに title を付けない（スキーマに title が無い場合）
  *
  * 実行:
  *   node scripts/migrate-orders-to-microcms.mjs
@@ -24,6 +25,11 @@ import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.join(__dirname, "..");
+
+/** ログは stderr のみ（SSH / リダイレクトで stdout が見えない場合があるため） */
+function say(...args) {
+  console.error(...args);
+}
 
 function loadEnvLocal() {
   const p = path.join(ROOT, ".env.local");
@@ -221,6 +227,11 @@ function buildPayload(record) {
     orderLines,
   };
 
+  // microCMS のリスト型は「タイトル」フィールドが必須のことが多い（スキーマに無ければ MIGRATE_OMIT_TITLE=1）
+  if (env.MIGRATE_OMIT_TITLE !== "1" && env.MIGRATE_OMIT_TITLE !== "true") {
+    Object.assign(payload, { title: orderNo });
+  }
+
   return { payload };
 }
 
@@ -241,15 +252,13 @@ async function main() {
   const apiKey = env.MICROCMS_API_KEY?.trim();
   const dry = env.MIGRATE_DRY_RUN === "1" || env.MIGRATE_DRY_RUN === "true";
 
-  console.log("[migrate-orders] 開始");
+  say("[migrate-orders] 開始");
   if (dry) {
-    console.log(
-      "[migrate-orders] DRY RUN: microCMS には書き込みません（登録するには --dry-run を付けずに実行）",
-    );
+    say("[migrate-orders] DRY RUN: microCMS には書き込みません（登録するには --dry-run を付けずに実行）");
   }
 
   if (!dry && (!domain || !apiKey)) {
-    console.error("本番移行時は MICROCMS_SERVICE_DOMAIN と MICROCMS_API_KEY が必要です。");
+    say("本番移行時は MICROCMS_SERVICE_DOMAIN と MICROCMS_API_KEY が必要です。");
     process.exit(1);
   }
 
@@ -257,8 +266,8 @@ async function main() {
   const sourceDir = resolveSourceDir();
 
   if (!fs.existsSync(sourceDir)) {
-    console.error("[migrate-orders] ソースディレクトリがありません:", sourceDir);
-    console.error(
+    say("[migrate-orders] ソースディレクトリがありません:", sourceDir);
+    say(
       "[migrate-orders] mkdir するか、MIGRATE_ORDERS_DIR または --source で既存パスを指定してください。",
     );
     process.exit(1);
@@ -266,19 +275,29 @@ async function main() {
 
   const files = fs.readdirSync(sourceDir).filter((f) => f.endsWith(".json"));
   if (files.length === 0) {
-    console.log("[migrate-orders] 移行対象の *.json が 0 件です（このため microCMS は空のままです）。");
-    console.log("[migrate-orders] 参照ディレクトリ:", sourceDir);
-    console.log("[migrate-orders] 次を確認してください:");
-    console.log("  ・注文スナップショットの実パス（例: ORDER_SNAPSHOTS_DIR で保存している場所）");
-    console.log("  ・ファイル名が .json で終わること");
-    console.log("  ・別ディレクトリなら:");
-    console.log("    MIGRATE_ORDERS_DIR=/path/to/json ./scripts/migrate-orders-to-microcms.sh --dry-run");
-    console.log("    または ./scripts/migrate-orders-to-microcms.sh --dry-run --source /path/to/json");
+    say("[migrate-orders] 移行対象の *.json が 0 件です（このため microCMS は空のままです）。");
+    say("[migrate-orders] 参照ディレクトリ:", sourceDir);
+    say("[migrate-orders] 次を確認してください:");
+    say("  ・注文スナップショットの実パス（例: ORDER_SNAPSHOTS_DIR で保存している場所）");
+    say("  ・ファイル名が .json で終わること");
+    say("  ・別ディレクトリなら:");
+    say("    MIGRATE_ORDERS_DIR=/path/to/json ./scripts/migrate-orders-to-microcms.sh --dry-run");
+    say("    または ./scripts/migrate-orders-to-microcms.sh --dry-run --source /path/to/json");
     process.exit(0);
   }
 
-  console.log("[migrate-orders] ソース:", sourceDir);
-  console.log("[migrate-orders] 件数:", files.length, dry ? "(DRY RUN)" : "");
+  say("[migrate-orders] ソース:", sourceDir);
+  say("[migrate-orders] 件数:", String(files.length), dry ? "(DRY RUN)" : "");
+
+  if (!dry && apiKey) {
+    const testUrl = `${apiBase}/orders?limit=1`;
+    const tr = await fetch(testUrl, { headers: { "X-MICROCMS-API-KEY": apiKey } });
+    const testBody = await tr.text();
+    say("[migrate-orders] GET /orders?limit=1 → HTTP", String(tr.status));
+    if (!tr.ok) {
+      say("[migrate-orders] GET が失敗しました（キーに GET が無い場合は無視して POST を試します）。本文:", testBody.slice(0, 300));
+    }
+  }
 
   let ok = 0;
   let skip = 0;
@@ -305,15 +324,15 @@ async function main() {
     const { payload } = built;
 
     if (dry) {
-      console.log("---", file, "---");
-      console.log(JSON.stringify(payload, null, 2));
+      say("---", file, "---");
+      say(JSON.stringify(payload, null, 2));
       ok += 1;
       continue;
     }
 
     const exists = await orderExists(apiBase, apiKey, payload.orderNo);
     if (exists) {
-      console.log("[skip exists]", payload.orderNo, file);
+      say("[skip exists]", payload.orderNo, file);
       skip += 1;
       continue;
     }
@@ -329,18 +348,18 @@ async function main() {
 
     if (!res.ok) {
       const text = await res.text();
-      console.error("[fail]", file, res.status, text);
+      say("[fail]", file, String(res.status), text);
       fail += 1;
       continue;
     }
 
-    console.log("[ok]", payload.orderNo, file);
+    say("[ok]", payload.orderNo, file);
     ok += 1;
   }
 
-  console.log("[migrate-orders] 完了 ok=", ok, "skip=", skip, "fail=", fail);
+  say("[migrate-orders] 完了 ok=", String(ok), "skip=", String(skip), "fail=", String(fail));
   if (dry && ok > 0) {
-    console.log(
+    say(
       "[migrate-orders] 上記が問題なければ、--dry-run を外して再実行すると microCMS に POST されます。",
     );
   }
