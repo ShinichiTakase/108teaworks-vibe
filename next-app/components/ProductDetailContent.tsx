@@ -32,6 +32,11 @@ const RELATED_KEYS = [
   { label: "RELATED04", url: "RELATED_URL04" },
 ] as const;
 
+/** Product/Offer 用。Google リッチリザルトで推奨される価格の有効期限 */
+const OFFER_PRICE_VALID_UNTIL = "2027-12-31";
+const SCHEMA_RATING_BEST = 5;
+const SCHEMA_RATING_WORST = 1;
+
 type Props = {
   locale: Locale;
   slug: string;
@@ -85,23 +90,29 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
     typeof displayDesc01 === "string"
       ? displayDesc01.replace(/<[^>]+>/g, "").slice(0, 300)
       : "";
-  const reviewCount = reviews.length;
+  const reviewsForSchema = reviews.filter(
+    (r) =>
+      typeof r.rating === "number" &&
+      r.rating >= SCHEMA_RATING_WORST &&
+      r.rating <= SCHEMA_RATING_BEST
+  );
+  const reviewCount = reviewsForSchema.length;
   const avgRating =
     reviewCount > 0
-      ? reviews.reduce((sum, r) => sum + (r.rating || 0), 0) / reviewCount
+      ? reviewsForSchema.reduce((sum, r) => sum + r.rating, 0) / reviewCount
       : null;
   const schemaReviews =
     reviewCount > 0
-      ? reviews.slice(0, 50).map((r) => ({
+      ? reviewsForSchema.slice(0, 50).map((r) => ({
           "@type": "Review",
-          author: { "@type": "Person", name: r.nickname || "anonymous" },
+          author: { "@type": "Person", name: r.nickname.trim() || "anonymous" },
           reviewRating: {
             "@type": "Rating",
             ratingValue: r.rating,
-            bestRating: 5,
-            worstRating: 1,
+            bestRating: SCHEMA_RATING_BEST,
+            worstRating: SCHEMA_RATING_WORST,
           },
-          reviewBody: r.review,
+          reviewBody: r.review?.trim() || "（コメントなし）",
           datePublished: r.createdAt,
         }))
       : undefined;
@@ -122,18 +133,19 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
             price: product.PRICE,
             availability: "https://schema.org/InStock",
             url: productUrl,
+            priceValidUntil: OFFER_PRICE_VALID_UNTIL,
           }
         : undefined,
   };
-  if (reviewCount > 0 && avgRating !== null) {
-    (productSchema as any).aggregateRating = {
+  if (reviewCount > 0 && avgRating !== null && schemaReviews) {
+    productSchema.aggregateRating = {
       "@type": "AggregateRating",
       ratingValue: Number(avgRating.toFixed(2)),
       reviewCount,
+      bestRating: SCHEMA_RATING_BEST,
+      worstRating: SCHEMA_RATING_WORST,
     };
-    if (schemaReviews) {
-      (productSchema as any).review = schemaReviews;
-    }
+    productSchema.review = schemaReviews;
   }
 
   const pathname = locale === "ja" ? `/products/${slug}` : `/${locale}/products/${slug}`;
