@@ -24,6 +24,7 @@ export const COMMON_TEXTS: Record<
     footer: {
       privacyPolicy: string;
       legal: string;
+      domesticShippingNote: string;
       address: string;
       copyright: string;
     };
@@ -87,6 +88,7 @@ export const COMMON_TEXTS: Record<
     footer: {
       privacyPolicy: "プライバシーポリシー",
       legal: "特定商取引法に基づく表記",
+      domesticShippingNote: "配送は日本国内のみです",
       address: "〒224-0007 横浜市都筑区荏田南一丁目１１番２３号",
       copyright: "©︎ 藤八茶寮 / シングルオリジン伊勢茶 108teaworks",
     },
@@ -131,6 +133,7 @@ export const COMMON_TEXTS: Record<
     footer: {
       privacyPolicy: "Privacy Policy",
       legal: "Legal Notice",
+      domesticShippingNote: "Shipping within Japan only",
       address: "1-11-23 Edaminami, Tsuzuki-ku, Yokohama 224-0007, Japan",
       copyright: "© Fujihachiya / Single Origin Ise Tea 108teaworks",
     },
@@ -175,6 +178,7 @@ export const COMMON_TEXTS: Record<
     footer: {
       privacyPolicy: "개인정보처리방침",
       legal: "거래 조건",
+      domesticShippingNote: "일본 국내만 배송합니다",
       address: "〒224-0007 요코하마시 츠즈키구 에다미나미 1-11-23",
       copyright: "© 후지하치야 / 싱글 오리진 이세차 108teaworks",
     },
@@ -219,6 +223,7 @@ export const COMMON_TEXTS: Record<
     footer: {
       privacyPolicy: "隐私政策",
       legal: "特定商交易法表记",
+      domesticShippingNote: "仅日本国内配送",
       address: "〒224-0007 横滨市都筑区荏田南1-11-23",
       copyright: "© 藤八茶寮 / 单一产地伊势茶 108teaworks",
     },

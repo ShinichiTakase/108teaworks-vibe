@@ -31,15 +31,18 @@ export default function Footer() {
     >
       <div className="w-full">
         <div className="w-[90%] max-w-wide mx-auto py-4">
-          <p className="m-0 text-left text-[0.8125rem] text-ink-muted leading-relaxed">
-            <Link href={privacyHref} className="text-tea no-underline hover:underline">
-              {t.footer.privacyPolicy}
-            </Link>
-            <span className="mx-2 text-ink-muted">｜</span>
-            <Link href={legalHref} className="text-tea no-underline hover:underline">
-              {t.footer.legal}
-            </Link>
-          </p>
+          <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 text-[0.8125rem] text-ink-muted leading-relaxed">
+            <p className="m-0 text-left">
+              <Link href={privacyHref} className="text-tea no-underline hover:underline">
+                {t.footer.privacyPolicy}
+              </Link>
+              <span className="mx-2 text-ink-muted">｜</span>
+              <Link href={legalHref} className="text-tea no-underline hover:underline">
+                {t.footer.legal}
+              </Link>
+            </p>
+            <p className="m-0 text-right text-ink-muted">{t.footer.domesticShippingNote}</p>
+          </div>
         </div>
       </div>
       <div className="w-full bg-footer-middle">
