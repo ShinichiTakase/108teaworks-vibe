@@ -56,7 +56,15 @@ export function getFixedSeo(
   return null;
 }
 
-export function buildAlternatesForLocales(pathname: string) {
+export type BuildAlternatesOptions = {
+  /**
+   * true のとき hreflang を ja-JP / en-JP / ko-JP / zh-JP にする（Google Merchant Center Next 向け）。
+   * false または未指定は従来どおり ja / en / ko / zh（伊勢茶など情報ページ用）。
+   */
+  jpRegionHreflang?: boolean;
+};
+
+export function buildAlternatesForLocales(pathname: string, options?: BuildAlternatesOptions) {
   const path = normalizePathKey(pathname);
   const base = process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/$/, "") ?? "https://108teaworks.com";
   const ja = `${base}${path === "/" ? "/" : withoutTrailingSlash(path)}`;
@@ -64,14 +72,28 @@ export function buildAlternatesForLocales(pathname: string) {
     loc === "ja"
       ? ja
       : `${base}/${loc}${path === "/" ? "" : withoutTrailingSlash(path)}`;
+  const urls = {
+    ja: make("ja"),
+    en: make("en"),
+    ko: make("ko"),
+    zh: make("zh"),
+  };
+  const languages = options?.jpRegionHreflang
+    ? {
+        "ja-JP": urls.ja,
+        "en-JP": urls.en,
+        "ko-JP": urls.ko,
+        "zh-JP": urls.zh,
+      }
+    : {
+        ja: urls.ja,
+        en: urls.en,
+        ko: urls.ko,
+        zh: urls.zh,
+      };
   return {
-    canonical: make("ja"),
-    languages: {
-      ja: make("ja"),
-      en: make("en"),
-      ko: make("ko"),
-      zh: make("zh"),
-    },
+    canonical: urls.ja,
+    languages,
   };
 }
 

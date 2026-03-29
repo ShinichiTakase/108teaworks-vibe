@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: Props) {
   if (!product) {
     return {
       title: "商品｜伊勢茶の藤八茶寮",
-      alternates: buildAlternatesForLocales(`/products/${slug}`),
+      alternates: buildAlternatesForLocales(`/products/${slug}`, { jpRegionHreflang: true }),
     };
   }
   const seo = getProductSeo(product, "ja");
@@ -43,7 +43,7 @@ export async function generateMetadata({ params }: Props) {
     title: seo.title ?? `${product.TITLE ?? "商品"}｜伊勢茶の藤八茶寮`,
     description:
       seo.description ?? product.DESCRIPTION01?.replace(/<[^>]+>/g, "").slice(0, 160),
-    alternates: buildAlternatesForLocales(`/products/${slug}`),
+    alternates: buildAlternatesForLocales(`/products/${slug}`, { jpRegionHreflang: true }),
   };
 }
 
