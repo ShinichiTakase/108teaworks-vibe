@@ -1045,6 +1045,7 @@ export default function CheckoutPage() {
                 className="w-full px-3 py-2 border-2 border-border rounded-lg text-[0.9375rem] focus:border-tea-deep focus:outline-none"
               />
             </div>
+            <p className="m-0 text-[0.875rem] leading-relaxed text-ink-muted">{t.domesticShippingOnly}</p>
             <div className="flex flex-col gap-3 pt-2">
               <label className="inline-flex items-center gap-2 cursor-pointer">
                 <input

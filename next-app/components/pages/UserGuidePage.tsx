@@ -23,6 +23,7 @@ const USER_GUIDE_TEXTS: Record<
     shipLine1: string;
     shipLine2: string;
     shipLine3: string;
+    shipDomesticNote: string;
     returnTitle: string;
     returnP1: string;
     returnP2: string;
@@ -51,6 +52,7 @@ const USER_GUIDE_TEXTS: Record<
     shipLine1: "ご注文確定後、通常2〜5営業日以内に発送いたします。",
     shipLine2: "送料はお届け先地域・ご注文内容により異なります。詳細はカート画面にてご確認ください。",
     shipLine3: "一定金額以上のご注文で送料無料となるキャンペーンを行う場合がございます。",
+    shipDomesticNote: "配送は日本国内のみです。海外への発送はできません。",
     returnTitle: "返品・交換について",
     returnP1: "商品の品質には万全を期しておりますが、万一お届け内容に不備や破損があった場合は、商品到着後7日以内にご連絡ください。状況を確認のうえ、交換または返金にて対応させていただきます。",
     returnP2: "お客様都合での返品・交換は、未開封品に限りお受けできる場合がございます。送料のご負担など詳細は、事前にお問い合わせください。",
@@ -78,6 +80,7 @@ const USER_GUIDE_TEXTS: Record<
     shipLine1: "We usually ship within 2–5 business days after your order is confirmed.",
     shipLine2: "Shipping costs depend on destination and order. See the cart page for details.",
     shipLine3: "We may run free-shipping campaigns for orders above a certain amount.",
+    shipDomesticNote: "We ship within Japan only. We do not ship overseas.",
     returnTitle: "Returns & exchanges",
     returnP1: "We take every care with quality. If your order arrives damaged or incorrect, please contact us within 7 days. We will confirm and arrange an exchange or refund.",
     returnP2: "Returns or exchanges at the customer's request may be accepted for unopened items. Please contact us in advance about shipping costs and other details.",
@@ -105,6 +108,7 @@ const USER_GUIDE_TEXTS: Record<
     shipLine1: "주문 확정 후 보통 2~5 영업일 이내에 발송합니다.",
     shipLine2: "배송료는 배송 지역·주문 내용에 따라 다릅니다. 자세한 내용은 장바구니 화면에서 확인해 주세요.",
     shipLine3: "일정 금액 이상 주문 시 무료 배송 캠페인을 진행할 수 있습니다.",
+    shipDomesticNote: "배송은 일본 국내만 가능하며 해외로는 발송하지 않습니다.",
     returnTitle: "반품·교환",
     returnP1: "상품 품질에는 만전을 기하지만, 배송 내용에 하자나 파손이 있을 경우 상품 도착 후 7일 이내에 연락 주세요. 상황 확인 후 교환 또는 환불로 대응하겠습니다.",
     returnP2: "고객 사유의 반품·교환은 미개봉품에 한해 받을 수 있는 경우가 있습니다. 배송료 부담 등 자세한 내용은 사전에 문의해 주세요.",
@@ -132,6 +136,7 @@ const USER_GUIDE_TEXTS: Record<
     shipLine1: "订单确认后，通常于2～5个工作日内发货。",
     shipLine2: "运费因配送地区与订单内容而异。详情请于购物车页面确认。",
     shipLine3: "订单满一定金额时可能开展免运费活动。",
+    shipDomesticNote: "仅向日本国内配送，不提供海外发货。",
     returnTitle: "退换货",
     returnP1: "我们力求保证商品品质。如收到的商品有瑕疵或破损，请于到货后7日内联系。确认情况后将安排换货或退款。",
     returnP2: "因客户原因退换货，仅限未开封商品，且需事先咨询运费等详情。",
@@ -217,6 +222,9 @@ export default function UserGuidePage({ locale }: Props) {
                 <li>{t.shipLine2}</li>
                 <li>{t.shipLine3}</li>
               </ul>
+              <p className="mt-3 mb-0 text-[0.9375rem] leading-relaxed text-ink-muted">
+                {t.shipDomesticNote}
+              </p>
             </div>
           </div>
 

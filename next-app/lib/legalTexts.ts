@@ -5,10 +5,14 @@ export const LEGAL_TEXTS: Record<
   {
     h1: string;
     tradeName: string;
+    tradeNameValue: string;
     homepage: string;
     representative: string;
+    representativeValue: string;
     advisor: string;
+    advisorValue: string;
     address: string;
+    addressValue: string;
     contact: string;
     contactAnd: string;
     hours: string;
@@ -23,6 +27,7 @@ export const LEGAL_TEXTS: Record<
     paymentTimingValue: string;
     delivery: string;
     deliveryValue: string;
+    deliveryAreaNote: string;
     returns: string;
     returnsValue: string;
     cancel: string;
@@ -32,10 +37,15 @@ export const LEGAL_TEXTS: Record<
   ja: {
     h1: "特定商取引法に基づく表記",
     tradeName: "屋号",
+    tradeNameValue: "藤八茶寮",
     homepage: "ホームページ",
     representative: "代表者",
+    representativeValue: "高瀬晴香",
     advisor: "相談役",
+    advisorValue:
+      "高瀬孝二（日本茶インストラクター協会認定 日本茶インストラクターリーダー / 日本茶アドバイザー養成講座専任講師 / 元三重県農業技術センター主席研究員兼茶業センター場長）",
     address: "住所",
+    addressValue: "〒224-0007 横浜市都筑区荏田南一丁目１１番２３号",
     contact: "連絡先",
     contactAnd: "および",
     hours: "営業時間",
@@ -51,6 +61,7 @@ export const LEGAL_TEXTS: Record<
       "クレジットカード決済：ご注文商品配送時でのお支払いとなり、支払時期はご利用のクレジットカード会社の会員規約に従うものとします。",
     delivery: "商品のお届け時期",
     deliveryValue: "代金のお支払い確定後、5日以内に発送いたします。",
+    deliveryAreaNote: "配送先：配送は日本国内のみです。海外への発送はできません",
     returns: "返品・交換について",
     returnsValue:
       "商品に瑕疵があった場合やご注文と異なる商品が配送された場合には、商品到着後7日以内にご連絡ください。当ショップの責による返品の場合は送料当ショップ負担にて対応いたします。食品という性質上、お客様都合による返品・交換はお受けできません。",
@@ -61,10 +72,15 @@ export const LEGAL_TEXTS: Record<
   en: {
     h1: "Legal notice (Specified Commercial Transaction Act)",
     tradeName: "Trade name",
+    tradeNameValue: "Fujihachiya Saryo",
     homepage: "Website",
     representative: "Representative",
+    representativeValue: "Haruka Takase",
     advisor: "Advisor",
+    advisorValue:
+      "Koji Takase (Japan Tea Instructor Association–certified Japanese Tea Instructor Leader; dedicated lecturer for the Japanese Tea Advisor training course; former Chief Researcher and Director of the Tea Industry Center, Mie Prefectural Agricultural Technology Center)",
     address: "Address",
+    addressValue: "11-23-1 Enta-Minami, Tsuzuki-ku, Yokohama, Kanagawa 224-0007, Japan",
     contact: "Contact",
     contactAnd: " and ",
     hours: "Business hours",
@@ -80,6 +96,8 @@ export const LEGAL_TEXTS: Record<
       "Credit card: payment is due when the order is shipped. The payment date follows the terms of your card issuer.",
     delivery: "Delivery",
     deliveryValue: "We ship within 5 days after payment is confirmed.",
+    deliveryAreaNote:
+      "Shipping destination: We ship within Japan only. We do not ship overseas.",
     returns: "Returns and exchanges",
     returnsValue:
       "If your order is defective or different from what you ordered, please contact us within 7 days of delivery. We will cover return shipping for returns due to our error. Due to the nature of food products, we cannot accept returns or exchanges at the customer's request.",
@@ -90,10 +108,15 @@ export const LEGAL_TEXTS: Record<
   ko: {
     h1: "특정 상거래에 관한 법률에 기반한 표기",
     tradeName: "상호",
+    tradeNameValue: "藤八茶寮（후지하치야 사료）",
     homepage: "홈페이지",
     representative: "대표자",
+    representativeValue: "다카세 하루카（高瀬 晴香）",
     advisor: "고문",
+    advisorValue:
+      "다카세 코지（高瀬 孝二）（일본차 인스트럭터 협회 인증 일본차 인스트럭터 리더 / 일본차 어드바이저 양성 과정 전임 강사 / 전 미에현 농업기술센터 수석 연구원 겸 차업 센터 소장）",
     address: "주소",
+    addressValue: "〒224-0007 일본 가나가와현 요코하마시 쓰즈키구 엔타미나미 1초메 11-23",
     contact: "연락처",
     contactAnd: " 및 ",
     hours: "영업 시간",
@@ -109,6 +132,7 @@ export const LEGAL_TEXTS: Record<
       "신용카드 결제: 주문 상품 배송 시 결제되며, 결제 시기는 이용하시는 신용카드 회사의 회원 약관에 따릅니다.",
     delivery: "상품의 배송 시기",
     deliveryValue: "대금 결제 확인 후 5일 이내에 발송합니다.",
+    deliveryAreaNote: "배송지：배송은 일본 국내만 가능하며 해외로는 발송하지 않습니다.",
     returns: "반품·교환",
     returnsValue:
       "상품에 하자가 있거나 주문과 다른 상품이 배송된 경우에는 상품 도착 후 7일 이내에 연락해 주세요. 당숍 귀책에 의한 반품의 경우 배송료는 당숍 부담으로 대응합니다. 식품의 성질상 고객 사유에 의한 반품·교환은 받지 않습니다.",
@@ -119,10 +143,15 @@ export const LEGAL_TEXTS: Record<
   zh: {
     h1: "特定商业交易法相关标注",
     tradeName: "商号",
+    tradeNameValue: "藤八茶寮",
     homepage: "网站",
     representative: "代表人",
+    representativeValue: "高濑晴香",
     advisor: "顾问",
+    advisorValue:
+      "高濑孝二（日本茶讲师协会认定日本茶讲师领袖／日本茶顾问培训课程专任讲师／原三重县农业技术中心首席研究员兼茶业中心主任）",
     address: "地址",
+    addressValue: "日本神奈川县横滨市都筑区荏田南一丁目11番23号 邮编224-0007",
     contact: "联系方式",
     contactAnd: "及",
     hours: "营业时间",
@@ -138,6 +167,7 @@ export const LEGAL_TEXTS: Record<
       "信用卡支付：于所订商品发货时支付，具体支付时间依所使用信用卡公司的会员规约。",
     delivery: "商品送达时间",
     deliveryValue: "价款支付确认后5日内发货。",
+    deliveryAreaNote: "配送地：仅向日本国内配送，不提供海外发货。",
     returns: "退换货",
     returnsValue:
       "如商品存在瑕疵或与订单不符，请于到货后7日内联系。因本店责任导致的退换货，运费由本店承担。鉴于食品性质，恕不接受因客户原因退换货。",

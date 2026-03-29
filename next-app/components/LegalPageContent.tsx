@@ -26,7 +26,7 @@ export default function LegalPageContent({ locale }: Props) {
                 <dt className="w-32 md:w-40 flex-none md:pr-4 font-semibold text-ink mb-1 md:mb-0 whitespace-nowrap">
                   {t.tradeName}
                 </dt>
-                <dd className="m-0">藤八茶寮</dd>
+                <dd className="m-0">{t.tradeNameValue}</dd>
               </div>
 
               <div className="flex flex-col md:flex-row md:items-start px-4 py-3">
@@ -49,24 +49,21 @@ export default function LegalPageContent({ locale }: Props) {
                 <dt className="w-32 md:w-40 flex-none md:pr-4 font-semibold text-ink mb-1 md:mb-0 whitespace-nowrap">
                   {t.representative}
                 </dt>
-                <dd className="m-0">高瀬晴香</dd>
+                <dd className="m-0">{t.representativeValue}</dd>
               </div>
 
               <div className="flex flex-col md:flex-row md:items-start px-4 py-3">
                 <dt className="w-32 md:w-40 flex-none md:pr-4 font-semibold text-ink mb-1 md:mb-0 whitespace-nowrap">
                   {t.advisor}
                 </dt>
-                <dd className="m-0">
-                  高瀬孝二（日本茶インストラクター協会認定 日本茶インストラクターリーダー /
-                  日本茶アドバイザー養成講座専任講師 / 元三重県農業技術センター主席研究員兼茶業センター場長）
-                </dd>
+                <dd className="m-0">{t.advisorValue}</dd>
               </div>
 
               <div className="flex flex-col md:flex-row md:items-start px-4 py-3">
                 <dt className="w-32 md:w-40 flex-none md:pr-4 font-semibold text-ink mb-1 md:mb-0 whitespace-nowrap">
                   {t.address}
                 </dt>
-                <dd className="m-0">〒224-0007 横浜市都筑区荏田南一丁目１１番２３号</dd>
+                <dd className="m-0">{t.addressValue}</dd>
               </div>
 
               <div className="flex flex-col md:flex-row md:items-start px-4 py-3">
@@ -129,7 +126,10 @@ export default function LegalPageContent({ locale }: Props) {
                 <dt className="w-32 md:w-40 flex-none md:pr-4 font-semibold text-ink mb-1 md:mb-0 whitespace-nowrap">
                   {t.delivery}
                 </dt>
-                <dd className="m-0">{t.deliveryValue}</dd>
+                <dd className="m-0 space-y-2">
+                  <p className="m-0">{t.deliveryValue}</p>
+                  <p className="m-0">{t.deliveryAreaNote}</p>
+                </dd>
               </div>
 
               <div className="flex flex-col md:flex-row md:items-start px-4 py-3">

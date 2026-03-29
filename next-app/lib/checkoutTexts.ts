@@ -34,6 +34,7 @@ export const CHECKOUT_TEXTS: Record<
     prefecture: string;
     city: string;
     addressLine: string;
+    domesticShippingOnly: string;
     searchingAddress: string;
     selectAddressCandidate: string;
     giftNoInvoice: string;
@@ -96,6 +97,7 @@ export const CHECKOUT_TEXTS: Record<
     prefecture: "都道府県",
     city: "市区町村",
     addressLine: "住所（番地・建物名など）",
+    domesticShippingOnly: "配送は日本国内のみです。海外への発送はできません。",
     searchingAddress: "住所を検索中...",
     selectAddressCandidate: "住所の候補を選択してください",
     giftNoInvoice: "金額記載の明細書は不要",
@@ -157,6 +159,7 @@ export const CHECKOUT_TEXTS: Record<
     prefecture: "Prefecture",
     city: "City",
     addressLine: "Address",
+    domesticShippingOnly: "We ship within Japan only. We do not ship overseas.",
     searchingAddress: "Searching address...",
     selectAddressCandidate: "Select an address",
     giftNoInvoice: "No invoice/receipt showing amounts",
@@ -218,6 +221,7 @@ export const CHECKOUT_TEXTS: Record<
     prefecture: "도/현",
     city: "시/구",
     addressLine: "주소",
+    domesticShippingOnly: "배송은 일본 국내만 가능하며 해외로는 발송하지 않습니다.",
     searchingAddress: "주소 검색 중...",
     selectAddressCandidate: "주소 후보를 선택해 주세요",
     giftNoInvoice: "금액 기재 명세서 불필요",
@@ -279,6 +283,7 @@ export const CHECKOUT_TEXTS: Record<
     prefecture: "都道府县",
     city: "市区町村",
     addressLine: "地址",
+    domesticShippingOnly: "仅向日本国内配送，不提供海外发货。",
     searchingAddress: "正在查询地址...",
     selectAddressCandidate: "请选择地址候选",
     giftNoInvoice: "不需要含金额的明细",
