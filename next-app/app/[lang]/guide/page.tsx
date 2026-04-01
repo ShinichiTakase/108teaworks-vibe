@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: { params: Params }) {
   return {
     title: seo?.title,
     description: seo?.description,
-    alternates: buildAlternatesForLocales("/guide"),
+    alternates: buildAlternatesForLocales("/guide", { currentLocale: locale }),
   };
 }
 

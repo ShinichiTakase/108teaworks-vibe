@@ -3,12 +3,12 @@ import { getNotices, bodyToExcerpt, stripHtml } from "@/lib/microcms";
 import type { Locale } from "@/lib/i18n";
 import { HOME_NEWS_TEXTS } from "@/lib/homeSectionTexts";
 import { translateManyForLocale } from "@/lib/translateForLocale";
+import { buildLocalizedPath } from "@/lib/urlPath";
 
 const DISPLAY_LIMIT = 4;
 
 function noticeHref(locale: Locale, slug: string, id: string): string {
-  const path = `/notice/${slug || id}`;
-  return locale === "ja" ? path : `/${locale}${path}`;
+  return buildLocalizedPath(locale, `/notice/${slug || id}`);
 }
 
 function formatDate(iso: string | undefined, locale: Locale): string {

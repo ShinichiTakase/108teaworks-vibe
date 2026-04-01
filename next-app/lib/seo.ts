@@ -57,6 +57,8 @@ export function getFixedSeo(
 }
 
 export type BuildAlternatesOptions = {
+  /** 現在表示しているページの言語（canonical を決めるために使用）。未指定は "ja" 扱い。 */
+  currentLocale?: Locale;
   /**
    * true のとき hreflang を ja-JP / en-JP / ko-JP / zh-JP にする（Google Merchant Center Next 向け）。
    * false または未指定は従来どおり ja / en / ko / zh（伊勢茶など情報ページ用）。
@@ -65,13 +67,15 @@ export type BuildAlternatesOptions = {
 };
 
 export function buildAlternatesForLocales(pathname: string, options?: BuildAlternatesOptions) {
-  const path = normalizePathKey(pathname);
+  const loc0: Locale = options?.currentLocale ?? "ja";
   const base = process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/$/, "") ?? "https://108teaworks.com";
-  const ja = `${base}${path === "/" ? "/" : withoutTrailingSlash(path)}`;
-  const make = (loc: Locale) =>
-    loc === "ja"
-      ? ja
-      : `${base}/${loc}${path === "/" ? "" : withoutTrailingSlash(path)}`;
+  const path0 = normalizePathKey(pathname);
+  const path = withTrailingSlash(path0);
+
+  const make = (loc: Locale) => {
+    if (loc === "ja") return `${base}${path}`;
+    return `${base}/${loc}${path}`;
+  };
   const urls = {
     ja: make("ja"),
     en: make("en"),
@@ -92,7 +96,7 @@ export function buildAlternatesForLocales(pathname: string, options?: BuildAlter
         zh: urls.zh,
       };
   return {
-    canonical: urls.ja,
+    canonical: urls[loc0],
     languages,
   };
 }

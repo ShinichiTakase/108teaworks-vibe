@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import type { Locale } from "@/lib/i18n";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
+import { buildLocalizedPath } from "@/lib/urlPath";
 
 const FALLBACK_IMAGE = "/images/products/product-01.webp";
 
@@ -26,9 +27,7 @@ function detectLocaleFromPath(pathname: string): Locale {
 }
 
 function buildLocalizedHref(locale: Locale, href: string): string {
-  if (locale === "ja") return href;
-  if (href === "/") return `/${locale}`;
-  return `/${locale}${href}`;
+  return buildLocalizedPath(locale, href);
 }
 
 export default function CartPageContent() {
@@ -91,7 +90,7 @@ export default function CartPageContent() {
               >
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 min-w-0 w-full sm:w-auto">
                   <Link
-                    href={locale === "ja" ? `/products/${item.slug}` : `/${locale}/products/${item.slug}`}
+                    href={buildLocalizedHref(locale, `/products/${item.slug}`)}
                     className="shrink-0 w-20 h-20 rounded overflow-hidden bg-cream self-start"
                   >
                     <Image
@@ -104,7 +103,7 @@ export default function CartPageContent() {
                   </Link>
                   <div className="min-w-0 flex-1 w-full sm:min-w-[8rem]">
                     <Link
-                      href={locale === "ja" ? `/products/${item.slug}` : `/${locale}/products/${item.slug}`}
+                      href={buildLocalizedHref(locale, `/products/${item.slug}`)}
                       className="font-medium text-tea-deep no-underline hover:underline block break-words text-[0.9375rem]"
                     >
                       {displayTitle}

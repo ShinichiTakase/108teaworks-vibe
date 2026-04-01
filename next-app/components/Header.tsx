@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import HeaderCartAccountLinks from "./HeaderCartAccountLinks";
+import { buildLocalizedPath } from "@/lib/urlPath";
 
 type Locale = "ja" | "en" | "ko" | "zh";
 
@@ -12,9 +13,7 @@ function detectLocaleFromPath(pathname: string): Locale {
 }
 
 function buildLocalizedHref(locale: Locale, href: string): string {
-  if (locale === "ja") return href;
-  if (href === "/") return `/${locale}`;
-  return `/${locale}${href}`;
+  return buildLocalizedPath(locale, href);
 }
 
 const TAGLINES: Record<Locale, string> = {

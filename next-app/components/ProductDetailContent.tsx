@@ -12,6 +12,7 @@ import { COMMON_TEXTS } from "@/lib/commonTexts";
 import { translateForLocale, translateManyForLocale } from "@/lib/translateForLocale";
 import { loadReviewsForSlug } from "@/lib/reviewsStorage";
 import { formatReviewDate } from "@/lib/reviewDisplay";
+import { buildLocalizedPath } from "@/lib/urlPath";
 
 export const dynamic = "force-dynamic";
 
@@ -22,7 +23,7 @@ function formatPrice(price: number | undefined): string {
 
 function productHref(locale: Locale, path: string): string {
   const slug = path.replace(/^\/*products\/*/, "") || path;
-  return locale === "ja" ? `/products/${slug}` : `/${locale}/products/${slug}`;
+  return buildLocalizedPath(locale, `/products/${slug}`);
 }
 
 const RELATED_KEYS = [
@@ -84,8 +85,8 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://108teaworks.com";
   const productUrl =
     locale === "ja"
-      ? `${baseUrl}/products/${slug}`
-      : `${baseUrl}/${locale}/products/${slug}`;
+      ? `${baseUrl}/products/${slug}/`
+      : `${baseUrl}/${locale}/products/${slug}/`;
   const descriptionForSchema =
     typeof displayDesc01 === "string"
       ? displayDesc01.replace(/<[^>]+>/g, "").slice(0, 300)
@@ -148,7 +149,7 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
     productSchema.review = schemaReviews;
   }
 
-  const pathname = locale === "ja" ? `/products/${slug}` : `/${locale}/products/${slug}`;
+  const pathname = buildLocalizedPath(locale, `/products/${slug}`);
   const breadcrumbItems = getBreadcrumbItems(pathname, locale, { productName: displayTitle || titleJa });
 
   return (

@@ -44,7 +44,7 @@ export async function generateMetadata({ params }: Props) {
   if (!notice) {
     return {
       title: COMMON_TEXTS[locale].notice.title,
-      alternates: buildAlternatesForLocales(`/notice/${slug}`),
+      alternates: buildAlternatesForLocales(`/notice/${slug}`, { currentLocale: locale }),
     };
   }
   const baseTitle = stripHtml(notice.title);
@@ -56,7 +56,7 @@ export async function generateMetadata({ params }: Props) {
   return {
     title: `${title}｜${COMMON_TEXTS[locale].notice.title}`,
     description: desc,
-    alternates: buildAlternatesForLocales(`/notice/${notice.slug ?? notice.id}`),
+    alternates: buildAlternatesForLocales(`/notice/${notice.slug ?? notice.id}`, { currentLocale: locale }),
   };
 }
 

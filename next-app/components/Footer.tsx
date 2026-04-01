@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Locale } from "@/lib/i18n";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
+import { buildLocalizedPath } from "@/lib/urlPath";
 
 function detectLocaleFromPath(pathname: string): Locale {
   const match = pathname.match(/^\/(ja|en|ko|zh)(?=\/|$)/);
@@ -11,9 +12,7 @@ function detectLocaleFromPath(pathname: string): Locale {
 }
 
 function buildLocalizedHref(locale: Locale, href: string): string {
-  if (locale === "ja") return href;
-  if (href === "/") return `/${locale}`;
-  return `/${locale}${href}`;
+  return buildLocalizedPath(locale, href);
 }
 
 export default function Footer() {

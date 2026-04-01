@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Pick<Props, "params">) {
   return {
     title: seo?.title,
     description: seo?.description,
-    alternates: buildAlternatesForLocales("/notice"),
+    alternates: buildAlternatesForLocales("/notice", { currentLocale: locale }),
   };
 }
 

@@ -13,10 +13,16 @@ const getBaseUrl = (): string => {
   return "https://108teaworks.com";
 };
 
+function withTrailingSlash(pathname: string): string {
+  if (pathname === "/") return "/";
+  return pathname.endsWith("/") ? pathname : `${pathname}/`;
+}
+
 function localizedUrl(baseUrl: string, locale: Locale, path: string): string {
   const pathNorm = path.startsWith("/") ? path : `/${path}`;
-  if (locale === "ja") return `${baseUrl}${pathNorm}`;
-  return `${baseUrl}/${locale}${pathNorm}`;
+  const pathWithSlash = withTrailingSlash(pathNorm);
+  if (locale === "ja") return `${baseUrl}${pathWithSlash}`;
+  return `${baseUrl}/${locale}${pathWithSlash}`;
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

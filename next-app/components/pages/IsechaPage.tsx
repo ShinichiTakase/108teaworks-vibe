@@ -3,6 +3,7 @@ import Link from "next/link";
 import { MAIN_CLASS, INNER_CLASS } from "@/components/Layout";
 import type { Locale } from "@/lib/i18n";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
+import { buildLocalizedPath, withTrailingSlashPath } from "@/lib/urlPath";
 
 const ISECHA_TEXTS: Record<
   Locale,
@@ -305,11 +306,11 @@ const ISECHA_TEXTS: Record<
 };
 
 function kabatadaniHref(locale: Locale): string {
-  return locale === "ja" ? "/kabatadani_no_ocha" : `/${locale}/kabatadani_no_ocha`;
+  return buildLocalizedPath(locale, "/kabatadani_no_ocha");
 }
 
 function isechaNoRekishiHref(locale: Locale): string {
-  return locale === "ja" ? "/isecha_no_rekishi" : `/${locale}/isecha_no_rekishi`;
+  return buildLocalizedPath(locale, "/isecha_no_rekishi");
 }
 
 /** トップページの商品一覧を指定フィルターで絞り込んだURL（filter=深蒸し茶 など） */
@@ -317,7 +318,7 @@ function productsFilterHref(locale: Locale, filterValue: string): string {
   const base = locale === "ja" ? "" : `/${locale}`;
   const path = base || "/";
   const q = `filter=${encodeURIComponent(filterValue)}`;
-  return `${path}?${q}`;
+  return withTrailingSlashPath(`${path}?${q}`);
 }
 
 type Props = {

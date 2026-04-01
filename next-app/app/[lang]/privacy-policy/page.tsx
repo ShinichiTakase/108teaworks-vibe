@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props) {
   return {
     title: seo?.title,
     description: seo?.description,
-    alternates: buildAlternatesForLocales("/privacy-policy"),
+    alternates: buildAlternatesForLocales("/privacy-policy", { currentLocale: locale }),
   };
 }
 

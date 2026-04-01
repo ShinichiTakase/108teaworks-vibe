@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: Props) {
   return {
     title: seo?.title,
     description: seo?.description,
-    alternates: buildAlternatesForLocales("/kabatadani_no_ocha"),
+    alternates: buildAlternatesForLocales("/kabatadani_no_ocha", { currentLocale: locale }),
   };
 }
 

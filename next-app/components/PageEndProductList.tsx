@@ -6,11 +6,12 @@ import { translateManyForLocale } from "@/lib/translateForLocale";
 import type { Locale } from "@/lib/i18n";
 import { HOME_PRODUCTS_TEXTS } from "@/lib/homeSectionTexts";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
+import { buildLocalizedPath } from "@/lib/urlPath";
 
 type Props = { locale: Locale };
 
 function productHref(locale: Locale, slug: string): string {
-  return locale === "ja" ? `/products/${slug}` : `/${locale}/products/${slug}`;
+  return buildLocalizedPath(locale, `/products/${slug}`);
 }
 
 function formatPrice(price: number | undefined): string {

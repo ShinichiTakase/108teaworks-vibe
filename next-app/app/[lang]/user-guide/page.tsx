@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: Props) {
   return {
     title: seo?.title,
     description: seo?.description,
-    alternates: buildAlternatesForLocales("/user-guide"),
+    alternates: buildAlternatesForLocales("/user-guide", { currentLocale: locale }),
   };
 }
 

@@ -4,6 +4,7 @@ import { getNotices, bodyToExcerpt } from "@/lib/microcms";
 import type { Locale } from "@/lib/i18n";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
 import { translateManyForLocale } from "@/lib/translateForLocale";
+import { buildLocalizedPath, withTrailingSlashPath } from "@/lib/urlPath";
 
 const PER_PAGE = 10;
 
@@ -23,11 +24,11 @@ function formatDate(iso: string | undefined, locale: Locale): string {
 }
 
 function noticeBasePath(locale: Locale): string {
-  return locale === "ja" ? "/notice" : `/${locale}/notice`;
+  return buildLocalizedPath(locale, "/notice");
 }
 
 function noticeDetailHref(locale: Locale, slug: string): string {
-  return locale === "ja" ? `/notice/${slug}` : `/${locale}/notice/${slug}`;
+  return buildLocalizedPath(locale, `/notice/${slug}`);
 }
 
 type Props = {
@@ -102,7 +103,7 @@ export default async function NoticeListContent({ locale, page }: Props) {
             >
               {currentPage > 1 && (
                 <Link
-                  href={currentPage === 2 ? base : `${base}?page=${currentPage - 1}`}
+                  href={currentPage === 2 ? base : withTrailingSlashPath(`${base}?page=${currentPage - 1}`)}
                   className="inline-flex items-center justify-center rounded border border-border bg-white px-3 py-1.5 text-[0.875rem] text-ink no-underline hover:border-tea-deep hover:text-tea-deep"
                 >
                   {t.pagination.prev}
@@ -121,7 +122,7 @@ export default async function NoticeListContent({ locale, page }: Props) {
                   ) : (
                     <Link
                       key={p}
-                      href={p === 1 ? base : `${base}?page=${p}`}
+                      href={p === 1 ? base : withTrailingSlashPath(`${base}?page=${p}`)}
                       className="inline-flex h-8 w-8 items-center justify-center rounded border border-border text-ink no-underline hover:border-tea-deep hover:text-tea-deep"
                     >
                       {p}
@@ -131,7 +132,7 @@ export default async function NoticeListContent({ locale, page }: Props) {
               </span>
               {currentPage < totalPages && (
                 <Link
-                  href={`${base}?page=${currentPage + 1}`}
+                  href={withTrailingSlashPath(`${base}?page=${currentPage + 1}`)}
                   className="inline-flex items-center justify-center rounded border border-border bg-white px-3 py-1.5 text-[0.875rem] text-ink no-underline hover:border-tea-deep hover:text-tea-deep"
                 >
                   {t.pagination.next}

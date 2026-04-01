@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Locale } from "@/lib/i18n";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
+import { buildLocalizedPath } from "@/lib/urlPath";
 
 const CartIcon = ({ className }: { className?: string }) => (
   <span className={`inline-block w-[1.1em] h-[1.1em] ${className ?? ""}`} aria-hidden="true">
@@ -38,9 +39,7 @@ function detectLocaleFromPath(pathname: string): Locale {
 }
 
 function buildLocalizedHref(locale: Locale, href: string): string {
-  if (locale === "ja") return href;
-  if (href === "/") return `/${locale}`;
-  return `/${locale}${href}`;
+  return buildLocalizedPath(locale, href);
 }
 
 export default function HeaderCartAccountLinks() {

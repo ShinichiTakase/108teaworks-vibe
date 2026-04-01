@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import Script from "next/script";
 import { Noto_Serif_JP } from "next/font/google";
 import "./globals.css";
@@ -16,8 +17,13 @@ const notoSerif = Noto_Serif_JP({
 });
 
 const GSC_VERIFICATION = process.env.NEXT_PUBLIC_GSC_VERIFICATION?.trim();
+const METADATA_BASE =
+  process.env.NEXT_PUBLIC_SITE_URL?.trim()
+    ? new URL(process.env.NEXT_PUBLIC_SITE_URL.trim())
+    : new URL("https://108teaworks.com");
 
 export const metadata: Metadata = {
+  metadataBase: METADATA_BASE,
   title: "伊勢茶の藤八茶寮｜シングルオリジン伊勢茶・お茶の魅力を三重から世界へ",
   description:
     "幕末より続く日本茶の伝統を日常に。三重県産茶葉のみにこだわった希少な日本茶「シングルオリジン伊勢茶」を産地直送でお届けします。深蒸し茶・ほうじ茶・和紅茶。",
@@ -57,8 +63,14 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const h = headers();
+  const loc = h.get("x-locale") ?? "ja";
+  // Merchant Center / 地域ターゲティングの誤解を避けるため、言語 + JP 地域で明示
+  const htmlLang =
+    loc === "ja" ? "ja" : loc === "en" ? "en-JP" : loc === "ko" ? "ko-JP" : "zh-JP";
+
   return (
-    <html lang="ja" className={notoSerif.variable}>
+    <html lang={htmlLang} className={notoSerif.variable} suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <link rel="stylesheet" href="/css/chachamaru-widget.css" />

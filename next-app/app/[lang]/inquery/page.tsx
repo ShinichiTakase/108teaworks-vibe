@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props) {
   return {
     title: seo?.title,
     description: seo?.description,
-    alternates: buildAlternatesForLocales("/inquery"),
+    alternates: buildAlternatesForLocales("/inquery", { currentLocale: locale }),
   };
 }
 

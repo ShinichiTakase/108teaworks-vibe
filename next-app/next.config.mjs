@@ -16,6 +16,8 @@ const nextConfig = {
     ];
   },
   // 静的エクスポートする場合: output: 'export', trailingSlash: true
+  // 末尾スラッシュを正規URLとして統一（/foo -> /foo/）
+  trailingSlash: true,
   // remotePatterns は許可ホストのみに限定（GHSA-9g9p-9gw9-jx7f 対策）
   async redirects() {
     return [
