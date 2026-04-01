@@ -13,3 +13,6 @@ next-app/.env*.local
 .DS_Store
 Thumbs.db
 *.log
+
+# 商品画像（SFTP等でサーバー管理。Git管理しない）
+next-app/public/images/products/
