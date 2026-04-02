@@ -92,7 +92,11 @@ export async function saveReviewTokens(tokens: ReviewTokenItem[]): Promise<void>
   await writeJsonFile(TOKEN_PATH, tokens);
 }
 
-export async function moveDueQueueToTokens(now: Date, daysAfter: number, tokenValidDays: number): Promise<ReviewTokenItem[]> {
+export async function moveDueQueueToTokens(
+  now: Date,
+  daysAfter: number,
+  tokenValidDays: number
+): Promise<{ tokens: ReviewTokenItem[]; moved: ReviewTokenItem[] }> {
   await ensureDirs();
   const queue = await loadReviewQueue();
   const threshold = now.getTime() - daysAfter * 24 * 60 * 60 * 1000;
@@ -114,15 +118,13 @@ export async function moveDueQueueToTokens(now: Date, daysAfter: number, tokenVa
 
   const tokens = await loadReviewTokens();
   const expiresAt = new Date(now.getTime() + tokenValidDays * 24 * 60 * 60 * 1000).toISOString();
-  const newTokens: ReviewTokenItem[] = [
-    ...tokens,
-    ...due.map<ReviewTokenItem>((q) => ({ ...q, expiresAt })),
-  ];
+  const moved: ReviewTokenItem[] = due.map<ReviewTokenItem>((q) => ({ ...q, expiresAt }));
+  const newTokens: ReviewTokenItem[] = [...tokens, ...moved];
 
   await saveReviewQueue(remaining);
   await saveReviewTokens(newTokens);
 
-  return newTokens;
+  return { tokens: newTokens, moved };
 }
 
 export async function findActiveToken(token: string): Promise<ReviewTokenItem | null> {

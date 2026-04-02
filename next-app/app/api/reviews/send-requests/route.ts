@@ -150,16 +150,7 @@ export async function POST(req: NextRequest) {
     const reqUrl = new URL(req.url);
     const isTest = reqUrl.searchParams.get("test") === "1"; // テスト時: 8日待たずにキューを即トークン化して送信
     const daysAfter = isTest ? 0 : REQUEST_AFTER_DAYS;
-    const tokens = await moveDueQueueToTokens(now, daysAfter, TOKEN_VALID_DAYS);
-
-    // 直近でトークン化された分のうち、今回が初回メールとなるものだけ抽出
-    // moveDueQueueToTokens は「既存トークン + 今回分」を返すため、
-    // createdAt が threshold より前のもののうち、今まさに queue から移されたものを判定する。
-    const threshold = now.getTime() - TOKEN_VALID_DAYS * 24 * 60 * 60 * 1000;
-    const targets = tokens.filter((t) => {
-      const created = new Date(t.createdAt).getTime();
-      return created <= now.getTime() && created >= threshold;
-    });
+    const { moved: targets } = await moveDueQueueToTokens(now, daysAfter, TOKEN_VALID_DAYS);
 
     let sent = 0;
     for (const item of targets) {
