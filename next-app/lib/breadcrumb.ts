@@ -8,7 +8,7 @@ export type BreadcrumbItem = { name: string; url: string };
 const PATH_LABEL_KEYS: Record<string, string> = {
   "/": "nav.top",
   "/about": "nav.about",
-  "/isecha": "nav.isecha",
+  "/ise-cha": "nav.isecha",
   "/how-to-brew": "nav.howToBrew",
   "/user-guide": "nav.userGuide",
   "/notice": "nav.notice",

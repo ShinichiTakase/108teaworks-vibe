@@ -32,7 +32,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPaths: { path: string; changeFrequency?: "daily" | "weekly" | "monthly"; priority?: number }[] = [
     { path: "/", changeFrequency: "daily", priority: 1 },
     { path: "/about", changeFrequency: "monthly", priority: 0.8 },
-    { path: "/isecha", changeFrequency: "monthly", priority: 0.8 },
+    { path: "/ise-cha", changeFrequency: "monthly", priority: 0.8 },
     { path: "/how-to-brew", changeFrequency: "monthly", priority: 0.7 },
     { path: "/user-guide", changeFrequency: "monthly", priority: 0.8 },
     { path: "/guide", changeFrequency: "monthly", priority: 0.6 },

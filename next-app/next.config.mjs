@@ -21,6 +21,14 @@ const nextConfig = {
   // remotePatterns は許可ホストのみに限定（GHSA-9g9p-9gw9-jx7f 対策）
   async redirects() {
     return [
+      { source: "/isecha", destination: "/ise-cha", permanent: true },
+      { source: "/isecha/", destination: "/ise-cha", permanent: true },
+      { source: "/en/isecha", destination: "/en/ise-cha", permanent: true },
+      { source: "/en/isecha/", destination: "/en/ise-cha", permanent: true },
+      { source: "/ko/isecha", destination: "/ko/ise-cha", permanent: true },
+      { source: "/ko/isecha/", destination: "/ko/ise-cha", permanent: true },
+      { source: "/zh/isecha", destination: "/zh/ise-cha", permanent: true },
+      { source: "/zh/isecha/", destination: "/zh/ise-cha", permanent: true },
       { source: "/isecha_no_rekushi", destination: "/isecha_no_rekishi", permanent: true },
       { source: "/isecha_no_rekushi/", destination: "/isecha_no_rekishi", permanent: true },
       { source: "/en/isecha_no_rekushi", destination: "/en/isecha_no_rekishi", permanent: true },

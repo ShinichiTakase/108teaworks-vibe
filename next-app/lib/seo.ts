@@ -31,6 +31,8 @@ const ALIASES: Record<string, string[]> = {
   "/how-to-brew": ["/how2brew/", "/how2brew"],
   /** 旧スラッグ rekushi で getFixedSeo した場合も新キーを参照 */
   "/isecha_no_rekushi": ["/isecha_no_rekishi/", "/isecha_no_rekishi"],
+  /** 旧スラッグ isecha で getFixedSeo した場合も新キーを参照 */
+  "/isecha": ["/ise-cha/", "/ise-cha"],
 };
 
 export function getFixedSeo(

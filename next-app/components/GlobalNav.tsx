@@ -10,7 +10,7 @@ import { buildLocalizedPath } from "@/lib/urlPath";
 const NAV_KEYS = [
   { key: "top" as const, href: "/" },
   { key: "about" as const, href: "/about" },
-  { key: "isecha" as const, href: "/isecha" },
+  { key: "isecha" as const, href: "/ise-cha" },
   { key: "howToBrew" as const, href: "/how-to-brew" },
   { key: "userGuide" as const, href: "/user-guide" },
   { key: "notice" as const, href: "/notice" },
