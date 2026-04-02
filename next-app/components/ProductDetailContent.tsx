@@ -13,6 +13,7 @@ import { translateForLocale, translateManyForLocale } from "@/lib/translateForLo
 import { loadReviewsForSlug } from "@/lib/reviewsStorage";
 import { formatReviewDate } from "@/lib/reviewDisplay";
 import { buildLocalizedPath } from "@/lib/urlPath";
+import { ORGANIZATION_NAME_JA } from "@/lib/siteConstants";
 
 export const dynamic = "force-dynamic";
 
@@ -87,6 +88,10 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
     locale === "ja"
       ? `${baseUrl}/products/${slug}/`
       : `${baseUrl}/${locale}/products/${slug}/`;
+  const schemaAvailability =
+    typeof product.STOCK === "number" && product.STOCK <= 0
+      ? "https://schema.org/OutOfStock"
+      : "https://schema.org/InStock";
   const descriptionForSchema =
     typeof displayDesc01 === "string"
       ? displayDesc01.replace(/<[^>]+>/g, "").slice(0, 300)
@@ -121,8 +126,9 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
     "@context": "https://schema.org",
     "@type": "Product",
     name: displayTitle || titleJa,
-    image: imagePaths.length > 0 ? `${baseUrl}${imagePaths[0]}` : undefined,
+    image: imagePaths.length > 0 ? imagePaths.map((p) => `${baseUrl}${p}`) : undefined,
     description: descriptionForSchema || undefined,
+    brand: { "@type": "Brand", name: ORGANIZATION_NAME_JA },
     sku: product.SKU || undefined,
     gtin13: product.GTIN || undefined,
     url: productUrl,
@@ -132,7 +138,7 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
             "@type": "Offer",
             priceCurrency: "JPY",
             price: product.PRICE,
-            availability: "https://schema.org/InStock",
+            availability: schemaAvailability,
             url: productUrl,
             priceValidUntil: OFFER_PRICE_VALID_UNTIL,
           }

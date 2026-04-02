@@ -3,10 +3,11 @@ import type { BreadcrumbItem } from "@/lib/breadcrumb";
 type Props = { items: BreadcrumbItem[] };
 
 /**
- * BreadcrumbList の JSON-LD を出力する。items が 0 または 1 の場合は出力しない。
+ * BreadcrumbList の JSON-LD を出力する。items が 0 の場合は出力しない。
+ * トップページ（Home）のみ items が 1 になるため、その場合も出力する。
  */
 export default function BreadcrumbListSchema({ items }: Props) {
-  if (items.length <= 1) return null;
+  if (items.length === 0) return null;
 
   const schema = {
     "@context": "https://schema.org",

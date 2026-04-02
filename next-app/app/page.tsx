@@ -1,5 +1,7 @@
 import HomePage from "@/components/pages/HomePage";
 import { getFixedSeo, buildAlternatesForLocales } from "@/lib/seo";
+import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
+import { getBreadcrumbItems } from "@/lib/breadcrumb";
 
 // 常にサーバーサイドレンダリング（SSR）
 export const dynamic = "force-dynamic";
@@ -15,6 +17,11 @@ export async function generateMetadata() {
 
 export default function Home() {
   // ルート（/）は日本語扱い
-  return <HomePage locale="ja" />;
+  return (
+    <>
+      <BreadcrumbListSchema items={getBreadcrumbItems("/", "ja")} />
+      <HomePage locale="ja" />
+    </>
+  );
 }
 

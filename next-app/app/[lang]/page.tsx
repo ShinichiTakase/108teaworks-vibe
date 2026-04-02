@@ -1,6 +1,8 @@
 import HomePage from "@/components/pages/HomePage";
 import type { Locale } from "@/lib/i18n";
 import { getFixedSeo, buildAlternatesForLocales } from "@/lib/seo";
+import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
+import { getBreadcrumbItems } from "@/lib/breadcrumb";
 
 const SUPPORTED: Locale[] = ["ja", "en", "ko", "zh"];
 
@@ -24,6 +26,11 @@ export async function generateMetadata({ params }: Props) {
 export default async function LocalizedHomePage({ params }: Props) {
   const { lang } = await params;
   const locale: Locale = SUPPORTED.includes(lang as Locale) ? (lang as Locale) : "ja";
-  return <HomePage locale={locale} />;
+  return (
+    <>
+      <BreadcrumbListSchema items={getBreadcrumbItems(`/${locale}`, locale)} />
+      <HomePage locale={locale} />
+    </>
+  );
 }
 

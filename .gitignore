@@ -16,3 +16,6 @@ Thumbs.db
 
 # 商品画像（SFTP等でサーバー管理。Git管理しない）
 next-app/public/images/products/
+
+# ローカルの固定SEO設定（必要に応じて生成/同期する）
+next-app/lib/seoFixedPages.json
