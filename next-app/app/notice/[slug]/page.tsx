@@ -50,6 +50,7 @@ export default async function NoticeDetailPage({ params }: Props) {
   if (!notice) notFound();
 
   const noticeTitle = stripHtml(notice.title);
+  const displayDate = notice.date ?? notice.publishedAt;
   return (
     <main className={MAIN_CLASS} id="main-content" role="main">
       <BreadcrumbListSchema items={getBreadcrumbItems(`/notice/${notice.slug ?? notice.id}`, "ja", { noticeTitle })} />
@@ -60,7 +61,7 @@ export default async function NoticeDetailPage({ params }: Props) {
               {stripHtml(notice.title)}
             </h1>
             <div className="inline-block rounded border border-border bg-washi px-3 py-1 text-left text-[0.8125rem] text-ink-muted">
-              {formatDate(notice.publishedAt)}
+              {formatDate(displayDate)}
             </div>
           </header>
           {notice.body && (

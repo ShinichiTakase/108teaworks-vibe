@@ -57,6 +57,7 @@ export default async function NewsList({ locale = "ja" }: Props) {
           {contents.map((item, idx) => {
             const href = noticeHref(locale, item.slug ?? "", item.id);
             const excerpt = excerpts[idx] ?? excerptsJa[idx] ?? bodyToExcerpt(item.body, 120);
+            const displayDate = item.date ?? item.publishedAt;
             return (
               <li key={item.id} className="m-0">
                 <Link
@@ -67,7 +68,7 @@ export default async function NewsList({ locale = "ja" }: Props) {
                     {titles[idx] ?? item.title}
                   </span>
                   <span className="order-2 block text-[0.8125rem] text-ink-muted text-right mb-2">
-                    {formatDate(item.publishedAt, locale)}
+                    {formatDate(displayDate, locale)}
                   </span>
                   <p className="order-3 flex-1 m-0 mb-1 text-sm text-ink-muted leading-relaxed line-clamp-5">
                     {excerpt || " "}

@@ -78,6 +78,7 @@ export default async function LocalizedNoticeDetailPage({ params }: Props) {
       ? bodyRaw
       : await translateForLocale(bodyRaw, locale, { tagHandling: "html" });
 
+  const displayDate = notice.date ?? notice.publishedAt;
   const pathname = `/${locale}/notice/${notice.slug ?? notice.id}`;
   const breadcrumbItems = getBreadcrumbItems(pathname, locale, { noticeTitle: typeof title === "string" ? title : baseTitle });
 
@@ -91,7 +92,7 @@ export default async function LocalizedNoticeDetailPage({ params }: Props) {
               {title}
             </h1>
             <div className="inline-block rounded border border-border bg-washi px-3 py-1 text-left text-[0.8125rem] text-ink-muted">
-              {formatDate(notice.publishedAt, locale)}
+              {formatDate(displayDate, locale)}
             </div>
           </header>
           {body && (

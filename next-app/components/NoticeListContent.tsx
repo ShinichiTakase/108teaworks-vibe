@@ -72,6 +72,7 @@ export default async function NoticeListContent({ locale, page }: Props) {
                 const href = noticeDetailHref(locale, slug);
                 const title = translatedTitles[idx] ?? item.title ?? "";
                 const excerpt = translatedExcerpts[idx];
+                const displayDate = item.date ?? item.publishedAt;
                 return (
                   <li key={item.id} className="border-b border-border pb-6 last:border-b-0">
                     <div className="mb-2">
@@ -83,7 +84,7 @@ export default async function NoticeListContent({ locale, page }: Props) {
                       </Link>
                     </div>
                     <div className="mb-2 inline-block rounded border border-border bg-washi px-3 py-1 text-left text-[0.8125rem] text-ink-muted">
-                      {formatDate(item.publishedAt, locale)}
+                      {formatDate(displayDate, locale)}
                     </div>
                     {excerpt && (
                       <p className="m-0 text-[0.9375rem] leading-relaxed text-ink-muted">

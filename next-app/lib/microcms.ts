@@ -15,6 +15,8 @@ export type NoticeItem = {
   id: string;
   title: string;
   body?: string;
+  /** microCMS スキーマ側の公開日（date フィールド） */
+  date?: string;
   publishedAt?: string;
   revisedAt?: string;
   slug?: string;
@@ -87,7 +89,7 @@ export async function getNotices(
   const url = new URL(`${base}/notice`);
   url.searchParams.set("limit", String(limit));
   url.searchParams.set("offset", String(offset));
-  url.searchParams.set("orders", "-publishedAt");
+  url.searchParams.set("orders", "-date");
 
   try {
     const res = await fetch(url.toString(), {
