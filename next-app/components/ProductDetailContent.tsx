@@ -39,6 +39,18 @@ const OFFER_PRICE_VALID_UNTIL = "2027-12-31";
 const SCHEMA_RATING_BEST = 5;
 const SCHEMA_RATING_WORST = 1;
 
+/** 商品の販売・配送対象を日本国内のみと JSON-LD で明示 */
+const OFFER_ELIGIBLE_REGION_JP = "JP";
+const OFFER_SHIPPING_DETAILS_JP = [
+  {
+    "@type": "OfferShippingDetails",
+    shippingDestination: {
+      "@type": "DefinedRegion",
+      addressCountry: "JP",
+    },
+  },
+];
+
 type Props = {
   locale: Locale;
   slug: string;
@@ -141,6 +153,8 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
             availability: schemaAvailability,
             url: productUrl,
             priceValidUntil: OFFER_PRICE_VALID_UNTIL,
+            eligibleRegion: OFFER_ELIGIBLE_REGION_JP,
+            shippingDetails: OFFER_SHIPPING_DETAILS_JP,
           }
         : undefined,
   };
