@@ -51,6 +51,15 @@ const OFFER_SHIPPING_DETAILS_JP = [
   },
 ];
 
+/** Google 等が飲料をアルコール類と誤認しにくいよう、茶・非アルコールを明示 */
+const SCHEMA_ADDITIONAL_TYPE_TEA = "https://schema.org/Tea";
+const SCHEMA_PRODUCT_CATEGORY: Record<Locale, string> = {
+  ja: "お茶（アルコール非含有）",
+  en: "Tea (non-alcoholic)",
+  ko: "차(茶) · 무알코올 음료",
+  zh: "茶（无酒精）",
+};
+
 type Props = {
   locale: Locale;
   slug: string;
@@ -137,6 +146,8 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
   const productSchema: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Product",
+    additionalType: SCHEMA_ADDITIONAL_TYPE_TEA,
+    category: SCHEMA_PRODUCT_CATEGORY[locale],
     name: displayTitle || titleJa,
     image: imagePaths.length > 0 ? imagePaths.map((p) => `${baseUrl}${p}`) : undefined,
     description: descriptionForSchema || undefined,
