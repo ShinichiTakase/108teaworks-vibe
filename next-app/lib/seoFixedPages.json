@@ -11,16 +11,16 @@
   "pages": {
     "/": {
       "title": {
-        "ja": "三重県産100%・産地直送の伊勢茶・和紅茶 | 伊勢茶の藤八茶寮",
-        "en": "Single-Origin Ise Tea & Wakocha from Mie, Japan | 伊勢茶の藤八茶寮",
-        "ko": "미에현산 100% 싱글 오리진 이세차·와코차 | 伊勢茶の藤八茶寮",
-        "zh": "三重縣産・産地直送 伊勢茶・和紅茶 | 伊勢茶の藤八茶寮"
+        "ja": "伊勢茶発祥の地・川俣谷から届く至高の日本茶 | 伊勢茶の藤八茶寮",
+        "en": "The Ultimate Japanese Tea from Kawamatadani: The Birthplace of Ise Tea | 伊勢茶の藤八茶寮",
+        "ko": "이세차 발상지 카와마타다니에서 전하는 최고의 일본차 | 伊勢茶の藤八茶寮",
+        "zh": "來自伊勢茶發祥地「川俣谷」的至高日本茶 | 伊勢茶の藤八茶寮"
       },
       "description": {
-        "ja": "三重県産100%、混じりけのないシングルオリジン伊勢茶を産地直送。ほうじ茶・和紅茶・かぶせ茶など。2万円以上で送料無料。ギフト・ご自宅用に。",
-        "en": "Discover the pure taste of 100% single-origin Ise Tea, crafted with traditions dating back to the late Edo period. From aromatic roasted Hojicha to rare Japanese black tea (Wakocha), we deliver premium tea leaves directly from our farm in Mie to your cup. Perfect for tea enthusiasts and unique gifts.",
-        "ko": "일본 미에현산 100%, 단일 농원에서 재배한 순수 '싱글 오리진' 이세차를 만나보세요. 막부 말기부터 전해 내려온 장인 정신으로 완성한 향긋한 호지차, 희귀한 와코차(일본 홍차) 등 산지 직송의 신선하고 깊은 맛을 전해드립니다. 소중한 분을 위한 품격 있는 선물로 추천합니다.",
-        "zh": "嚴選100%三重縣産「單一農園（Single Origin）」伊勢茶。堅持幕末以來的傳統製茶技術，為您呈現香氣迷人的焙茶、珍稀和紅茶及濃郁冠茶。產地直送保證品質純粹，無論是日常品茗或精緻禮盒，皆能讓您感受最道地的日本茶文化。"
+        "ja": "本物の伊勢茶を、あなたに。伊勢茶発祥の地・川俣谷で育つ希少なシングルオリジン茶。日照時間の短い山深い地形で生まれる「天然のかぶせ茶」のような深い旨味が特徴です。幕末から続く藤八茶寮が、正真正銘の味を伝えます。",
+        "en": "Authentic Ise Tea, just for you. Discover rare single-origin teas grown in Kawamatadani, the birthplace of Ise Tea. Our unique mountainous terrain, with its limited sunlight, creates a deep umami flavor similar to 'natural Kabuse-cha'. Experience the genuine taste of tradition from Fujihachi Saryo, established in the late Edo period.",
+        "ko": "진정한 이세차를 당신에게. 이세차의 발상지 '카와마타다니'에서 자란 희소한 싱글 오리진 티를 만나보세요. 일조량이 짧은 산간 지형에서 탄생한 '천연 카부세차'와 같은 깊은 감칠맛이 특징입니다. 에도 시대 말기부터 이어져 온 후지하치 사료가 진심을 담은 본연의 맛을 전합니다.",
+        "zh": "為您呈獻最純正的伊勢茶。產自伊勢茶發祥地「川俣谷」的稀有單一產區（Single Origin）茶葉。因山深谷幽、日照時間短的獨特地形，孕育出媲美「天然冠茶」的濃厚鮮味。由幕末傳承至今的藤八茶寮，為您守護這份貨真價實的經典滋味。"
       }
     },
     "/about/": {
@@ -39,16 +39,16 @@
     },
     "/ise-cha/": {
       "title": {
-        "ja": "【創業明治】伊勢茶の真実｜日本茶インストラクターリーダー著の専門書を全編公開 | 伊勢茶の藤八茶寮",
-        "en": "Ise-cha Truth: Full 139-page Book by Tea Expert | 伊勢茶の藤八茶寮",
-        "ko": "이세차의 진실｜전문가 저서 139쪽 전편 공개 | 伊勢茶の藤八茶寮",
-        "zh": "伊势茶真相｜专家专著139页全文公开 | 伊勢茶の藤八茶寮"
+        "ja": "伊勢茶の特徴と歴史 - 川俣谷が育む濃厚な旨味と香りの秘密 | 伊勢茶の藤八茶寮",
+        "en": "Characteristics and History of Ise Tea: The Secret of Rich Umami and Aroma Nurtured in Kawamatadani | 伊勢茶の藤八茶寮",
+        "ko": "이세차의 특징과 역사 - 카와마타 계곡이 선사하는 깊은 풍미와 향긋함의 비밀 | 伊勢茶の藤八茶寮",
+        "zh": "伊勢茶的特點與歷史 — 川俣谷孕育出的濃郁鮮味與芬芳秘密 | 伊勢茶の藤八茶寮"
       },
       "description": {
-        "ja": "伊勢茶の特徴や濃厚なコクの秘密を、日本茶インストラクターリーダー高瀬孝二が解説。歴史的名著『伊勢茶発祥の地 川俣谷のお茶』139ページ分を公式サイトで特別全文公開しています。Wikipediaには載っていない、産地の息づかいと深い歴史を今すぐチェック",
-        "en": "Explore the unique characteristics and rich umami of Ise-cha, explained by Koji Takase, a leading Japanese Tea Instructor. We are proud to offer an exclusive, full-text release of the 139-page historical masterpiece, 'The Origin of Ise-cha: Tea of Kawamata Valley.' Discover the profound history and authentic local spirit that you won't find on Wikipedia.",
-        "ko": "일본차 인스트럭터 리더 타카세 코지가 전하는 이세차의 특징과 깊은 풍미의 비밀. 역사적 명저 『이세차 발상지 카와마타다니의 차』 139페이지 전 분량을 공식 사이트에서 특별 공개 중입니다. 위키백과에서도 볼 수 없는 생산지의 생생한 숨결과 깊은 역사를 지금 바로 확인해 보세요.",
-        "zh": "由日本茶讲师领袖高濑孝二亲身解密伊势茶的特点及其浓郁回甘的奥秘。历史名著《伊势茶发祥地 川俣谷之茶》全书139页现已在官网特别全文公开。带您领略维基百科也无法查到的产地原貌与深厚历史，立即点击查阅。"
+        "ja": "伊勢茶の濃厚な旨味と爽やかな香りのルーツを辿る。鎌倉時代から続く茶の聖地「川俣谷」は、午後の陽光が遮られる地形により「天然のかぶせ茶」に近い深い味わいを産出します。このページでは、伊勢茶の歩んできた歴史と、その類まれなる特徴を詳しくご紹介。",
+        "en": "Explore the roots of Ise Tea's rich umami and refreshing aroma. The sacred tea region of Kawamatadani, with a history dating back to the Kamakura period, produces a deep flavor similar to 'natural Kabuse-cha' due to its unique terrain that shades the afternoon sun. This page provides a detailed look into the history and exceptional characteristics of Ise Tea.",
+        "ko": "이세차의 진한 감칠맛과 상쾌한 향기의 뿌리를 찾아갑니다. 가마쿠라 시대부터 이어진 차의 성지 '카와마타다니'는 오후의 햇살이 차단되는 지형 덕분에 '천연 카부세차'에 가까운 깊은 맛을 자아냅니다. 이 페이지에서는 이세차가 걸어온 역사와 그 독보적인 특징을 자세히 소개해 드립니다.",
+        "zh": "探尋伊勢茶濃厚鮮味與清爽香氣的根源。自鎌倉時代起便是茶之聖地的「川俣谷」，因其午後陽光被遮擋的獨特地形，孕育出接近「天然冠茶（かぶせ茶）」的深邃口感。本頁面將詳細介紹伊勢茶的歷史發展及其與眾不同的特色。"
       }
     },
     "/ise-cha/books/": {
