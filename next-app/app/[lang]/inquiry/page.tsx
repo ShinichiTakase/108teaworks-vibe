@@ -17,20 +17,20 @@ type Props = {
 export async function generateMetadata({ params }: Props) {
   const { lang } = await params;
   const locale: Locale = SUPPORTED.includes(lang as Locale) ? (lang as Locale) : "ja";
-  const seo = getFixedSeo("/inquery", locale);
+  const seo = getFixedSeo("/inquiry", locale);
   return {
     title: seo?.title,
     description: seo?.description,
-    alternates: buildAlternatesForLocales("/inquery", { currentLocale: locale }),
+    alternates: buildAlternatesForLocales("/inquiry", { currentLocale: locale }),
   };
 }
 
-export default async function LocalizedInqueryPage({ params }: Props) {
+export default async function LocalizedInquiryPage({ params }: Props) {
   const { lang } = await params;
   const locale: Locale = SUPPORTED.includes(lang as Locale) ? (lang as Locale) : "ja";
   return (
     <main className={MAIN_CLASS} id="main-content" role="main">
-      <BreadcrumbListSchema items={getBreadcrumbItems(`/${locale}/inquery`, locale)} />
+      <BreadcrumbListSchema items={getBreadcrumbItems(`/${locale}/inquiry`, locale)} />
       <div className={INNER_CLASS}>
         <InquiryForm locale={locale} />
         <PageEndProductList locale={locale} />

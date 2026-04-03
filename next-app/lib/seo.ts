@@ -37,6 +37,8 @@ const ALIASES: Record<string, string[]> = {
   "/isecha": ["/ise-cha/", "/ise-cha"],
   /** /ise-cha/amerika → 英語スラッグ america へ */
   "/ise-cha/amerika": ["/ise-cha/america/", "/ise-cha/america"],
+  /** 旧スラッグ inquery → inquiry へ */
+  "/inquery": ["/inquiry/", "/inquiry"],
 };
 
 export function getFixedSeo(

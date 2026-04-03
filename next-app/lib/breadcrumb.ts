@@ -14,7 +14,7 @@ const PATH_LABEL_KEYS: Record<string, string> = {
   "/notice": "nav.notice",
   "/wholesale": "nav.wholesale",
   "/cart": "cart.title",
-  "/inquery": "header.inquiry",
+  "/inquiry": "header.inquiry",
   "/guide": "nav.userGuide",
   "/legal": "footer.legal",
   "/privacy-policy": "footer.privacyPolicy",

@@ -92,7 +92,7 @@ export const COMMON_TEXTS: Record<
       notice: "お知らせ",
       wholesale: "パートナー募集",
     },
-    header: { checkout: "購入手続きへ", inquiry: "お問い合せ" },
+    header: { checkout: "購入手続きへ", inquiry: "お問い合わせ" },
     floatingCheckout: "購入手続きへ",
     footer: {
       privacyPolicy: "プライバシーポリシー",

@@ -9,7 +9,7 @@ export default function ReviewSubmittedPage() {
         レビューを送信しました
       </h1>
       <p className="m-0 mb-6 text-[0.9375rem] text-ink leading-relaxed">
-        ご協力ありがとうございます。いただいたレビューは商品ページに掲載されます。
+        ご協力ありがとうございます。いただいたレビューは商品ページに掲載される場合があります。
       </p>
       <Link
         href="/"

@@ -19,8 +19,10 @@ services:
     volumes:
       # レビューキュー・トークン・レビューJSONをホストに永続化（コンテナ再起動でも保持）
       - ./next-app/data:/app/data
-      # 商品画像をホストから参照（画像差し替えをコンテナ再起動なしで反映）
+      # 以下は「ホストのファイルをそのまま配信」。置き換え・追加だけで反映（再ビルド不要・コンテナ再起動も通常不要）。
+      # 注意: public/images 全体を1本でマウントすると、ホスト側に無いサブフォルダはコンテナから見えなくなる（イメージ内の静的画像が隠れる）。差し替えたいディレクトリだけ列挙すること。
       - ./next-app/public/images/products:/app/public/images/products
+      - ./next-app/public/wakocha-isecha:/app/public/wakocha-isecha
     networks:
       - edgeai-shared-net
     expose:

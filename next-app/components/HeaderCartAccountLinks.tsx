@@ -47,7 +47,7 @@ export default function HeaderCartAccountLinks() {
   const locale = detectLocaleFromPath(pathname);
   const t = COMMON_TEXTS[locale];
   const checkoutHref = buildLocalizedHref(locale, "/checkout");
-  const inquiryHref = buildLocalizedHref(locale, "/inquery");
+  const inquiryHref = buildLocalizedHref(locale, "/inquiry");
 
   return (
     <div className="flex items-center gap-3 md:gap-4">

@@ -65,6 +65,14 @@ const nextConfig = {
       { source: "/ko/ise-cha/amerika/", destination: "/ko/ise-cha/america", permanent: true },
       { source: "/zh/ise-cha/amerika", destination: "/zh/ise-cha/america", permanent: true },
       { source: "/zh/ise-cha/amerika/", destination: "/zh/ise-cha/america", permanent: true },
+      { source: "/inquery", destination: "/inquiry", permanent: true },
+      { source: "/inquery/", destination: "/inquiry/", permanent: true },
+      { source: "/en/inquery", destination: "/en/inquiry", permanent: true },
+      { source: "/en/inquery/", destination: "/en/inquiry/", permanent: true },
+      { source: "/ko/inquery", destination: "/ko/inquiry", permanent: true },
+      { source: "/ko/inquery/", destination: "/ko/inquiry/", permanent: true },
+      { source: "/zh/inquery", destination: "/zh/inquiry", permanent: true },
+      { source: "/zh/inquery/", destination: "/zh/inquiry/", permanent: true },
     ];
   },
   images: {

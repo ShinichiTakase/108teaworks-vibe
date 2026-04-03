@@ -38,7 +38,7 @@ export const ISECHA_HOW_TO_BREW: Record<Locale, IsechaHowToBrewDoc> = {
       {
         type: "ul",
         items: [
-          "目分量の目安： ティースプーン軽く1杯、または中さじ1杯。",
+          "目分量の目安： ティースプーン軽く1杯、または小さじ1杯。",
           "器の目安： 標準的な湯呑みで約100〜150cc、マグカップなら約200〜250cc入ります。器に合わせて茶葉を調整してください。",
         ],
       },

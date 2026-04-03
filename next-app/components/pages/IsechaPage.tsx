@@ -102,7 +102,7 @@ export const ISECHA_TEXTS: Record<
     sec5P2:
       "江戸末期の開国と共に日本の豊かな農産物は世界へと羽ばたきました。幕末から明治初期にかけて、お茶は生糸と並ぶ日本の二大輸出品として外貨獲得の柱となり、その輸出先の多くはアメリカでした。驚くべきことに当時の日本茶輸出の80％以上がアメリカ向けであり、その巨大な需要を支える中心的な役割を担っていたのが「伊勢茶」だったのです。",
     sec5P3:
-      "伊勢茶がどれほど現地で愛されていたかを物語るエピソードがあります。最盛期のニューヨークではなんと2500軒以上ものティーガーデンが軒を連ね、至るところで伊勢茶が提供されていました。アメリカの人々にとって伊勢茶の爽やかな香りと深い味わいは、洗練されたひとときを彩る日常の楽しみとなっていました。",
+      "伊勢茶がどれほど現地で愛されていたかを物語るエピソードがあります。最盛期のニューヨークではなんと1,500軒以上のティーガーデンが軒を連ね、至るところで伊勢茶が提供されていました。アメリカの人々にとって伊勢茶の爽やかな香りと深い味わいは、洗練されたひとときを彩る日常の楽しみとなっていました。",
     cardHojichaTitle: "ほうじ茶",
     cardHojichaBody:
       "ほうじ茶（焙じ茶）は、煎茶・番茶・茎茶などの緑茶を強火で焙煎してつくるお茶です。焙煎によって生まれるピラジン類という香気成分がほうじ茶特有の香ばしさを作ります。刺激が少ないため食事中のお茶に向いているほか、焙煎によってカフェインが減るので夜でも飲みやすいとされます。英語では roasted green tea と呼ばれます。",
@@ -166,7 +166,7 @@ export const ISECHA_TEXTS: Record<
     sec5P2:
       "With the opening of Japan in the late Edo period, the country’s agricultural products reached the world. From the end of the shogunate through early Meiji, tea was one of Japan’s two main exports (with raw silk) and a pillar of foreign exchange. Most of that tea went to America—over 80% of Japan’s tea exports—and Ise tea was at the centre of that demand.",
     sec5P3:
-      "At the peak of the trade, New York alone had over 2,500 tea gardens where Ise tea was served. For Americans, its refreshing aroma and deep flavour became part of their daily lives.",
+      "At the peak of the trade, New York alone had some 1,500 tea gardens where Ise tea was served. For Americans, its refreshing aroma and deep flavour became part of their daily lives.",
     cardHojichaTitle: "Hojicha",
     cardHojichaBody:
       "Hojicha (roasted tea) is made by roasting green teas such as sencha, bancha, or kukicha over high heat. Pyrazines produced by roasting give it its characteristic nutty aroma. It is mild and suits mealtimes, and roasting reduces caffeine, so it is often enjoyed in the evening. In English it is called roasted green tea.",
@@ -230,7 +230,7 @@ export const ISECHA_TEXTS: Record<
     sec5P2:
       "에도 말기 개국과 함께 일본의 풍부한 농산물은 세계로 날개를 펼쳤습니다. 막말에서 메이지 초기에 걸쳐 차는 생사와 나란히 일본 2대 수출품으로 외화 획득의 기둥이 되었고, 그 수출지의 상당수가 미국이었습니다. 당시 일본 차 수출의 80% 이상이 미국 향이었으며, 그 거대한 수요를 지탱하는 중심 역할을 했던 것이 「이세차」였습니다.",
     sec5P3:
-      "이세차가 현지에서 얼마나 사랑받았는지를 말해 주는 일화가 있습니다. 전성기의 뉴욕에는 2500곳 이상의 티 가든이 늘어서 있었고, 곳곳에서 이세차가 제공되었습니다. 미국인들에게 이세차의 상쾌한 향과 깊은 맛은 세련된 한때를 물들이는 일상의 즐거움이었습니다.",
+      "이세차가 현지에서 얼마나 사랑받았는지를 말해 주는 일화가 있습니다. 전성기의 뉴욕에는 1,500곳 이상의 티 가든이 늘어서 있었고, 곳곳에서 이세차가 제공되었습니다. 미국인들에게 이세차의 상쾌한 향과 깊은 맛은 세련된 한때를 물들이는 일상의 즐거움이었습니다.",
     cardHojichaTitle: "후지차",
     cardHojichaBody:
       "후지차(焙じ茶)는 녹차·반차·줄기차 등을 강불에 볶아 만든 차입니다. 볶음으로 생기는 피라진류라는 향기 성분이 후지차 특유의 고소한 향을 만듭니다. 자극이 적어 식사 중 마시기 좋고, 볶음으로 카페인이 줄어 밤에도 마시기 좋다고 합니다. 영어로는 roasted green tea라고 합니다.",
@@ -294,7 +294,7 @@ export const ISECHA_TEXTS: Record<
     sec5P2:
       "江户末期的开国使日本丰富的农产品走向世界。从幕末到明治初期，茶与生丝并列为日本两大出口品，是获取外汇的支柱，而出口目的地多为美国。当时日本茶出口的80%以上面向美国，支撑这一巨大需求的核心正是「伊势茶」。",
     sec5P3:
-      "纽约鼎盛时期曾有2500家以上的茶庭鳞次栉比，处处供应伊势茶。对美国人而言，伊势茶清爽的香气与深邃的滋味，曾是点缀雅致时光的日常享受。",
+      "纽约鼎盛时期曾有1,500家以上的茶庭鳞次栉比，处处供应伊势茶。对美国人而言，伊势茶清爽的香气与深邃的滋味，曾是点缀雅致时光的日常享受。",
     cardHojichaTitle: "焙茶",
     cardHojichaBody:
       "焙茶是将煎茶、番茶、茎茶等绿茶以强火焙煎制成的茶。焙煎产生的吡嗪类香气成分带来焙茶特有的香醇。刺激性低，适合佐餐，焙煎也减少咖啡因，适合晚间饮用。英文称 roasted green tea。",
