@@ -1,5 +1,7 @@
+import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
 import fixed from "@/lib/seoFixedPages.json";
+import { ORGANIZATION_NAME_JA, SITE_BASE_URL } from "@/lib/siteConstants";
 
 type FixedSeoEntry = {
   title?: Partial<Record<Locale, string>>;
@@ -100,6 +102,58 @@ export function buildAlternatesForLocales(pathname: string, options?: BuildAlter
   return {
     canonical: urls[loc0],
     languages,
+  };
+}
+
+const OG_LOCALE: Record<Locale, string> = {
+  ja: "ja_JP",
+  en: "en_US",
+  ko: "ko_KR",
+  zh: "zh_CN",
+};
+
+/** /ise-cha/amerika/ 用: OGP・Twitter・robots（本文は Article JSON-LD を別コンポーネントで） */
+export function buildIseChaAmerikaMetadata(locale: Locale): Metadata {
+  const seo = getFixedSeo("/ise-cha/amerika", locale);
+  const title = seo?.title;
+  const description = seo?.description;
+  const alternates = buildAlternatesForLocales("/ise-cha/amerika", { currentLocale: locale });
+  const ogImageUrl = `${SITE_BASE_URL}/images/tea_garden.jpg`;
+
+  return {
+    title,
+    description,
+    alternates,
+    robots: { index: true, follow: true },
+    openGraph: {
+      title: title ?? undefined,
+      description: description ?? undefined,
+      url: alternates.canonical,
+      siteName: ORGANIZATION_NAME_JA,
+      locale: OG_LOCALE[locale],
+      type: "article",
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1000,
+          height: 712,
+          alt:
+            locale === "ja"
+              ? "19世紀末から20世紀初頭の日本風茶庭と茶屋"
+              : locale === "en"
+                ? "Japanese-style tea garden and pavilion, late 19th century"
+                : locale === "ko"
+                  ? "19세기 말~20세기 초 일본식 찻집과 정원"
+                  : "十九世纪末至二十世纪初的日本式茶庭与茶屋",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: title ?? undefined,
+      description: description ?? undefined,
+      images: [ogImageUrl],
+    },
   };
 }
 

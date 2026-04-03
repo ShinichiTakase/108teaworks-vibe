@@ -51,6 +51,34 @@
         "zh": "由日本茶讲师领袖高濑孝二亲身解密伊势茶的特点及其浓郁回甘的奥秘。历史名著《伊势茶发祥地 川俣谷之茶》全书139页现已在官网特别全文公开。带您领略维基百科也无法查到的产地原貌与深厚历史，立即点击查阅。"
       }
     },
+    "/ise-cha/books/": {
+      "title": {
+        "ja": "伊勢茶の本｜高瀬孝二著・伊勢茶の歴史と川俣谷 | 伊勢茶の藤八茶寮",
+        "en": "Ise Tea Books by Koji Takase — History & Kawamatadani | Touhachi Saryo",
+        "ko": "이세차의 책｜다카세 고지 저 · 이세차 역사와 가와마타다니 | 伊勢茶の藤八茶寮",
+        "zh": "伊势茶之书｜高濑孝二著·伊势茶历史与川俣谷 | 伊勢茶の藤八茶寮"
+      },
+      "description": {
+        "ja": "日本茶インストラクターリーダー高瀬孝二による電子書籍の紹介。『伊勢茶の歴史 お茶のおもしろ知識』と『伊勢茶発祥の地　川俣谷のお茶』のあらすじ・著者略歴。本文は各書籍ページでご覧いただけます。",
+        "en": "Introductory pages for two e-books by Koji Takase, Japanese Tea Instructor Leader: “History of Ise Tea — Fun Facts About Tea” and “Tea of Kawamatadani.” Summaries and author bio; full text on each book’s page.",
+        "ko": "일본차 인스트럭터 리더 다카세 고지의 전자책 2권 소개. 『이세차의 역사·차의 재미있는 지식』과 『이세차 발상지 가와마타다니의 차』의 줄거리·저자 약력. 본문은 각 도서 페이지에서 읽을 수 있습니다.",
+        "zh": "日本茶讲师领袖高濑孝二的电子书介绍：《伊势茶历史与茶的趣味知识》与《伊势茶发祥地 川俣谷之茶》的梗概与作者简介。全文请参阅各书专页。"
+      }
+    },
+    "/ise-cha/amerika/": {
+      "title": {
+        "ja": "海を渡った伊勢茶の記憶：19世紀ニューヨークを彩った「初めてのお茶」物語 | 伊勢茶の藤八茶寮",
+        "en": "The Legacy of Ise Tea: How America’s First Daily Brew Captivated 19th-Century New York | Touhachi Saryo",
+        "ko": "바다를 건넌 이세차의 기억: 19세기 뉴욕을 수놓은 ‘첫 번째 차’ 이야기 | 伊勢茶の藤八茶寮",
+        "zh": "跨越海洋的伊势茶记忆：点缀19世纪纽约的“第一口茶”故事 | 伊勢茶の藤八茶寮"
+      },
+      "description": {
+        "ja": "幕末・明治、ニューヨークで1,500軒もの茶屋が並んだ「伊勢茶ブーム」の真実。高瀬藤八の情熱と共に海を渡り、アメリカの人々が初めて日常的に親しんだ「一杯のお茶」の物語と、輸出を彩った芸術的ラベル「蘭字」の歴史を紐解きます。",
+        "en": "Discover the untold story of Ise Tea in 19th-century New York, where 1,500 tea houses once thrived. Explore the passion of Tohachi Takase and the \"Ranji\" art labels that defined Japan's first major export, connecting Mie Prefecture to the heart of America.",
+        "ko": "19세기 뉴욕에 1,500개의 찻집이 생길 정도로 인기를 끌었던 ‘이세차’의 실화. 타카세 토하치의 열정과 함께 바다를 건너 미국인들이 처음으로 일상에서 즐겼던 차 이야기, 그리고 예술적인 수출 라벨 ‘란지’에 담긴 긍지 높은 역사를 소개합니다.",
+        "zh": "揭秘19世纪纽约拥有1500家茶屋的“伊势茶热潮”。追溯高瀬藤八远渡重洋的激情，讲述美国人历史上首个日常饮茶习惯背后的故事，以及点缀出口包装的艺术标签“兰字”所承载的辉煌历史。"
+      }
+    },
     "/how2brew/": {
       "title": {
         "ja": "プロが教える伊勢茶の美味しい淹れ方。コツと温度 | 伊勢茶の藤八茶寮",

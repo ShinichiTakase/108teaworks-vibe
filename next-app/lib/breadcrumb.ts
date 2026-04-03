@@ -69,6 +69,30 @@ export function getBreadcrumbItems(
 
   if (pathKeyNorm === "/") return items;
 
+  if (pathKeyNorm === "/ise-cha/books") {
+    items.push({
+      name: getLabelFromKey("nav.isecha", locale),
+      url: makeUrl("/ise-cha", locale),
+    });
+    items.push({
+      name: getLabelFromKey("nav.isechaBooks", locale),
+      url: makeUrl("/ise-cha/books", locale),
+    });
+    return items;
+  }
+
+  if (pathKeyNorm === "/ise-cha/amerika") {
+    items.push({
+      name: getLabelFromKey("nav.isecha", locale),
+      url: makeUrl("/ise-cha", locale),
+    });
+    items.push({
+      name: getLabelFromKey("nav.isechaAmerika", locale),
+      url: makeUrl("/ise-cha/amerika", locale),
+    });
+    return items;
+  }
+
   const productMatch = pathKeyNorm.match(/^\/products\/(.+)$/);
   if (productMatch) {
     items.push({
