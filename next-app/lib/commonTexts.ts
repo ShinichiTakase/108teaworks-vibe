@@ -11,8 +11,10 @@ export const COMMON_TEXTS: Record<
       isecha: string;
       /** /ise-cha/ から /ise-cha/books/ へのサブナビ（伊勢茶関連の本） */
       isechaBooks: string;
-      /** /ise-cha/ から /ise-cha/amerika/ へのサブナビ */
-      isechaAmerika: string;
+      /** /ise-cha/ から /ise-cha/america/ へのサブナビ */
+      isechaAmerica: string;
+      /** /ise-cha/how-to-brew/（伊勢茶セクション内の淹れ方） */
+      isechaHowToBrew: string;
       howToBrew: string;
       userGuide: string;
       notice: string;
@@ -83,7 +85,8 @@ export const COMMON_TEXTS: Record<
       about: "藤八茶寮について",
       isecha: "伊勢茶とは",
       isechaBooks: "伊勢茶の本",
-      isechaAmerika: "アメリカと伊勢茶",
+      isechaAmerica: "伊勢茶とアメリカ",
+      isechaHowToBrew: "おいしいお茶の淹れ方",
       howToBrew: "お茶の淹れ方",
       userGuide: "ご注文の流れ",
       notice: "お知らせ",
@@ -130,7 +133,8 @@ export const COMMON_TEXTS: Record<
       about: "About Us",
       isecha: "What is Ise Tea",
       isechaBooks: "Books on Ise Tea",
-      isechaAmerika: "Ise Tea & America",
+      isechaAmerica: "Ise Tea and America",
+      isechaHowToBrew: "How to Brew Delicious Tea",
       howToBrew: "How to Brew",
       userGuide: "Order Guide",
       notice: "News",
@@ -177,7 +181,8 @@ export const COMMON_TEXTS: Record<
       about: "후지하치야 소개",
       isecha: "이세차란",
       isechaBooks: "이세차의 책",
-      isechaAmerika: "미국과 이세차",
+      isechaAmerica: "이세차와 미국",
+      isechaHowToBrew: "맛있게 우리는 법",
       howToBrew: "우려내기",
       userGuide: "주문 안내",
       notice: "소식",
@@ -224,7 +229,8 @@ export const COMMON_TEXTS: Record<
       about: "关于藤八茶寮",
       isecha: "什么是伊势茶",
       isechaBooks: "伊势茶之书",
-      isechaAmerika: "美国与伊势茶",
+      isechaAmerica: "伊势茶与美国",
+      isechaHowToBrew: "美味冲泡要诀",
       howToBrew: "冲泡方法",
       userGuide: "订购流程",
       notice: "公告",

@@ -35,6 +35,8 @@ const ALIASES: Record<string, string[]> = {
   "/isecha_no_rekushi": ["/isecha_no_rekishi/", "/isecha_no_rekishi"],
   /** 旧スラッグ isecha で getFixedSeo した場合も新キーを参照 */
   "/isecha": ["/ise-cha/", "/ise-cha"],
+  /** /ise-cha/amerika → 英語スラッグ america へ */
+  "/ise-cha/amerika": ["/ise-cha/america/", "/ise-cha/america"],
 };
 
 export function getFixedSeo(
@@ -112,12 +114,12 @@ const OG_LOCALE: Record<Locale, string> = {
   zh: "zh_CN",
 };
 
-/** /ise-cha/amerika/ 用: OGP・Twitter・robots（本文は Article JSON-LD を別コンポーネントで） */
-export function buildIseChaAmerikaMetadata(locale: Locale): Metadata {
-  const seo = getFixedSeo("/ise-cha/amerika", locale);
+/** /ise-cha/america/ 用: OGP・Twitter・robots（本文は Article JSON-LD を別コンポーネントで） */
+export function buildIseChaAmericaMetadata(locale: Locale): Metadata {
+  const seo = getFixedSeo("/ise-cha/america", locale);
   const title = seo?.title;
   const description = seo?.description;
-  const alternates = buildAlternatesForLocales("/ise-cha/amerika", { currentLocale: locale });
+  const alternates = buildAlternatesForLocales("/ise-cha/america", { currentLocale: locale });
   const ogImageUrl = `${SITE_BASE_URL}/images/tea_garden.jpg`;
 
   return {

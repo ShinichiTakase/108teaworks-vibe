@@ -65,7 +65,7 @@
         "zh": "日本茶讲师领袖高濑孝二的电子书介绍：《伊势茶历史与茶的趣味知识》与《伊势茶发祥地 川俣谷之茶》的梗概与作者简介。全文请参阅各书专页。"
       }
     },
-    "/ise-cha/amerika/": {
+    "/ise-cha/america/": {
       "title": {
         "ja": "海を渡った伊勢茶の記憶：19世紀ニューヨークを彩った「初めてのお茶」物語 | 伊勢茶の藤八茶寮",
         "en": "The Legacy of Ise Tea: How America’s First Daily Brew Captivated 19th-Century New York | Touhachi Saryo",
@@ -77,6 +77,20 @@
         "en": "Discover the untold story of Ise Tea in 19th-century New York, where 1,500 tea houses once thrived. Explore the passion of Tohachi Takase and the \"Ranji\" art labels that defined Japan's first major export, connecting Mie Prefecture to the heart of America.",
         "ko": "19세기 뉴욕에 1,500개의 찻집이 생길 정도로 인기를 끌었던 ‘이세차’의 실화. 타카세 토하치의 열정과 함께 바다를 건너 미국인들이 처음으로 일상에서 즐겼던 차 이야기, 그리고 예술적인 수출 라벨 ‘란지’에 담긴 긍지 높은 역사를 소개합니다.",
         "zh": "揭秘19世纪纽约拥有1500家茶屋的“伊势茶热潮”。追溯高瀬藤八远渡重洋的激情，讲述美国人历史上首个日常饮茶习惯背后的故事，以及点缀出口包装的艺术标签“兰字”所承载的辉煌历史。"
+      }
+    },
+    "/ise-cha/how-to-brew/": {
+      "title": {
+        "ja": "伊勢茶を最高に楽しむ｜おいしいお茶の淹れ方・黄金比と湯冷まし | 伊勢茶の藤八茶寮",
+        "en": "Brewing Ise Tea at Its Best: Ratio, Temperature & Pouring | Touhachi Saryo",
+        "ko": "이세차를 최고로 즐기기 | 맛있게 우리는 법·황금비와 물 식히기 | 伊勢茶の藤八茶寮",
+        "zh": "尽享伊势茶：美味冲泡·黄金比例与降温技巧 | 伊勢茶の藤八茶寮"
+      },
+      "description": {
+        "ja": "お湯100ccに茶葉3gの黄金比、カテキン・テアニン・カフェインのバランス、湯冷ましで70〜80℃、浸出時間と回し注ぎまで。伊勢茶のポテンシャルを引き出す淹れ方の極意を公式に解説します。",
+        "en": "Golden ratio, why water temperature matters, cooling without a thermometer, steeping times and round pouring—everything you need to brew delicious Ise tea.",
+        "ko": "황금비 100cc당 3g, 성분 균형, 물 식히기로 70~80℃, 침출 시간과 돌려 붓기까지. 이세차의 잠재력을 살리는 우리는 요령을 안내합니다.",
+        "zh": "热水与茶叶比例、成分平衡、无温度计降温、浸泡与巡回斟茶——完整解析伊势茶美味冲泡要点。"
       }
     },
     "/how2brew/": {

@@ -57,6 +57,14 @@ const nextConfig = {
         destination: "/images/books/isecha_no_rekishi.png",
         permanent: true,
       },
+      { source: "/ise-cha/amerika", destination: "/ise-cha/america", permanent: true },
+      { source: "/ise-cha/amerika/", destination: "/ise-cha/america", permanent: true },
+      { source: "/en/ise-cha/amerika", destination: "/en/ise-cha/america", permanent: true },
+      { source: "/en/ise-cha/amerika/", destination: "/en/ise-cha/america", permanent: true },
+      { source: "/ko/ise-cha/amerika", destination: "/ko/ise-cha/america", permanent: true },
+      { source: "/ko/ise-cha/amerika/", destination: "/ko/ise-cha/america", permanent: true },
+      { source: "/zh/ise-cha/amerika", destination: "/zh/ise-cha/america", permanent: true },
+      { source: "/zh/ise-cha/amerika/", destination: "/zh/ise-cha/america", permanent: true },
     ];
   },
   images: {

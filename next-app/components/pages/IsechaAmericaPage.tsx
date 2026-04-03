@@ -1,4 +1,5 @@
 import Image from "next/image";
+import IsechaSubNav from "@/components/IsechaSubNav";
 import { MAIN_CLASS, INNER_CLASS } from "@/components/Layout";
 import type { Locale } from "@/lib/i18n";
 
@@ -17,7 +18,7 @@ const TEXTS: Record<
   }
 > = {
   ja: {
-    h1: "アメリカと伊勢茶",
+    h1: "伊勢茶とアメリカ",
     altTeaGarden:
       "19世紀末から20世紀初頭の日本風茶屋。西洋風のテーブルと椅子が並ぶ開放的な亭と、庭の石灯籠",
     altRanji:
@@ -55,7 +56,7 @@ const TEXTS: Record<
       "Ise tea once crossed the ocean to brighten everyday life in another country. We still honour that proud history in every cup we serve.",
   },
   ko: {
-    h1: "미국과 이세차",
+    h1: "이세차와 미국",
     altTeaGarden:
       "19세기 말~20세기 초 일본식 찻집 정자와 서양식 테이블·의자, 돌 등롱이 보이는 역사 사진",
     altRanji:
@@ -74,7 +75,7 @@ const TEXTS: Record<
       "먼 바다를 건너 이국의 일상에 색채를 더했던 이세차. 그 자랑스러운 역사를 우리는 지금도 한 잔의 차에 담아 이어 가고 있습니다.",
   },
   zh: {
-    h1: "美国与伊势茶",
+    h1: "伊势茶与美国",
     altTeaGarden:
       "十九世纪末至二十世纪初的日本式茶庭与凉亭，内摆西式桌椅，前景有石灯笼",
     altRanji:
@@ -98,13 +99,14 @@ type Props = {
   locale: Locale;
 };
 
-export default function IsechaAmerikaPage({ locale }: Props) {
+export default function IsechaAmericaPage({ locale }: Props) {
   const t = TEXTS[locale];
 
   return (
     <main className={MAIN_CLASS} id="main-content" role="main">
       <div className={INNER_CLASS}>
         <article className="mb-12">
+          <IsechaSubNav locale={locale} current="america" />
           <h1 className="m-0 mb-8 font-heading text-xl font-semibold text-tea-deep">
             {t.h1}
           </h1>

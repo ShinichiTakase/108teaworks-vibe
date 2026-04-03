@@ -81,14 +81,26 @@ export function getBreadcrumbItems(
     return items;
   }
 
-  if (pathKeyNorm === "/ise-cha/amerika") {
+  if (pathKeyNorm === "/ise-cha/america") {
     items.push({
       name: getLabelFromKey("nav.isecha", locale),
       url: makeUrl("/ise-cha", locale),
     });
     items.push({
-      name: getLabelFromKey("nav.isechaAmerika", locale),
-      url: makeUrl("/ise-cha/amerika", locale),
+      name: getLabelFromKey("nav.isechaAmerica", locale),
+      url: makeUrl("/ise-cha/america", locale),
+    });
+    return items;
+  }
+
+  if (pathKeyNorm === "/ise-cha/how-to-brew") {
+    items.push({
+      name: getLabelFromKey("nav.isecha", locale),
+      url: makeUrl("/ise-cha", locale),
+    });
+    items.push({
+      name: getLabelFromKey("nav.isechaHowToBrew", locale),
+      url: makeUrl("/ise-cha/how-to-brew", locale),
     });
     return items;
   }

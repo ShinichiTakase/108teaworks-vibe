@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import IsechaSubNav from "@/components/IsechaSubNav";
 import { MAIN_CLASS, INNER_CLASS } from "@/components/Layout";
 import type { Locale } from "@/lib/i18n";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
@@ -319,42 +320,11 @@ type Props = {
 
 export default function IsechaPage({ locale }: Props) {
   const t = ISECHA_TEXTS[locale];
-  const booksNavAria =
-    locale === "ja"
-      ? "伊勢茶関連のサブページ"
-      : locale === "en"
-        ? "Ise Tea section navigation"
-        : locale === "ko"
-          ? "이세차 관련 하위 페이지"
-          : "伊势茶相关子页面";
-
   return (
     <main className={MAIN_CLASS} id="main-content" role="main">
       <div className={INNER_CLASS}>
         <section aria-labelledby="isecha-heading" className="mb-12">
-          <nav
-            className="mb-8 border-b border-tea-light/30 pb-6"
-            aria-label={booksNavAria}
-          >
-            <ul className="m-0 flex flex-wrap gap-3 p-0 list-none md:gap-4">
-              <li>
-                <Link
-                  href={buildLocalizedPath(locale, "/ise-cha/books")}
-                  className="inline-flex items-center rounded-md border border-tea-light bg-cream/80 px-3 py-2 text-[0.9375rem] font-medium text-tea-deep no-underline transition-colors hover:border-tea-deep hover:bg-cream"
-                >
-                  {COMMON_TEXTS[locale].nav.isechaBooks}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href={buildLocalizedPath(locale, "/ise-cha/amerika")}
-                  className="inline-flex items-center rounded-md border border-tea-light bg-cream/80 px-3 py-2 text-[0.9375rem] font-medium text-tea-deep no-underline transition-colors hover:border-tea-deep hover:bg-cream"
-                >
-                  {COMMON_TEXTS[locale].nav.isechaAmerika}
-                </Link>
-              </li>
-            </ul>
-          </nav>
+          <IsechaSubNav locale={locale} current="main" />
 
           <h1
             id="isecha-heading"

@@ -1,7 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
+import IsechaSubNav from "@/components/IsechaSubNav";
 import { MAIN_CLASS, INNER_CLASS } from "@/components/Layout";
 import type { Locale } from "@/lib/i18n";
+import { COMMON_TEXTS } from "@/lib/commonTexts";
 import { buildLocalizedPath } from "@/lib/urlPath";
 import { ISECHA_TEXTS } from "./IsechaPage";
 
@@ -35,11 +37,12 @@ export default function IsechaBooksPage({ locale }: Props) {
     <main className={MAIN_CLASS} id="main-content" role="main">
       <div className={INNER_CLASS}>
         <section aria-labelledby="isecha-books-heading" className="mb-12">
+          <IsechaSubNav locale={locale} current="books" />
           <h1
             id="isecha-books-heading"
             className="m-0 mb-8 font-heading text-xl font-semibold text-tea-deep"
           >
-            {booksRegionLabel}
+            {COMMON_TEXTS[locale].nav.isechaBooks}
           </h1>
 
           <div className="mb-12" role="region" aria-label={booksRegionLabel}>

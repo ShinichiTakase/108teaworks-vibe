@@ -7,9 +7,9 @@ type Props = {
 };
 
 /** Google 検索向け Article 構造化データ（本文ページと title/description を一致させる） */
-export default function IsechaAmerikaArticleJsonLd({ locale }: Props) {
-  const seo = getFixedSeo("/ise-cha/amerika", locale);
-  const alternates = buildAlternatesForLocales("/ise-cha/amerika", { currentLocale: locale });
+export default function IsechaAmericaArticleJsonLd({ locale }: Props) {
+  const seo = getFixedSeo("/ise-cha/america", locale);
+  const alternates = buildAlternatesForLocales("/ise-cha/america", { currentLocale: locale });
   const headline = seo?.title ?? "";
   const description = seo?.description ?? "";
   const imageUrl = `${SITE_BASE_URL}/images/tea_garden.jpg`;
