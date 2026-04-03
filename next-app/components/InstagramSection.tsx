@@ -2,6 +2,15 @@ import { fetchInstagramMedia } from "@/lib/instagram";
 import type { Locale } from "@/lib/i18n";
 import { HOME_INSTAGRAM_TEXTS } from "@/lib/homeSectionTexts";
 
+/** Instagram CDN の直リンクは重いため、API 経由で WebP・縮小版を配信 */
+function thumbnailSrc(src: string): string {
+  if (src.startsWith("/")) return src;
+  if (src.startsWith("https://")) {
+    return `/api/instagram-thumb?url=${encodeURIComponent(src)}`;
+  }
+  return src;
+}
+
 const FALLBACK_POSTS = [
   { url: "https://www.instagram.com/p/DVK0TbkkbiJ/", img: "/images/instagram/post-01.jpg" },
   { url: "https://www.instagram.com/p/DUx6ohyEawL/", img: "/images/instagram/post-02.jpg" },
@@ -65,7 +74,7 @@ export default async function InstagramSection({ locale = "ja" }: Props) {
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={post.img}
+                src={thumbnailSrc(post.img)}
                 alt={t.postAlt}
                 width={200}
                 height={200}

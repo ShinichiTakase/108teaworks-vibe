@@ -6,6 +6,7 @@ import "./globals.css";
 import Layout from "@/components/Layout";
 import Providers from "@/components/Providers";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import ChachamaruDeferredStylesheet from "@/components/ChachamaruDeferredStylesheet";
 import { CHACHAMARU_TEXTS } from "@/lib/chachamaruTexts";
 import { OG_IMAGE_URL, ORGANIZATION_LOGO_URL, ORGANIZATION_NAME_JA, ORGANIZATION_NAME_EN, ORGANIZATION_URL, ORGANIZATION_INSTAGRAM } from "@/lib/siteConstants";
 
@@ -73,7 +74,7 @@ export default function RootLayout({
     <html lang={htmlLang} className={notoSerif.variable} suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-        <link rel="stylesheet" href="/css/chachamaru-widget.css" />
+        <ChachamaruDeferredStylesheet />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
