@@ -41,12 +41,35 @@ const SCHEMA_RATING_WORST = 1;
 
 /** 商品の販売・配送対象を日本国内のみと JSON-LD で明示 */
 const OFFER_ELIGIBLE_REGION_JP = "JP";
+/** リッチリザルト用。実送料は都道府県・配送ランク・2万円以上無料等で変動（api/checkout/shipping と整合） */
+const SCHEMA_SHIPPING_RATE_JPY = 280;
+/** 注文確定メール等の「本日より2～5営業日」に合わせた日数レンジ（calendar DAY 表現） */
 const OFFER_SHIPPING_DETAILS_JP = [
   {
     "@type": "OfferShippingDetails",
     shippingDestination: {
       "@type": "DefinedRegion",
       addressCountry: "JP",
+    },
+    shippingRate: {
+      "@type": "MonetaryAmount",
+      value: SCHEMA_SHIPPING_RATE_JPY,
+      currency: "JPY",
+    },
+    deliveryTime: {
+      "@type": "ShippingDeliveryTime",
+      handlingTime: {
+        "@type": "QuantitativeValue",
+        minValue: 1,
+        maxValue: 2,
+        unitCode: "DAY",
+      },
+      transitTime: {
+        "@type": "QuantitativeValue",
+        minValue: 1,
+        maxValue: 3,
+        unitCode: "DAY",
+      },
     },
   },
 ];
