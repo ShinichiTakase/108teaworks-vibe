@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: Props) {
   return {
     title: seo.title ?? `${baseTitle}｜伊勢茶の藤八茶寮`,
     description: seo.description ?? baseDesc,
-    alternates: buildAlternatesForLocales(`/products/${slug}`, { currentLocale: locale, jpRegionHreflang: true }),
+    alternates: buildAlternatesForLocales(`/products/${slug}`, { currentLocale: locale }),
   };
 }
 
