@@ -9,7 +9,7 @@ $port = 8022
 
 # プロジェクトルート（スクリプトがある scripts の親）
 $root = (Get-Item $PSScriptRoot).Parent.FullName
-if (-not $root -or -not (Test-Path (Join-Path $root "index.htm"))) {
+if (-not $root -or -not (Test-Path (Join-Path $root "next-app\package.json"))) {
     $root = Resolve-Path (Join-Path (Get-Location) "..")
 }
 $localSrc = Join-Path $root "images-108teaworks-src"
