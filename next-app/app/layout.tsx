@@ -66,8 +66,9 @@ export default function RootLayout({
 }>) {
   const h = headers();
   const loc = h.get("x-locale") ?? "ja";
-  // BCP47: 言語タグは最小構成（en/ko/zh/ja）にして、GMC 等の言語判定とズレにくくする
-  const htmlLang = loc === "en" || loc === "ko" || loc === "zh" ? loc : "ja";
+  // Merchant Center / 地域ターゲティングの誤解を避けるため、言語 + JP 地域で明示
+  const htmlLang =
+    loc === "ja" ? "ja" : loc === "en" ? "en-JP" : loc === "ko" ? "ko-JP" : "zh-JP";
 
   return (
     <html lang={htmlLang} className={notoSerif.variable} suppressHydrationWarning>
