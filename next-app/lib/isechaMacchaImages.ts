@@ -15,7 +15,7 @@ export const ISECHA_MACCHA_IMAGE_GROUPS: IsechaMacchaFigure[][] = [
     },
   ],
   [
-    { src: "/images/ise-cha/maccha/抹茶.webp", caption: "茶", alt: "抹茶の粉末" },
+    { src: "/images/ise-cha/maccha/抹茶.webp", caption: "抹茶", alt: "抹茶の粉末" },
     {
       src: "/images/ise-cha/maccha/粉末茶.webp",
       caption: "パウダー緑茶",
