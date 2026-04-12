@@ -105,6 +105,18 @@ export function getBreadcrumbItems(
     return items;
   }
 
+  if (pathKeyNorm === "/ise-cha/maccha") {
+    items.push({
+      name: getLabelFromKey("nav.isecha", locale),
+      url: makeUrl("/ise-cha", locale),
+    });
+    items.push({
+      name: getLabelFromKey("nav.isechaMaccha", locale),
+      url: makeUrl("/ise-cha/maccha", locale),
+    });
+    return items;
+  }
+
   const productMatch = pathKeyNorm.match(/^\/products\/(.+)$/);
   if (productMatch) {
     items.push({

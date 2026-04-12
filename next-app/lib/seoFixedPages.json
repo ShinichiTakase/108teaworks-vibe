@@ -93,6 +93,20 @@
         "zh": "热水与茶叶比例、成分平衡、无温度计降温、浸泡与巡回斟茶——完整解析伊势茶美味冲泡要点。"
       }
     },
+    "/ise-cha/maccha/": {
+      "title": {
+        "ja": "抹茶とパウダー緑茶の違い｜碾茶・煎茶、栽培と製法、藤八茶寮の粉末茶 | 伊勢茶の藤八茶寮",
+        "en": "Matcha vs. powdered green tea: cultivation, processing & Fujihachi’s powder | Touhachi Saryo",
+        "ko": "말차와 분말 녹차의 차이 | 텐차·센차, 재배·제조, 후지하치야의 분말차 | 伊勢茶の藤八茶寮",
+        "zh": "抹茶与粉末绿茶：碾茶与煎茶、栽培制法、藤八茶寮粉末茶 | 伊勢茶の藤八茶寮"
+      },
+      "description": {
+        "ja": "藤八茶寮は抹茶ではなくパウダー緑茶（粉末茶）をご用意。碾茶と煎茶の栽培・製造の違い、細かさと味わい、冷めても美味しい理由まで、抹茶との違いをわかりやすく解説します。",
+        "en": "We offer powdered green tea (sencha-based), not matcha. Learn how tencha vs. sencha growing and processing differ, why our powder is ultra-fine, and how flavor holds up when cool.",
+        "ko": "후지하치야는 말차 대신 분말 녹차(분말차)를 제공합니다. 텐차와 센차의 재배·가공 차이, 입자의 고운 정도와 맛, 식어도 맛있는 이유까지 비교해 안내합니다.",
+        "zh": "藤八茶寮提供粉末绿茶（煎茶基底），非抹茶。解说碾茶与煎茶的栽培与制法差异、细腻度与风味，以及冷却后仍好喝的原因。"
+      }
+    },
     "/how2brew/": {
       "title": {
         "ja": "プロが教える伊勢茶の美味しい淹れ方。コツと温度 | 伊勢茶の藤八茶寮",

@@ -15,6 +15,8 @@ export const COMMON_TEXTS: Record<
       isechaAmerica: string;
       /** /ise-cha/how-to-brew/（伊勢茶セクション内の淹れ方） */
       isechaHowToBrew: string;
+      /** /ise-cha/maccha/（抹茶とパウダー緑茶） */
+      isechaMaccha: string;
       howToBrew: string;
       userGuide: string;
       notice: string;
@@ -87,6 +89,7 @@ export const COMMON_TEXTS: Record<
       isechaBooks: "伊勢茶の本",
       isechaAmerica: "伊勢茶とアメリカ",
       isechaHowToBrew: "おいしいお茶の淹れ方",
+      isechaMaccha: "抹茶とパウダー緑茶",
       howToBrew: "お茶の淹れ方",
       userGuide: "ご注文の流れ",
       notice: "お知らせ",
@@ -135,6 +138,7 @@ export const COMMON_TEXTS: Record<
       isechaBooks: "Books on Ise Tea",
       isechaAmerica: "Ise Tea and America",
       isechaHowToBrew: "How to Brew Delicious Tea",
+      isechaMaccha: "Matcha vs. powdered green tea",
       howToBrew: "How to Brew",
       userGuide: "Order Guide",
       notice: "News",
@@ -183,6 +187,7 @@ export const COMMON_TEXTS: Record<
       isechaBooks: "이세차의 책",
       isechaAmerica: "이세차와 미국",
       isechaHowToBrew: "맛있게 우리는 법",
+      isechaMaccha: "말차와 분말 녹차",
       howToBrew: "우려내기",
       userGuide: "주문 안내",
       notice: "소식",
@@ -231,6 +236,7 @@ export const COMMON_TEXTS: Record<
       isechaBooks: "伊势茶之书",
       isechaAmerica: "伊势茶与美国",
       isechaHowToBrew: "美味冲泡要诀",
+      isechaMaccha: "抹茶与粉末绿茶",
       howToBrew: "冲泡方法",
       userGuide: "订购流程",
       notice: "公告",

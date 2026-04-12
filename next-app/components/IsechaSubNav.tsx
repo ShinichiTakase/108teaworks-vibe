@@ -3,7 +3,7 @@ import type { Locale } from "@/lib/i18n";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
 import { buildLocalizedPath } from "@/lib/urlPath";
 
-export type IsechaSubNavCurrent = "main" | "books" | "america" | "howToBrew";
+export type IsechaSubNavCurrent = "main" | "books" | "america" | "howToBrew" | "maccha";
 
 type Props = {
   locale: Locale;
@@ -32,6 +32,7 @@ export default function IsechaSubNav({ locale, current }: Props) {
   const booksHref = buildLocalizedPath(locale, "/ise-cha/books");
   const americaHref = buildLocalizedPath(locale, "/ise-cha/america");
   const howToBrewHref = buildLocalizedPath(locale, "/ise-cha/how-to-brew");
+  const macchaHref = buildLocalizedPath(locale, "/ise-cha/maccha");
 
   return (
     <nav
@@ -80,6 +81,17 @@ export default function IsechaSubNav({ locale, current }: Props) {
           ) : (
             <Link href={howToBrewHref} className={`${linkBase} ${linkIdle}`}>
               {t.isechaHowToBrew}
+            </Link>
+          )}
+        </li>
+        <li>
+          {current === "maccha" ? (
+            <span className={`${linkBase} ${linkActive}`} aria-current="page">
+              {t.isechaMaccha}
+            </span>
+          ) : (
+            <Link href={macchaHref} className={`${linkBase} ${linkIdle}`}>
+              {t.isechaMaccha}
             </Link>
           )}
         </li>
