@@ -6,6 +6,9 @@ const STATUS_IS_ARRAY =
   (process.env.MICROCMS_B2B_STATUS_IS_ARRAY ?? "").trim() === "1" ||
   (process.env.MICROCMS_B2B_STATUS_IS_ARRAY ?? "").trim().toLowerCase() === "true";
 
+const STATUS_FIELD_ID = process.env.MICROCMS_B2B_STATUS_FIELD_ID?.trim() || "status";
+const OPENED_AT_FIELD_ID = process.env.MICROCMS_B2B_OPENEDAT_FIELD_ID?.trim() || "openedAt";
+
 function selectValue(value: string, isArray: boolean): string | string[] {
   const v = value.trim();
   return isArray ? [v] : v;
@@ -39,13 +42,13 @@ export async function GET(_req: NextRequest, ctx: { params: Promise<{ token: str
     const nowIso = new Date().toISOString();
     const firstIsArray = STATUS_IS_ARRAY;
     const first = await patchB2bByIdDetailed(item.id, {
-      openedAt: nowIso,
-      status: selectValue("opened", firstIsArray),
+      [OPENED_AT_FIELD_ID]: nowIso,
+      [STATUS_FIELD_ID]: selectValue("opened", firstIsArray),
     });
     if (!first.ok) {
       await patchB2bByIdDetailed(item.id, {
-        openedAt: nowIso,
-        status: selectValue("opened", !firstIsArray),
+        [OPENED_AT_FIELD_ID]: nowIso,
+        [STATUS_FIELD_ID]: selectValue("opened", !firstIsArray),
       });
     }
   }

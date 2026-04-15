@@ -5,6 +5,11 @@ import { getMailFrom } from "@/lib/mailFrom";
 import { SITE_BASE_URL } from "@/lib/siteConstants";
 import { getB2bById, patchB2bByIdDetailed } from "@/lib/microcmsB2b";
 
+const STATUS_FIELD_ID = process.env.MICROCMS_B2B_STATUS_FIELD_ID?.trim() || "status";
+const SENT_AT_FIELD_ID = process.env.MICROCMS_B2B_SENTAT_FIELD_ID?.trim() || "sentAt";
+const EXPIRES_AT_FIELD_ID = process.env.MICROCMS_B2B_EXPIRESAT_FIELD_ID?.trim() || "expiresAt";
+const TOKEN_HASH_FIELD_ID = process.env.MICROCMS_B2B_TOKENHASH_FIELD_ID?.trim() || "tokenHash";
+
 function isEmail(s: string): boolean {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
 }
@@ -196,9 +201,9 @@ export async function POST(_req: NextRequest, ctx: { params: Promise<{ id: strin
 
   // status が「単一選択（string）」か「複数選択（string[]）」かで失敗することがあるため、両方を試す
   const patchBase = {
-    tokenHash,
-    sentAt: now.toISOString(),
-    expiresAt: expiresAtIso,
+    [TOKEN_HASH_FIELD_ID]: tokenHash,
+    [SENT_AT_FIELD_ID]: now.toISOString(),
+    [EXPIRES_AT_FIELD_ID]: expiresAtIso,
   };
 
   const firstIsArray =
@@ -207,14 +212,14 @@ export async function POST(_req: NextRequest, ctx: { params: Promise<{ id: strin
 
   const first = await patchB2bByIdDetailed(id, {
     ...patchBase,
-    status: selectValue("sent", firstIsArray),
+    [STATUS_FIELD_ID]: selectValue("sent", firstIsArray),
   });
   const second =
     first.ok
       ? first
       : await patchB2bByIdDetailed(id, {
           ...patchBase,
-          status: selectValue("sent", !firstIsArray),
+          [STATUS_FIELD_ID]: selectValue("sent", !firstIsArray),
         });
 
   if (!second.ok) {

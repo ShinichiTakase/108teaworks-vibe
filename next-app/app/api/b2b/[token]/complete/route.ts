@@ -10,6 +10,11 @@ const STATUS_IS_ARRAY =
   (process.env.MICROCMS_B2B_STATUS_IS_ARRAY ?? "").trim() === "1" ||
   (process.env.MICROCMS_B2B_STATUS_IS_ARRAY ?? "").trim().toLowerCase() === "true";
 
+const STATUS_FIELD_ID = process.env.MICROCMS_B2B_STATUS_FIELD_ID?.trim() || "status";
+const PAID_AT_FIELD_ID = process.env.MICROCMS_B2B_PAIDAT_FIELD_ID?.trim() || "paidAt";
+const STRIPE_PI_FIELD_ID =
+  process.env.MICROCMS_B2B_STRIPE_PI_FIELD_ID?.trim() || "stripePaymentIntentId";
+
 function selectValue(value: string, isArray: boolean): string | string[] {
   const v = value.trim();
   return isArray ? [v] : v;
@@ -56,19 +61,31 @@ export async function POST(req: NextRequest, ctx: { params: Promise<{ token: str
 
   const nowIso = new Date().toISOString();
   const firstIsArray = STATUS_IS_ARRAY;
-  const first = await patchB2bByIdDetailed(item.id, {
-    paidAt: nowIso,
-    stripePaymentIntentId: piId,
-    status: selectValue("paid", firstIsArray),
-  });
+  const basePatch: Record<string, unknown> = {
+    [PAID_AT_FIELD_ID]: nowIso,
+    [STRIPE_PI_FIELD_ID]: piId,
+    [STATUS_FIELD_ID]: selectValue("paid", firstIsArray),
+  };
+  const first = await patchB2bByIdDetailed(item.id, basePatch);
   if (!first.ok) {
     const second = await patchB2bByIdDetailed(item.id, {
-      paidAt: nowIso,
-      stripePaymentIntentId: piId,
-      status: selectValue("paid", !firstIsArray),
+      ...basePatch,
+      [STATUS_FIELD_ID]: selectValue("paid", !firstIsArray),
     });
     if (!second.ok) {
-      return NextResponse.json({ ok: false, error: "update_failed" }, { status: 500 });
+      return NextResponse.json(
+        {
+          ok: false,
+          error: "update_failed",
+          // 反映失敗時に切り分けしやすいようにキー名だけ返す（値は返さない）
+          fields: {
+            paidAt: PAID_AT_FIELD_ID,
+            stripePaymentIntentId: STRIPE_PI_FIELD_ID,
+            status: STATUS_FIELD_ID,
+          },
+        },
+        { status: 500 }
+      );
     }
   }
 
