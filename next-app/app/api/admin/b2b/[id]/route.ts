@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getB2bById, patchB2bById } from "@/lib/microcmsB2b";
+import { deleteB2bByIdDetailed, getB2bById, patchB2bById } from "@/lib/microcmsB2b";
 
 const LINES_FIELD_ID = process.env.MICROCMS_B2B_LINES_FIELD_ID?.trim() || "lines";
 const TAXMODE_IS_ARRAY =
@@ -76,6 +76,21 @@ export async function PATCH(req: NextRequest, ctx: { params: Promise<{ id: strin
   }
   const ok = await patchB2bById(id, patch);
   if (!ok) return NextResponse.json({ ok: false, error: "update_failed" }, { status: 500 });
+  return NextResponse.json({ ok: true });
+}
+
+export async function DELETE(_req: NextRequest, ctx: { params: Promise<{ id: string }> }) {
+  const { id } = await ctx.params;
+  const current = await getB2bById(id);
+  if (!current) return NextResponse.json({ ok: false, error: "not_found" }, { status: 404 });
+
+  const result = await deleteB2bByIdDetailed(id);
+  if (!result.ok) {
+    return NextResponse.json(
+      { ok: false, error: "delete_failed", status: result.status },
+      { status: 500 }
+    );
+  }
   return NextResponse.json({ ok: true });
 }
 

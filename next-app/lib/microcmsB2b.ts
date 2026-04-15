@@ -266,6 +266,26 @@ export async function patchB2bByIdDetailed(
   return { ok: true };
 }
 
+export async function deleteB2bByIdDetailed(id: string): Promise<MicrocmsWriteResult> {
+  const base = getBaseUrl();
+  const key = getWriteKey();
+  if (!base || !key) return { ok: false, status: 0, message: "not_configured" };
+  const safe = id.trim();
+  if (!safe) return { ok: false, status: 0, message: "invalid_id" };
+
+  const res = await fetch(`${base}/b2b/${encodeURIComponent(safe)}`, {
+    method: "DELETE",
+    headers: { "X-MICROCMS-API-KEY": key },
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    const text = await res.text().catch(() => "");
+    console.error("[microcmsB2b] delete failed", res.status, text.slice(0, 500));
+    return { ok: false, status: res.status, message: text };
+  }
+  return { ok: true };
+}
+
 export async function createB2b(input: Record<string, unknown>): Promise<{ ok: true; id: string } | { ok: false }> {
   const base = getBaseUrl();
   const key = getWriteKey();

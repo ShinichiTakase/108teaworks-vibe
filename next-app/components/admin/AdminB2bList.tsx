@@ -46,6 +46,7 @@ export default function AdminB2bList() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [rows, setRows] = useState<B2bRow[]>([]);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const fetchList = async (search: string) => {
     setLoading(true);
@@ -77,6 +78,28 @@ export default function AdminB2bList() {
       setRows([]);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDelete = async (row: B2bRow) => {
+    const label = `${row.customerName ?? "—"} / ${row.customerEmail ?? "—"} / ${formatYen(row.grandTotal)}`;
+    const ok = window.confirm(`この取引を削除します。よろしいですか？\n\n${label}\n\n※この操作は取り消せません。`);
+    if (!ok) return;
+
+    setDeletingId(row.id);
+    setError(null);
+    try {
+      const res = await fetch(`/api/admin/b2b/${encodeURIComponent(row.id)}`, { method: "DELETE" });
+      const data = await res.json().catch(() => null);
+      if (!res.ok || !data?.ok) {
+        setError(`削除に失敗しました（HTTP ${res.status}）`);
+        return;
+      }
+      setRows((prev) => prev.filter((x) => x.id !== row.id));
+    } catch {
+      setError("削除に失敗しました。");
+    } finally {
+      setDeletingId(null);
     }
   };
 
@@ -144,7 +167,7 @@ export default function AdminB2bList() {
         )}
 
         <div className="overflow-x-auto rounded-xl border border-border bg-white">
-          <table className="w-full min-w-[760px] border-collapse text-[0.9375rem]">
+          <table className="w-full min-w-[860px] border-collapse text-[0.9375rem]">
             <thead className="bg-[#f3f4f6]">
               <tr>
                 <th className="text-left px-4 py-3 font-semibold text-ink">送信日時</th>
@@ -152,18 +175,19 @@ export default function AdminB2bList() {
                 <th className="text-left px-4 py-3 font-semibold text-ink">メール</th>
                 <th className="text-right px-4 py-3 font-semibold text-ink">総合計</th>
                 <th className="text-left px-4 py-3 font-semibold text-ink">ステータス</th>
+                <th className="text-right px-4 py-3 font-semibold text-ink">操作</th>
               </tr>
             </thead>
             <tbody>
               {loading ? (
                 <tr>
-                  <td className="px-4 py-4 text-ink-muted" colSpan={5}>
+                  <td className="px-4 py-4 text-ink-muted" colSpan={6}>
                     読み込み中…
                   </td>
                 </tr>
               ) : rows.length === 0 ? (
                 <tr>
-                  <td className="px-4 py-6 text-ink-muted" colSpan={5}>
+                  <td className="px-4 py-6 text-ink-muted" colSpan={6}>
                     {hasQuery ? "該当なし" : "まだ取引がありません"}
                   </td>
                 </tr>
@@ -179,6 +203,16 @@ export default function AdminB2bList() {
                     <td className="px-4 py-3">{r.customerEmail ?? "—"}</td>
                     <td className="px-4 py-3 text-right whitespace-nowrap">{formatYen(r.grandTotal)}</td>
                     <td className="px-4 py-3">{statusLabel(r.status)}</td>
+                    <td className="px-4 py-3 text-right whitespace-nowrap">
+                      <button
+                        type="button"
+                        onClick={() => handleDelete(r)}
+                        disabled={deletingId === r.id}
+                        className="rounded border border-red-200 bg-white px-3 py-1 text-[0.8125rem] font-semibold text-red-700 hover:bg-red-50 disabled:opacity-50"
+                      >
+                        {deletingId === r.id ? "削除中…" : "削除"}
+                      </button>
+                    </td>
                   </tr>
                 ))
               )}
