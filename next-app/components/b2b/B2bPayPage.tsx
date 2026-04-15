@@ -47,6 +47,7 @@ export default function B2bPayPage({ token }: { token: string }) {
   const [paying, setPaying] = useState(false);
   const [cardReady, setCardReady] = useState(false);
   const paymentIntentIdRef = useRef<string | null>(null);
+  const clientSecretRef = useRef<string | null>(null);
 
   const stripeRef = useRef<any>(null);
   const elementsRef = useRef<any>(null);
@@ -86,7 +87,7 @@ export default function B2bPayPage({ token }: { token: string }) {
     };
   }, [token]);
 
-  // Stripe Payment Element mount
+  // Stripe Payment Element mount (PI を先に作って clientSecret で初期化する)
   useEffect(() => {
     if (!STRIPE_PK) return;
     if (!cardContainerRef.current) return;
@@ -98,41 +99,59 @@ export default function B2bPayPage({ token }: { token: string }) {
     (async () => {
       try {
         setCardReady(false);
+        setError(null);
         if (!stripeRef.current) stripeRef.current = await stripePromise;
         const stripe = stripeRef.current;
         if (!stripe || cancelled) return;
 
-        if (!elementsRef.current) {
-          const elements = stripe.elements({
-            mode: "payment",
+        // 1) PaymentIntent を作成（または再作成）
+        const payRes = await fetch("/api/checkout/pay", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
             amount,
-            currency: "jpy",
-            appearance: { theme: "stripe" },
-          } as any);
-          elementsRef.current = elements;
-          const paymentElement = elements.create("payment", {
-            fields: { billingDetails: "never" },
-          } as any);
-          paymentElementRef.current = paymentElement;
-          paymentElement.mount(cardContainerRef.current!);
-          paymentElement.on("ready", () => {
-            if (!cancelled) setCardReady(true);
-          });
-          // ready が来ない環境向け
-          window.setTimeout(() => {
-            if (!cancelled) setCardReady(true);
-          }, 1500);
-        } else {
-          try {
-            elementsRef.current.update({ amount });
-          } catch {
-            // noop
-          }
-          setCardReady(true);
+            billing: { name: item.customerName, email: item.customerEmail },
+            cancelPreviousId: paymentIntentIdRef.current ?? undefined,
+          }),
+        });
+        const payData = await payRes.json().catch(() => null);
+        const clientSecret = payData?.clientSecret;
+        const piId = payData?.id;
+        if (!payRes.ok || typeof clientSecret !== "string" || clientSecret.length < 10) {
+          throw new Error("payment_intent_create_failed");
         }
+        if (typeof piId === "string" && piId.startsWith("pi_")) paymentIntentIdRef.current = piId;
+        clientSecretRef.current = clientSecret;
+
+        // 2) elements を clientSecret で初期化して Payment Element をマウント
+        // すでに elements がある場合は作り直す（clientSecret は後から差し替えできないため）
+        try {
+          paymentElementRef.current?.destroy?.();
+        } catch {
+          // noop
+        }
+        paymentElementRef.current = null;
+        elementsRef.current = null;
+
+        const elements = stripe.elements({
+          clientSecret,
+          appearance: { theme: "stripe" },
+        } as any);
+        elementsRef.current = elements;
+        const paymentElement = elements.create("payment", {
+          fields: { billingDetails: "never" },
+        } as any);
+        paymentElementRef.current = paymentElement;
+        paymentElement.mount(cardContainerRef.current!);
+        paymentElement.on("ready", () => {
+          if (!cancelled) setCardReady(true);
+        });
+        window.setTimeout(() => {
+          if (!cancelled) setCardReady(true);
+        }, 1500);
       } catch (e) {
         console.error("[b2b] stripe init failed", e);
-        if (!cancelled) setError("決済の初期化に失敗しました。");
+        if (!cancelled) setError("決済の初期化に失敗しました。少し時間をおいて再読み込みしてください。");
       }
     })();
     return () => {
@@ -145,6 +164,11 @@ export default function B2bPayPage({ token }: { token: string }) {
     if (item.paidAt) return;
     if (!stripeRef.current || !elementsRef.current) return;
     if (paying) return;
+    const clientSecret = clientSecretRef.current;
+    if (!clientSecret) {
+      setError("決済の初期化が完了していません。再読み込みしてください。");
+      return;
+    }
 
     try {
       setPaying(true);
@@ -155,24 +179,6 @@ export default function B2bPayPage({ token }: { token: string }) {
         setError(submitError.message ?? "支払い情報を確認してください。");
         return;
       }
-
-      const res = await fetch("/api/checkout/pay", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          amount,
-          billing: { name: item.customerName, email: item.customerEmail },
-          cancelPreviousId: paymentIntentIdRef.current ?? undefined,
-        }),
-      });
-      const data = await res.json().catch(() => null);
-      const clientSecret = data?.clientSecret;
-      const piId = data?.id;
-      if (!res.ok || typeof clientSecret !== "string") {
-        setError("決済を開始できませんでした。");
-        return;
-      }
-      if (typeof piId === "string" && piId.startsWith("pi_")) paymentIntentIdRef.current = piId;
 
       const stripe = stripeRef.current;
       const result = await stripe.confirmPayment({
@@ -191,6 +197,7 @@ export default function B2bPayPage({ token }: { token: string }) {
       } as any);
 
       if (result.error) {
+        console.error("[b2b] confirmPayment error", result.error);
         setError(result.error.message ?? "決済に失敗しました。");
         return;
       }
