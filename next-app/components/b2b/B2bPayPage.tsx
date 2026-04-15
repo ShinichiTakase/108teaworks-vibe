@@ -139,7 +139,8 @@ export default function B2bPayPage({ token }: { token: string }) {
         } as any);
         elementsRef.current = elements;
         const paymentElement = elements.create("payment", {
-          fields: { billingDetails: "never" },
+          // B2Bでは電話番号等を別フォームで持たないため、必要な情報は Payment Element で入力させる
+          fields: { billingDetails: "auto" },
         } as any);
         paymentElementRef.current = paymentElement;
         paymentElement.mount(cardContainerRef.current!);
