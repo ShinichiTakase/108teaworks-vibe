@@ -11,6 +11,7 @@ const getWriteKey = () =>
   (process.env.MICROCMS_WRITE_API_KEY || process.env.MICROCMS_API_KEY)?.trim();
 
 const getLinesFieldId = () => process.env.MICROCMS_B2B_LINES_FIELD_ID?.trim() || "lines";
+const getStatusFieldId = () => process.env.MICROCMS_B2B_STATUS_FIELD_ID?.trim() || "status";
 
 export type MicrocmsWriteResult =
   | { ok: true }
@@ -63,6 +64,15 @@ function normalizeItem(raw: Record<string, unknown>): B2bItem {
     return undefined;
   };
   const str = (k: string) => (typeof n(k) === "string" ? (n(k) as string) : undefined);
+  const strOrFirst = (k: string) => {
+    const v = n(k);
+    if (typeof v === "string") return v;
+    if (Array.isArray(v)) {
+      const first = v.find((x) => typeof x === "string") as string | undefined;
+      return first;
+    }
+    return undefined;
+  };
   const dt = (k: string) => str(k);
   const linesRaw = n(getLinesFieldId()) ?? n("lines");
   const lines = Array.isArray(linesRaw)
@@ -95,7 +105,7 @@ function normalizeItem(raw: Record<string, unknown>): B2bItem {
     openedAt: dt("openedAt"),
     sentAt: dt("sentAt"),
     paidAt: dt("paidAt"),
-    status: str("status"),
+    status: strOrFirst(getStatusFieldId()) ?? strOrFirst("status"),
     stripePaymentIntentId: str("stripePaymentIntentId"),
     lines,
     publishedAt: str("publishedAt"),

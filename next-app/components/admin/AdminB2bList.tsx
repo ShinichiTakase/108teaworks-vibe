@@ -69,7 +69,12 @@ export default function AdminB2bList() {
           customerName: typeof x.customerName === "string" ? x.customerName : undefined,
           customerEmail: typeof x.customerEmail === "string" ? x.customerEmail : undefined,
           grandTotal: typeof x.grandTotal === "number" ? x.grandTotal : undefined,
-          status: typeof x.status === "string" ? x.status : undefined,
+          status:
+            typeof x.status === "string"
+              ? x.status
+              : Array.isArray(x.status)
+                ? (x.status.find((s: unknown) => typeof s === "string") as string | undefined)
+                : undefined,
           sentAt: typeof x.sentAt === "string" ? x.sentAt : undefined,
         }))
       );
