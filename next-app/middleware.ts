@@ -8,6 +8,54 @@ function localeFromPathname(pathname: string): "ja" | "en" | "ko" | "zh" {
   return loc;
 }
 
+function isB2bAdminPath(pathname: string): boolean {
+  return pathname === "/admin/b2b" || pathname.startsWith("/admin/b2b/");
+}
+
+function isB2bAdminApiPath(pathname: string): boolean {
+  return pathname === "/api/admin/b2b" || pathname.startsWith("/api/admin/b2b/");
+}
+
+function unauthorizedBasicAuth(): NextResponse {
+  return new NextResponse("Unauthorized", {
+    status: 401,
+    headers: {
+      "WWW-Authenticate": 'Basic realm="108teaworks admin", charset="UTF-8"',
+      "Cache-Control": "no-store",
+    },
+  });
+}
+
+function checkBasicAuth(req: NextRequest): boolean {
+  const expectedUser = process.env.ADMIN_B2B_USER?.trim() ?? "";
+  const expectedPass = process.env.ADMIN_B2B_PASS?.trim() ?? "";
+  if (!expectedUser || !expectedPass) return false;
+
+  const auth = req.headers.get("authorization") ?? "";
+  const m = auth.match(/^Basic\s+(.+)$/i);
+  if (!m) return false;
+  let decoded = "";
+  try {
+    decoded = Buffer.from(m[1], "base64").toString("utf8");
+  } catch {
+    return false;
+  }
+  const idx = decoded.indexOf(":");
+  if (idx < 0) return false;
+  const user = decoded.slice(0, idx);
+  const pass = decoded.slice(idx + 1);
+
+  const a = `${user}:${pass}`;
+  const b = `${expectedUser}:${expectedPass}`;
+  if (a.length !== b.length) return false;
+  // edge runtime 向けに自前で定数時間比較
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) {
+    diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  }
+  return diff === 0;
+}
+
 /** 旧 /product/{slug} → /products/{slug}/（trailingSlash: true 前提） */
 function legacyProductDestPathname(pathname: string): string | null {
   const withLocale = pathname.match(/^\/(en|ko|zh)\/product\/([^/]+)\/?$/);
@@ -27,6 +75,16 @@ function legacyProductDestPathname(pathname: string): string | null {
 
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+
+  // Basic Auth for /admin/b2b and its API endpoints
+  if (isB2bAdminPath(pathname) || isB2bAdminApiPath(pathname)) {
+    if (!checkBasicAuth(request)) {
+      return unauthorizedBasicAuth();
+    }
+    // Allow request to continue without modifying headers
+    return NextResponse.next();
+  }
+
   const destPath = legacyProductDestPathname(pathname);
   if (destPath) {
     const url = request.nextUrl.clone();
@@ -51,6 +109,8 @@ export const config = {
      * - /images, /css, /js, /pdf なども除外
      */
     "/((?!_next|api|images|css|js|pdf|favicon\\.ico|robots\\.txt|sitemap\\.xml).*)",
+    // Admin API needs middleware
+    "/api/admin/b2b/:path*",
   ],
 };
 
