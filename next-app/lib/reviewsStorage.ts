@@ -6,24 +6,53 @@ import type { Locale } from "@/lib/i18n";
 
 /**
  * 運用環境により Next.js の起動 cwd が異なるため、
- * - {cwd}/data
- * - {cwd}/next-app/data
- * を優先順で自動選択する。
+ * 既に存在する data を優先して自動選択する。
  */
 function resolveDataDir(): string {
   const cwd = process.cwd();
-  const direct = path.join(cwd, "data");
-  if (existsSync(direct)) return direct;
-  const nested = path.join(cwd, "next-app", "data");
-  if (existsSync(nested)) return nested;
-  // どちらも無い場合は従来どおり {cwd}/data に作成する
-  return direct;
+  const env = process.env.REVIEWS_DATA_DIR?.trim();
+
+  const candidates = [
+    env || null,
+    path.join(cwd, "data"),
+    path.join(cwd, "next-app", "data"),
+    // Linux 環境でこのプロジェクトを固定パスに置いているケース
+    "/mnt/nvme01/project/108teaworks-vibe/data",
+    "/mnt/nvme01/project/108teaworks-vibe/next-app/data",
+  ].filter(Boolean) as string[];
+
+  const looksLikeDataRoot = (p: string) => {
+    if (!existsSync(p)) return false;
+    // reviews ディレクトリ or 既存のキュー/トークンがあれば採用
+    if (existsSync(path.join(p, "reviews"))) return true;
+    if (existsSync(path.join(p, "review-queue.json"))) return true;
+    if (existsSync(path.join(p, "review-tokens.json"))) return true;
+    return false;
+  };
+
+  for (const c of candidates) {
+    if (looksLikeDataRoot(c)) return c;
+  }
+
+  // どれも無い場合は {cwd}/data に作成する
+  return path.join(cwd, "data");
 }
 
-const DATA_DIR = resolveDataDir();
-const QUEUE_PATH = path.join(DATA_DIR, "review-queue.json");
-const TOKEN_PATH = path.join(DATA_DIR, "review-tokens.json");
-const REVIEWS_DIR = path.join(DATA_DIR, "reviews");
+function dataDir(): string {
+  return resolveDataDir();
+}
+
+function queuePath(): string {
+  return path.join(dataDir(), "review-queue.json");
+}
+
+function tokenPath(): string {
+  return path.join(dataDir(), "review-tokens.json");
+}
+
+function reviewsDir(): string {
+  return path.join(dataDir(), "reviews");
+}
 
 export type ReviewQueueItem = {
   token: string;
@@ -49,8 +78,9 @@ export type StoredReview = {
 };
 
 async function ensureDirs() {
-  await fs.mkdir(DATA_DIR, { recursive: true });
-  await fs.mkdir(REVIEWS_DIR, { recursive: true });
+  const dir = dataDir();
+  await fs.mkdir(dir, { recursive: true });
+  await fs.mkdir(path.join(dir, "reviews"), { recursive: true });
 }
 
 async function readJsonFile<T>(filePath: string, defaultValue: T): Promise<T> {
@@ -77,7 +107,7 @@ export async function enqueueReviewRequest(params: {
   await ensureDirs();
   const now = new Date();
   const token = crypto.randomBytes(32).toString("hex");
-  const queue = await readJsonFile<ReviewQueueItem[]>(QUEUE_PATH, []);
+  const queue = await readJsonFile<ReviewQueueItem[]>(queuePath(), []);
   const entry: ReviewQueueItem = {
     token,
     createdAt: now.toISOString(),
@@ -87,26 +117,26 @@ export async function enqueueReviewRequest(params: {
     items: params.items,
   };
   queue.push(entry);
-  await writeJsonFile(QUEUE_PATH, queue);
+  await writeJsonFile(queuePath(), queue);
   return token;
 }
 
 export async function loadReviewQueue(): Promise<ReviewQueueItem[]> {
   await ensureDirs();
-  return readJsonFile<ReviewQueueItem[]>(QUEUE_PATH, []);
+  return readJsonFile<ReviewQueueItem[]>(queuePath(), []);
 }
 
 export async function saveReviewQueue(queue: ReviewQueueItem[]): Promise<void> {
-  await writeJsonFile(QUEUE_PATH, queue);
+  await writeJsonFile(queuePath(), queue);
 }
 
 export async function loadReviewTokens(): Promise<ReviewTokenItem[]> {
   await ensureDirs();
-  return readJsonFile<ReviewTokenItem[]>(TOKEN_PATH, []);
+  return readJsonFile<ReviewTokenItem[]>(tokenPath(), []);
 }
 
 export async function saveReviewTokens(tokens: ReviewTokenItem[]): Promise<void> {
-  await writeJsonFile(TOKEN_PATH, tokens);
+  await writeJsonFile(tokenPath(), tokens);
 }
 
 export async function moveDueQueueToTokens(
@@ -172,7 +202,7 @@ export async function consumeToken(token: string): Promise<ReviewTokenItem | nul
 
 export async function appendReviewsForSlug(slug: string, reviews: StoredReview[]): Promise<void> {
   await ensureDirs();
-  const filePath = path.join(REVIEWS_DIR, `${slug}.json`);
+  const filePath = path.join(reviewsDir(), `${slug}.json`);
   const existing = await readJsonFile<StoredReview[]>(filePath, []);
   const merged = [...existing, ...reviews];
   await writeJsonFile(filePath, merged);
@@ -180,7 +210,7 @@ export async function appendReviewsForSlug(slug: string, reviews: StoredReview[]
 
 export async function loadReviewsForSlug(slug: string): Promise<StoredReview[]> {
   await ensureDirs();
-  const filePath = path.join(REVIEWS_DIR, `${slug}.json`);
+  const filePath = path.join(reviewsDir(), `${slug}.json`);
   const list = await readJsonFile<StoredReview[]>(filePath, []);
   return list
     .slice()
