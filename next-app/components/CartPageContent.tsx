@@ -90,7 +90,7 @@ export default function CartPageContent() {
               >
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 min-w-0 w-full sm:w-auto">
                   <Link
-                    href={buildLocalizedHref(locale, `/products/${item.slug}`)}
+                    href={buildLocalizedHref(locale, `/ise-cha/${item.slug}`)}
                     className="shrink-0 w-20 h-20 rounded overflow-hidden bg-cream self-start"
                   >
                     <Image
@@ -104,7 +104,7 @@ export default function CartPageContent() {
                   </Link>
                   <div className="min-w-0 flex-1 w-full sm:min-w-[8rem]">
                     <Link
-                      href={buildLocalizedHref(locale, `/products/${item.slug}`)}
+                      href={buildLocalizedHref(locale, `/ise-cha/${item.slug}`)}
                       className="font-medium text-tea-deep no-underline hover:underline block break-words text-[0.9375rem]"
                     >
                       {displayTitle}

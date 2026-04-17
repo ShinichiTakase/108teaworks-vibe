@@ -21,6 +21,47 @@ const nextConfig = {
   // remotePatterns は許可ホストのみに限定（GHSA-9g9p-9gw9-jx7f 対策）
   async redirects() {
     return [
+      // /products/* -> /ise-cha/* (301)
+      {
+        source: "/products/:slug",
+        destination: "/ise-cha/:slug/",
+        statusCode: 301,
+      },
+      {
+        source: "/products/:slug/",
+        destination: "/ise-cha/:slug/",
+        statusCode: 301,
+      },
+      {
+        source: "/products/:slug/reviews",
+        destination: "/ise-cha/:slug/reviews/",
+        statusCode: 301,
+      },
+      {
+        source: "/products/:slug/reviews/",
+        destination: "/ise-cha/:slug/reviews/",
+        statusCode: 301,
+      },
+      {
+        source: "/:lang(en|ko|zh)/products/:slug",
+        destination: "/:lang/ise-cha/:slug/",
+        statusCode: 301,
+      },
+      {
+        source: "/:lang(en|ko|zh)/products/:slug/",
+        destination: "/:lang/ise-cha/:slug/",
+        statusCode: 301,
+      },
+      {
+        source: "/:lang(en|ko|zh)/products/:slug/reviews",
+        destination: "/:lang/ise-cha/:slug/reviews/",
+        statusCode: 301,
+      },
+      {
+        source: "/:lang(en|ko|zh)/products/:slug/reviews/",
+        destination: "/:lang/ise-cha/:slug/reviews/",
+        statusCode: 301,
+      },
       {
         source: "/notice/20260331-1616",
         destination: "/notice/20260325-1616/",

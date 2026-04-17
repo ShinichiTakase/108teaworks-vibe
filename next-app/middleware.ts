@@ -56,19 +56,19 @@ function checkBasicAuth(req: NextRequest): boolean {
   return diff === 0;
 }
 
-/** 旧 /product/{slug} → /products/{slug}/（trailingSlash: true 前提） */
+/** 旧 /product/{slug} → /ise-cha/{slug}/（trailingSlash: true 前提） */
 function legacyProductDestPathname(pathname: string): string | null {
   const withLocale = pathname.match(/^\/(en|ko|zh)\/product\/([^/]+)\/?$/);
   if (withLocale) {
     const slug = withLocale[2];
     if (!LEGACY_PRODUCT_SLUG_SET.has(slug)) return null;
-    return `/${withLocale[1]}/products/${slug}/`;
+    return `/${withLocale[1]}/ise-cha/${slug}/`;
   }
   const jaPath = pathname.match(/^\/product\/([^/]+)\/?$/);
   if (jaPath) {
     const slug = jaPath[1];
     if (!LEGACY_PRODUCT_SLUG_SET.has(slug)) return null;
-    return `/products/${slug}/`;
+    return `/ise-cha/${slug}/`;
   }
   return null;
 }

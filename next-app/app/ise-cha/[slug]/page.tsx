@@ -5,10 +5,8 @@ import { buildAlternatesForLocales } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
-const SUPPORTED: Locale[] = ["ja", "en", "ko", "zh"];
-
 type Props = {
-  params: Promise<{ lang: string; slug: string }>;
+  params: Promise<{ slug: string }>;
 };
 
 function getProductSeo(product: any, locale: Locale): { title?: string; description?: string } {
@@ -32,21 +30,25 @@ function getProductSeo(product: any, locale: Locale): { title?: string; descript
 }
 
 export async function generateMetadata({ params }: Props) {
-  const { lang, slug } = await params;
-  const locale: Locale = SUPPORTED.includes(lang as Locale) ? (lang as Locale) : "ja";
+  const { slug } = await params;
   const product = await getProductBySlug(slug);
-  const baseTitle = product?.TITLE ?? "商品";
-  const baseDesc = product?.DESCRIPTION01?.replace(/<[^>]+>/g, "").slice(0, 160);
-  const seo = product ? getProductSeo(product, locale) : {};
+  if (!product) {
+    return {
+      title: "商品｜伊勢茶の藤八茶寮",
+      alternates: buildAlternatesForLocales(`/ise-cha/${slug}`, { jpRegionHreflang: true }),
+    };
+  }
+  const seo = getProductSeo(product, "ja");
   return {
-    title: seo.title ?? `${baseTitle}｜伊勢茶の藤八茶寮`,
-    description: seo.description ?? baseDesc,
-    alternates: buildAlternatesForLocales(`/ise-cha/${slug}`, { currentLocale: locale, jpRegionHreflang: true }),
+    title: seo.title ?? `${product.TITLE ?? "商品"}｜伊勢茶の藤八茶寮`,
+    description:
+      seo.description ?? product.DESCRIPTION01?.replace(/<[^>]+>/g, "").slice(0, 160),
+    alternates: buildAlternatesForLocales(`/ise-cha/${slug}`, { jpRegionHreflang: true }),
   };
 }
 
-export default async function LocalizedProductDetailPage({ params }: Props) {
-  const { lang, slug } = await params;
-  const locale: Locale = SUPPORTED.includes(lang as Locale) ? (lang as Locale) : "ja";
-  return <ProductDetailContent locale={locale} slug={slug} />;
+export default async function IseChaProductDetailPage({ params }: Props) {
+  const { slug } = await params;
+  return <ProductDetailContent locale="ja" slug={slug} />;
 }
+

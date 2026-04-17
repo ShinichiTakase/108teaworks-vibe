@@ -117,11 +117,11 @@ export function getBreadcrumbItems(
     return items;
   }
 
-  const productMatch = pathKeyNorm.match(/^\/products\/(.+)$/);
+  const productMatch = pathKeyNorm.match(/^\/ise-cha\/(.+)$/);
   if (productMatch) {
     items.push({
-      name: getLabelFromKey("nav.products", locale),
-      url: makeUrl("/products", locale),
+      name: getLabelFromKey("nav.isecha", locale),
+      url: makeUrl("/ise-cha", locale),
     });
     items.push({
       name: options?.productName ?? (locale === "ja" ? "商品" : "Product"),

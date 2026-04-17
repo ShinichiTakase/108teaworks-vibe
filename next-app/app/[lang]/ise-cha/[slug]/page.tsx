@@ -45,8 +45,9 @@ export async function generateMetadata({ params }: Props) {
   };
 }
 
-export default async function LocalizedProductDetailPage({ params }: Props) {
+export default async function LocalizedIseChaProductDetailPage({ params }: Props) {
   const { lang, slug } = await params;
   const locale: Locale = SUPPORTED.includes(lang as Locale) ? (lang as Locale) : "ja";
   return <ProductDetailContent locale={locale} slug={slug} />;
 }
+

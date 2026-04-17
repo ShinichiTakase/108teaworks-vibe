@@ -11,7 +11,7 @@ import { buildLocalizedPath } from "@/lib/urlPath";
 type Props = { locale: Locale };
 
 function productHref(locale: Locale, slug: string): string {
-  return buildLocalizedPath(locale, `/products/${slug}`);
+  return buildLocalizedPath(locale, `/ise-cha/${slug}`);
 }
 
 function formatPrice(price: number | undefined): string {

@@ -19,7 +19,7 @@ function getLocaleFromPath(pathname: string | null): Locale {
 }
 
 function productHref(locale: Locale, slug: string): string {
-  return buildLocalizedPath(locale, `/products/${slug}`);
+  return buildLocalizedPath(locale, `/ise-cha/${slug}`);
 }
 
 const FILTER_OPTIONS: { value: string; labelKey: keyof Omit<typeof HOME_PRODUCTS_TEXTS.ja, "sectionAria" | "filterLabel" | "filterAria" | "noProducts" | "outOfStock"> }[] = [

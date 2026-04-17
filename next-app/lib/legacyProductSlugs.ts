@@ -1,5 +1,5 @@
 /**
- * 旧 URL /product/{slug} を /products/{slug} へ寄せる対象（slug は現行と同一）。
+ * 旧 URL /product/{slug} を /ise-cha/{slug} へ寄せる対象（slug は現行と同一）。
  * 追加・削除は Merchant / 検索で実際に残っているパスを確認してから行う。
  */
 export const LEGACY_PRODUCT_SLUGS = [

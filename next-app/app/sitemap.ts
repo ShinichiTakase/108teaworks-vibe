@@ -67,7 +67,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     for (const p of products) {
       const slug = p.SLUG ?? (p as { slug?: string }).slug ?? p.id;
       if (!slug) continue;
-      const path = `/products/${slug}`;
+      const path = `/ise-cha/${slug}`;
       for (const locale of LOCALES) {
         entries.push({
           url: localizedUrl(baseUrl, locale, path),

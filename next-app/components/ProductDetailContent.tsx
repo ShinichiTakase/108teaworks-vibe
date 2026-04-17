@@ -23,8 +23,8 @@ function formatPrice(price: number | undefined): string {
 }
 
 function productHref(locale: Locale, path: string): string {
-  const slug = path.replace(/^\/*products\/*/, "") || path;
-  return buildLocalizedPath(locale, `/products/${slug}`);
+  const slug = path.replace(/^\/*(products|ise-cha)\/*/, "") || path;
+  return buildLocalizedPath(locale, `/ise-cha/${slug}`);
 }
 
 const RELATED_KEYS = [
@@ -130,8 +130,8 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://108teaworks.com";
   const productUrl =
     locale === "ja"
-      ? `${baseUrl}/products/${slug}/`
-      : `${baseUrl}/${locale}/products/${slug}/`;
+      ? `${baseUrl}/ise-cha/${slug}/`
+      : `${baseUrl}/${locale}/ise-cha/${slug}/`;
   const legalUrl = `${baseUrl}/legal/`;
   const schemaAvailability =
     typeof product.STOCK === "number" && product.STOCK <= 0
@@ -209,7 +209,7 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
     productSchema.review = schemaReviews;
   }
 
-  const pathname = buildLocalizedPath(locale, `/products/${slug}`);
+  const pathname = buildLocalizedPath(locale, `/ise-cha/${slug}`);
   const breadcrumbItems = getBreadcrumbItems(pathname, locale, { productName: displayTitle || titleJa });
 
   return (
@@ -309,7 +309,7 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
           {reviews.length > 3 && (
             <div className="mt-4">
               <Link
-                href={productHref(locale, `/products/${slug}/reviews`)}
+                href={productHref(locale, `/ise-cha/${slug}/reviews`)}
                 className="inline-flex items-center text-[0.875rem] font-semibold text-tea no-underline hover:underline"
               >
                 ...もっと読む
