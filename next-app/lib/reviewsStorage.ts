@@ -1,9 +1,26 @@
 import { promises as fs } from "fs";
+import { existsSync } from "fs";
 import path from "path";
 import crypto from "crypto";
 import type { Locale } from "@/lib/i18n";
 
-const DATA_DIR = path.join(process.cwd(), "data");
+/**
+ * 運用環境により Next.js の起動 cwd が異なるため、
+ * - {cwd}/data
+ * - {cwd}/next-app/data
+ * を優先順で自動選択する。
+ */
+function resolveDataDir(): string {
+  const cwd = process.cwd();
+  const direct = path.join(cwd, "data");
+  if (existsSync(direct)) return direct;
+  const nested = path.join(cwd, "next-app", "data");
+  if (existsSync(nested)) return nested;
+  // どちらも無い場合は従来どおり {cwd}/data に作成する
+  return direct;
+}
+
+const DATA_DIR = resolveDataDir();
 const QUEUE_PATH = path.join(DATA_DIR, "review-queue.json");
 const TOKEN_PATH = path.join(DATA_DIR, "review-tokens.json");
 const REVIEWS_DIR = path.join(DATA_DIR, "reviews");
