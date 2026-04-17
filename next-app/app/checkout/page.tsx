@@ -808,6 +808,7 @@ export default function CheckoutPage() {
                       width={56}
                       height={56}
                       className="w-full h-full object-cover"
+                      priority
                     />
                   </div>
                   <div className="min-w-0 flex-1 sm:min-w-[6rem]">

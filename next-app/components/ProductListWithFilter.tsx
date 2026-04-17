@@ -108,7 +108,7 @@ export default function ProductListWithFilter({ products }: Props) {
                       width={200}
                       height={200}
                       className="w-full h-auto object-cover rounded bg-cream"
-                      loading="lazy"
+                      priority
                     />
                     {outOfStock && (
                       <span

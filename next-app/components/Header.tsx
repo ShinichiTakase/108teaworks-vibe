@@ -1,4 +1,4 @@
- "use client";
+"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -39,9 +39,15 @@ export default function Header() {
           <Link href={homeHref} className="text-tea-deep no-underline hover:text-tea">
             <picture>
               <source
+                type="image/webp"
+                media="(min-width: 768px)"
+                srcSet="/images/logo/logo-desktop.webp"
+              />
+              <source
                 media="(min-width: 768px)"
                 srcSet="/images/logo/logo-desktop.png"
               />
+              <source type="image/webp" srcSet="/images/logo/logo-mobile.webp" />
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/images/logo/logo-mobile.png"

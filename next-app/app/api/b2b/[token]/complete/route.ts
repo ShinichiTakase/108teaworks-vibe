@@ -167,6 +167,11 @@ export async function POST(req: NextRequest, ctx: { params: Promise<{ token: str
       [STATUS_FIELD_ID]: selectValue("paid", !firstIsArray),
     });
     if (!second.ok) {
+      console.error("[api/b2b/complete] microcms patch failed", {
+        status: second.status,
+        message: second.message?.slice?.(0, 800) ?? String(second.message),
+        fields: { PAID_AT_FIELD_ID, STRIPE_PI_FIELD_ID, STATUS_FIELD_ID },
+      });
       return NextResponse.json(
         {
           ok: false,
@@ -177,6 +182,10 @@ export async function POST(req: NextRequest, ctx: { params: Promise<{ token: str
             stripePaymentIntentId: STRIPE_PI_FIELD_ID,
             status: STATUS_FIELD_ID,
           },
+          microcms:
+            process.env.NODE_ENV !== "production"
+              ? { status: second.status, message: second.message?.slice?.(0, 800) ?? String(second.message) }
+              : { status: second.status },
         },
         { status: 500 }
       );

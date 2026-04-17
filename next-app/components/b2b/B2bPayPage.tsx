@@ -215,7 +215,14 @@ export default function B2bPayPage({ token }: { token: string }) {
       });
       const completeData = await completeRes.json().catch(() => null);
       if (!completeRes.ok || !completeData?.ok) {
-        setError("決済は完了しましたが、反映処理に失敗しました。管理者へご連絡ください。");
+        const detail =
+          completeData?.error === "update_failed" && completeData?.fields
+            ? `\n\n反映先フィールド: paidAt=${completeData.fields.paidAt}, status=${completeData.fields.status}, stripePaymentIntentId=${completeData.fields.stripePaymentIntentId}`
+            : "";
+        const microcmsStatus = completeData?.microcms?.status ? `\n\nmicroCMS: HTTP ${completeData.microcms.status}` : "";
+        setError(
+          "決済は完了しましたが、反映処理に失敗しました。管理者へご連絡ください。" + microcmsStatus + detail
+        );
         return;
       }
 

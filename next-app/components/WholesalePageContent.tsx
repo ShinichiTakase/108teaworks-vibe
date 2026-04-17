@@ -42,7 +42,7 @@ export default function WholesalePageContent({ locale: localeProp }: Props) {
             </div>
             <figure className="overflow-hidden rounded-md">
               <Image
-                src="/images/wholesale/partner.jpg"
+                src="/images/wholesale/partner.webp"
                 alt={t.altImage}
                 width={400}
                 height={300}

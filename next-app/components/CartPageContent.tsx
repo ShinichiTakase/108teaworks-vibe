@@ -99,6 +99,7 @@ export default function CartPageContent() {
                       width={80}
                       height={80}
                       className="w-full h-full object-cover"
+                      priority
                     />
                   </Link>
                   <div className="min-w-0 flex-1 w-full sm:min-w-[8rem]">

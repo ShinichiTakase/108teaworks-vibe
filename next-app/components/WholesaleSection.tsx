@@ -22,16 +22,18 @@ export default function WholesaleSection({ locale = "ja" }: Props) {
       </h2>
       <div className="flex flex-col gap-6 mb-8 md:flex-row md:items-start md:gap-8">
         <figure className="m-0 shrink-0 md:w-[40%] md:max-w-[400px]">
-          {/* public/images/wholesale/partner.jpg を配置（108teaworks.com と同じ画像） */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/images/wholesale/partner.jpg"
-            alt={t.imgAlt}
-            width={400}
-            height={300}
-            className="block w-full h-auto rounded object-cover"
-            loading="lazy"
-          />
+          <picture>
+            <source type="image/webp" srcSet="/images/wholesale/partner.webp" />
+            <img
+              src="/images/wholesale/partner.jpg"
+              alt={t.imgAlt}
+              width={400}
+              height={300}
+              className="block w-full h-auto rounded object-cover"
+              loading="lazy"
+            />
+          </picture>
         </figure>
         <div className="flex-1 min-w-0">
           <p className="m-0 text-[0.9375rem] text-ink-muted">

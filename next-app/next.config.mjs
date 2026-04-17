@@ -21,6 +21,16 @@ const nextConfig = {
   // remotePatterns は許可ホストのみに限定（GHSA-9g9p-9gw9-jx7f 対策）
   async redirects() {
     return [
+      {
+        source: "/notice/20260331-1616",
+        destination: "/notice/20260325-1616/",
+        statusCode: 301,
+      },
+      {
+        source: "/notice/20260331-1616/",
+        destination: "/notice/20260325-1616/",
+        statusCode: 301,
+      },
       { source: "/isecha", destination: "/ise-cha", permanent: true },
       { source: "/isecha/", destination: "/ise-cha", permanent: true },
       { source: "/en/isecha", destination: "/en/ise-cha", permanent: true },

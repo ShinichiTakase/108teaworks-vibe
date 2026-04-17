@@ -74,6 +74,7 @@ export default function ProductImageGallery({ imagePaths, alt }: Props) {
           height={400}
           className="h-full w-full object-contain"
           style={imageStyle}
+          priority
         />
       </div>
       {thumbnails.length > 1 && (
@@ -94,6 +95,7 @@ export default function ProductImageGallery({ imagePaths, alt }: Props) {
                   width={100}
                   height={100}
                   className="h-full w-full object-cover"
+                  priority
                 />
               </button>
             </li>

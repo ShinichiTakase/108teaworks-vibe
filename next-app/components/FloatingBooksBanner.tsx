@@ -130,10 +130,10 @@ export default function FloatingBooksBanner() {
         <div className="mx-auto flex max-w-wide flex-col items-stretch gap-2 py-2 pl-2 pr-24 min-[640px]:flex-row min-[640px]:flex-nowrap min-[640px]:items-center sm:gap-3 sm:pl-3 sm:pr-28 md:gap-4 md:pl-4 md:pr-32">
           <div className="hidden shrink-0 md:flex md:items-center">
             <Image
-              src="/images/books/Organization.png"
+              src="/images/books/Organization.webp"
               alt=""
               width={88}
-              height={72}
+              height={88}
               className="h-12 w-auto max-w-[5.5rem] object-contain object-center opacity-95"
             />
           </div>
