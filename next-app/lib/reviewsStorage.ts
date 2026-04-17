@@ -86,7 +86,8 @@ async function ensureDirs() {
 async function readJsonFile<T>(filePath: string, defaultValue: T): Promise<T> {
   try {
     const buf = await fs.readFile(filePath, "utf8");
-    return JSON.parse(buf) as T;
+    const s = buf.charCodeAt(0) === 0xfeff ? buf.slice(1) : buf; // BOM 対策
+    return JSON.parse(s) as T;
   } catch {
     return defaultValue;
   }
@@ -211,7 +212,18 @@ export async function appendReviewsForSlug(slug: string, reviews: StoredReview[]
 export async function loadReviewsForSlug(slug: string): Promise<StoredReview[]> {
   await ensureDirs();
   const filePath = path.join(reviewsDir(), `${slug}.json`);
-  const list = await readJsonFile<StoredReview[]>(filePath, []);
+  let list: StoredReview[] = [];
+  try {
+    const buf = await fs.readFile(filePath, "utf8");
+    const s = buf.charCodeAt(0) === 0xfeff ? buf.slice(1) : buf; // BOM 対策
+    const parsed = JSON.parse(s) as unknown;
+    list = Array.isArray(parsed) ? (parsed as StoredReview[]) : [];
+  } catch (e) {
+    // 破損したレビューJSONを検知できるように、内容は出さずファイル名のみログに残す
+    const msg = e instanceof Error ? e.message : String(e);
+    console.error("[reviews] failed to parse json", { slug, filePath, error: msg });
+    list = [];
+  }
   return list
     .slice()
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());

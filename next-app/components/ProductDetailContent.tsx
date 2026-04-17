@@ -132,6 +132,7 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
     locale === "ja"
       ? `${baseUrl}/products/${slug}/`
       : `${baseUrl}/${locale}/products/${slug}/`;
+  const legalUrl = `${baseUrl}/legal/`;
   const schemaAvailability =
     typeof product.STOCK === "number" && product.STOCK <= 0
       ? "https://schema.org/OutOfStock"
@@ -189,6 +190,11 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
             priceValidUntil: OFFER_PRICE_VALID_UNTIL,
             eligibleRegion: OFFER_ELIGIBLE_REGION_JP,
             shippingDetails: OFFER_SHIPPING_DETAILS_JP,
+            hasMerchantReturnPolicy: {
+              "@type": "MerchantReturnPolicy",
+              applicableCountry: "JP",
+              merchantReturnLink: legalUrl,
+            },
           }
         : undefined,
   };
