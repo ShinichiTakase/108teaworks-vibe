@@ -75,6 +75,7 @@ export type ProductListResponse = {
 
 const DEFAULT_LIMIT = 10;
 const PRODUCTS_LIMIT = 100;
+const MICROCMS_MAX_LIMIT = 100;
 
 /** お知らせ一覧を取得（新しい順、ページネーション対応） */
 export async function getNotices(
@@ -86,9 +87,12 @@ export async function getNotices(
   if (!base || !key) {
     return { contents: [], totalCount: 0 };
   }
+  const safeLimit = Math.min(MICROCMS_MAX_LIMIT, Math.max(1, Math.floor(limit)));
+  const safeOffset = Math.max(0, Math.floor(offset));
+
   const url = new URL(`${base}/notice`);
-  url.searchParams.set("limit", String(limit));
-  url.searchParams.set("offset", String(offset));
+  url.searchParams.set("limit", String(safeLimit));
+  url.searchParams.set("offset", String(safeOffset));
   url.searchParams.set("orders", "-date");
 
   try {

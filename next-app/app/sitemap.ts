@@ -82,8 +82,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }
 
   try {
-    const { contents: notices } = await getNotices(200, 0);
-    for (const n of notices) {
+    const PAGE_LIMIT = 100;
+    let offset = 0;
+    let totalCount = Infinity;
+    while (offset < totalCount) {
+      const { contents: notices, totalCount: total } = await getNotices(PAGE_LIMIT, offset);
+      totalCount = typeof total === "number" && Number.isFinite(total) ? total : totalCount;
+
+      for (const n of notices) {
       const slug = n.slug ?? n.id;
       if (!slug) continue;
       const path = `/notice/${slug}`;
@@ -100,6 +106,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           priority: 0.7,
         });
       }
+      }
+
+      if (notices.length < PAGE_LIMIT) break;
+      offset += PAGE_LIMIT;
     }
   } catch (e) {
     console.error("[sitemap] getNotices error", e);
