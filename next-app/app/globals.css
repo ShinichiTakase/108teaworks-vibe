@@ -100,3 +100,16 @@
   list-style-type: decimal;
   list-style-position: outside;
 }
+
+/* 味わい画像：スマホは常に2列。Tailwind の content 検出に依存せず本番でも同じになるよう静的 CSS。 */
+.product-taste-images-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  justify-items: stretch;
+}
+@media (min-width: 768px) {
+  .product-taste-images-grid--stack-wide {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
