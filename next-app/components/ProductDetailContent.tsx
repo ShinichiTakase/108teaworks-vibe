@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProductBySlug, decodeHtmlEntities } from "@/lib/microcms";
-import { getProductImagePaths } from "@/lib/productImage";
+import { getProductImagePaths, getProductTasteImagePaths } from "@/lib/productImage";
+import ProductTasteImages from "@/components/ProductTasteImages";
 import ProductImageGallery from "@/components/ProductImageGallery";
 import ProductAddToCart from "@/components/ProductAddToCart";
 import PageEndProductList from "@/components/PageEndProductList";
@@ -94,6 +95,7 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
 
   const t = COMMON_TEXTS[locale].product;
   const imagePaths = getProductImagePaths(slug);
+  const tasteImagePaths = getProductTasteImagePaths(slug);
   const relatedRaw = RELATED_KEYS.map(({ label, url }) => ({
     label: product[label as keyof typeof product] as string | undefined,
     href: product[url as keyof typeof product] as string | undefined,
@@ -212,6 +214,12 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
   const pathname = buildLocalizedPath(locale, `/ise-cha/${slug}`);
   const breadcrumbItems = getBreadcrumbItems(pathname, locale, { productName: displayTitle || titleJa });
 
+  const hasTaste = tasteImagePaths.length > 0;
+  /** DESCRIPTION02 が無い商品は淹れ方などが DESCRIPTION01 に入ることが多い → その右に味わい画像 */
+  const tasteWithDesc01Only = hasTaste && !!displayDesc01 && !displayDesc02;
+  const tasteWithDesc02 = hasTaste && !!displayDesc02;
+  const tasteStandalone = hasTaste && !displayDesc01 && !displayDesc02;
+
   return (
     <>
     <BreadcrumbListSchema items={breadcrumbItems} />
@@ -232,11 +240,20 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
           <p className="m-0 mb-4 text-[1.125rem] font-bold text-tea-deep text-right">
             {formatPrice(product.PRICE)} <span className="text-base font-normal text-ink-muted">{t.taxIncluded}</span>
           </p>
-          {displayDesc01 && (
+          {displayDesc01 && !tasteWithDesc01Only && (
             <div
               className="product-description mb-4 text-[0.9375rem] leading-relaxed text-ink [&_a]:text-tea [&_a]:underline [&_img]:max-w-full [&_p]:mb-2 [&_p:last-child]:mb-0"
               dangerouslySetInnerHTML={{ __html: displayDesc01 }}
             />
+          )}
+          {displayDesc01 && tasteWithDesc01Only && (
+            <div className="mb-4 grid w-full min-w-0 grid-cols-1 gap-4 md:grid-cols-[minmax(0,3fr)_minmax(0,1fr)] md:items-start md:gap-5">
+              <div
+                className="product-description min-w-0 text-[0.9375rem] leading-relaxed text-ink [&_a]:text-tea [&_a]:underline [&_img]:max-w-full [&_p]:mb-2 [&_p:last-child]:mb-0"
+                dangerouslySetInnerHTML={{ __html: displayDesc01 }}
+              />
+              <ProductTasteImages paths={tasteImagePaths} altBase={displayTitle || titleJa} className="min-w-0" />
+            </div>
           )}
           <p className="m-0 text-[0.8125rem] text-ink-muted">
             {product.SKU && <>{t.productCode}: {product.SKU}</>}
@@ -270,11 +287,29 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
           )}
         </div>
       </div>
-      {displayDesc02 && (
+      {(displayDesc02 || tasteStandalone) && (
         <div
-          className="product-description text-[0.9375rem] leading-relaxed text-ink [&_a]:text-tea [&_a]:underline [&_img]:max-w-full [&_p]:mb-2 [&_p:last-child]:mb-0"
-          dangerouslySetInnerHTML={{ __html: displayDesc02 }}
-        />
+          className={
+            tasteWithDesc02
+              ? "grid w-full min-w-0 grid-cols-1 gap-6 md:grid-cols-[minmax(0,3fr)_minmax(0,1fr)] md:items-start md:gap-8"
+              : tasteStandalone
+                ? "flex justify-center md:justify-end"
+                : undefined
+          }
+        >
+          {displayDesc02 && (
+            <div
+              className="product-description min-w-0 text-[0.9375rem] leading-relaxed text-ink [&_a]:text-tea [&_a]:underline [&_img]:max-w-full [&_p]:mb-2 [&_p:last-child]:mb-0"
+              dangerouslySetInnerHTML={{ __html: displayDesc02 }}
+            />
+          )}
+          {tasteWithDesc02 && (
+            <ProductTasteImages paths={tasteImagePaths} altBase={displayTitle || titleJa} />
+          )}
+          {tasteStandalone && (
+            <ProductTasteImages paths={tasteImagePaths} altBase={displayTitle || titleJa} />
+          )}
+        </div>
       )}
       {latest.length > 0 && (
         <section className="mt-10 border-t border-border pt-6">

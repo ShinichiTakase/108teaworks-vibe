@@ -20,7 +20,8 @@
     "start:prod": "next start",
     "i18n:translate": "ts-node ./scripts/translate-with-deepl.ts",
     "lint": "next lint",
-    "images:amerika": "node scripts/optimize-amerika-images.mjs"
+    "images:amerika": "node scripts/optimize-amerika-images.mjs",
+    "images:products-webp": "node scripts/optimize-product-webp.mjs"
   },
   "dependencies": {
     "@fontsource/noto-serif-jp": "^5.2.8",

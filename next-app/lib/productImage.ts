@@ -32,3 +32,26 @@ export function getProductImagePath(slug: string): string {
   const paths = getProductImagePaths(slug);
   return paths[0] ?? FALLBACK_IMAGE;
 }
+
+/**
+ * public/images/products/{slug}/taste/ 内の .webp を辞書順で返す（無ければ空配列）
+ */
+export function getProductTasteImagePaths(slug: string): string[] {
+  if (!slug || typeof slug !== "string") return [];
+  if (slug.includes("..") || slug.includes("/") || slug.includes("\\")) return [];
+  const dir = path.join(process.cwd(), ...PRODUCTS_IMAGE_DIR, slug, "taste");
+  try {
+    if (!fs.existsSync(dir)) return [];
+    const files = fs
+      .readdirSync(dir)
+      .filter((f) => {
+        if (!f.toLowerCase().endsWith(".webp")) return false;
+        const p = path.join(dir, f);
+        return fs.statSync(p).isFile();
+      })
+      .sort((a, b) => a.localeCompare(b, undefined, { sensitivity: "base" }));
+    return files.map((f) => `/images/products/${slug}/taste/${f}`);
+  } catch {
+    return [];
+  }
+}
