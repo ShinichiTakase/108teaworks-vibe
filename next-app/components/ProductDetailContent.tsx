@@ -312,26 +312,22 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
               />
               {showDescription02Ctas && (
                 <ul className="list-none m-0 mt-4 p-0 flex flex-col gap-2 md:flex-row md:flex-wrap md:items-start">
-                  <li className="md:w-1/5 md:flex-none">
+                  <li className="md:w-auto md:flex-none">
                     <Link
                       href={howToBrewHref}
-                      className="flex items-center justify-between gap-2 w-full md:min-w-[11rem] py-2.5 px-3 rounded-lg border-2 border-tea-light bg-washi text-[0.9375rem] font-medium text-tea-deep no-underline transition-colors hover:border-tea-deep hover:bg-cream hover:shadow-sm"
+                      className="flex items-center justify-between gap-2 w-full md:w-auto py-2.5 px-3 rounded-lg border-2 border-tea-light bg-washi text-[0.9375rem] font-medium text-tea-deep no-underline transition-colors hover:border-tea-deep hover:bg-cream hover:shadow-sm"
                     >
                       <span className="whitespace-nowrap">お茶の淹れ方</span>
-                      <span className="shrink-0 text-tea font-semibold" aria-hidden="true">
-                        {t.viewDetails}
-                      </span>
+                      <span className="shrink-0 text-tea font-semibold" aria-hidden="true">＞＞</span>
                     </Link>
                   </li>
-                  <li className="md:w-1/5 md:flex-none">
+                  <li className="md:w-auto md:flex-none">
                     <Link
                       href={isechaHref}
-                      className="flex items-center justify-between gap-2 w-full md:min-w-[11rem] py-2.5 px-3 rounded-lg border-2 border-tea-light bg-washi text-[0.9375rem] font-medium text-tea-deep no-underline transition-colors hover:border-tea-deep hover:bg-cream hover:shadow-sm"
+                      className="flex items-center justify-between gap-2 w-full md:w-auto py-2.5 px-3 rounded-lg border-2 border-tea-light bg-washi text-[0.9375rem] font-medium text-tea-deep no-underline transition-colors hover:border-tea-deep hover:bg-cream hover:shadow-sm"
                     >
                       <span className="whitespace-nowrap">伊勢茶とは</span>
-                      <span className="shrink-0 text-tea font-semibold" aria-hidden="true">
-                        {t.viewDetails}
-                      </span>
+                      <span className="shrink-0 text-tea font-semibold" aria-hidden="true">＞＞</span>
                     </Link>
                   </li>
                 </ul>
