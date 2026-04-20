@@ -311,8 +311,8 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
                 dangerouslySetInnerHTML={{ __html: displayDesc02 }}
               />
               {showDescription02Ctas && (
-                <ul className="list-none m-0 mt-4 p-0 flex flex-col gap-2">
-                  <li>
+                <ul className="list-none m-0 mt-4 p-0 flex flex-col gap-2 md:flex-row md:flex-wrap md:items-start">
+                  <li className="md:w-1/5">
                     <Link
                       href={howToBrewHref}
                       className="flex items-center justify-between gap-2 w-full py-2.5 px-3 rounded-lg border-2 border-tea-light bg-washi text-[0.9375rem] font-medium text-tea-deep no-underline transition-colors hover:border-tea-deep hover:bg-cream hover:shadow-sm"
@@ -323,7 +323,7 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
                       </span>
                     </Link>
                   </li>
-                  <li>
+                  <li className="md:w-1/5">
                     <Link
                       href={isechaHref}
                       className="flex items-center justify-between gap-2 w-full py-2.5 px-3 rounded-lg border-2 border-tea-light bg-washi text-[0.9375rem] font-medium text-tea-deep no-underline transition-colors hover:border-tea-deep hover:bg-cream hover:shadow-sm"
