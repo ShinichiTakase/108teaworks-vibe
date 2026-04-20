@@ -100,22 +100,24 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
   const desc01Ja = product.DESCRIPTION01 ? decodeHtmlEntities(product.DESCRIPTION01) : "";
   const desc02Ja = product.DESCRIPTION02 ? decodeHtmlEntities(product.DESCRIPTION02) : "";
 
-  const [displayTitleRaw, displayDesc01, displayDesc02, translatedLabels] =
+  const localizedContent: [string, string, string, string[]] =
     locale === "ja"
-      ? [titleJa, desc01Ja, desc02Ja, relatedRaw.map((r) => r.label) as string[]]
+      ? [titleJa, desc01Ja, desc02Ja, relatedRaw.map((r) => r.label)]
       : await Promise.all([
           translateForLocale(titleJa, locale),
           desc01Ja ? translateForLocale(desc01Ja, locale, { tagHandling: "html" }) : Promise.resolve(""),
           desc02Ja ? translateForLocale(desc02Ja, locale, { tagHandling: "html" }) : Promise.resolve(""),
           translateManyForLocale(relatedRaw.map((r) => r.label), locale),
-        ]).then(([t1, d1, d2, labels]) => [t1, d1, d2, labels ?? []]);
+        ]).then(([translatedTitle, translatedDesc01, translatedDesc02, labels]) => [
+          translatedTitle,
+          translatedDesc01,
+          translatedDesc02,
+          labels ?? [],
+        ]);
 
-  const displayTitle =
-    typeof displayTitleRaw === "string"
-      ? displayTitleRaw
-      : Array.isArray(displayTitleRaw)
-        ? displayTitleRaw[0] ?? ""
-        : "";
+  const [displayTitleRaw, displayDesc01, displayDesc02, translatedLabels] = localizedContent;
+
+  const displayTitle = displayTitleRaw;
   const safeDisplayDesc01 = sanitizeRichHtml(displayDesc01);
   const safeDisplayDesc02 = sanitizeRichHtml(displayDesc02);
 
