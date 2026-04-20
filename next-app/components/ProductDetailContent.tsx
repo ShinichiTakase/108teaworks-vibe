@@ -220,6 +220,16 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
   const tasteWithDesc02 = hasTaste && !!displayDesc02;
   const tasteStandalone = hasTaste && !displayDesc01 && !displayDesc02;
 
+  const howToBrewHref = buildLocalizedPath(locale, "/how-to-brew");
+  const isechaHref = buildLocalizedPath(locale, "/ise-cha");
+  const description02AppendLinksHtml = `<p><a href="${howToBrewHref}">お茶の淹れ方</a> / <a href="${isechaHref}">伊勢茶とは</a></p>`;
+  const displayDesc02WithLinks =
+    displayDesc02 &&
+    !String(displayDesc02).includes("/how-to-brew") &&
+    !String(displayDesc02).includes("/ise-cha")
+      ? `${displayDesc02}${description02AppendLinksHtml}`
+      : displayDesc02;
+
   return (
     <>
     <BreadcrumbListSchema items={breadcrumbItems} />
@@ -300,7 +310,7 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
           {displayDesc02 && (
             <div
               className="product-description min-w-0 text-[0.9375rem] leading-relaxed text-ink [&_a]:text-tea [&_a]:underline [&_img]:max-w-full [&_p]:mb-2 [&_p:last-child]:mb-0"
-              dangerouslySetInnerHTML={{ __html: displayDesc02 }}
+              dangerouslySetInnerHTML={{ __html: displayDesc02WithLinks }}
             />
           )}
           {tasteWithDesc02 && (
