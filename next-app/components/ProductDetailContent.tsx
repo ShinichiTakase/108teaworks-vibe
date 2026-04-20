@@ -222,13 +222,10 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
 
   const howToBrewHref = buildLocalizedPath(locale, "/how-to-brew");
   const isechaHref = buildLocalizedPath(locale, "/ise-cha");
-  const description02AppendLinksHtml = `<p><a href="${howToBrewHref}">お茶の淹れ方</a> / <a href="${isechaHref}">伊勢茶とは</a></p>`;
-  const displayDesc02WithLinks =
-    displayDesc02 &&
+  const showDescription02Ctas =
+    !!displayDesc02 &&
     !String(displayDesc02).includes("/how-to-brew") &&
-    !String(displayDesc02).includes("/ise-cha")
-      ? `${displayDesc02}${description02AppendLinksHtml}`
-      : displayDesc02;
+    !String(displayDesc02).includes("/ise-cha");
 
   return (
     <>
@@ -308,10 +305,38 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
           }
         >
           {displayDesc02 && (
-            <div
-              className="product-description min-w-0 text-[0.9375rem] leading-relaxed text-ink [&_a]:text-tea [&_a]:underline [&_img]:max-w-full [&_p]:mb-2 [&_p:last-child]:mb-0"
-              dangerouslySetInnerHTML={{ __html: displayDesc02WithLinks }}
-            />
+            <div className="min-w-0">
+              <div
+                className="product-description text-[0.9375rem] leading-relaxed text-ink [&_a]:text-tea [&_a]:underline [&_img]:max-w-full [&_p]:mb-2 [&_p:last-child]:mb-0"
+                dangerouslySetInnerHTML={{ __html: displayDesc02 }}
+              />
+              {showDescription02Ctas && (
+                <ul className="list-none m-0 mt-4 p-0 flex flex-col gap-2">
+                  <li>
+                    <Link
+                      href={howToBrewHref}
+                      className="flex items-center justify-between gap-2 w-full py-2.5 px-3 rounded-lg border-2 border-tea-light bg-washi text-[0.9375rem] font-medium text-tea-deep no-underline transition-colors hover:border-tea-deep hover:bg-cream hover:shadow-sm"
+                    >
+                      <span>お茶の淹れ方</span>
+                      <span className="shrink-0 text-tea font-semibold" aria-hidden="true">
+                        {t.viewDetails}
+                      </span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      href={isechaHref}
+                      className="flex items-center justify-between gap-2 w-full py-2.5 px-3 rounded-lg border-2 border-tea-light bg-washi text-[0.9375rem] font-medium text-tea-deep no-underline transition-colors hover:border-tea-deep hover:bg-cream hover:shadow-sm"
+                    >
+                      <span>伊勢茶とは</span>
+                      <span className="shrink-0 text-tea font-semibold" aria-hidden="true">
+                        {t.viewDetails}
+                      </span>
+                    </Link>
+                  </li>
+                </ul>
+              )}
+            </div>
           )}
           {tasteWithDesc02 && (
             <ProductTasteImages paths={tasteImagePaths} altBase={displayTitle || titleJa} />
