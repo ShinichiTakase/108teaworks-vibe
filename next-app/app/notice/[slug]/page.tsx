@@ -6,8 +6,6 @@ import { getNoticeBySlug, getNoticeById, prepareBodyForDetail, stripHtml } from 
 import { buildAlternatesForLocales } from "@/lib/seo";
 import { getBreadcrumbItems } from "@/lib/breadcrumb";
 
-export const dynamic = "force-dynamic";
-
 function formatDate(iso: string | undefined): string {
   if (!iso) return "";
   try {

@@ -6,8 +6,9 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import { loadStripe } from "@stripe/stripe-js";
-import type { Locale } from "@/lib/i18n";
 import { CHECKOUT_TEXTS } from "@/lib/checkoutTexts";
+import { formatPriceYen } from "@/lib/formatters";
+import { detectLocaleFromPath } from "@/lib/urlPath";
 
 const FALLBACK_IMAGE = "/images/products/product-01.webp";
 const FREE_SHIPPING_THRESHOLD = 20000;
@@ -15,14 +16,6 @@ const ZIPCLOUD_API = "https://zipcloud.ibsnet.co.jp/api/search";
 
 const STRIPE_PK = process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY || "";
 const stripePromise = loadStripe(STRIPE_PK);
-
-function detectLocaleFromPath(pathname: string | null): Locale {
-  if (!pathname) return "ja";
-  if (pathname.startsWith("/en")) return "en";
-  if (pathname.startsWith("/ko")) return "ko";
-  if (pathname.startsWith("/zh")) return "zh";
-  return "ja";
-}
 
 type ZipcloudResult = {
   address1: string; // 都道府県
@@ -51,10 +44,6 @@ type SavedCheckoutProfile = {
   };
   giftNoInvoice: boolean;
 };
-
-function formatPrice(price: number): string {
-  return `¥${Number(price).toLocaleString()}`;
-}
 
 function taxIncluded(amount: number): number {
   return Math.floor(amount * 10 / 110);
@@ -276,7 +265,7 @@ export default function CheckoutPage() {
     ? "計算中..."
     : shipping === null
       ? "計算中"
-      : formatPrice(shipping);
+      : formatPriceYen(shipping);
 
   const formatPostal = (raw: string) => {
     const digits = raw.replace(/\D/g, "").slice(0, 7);
@@ -319,7 +308,7 @@ export default function CheckoutPage() {
         setDiscountAmount(data.discountAmount);
         appliedCouponCodeRef.current = data.code ?? code;
         setCouponMessage(
-          `${t.couponApplied} (${data.label ?? ""} -${formatPrice(data.discountAmount)})`.trim()
+          `${t.couponApplied} (${data.label ?? ""} -${formatPriceYen(data.discountAmount)})`.trim()
         );
       } else {
         setDiscountAmount(0);
@@ -808,15 +797,14 @@ export default function CheckoutPage() {
                       width={56}
                       height={56}
                       className="w-full h-full object-cover"
-                      priority
                     />
                   </div>
                   <div className="min-w-0 flex-1 sm:min-w-[6rem]">
                     <p className="m-0 text-[0.9375rem] font-medium text-ink break-words">{item.title}</p>
                     <p className="m-0 text-[0.8125rem] text-ink-muted">
-                      {formatPrice(item.price)}
+                      {formatPriceYen(item.price)}
                       {locale === "ja" ? "（税込）" : " (tax incl.)"} × {item.quantity} ={" "}
-                      {formatPrice(item.price * item.quantity)}
+                      {formatPriceYen(item.price * item.quantity)}
                     </p>
                   </div>
                 </div>
@@ -859,7 +847,7 @@ export default function CheckoutPage() {
           <div className="border-t border-border pt-4 space-y-2">
             <div className="flex justify-between text-[0.9375rem]">
               <span className="text-ink-muted">{t.subtotal}</span>
-              <span className="font-medium">{formatPrice(subtotal)}</span>
+              <span className="font-medium">{formatPriceYen(subtotal)}</span>
             </div>
             <div className="flex justify-between text-[0.9375rem] pb-2 border-b border-border">
               <span className="text-ink-muted">{t.shipping}</span>
@@ -893,22 +881,22 @@ export default function CheckoutPage() {
             {discountAmount > 0 && (
               <div className="flex justify-between text-[0.9375rem] text-tea-deep">
                 <span className="text-ink-muted">割引</span>
-                <span className="font-medium">-{formatPrice(discountAmount)}</span>
+                <span className="font-medium">-{formatPriceYen(discountAmount)}</span>
               </div>
             )}
             <div className="flex justify-between text-base font-semibold text-tea-deep pt-2">
               <span>{t.totalTaxIncluded}</span>
-              <span>{shipping !== null ? formatPrice(total) : "—"}</span>
+              <span>{shipping !== null ? formatPriceYen(total) : "—"}</span>
             </div>
             <p className="m-0 text-[0.8125rem] text-ink-muted text-right">
               {t.taxIncludedLinePrefix}
-              {shipping !== null ? formatPrice(taxAmount) : "—"}
+              {shipping !== null ? formatPriceYen(taxAmount) : "—"}
               {t.taxIncludedLineSuffix}
             </p>
             <p className="m-0 pt-2 text-[0.9375rem] font-bold text-tea-deep text-right">
               {subtotal >= FREE_SHIPPING_THRESHOLD
                 ? t.freeShipping
-                : `${t.freeShippingRemainPrefix}${formatPrice(FREE_SHIPPING_THRESHOLD - subtotal)}${t.freeShippingRemain}`}
+                : `${t.freeShippingRemainPrefix}${formatPriceYen(FREE_SHIPPING_THRESHOLD - subtotal)}${t.freeShippingRemain}`}
             </p>
           </div>
         </div>

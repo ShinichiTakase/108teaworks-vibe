@@ -5,8 +5,6 @@ type Params = {
   lang: string;
 };
 
-export const dynamic = "force-dynamic";
-
 export default function LocalizedHowToBrew({
   params,
 }: {

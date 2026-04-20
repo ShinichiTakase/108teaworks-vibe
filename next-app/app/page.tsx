@@ -3,9 +3,6 @@ import { getFixedSeo, buildAlternatesForLocales } from "@/lib/seo";
 import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import { getBreadcrumbItems } from "@/lib/breadcrumb";
 
-// 常にサーバーサイドレンダリング（SSR）
-export const dynamic = "force-dynamic";
-
 export async function generateMetadata() {
   const seo = getFixedSeo("/", "ja");
   return {

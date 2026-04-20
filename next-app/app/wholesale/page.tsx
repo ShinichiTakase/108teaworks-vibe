@@ -5,8 +5,6 @@ import WholesalePageContent from "@/components/WholesalePageContent";
 import { getFixedSeo, buildAlternatesForLocales } from "@/lib/seo";
 import { getBreadcrumbItems } from "@/lib/breadcrumb";
 
-export const dynamic = "force-dynamic";
-
 export async function generateMetadata() {
   const seo = getFixedSeo("/wholesale", "ja");
   return {

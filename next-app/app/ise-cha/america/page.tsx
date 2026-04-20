@@ -1,5 +1,3 @@
-export const dynamic = "force-dynamic";
-
 import IsechaAmericaPage from "@/components/pages/IsechaAmericaPage";
 import PageEndProductList from "@/components/PageEndProductList";
 import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";

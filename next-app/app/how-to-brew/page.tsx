@@ -16,8 +16,6 @@ function productsFilterHref(locale: Locale, filterValue: string): string {
   return `${path}?filter=${encodeURIComponent(filterValue)}`;
 }
 
-export const dynamic = "force-dynamic";
-
 type Props = {
   params?: { lang?: string };
 };

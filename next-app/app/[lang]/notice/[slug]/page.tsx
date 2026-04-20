@@ -9,8 +9,6 @@ import { COMMON_TEXTS } from "@/lib/commonTexts";
 import { translateForLocale } from "@/lib/translateForLocale";
 import { buildAlternatesForLocales } from "@/lib/seo";
 
-export const dynamic = "force-dynamic";
-
 const SUPPORTED: Locale[] = ["ja", "en", "ko", "zh"];
 
 function formatDate(iso: string | undefined, locale: Locale): string {

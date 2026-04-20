@@ -5,8 +5,6 @@ import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import { getFixedSeo, buildAlternatesForLocales } from "@/lib/seo";
 import { getBreadcrumbItems } from "@/lib/breadcrumb";
 
-export const dynamic = "force-dynamic";
-
 export async function generateMetadata() {
   const seo = getFixedSeo("/inquiry", "ja");
   return {

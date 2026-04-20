@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getNotices, bodyToExcerpt, stripHtml } from "@/lib/microcms";
 import type { Locale } from "@/lib/i18n";
 import { HOME_NEWS_TEXTS } from "@/lib/homeSectionTexts";
+import { formatDateByLocale } from "@/lib/formatters";
 import { translateManyForLocale } from "@/lib/translateForLocale";
 import { buildLocalizedPath } from "@/lib/urlPath";
 
@@ -9,21 +10,6 @@ const DISPLAY_LIMIT = 4;
 
 function noticeHref(locale: Locale, slug: string, id: string): string {
   return buildLocalizedPath(locale, `/notice/${slug || id}`);
-}
-
-function formatDate(iso: string | undefined, locale: Locale): string {
-  if (!iso) return "";
-  try {
-    const d = new Date(iso);
-    const loc = locale === "ja" ? "ja-JP" : locale === "zh" ? "zh-CN" : locale === "ko" ? "ko-KR" : "en-US";
-    return d.toLocaleDateString(loc, {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  } catch {
-    return "";
-  }
 }
 
 type Props = { locale?: Locale };
@@ -68,7 +54,7 @@ export default async function NewsList({ locale = "ja" }: Props) {
                     {titles[idx] ?? item.title}
                   </span>
                   <span className="order-2 block text-[0.8125rem] text-ink-muted text-right mb-2">
-                    {formatDate(displayDate, locale)}
+                    {formatDateByLocale(displayDate, locale)}
                   </span>
                   <p className="order-3 flex-1 m-0 mb-1 text-sm text-ink-muted leading-relaxed line-clamp-5">
                     {excerpt || " "}

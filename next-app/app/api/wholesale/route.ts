@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import { WHOLESALE_EMAIL_CLIENT } from "@/lib/emailClientTexts";
 import { getMailFrom } from "@/lib/mailFrom";
+import { checkRateLimit, getClientIp } from "@/lib/rateLimit";
 import type { Locale } from "@/lib/i18n";
 
 const REQUIRED = [
@@ -22,7 +23,11 @@ type WholesaleBody = {
   email?: string;
   message?: string;
   locale?: string;
+  website?: string;
+  formStartedAt?: number;
 };
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(req: NextRequest) {
   try {
@@ -36,8 +41,22 @@ export async function POST(req: NextRequest) {
       email,
       message,
       locale: localeParam,
+      website,
+      formStartedAt,
     } = body;
+    const ip = getClientIp(req.headers.get("x-forwarded-for"));
+    const now = Date.now();
     const locale: Locale = ["ja", "en", "ko", "zh"].includes(localeParam ?? "") ? (localeParam as Locale) : "ja";
+
+    if (typeof website === "string" && website.trim()) {
+      return NextResponse.json({ ok: true });
+    }
+    if (typeof formStartedAt !== "number" || now - formStartedAt < 3000) {
+      return NextResponse.json({ ok: false, error: "spam_detected" }, { status: 400 });
+    }
+    if (!checkRateLimit({ key: `wholesale:${ip}`, limit: 5, windowMs: 60_000 })) {
+      return NextResponse.json({ ok: false, error: "too_many_requests" }, { status: 429 });
+    }
 
     for (const key of REQUIRED) {
       const v = body[key];
@@ -47,6 +66,12 @@ export async function POST(req: NextRequest) {
           { status: 400 },
         );
       }
+    }
+    if (!EMAIL_RE.test(email ?? "")) {
+      return NextResponse.json(
+        { ok: false, error: "invalid_email" },
+        { status: 400 },
+      );
     }
 
     const host = process.env.SMTP_HOST;

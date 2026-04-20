@@ -2,7 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 import { INQUIRY_EMAIL_CLIENT } from "@/lib/emailClientTexts";
 import { getMailFrom } from "@/lib/mailFrom";
+import { checkRateLimit, getClientIp } from "@/lib/rateLimit";
 import type { Locale } from "@/lib/i18n";
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(req: NextRequest) {
   try {
@@ -12,12 +15,34 @@ export async function POST(req: NextRequest) {
       email?: string;
       message?: string;
       locale?: string;
+      website?: string;
+      formStartedAt?: number;
     };
+    const website = typeof body.website === "string" ? body.website.trim() : "";
+    const formStartedAt = typeof body.formStartedAt === "number" ? body.formStartedAt : 0;
+    const ip = getClientIp(req.headers.get("x-forwarded-for"));
+    const now = Date.now();
     const locale: Locale = ["ja", "en", "ko", "zh"].includes(localeParam ?? "") ? (localeParam as Locale) : "ja";
+
+    if (website) {
+      return NextResponse.json({ ok: true });
+    }
+    if (!formStartedAt || now - formStartedAt < 3000) {
+      return NextResponse.json({ ok: false, error: "spam_detected" }, { status: 400 });
+    }
+    if (!checkRateLimit({ key: `inquiry:${ip}`, limit: 5, windowMs: 60_000 })) {
+      return NextResponse.json({ ok: false, error: "too_many_requests" }, { status: 429 });
+    }
 
     if (!name || !email || !message) {
       return NextResponse.json(
         { ok: false, error: "missing_fields" },
+        { status: 400 },
+      );
+    }
+    if (!EMAIL_RE.test(email)) {
+      return NextResponse.json(
+        { ok: false, error: "invalid_email" },
         { status: 400 },
       );
     }

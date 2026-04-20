@@ -3,25 +3,11 @@ import { MAIN_CLASS, INNER_CLASS } from "@/components/Layout";
 import { getNotices, bodyToExcerpt } from "@/lib/microcms";
 import type { Locale } from "@/lib/i18n";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
+import { formatDateByLocale } from "@/lib/formatters";
 import { translateManyForLocale } from "@/lib/translateForLocale";
 import { buildLocalizedPath, withTrailingSlashPath } from "@/lib/urlPath";
 
 const PER_PAGE = 10;
-
-function formatDate(iso: string | undefined, locale: Locale): string {
-  if (!iso) return "";
-  try {
-    const d = new Date(iso);
-    const loc = locale === "ja" ? "ja-JP" : locale === "zh" ? "zh-CN" : locale === "ko" ? "ko-KR" : "en-US";
-    return d.toLocaleDateString(loc, {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  } catch {
-    return "";
-  }
-}
 
 function noticeBasePath(locale: Locale): string {
   return buildLocalizedPath(locale, "/notice");
@@ -84,7 +70,7 @@ export default async function NoticeListContent({ locale, page }: Props) {
                       </Link>
                     </div>
                     <div className="mb-2 inline-block rounded border border-border bg-washi px-3 py-1 text-left text-[0.8125rem] text-ink-muted">
-                      {formatDate(displayDate, locale)}
+                      {formatDateByLocale(displayDate, locale)}
                     </div>
                     {excerpt && (
                       <p className="m-0 text-[0.9375rem] leading-relaxed text-ink-muted">

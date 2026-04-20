@@ -13,15 +13,10 @@ import { COMMON_TEXTS } from "@/lib/commonTexts";
 import { translateForLocale, translateManyForLocale } from "@/lib/translateForLocale";
 import { loadReviewsForSlug } from "@/lib/reviewsStorage";
 import { formatReviewDate } from "@/lib/reviewDisplay";
+import { formatPriceYen } from "@/lib/formatters";
+import { sanitizeRichHtml } from "@/lib/sanitizeHtml";
 import { buildLocalizedPath } from "@/lib/urlPath";
 import { ORGANIZATION_NAME_JA } from "@/lib/siteConstants";
-
-export const dynamic = "force-dynamic";
-
-function formatPrice(price: number | undefined): string {
-  if (price == null || Number.isNaN(price)) return "—";
-  return `¥${Number(price).toLocaleString()}`;
-}
 
 function productHref(locale: Locale, path: string): string {
   const slug = path.replace(/^\/*(products|ise-cha)\/*/, "") || path;
@@ -121,6 +116,8 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
       : Array.isArray(displayTitleRaw)
         ? displayTitleRaw[0] ?? ""
         : "";
+  const safeDisplayDesc01 = sanitizeRichHtml(displayDesc01);
+  const safeDisplayDesc02 = sanitizeRichHtml(displayDesc02);
 
   const related =
     locale === "ja"
@@ -140,8 +137,8 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
       ? "https://schema.org/OutOfStock"
       : "https://schema.org/InStock";
   const descriptionForSchema =
-    typeof displayDesc01 === "string"
-      ? displayDesc01.replace(/<[^>]+>/g, "").slice(0, 300)
+    typeof safeDisplayDesc01 === "string"
+      ? safeDisplayDesc01.replace(/<[^>]+>/g, "").slice(0, 300)
       : "";
   const reviewsForSchema = reviews.filter(
     (r) =>
@@ -245,19 +242,19 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
             {displayTitle || "—"}
           </h1>
           <p className="m-0 mb-4 text-[1.125rem] font-bold text-tea-deep text-right">
-            {formatPrice(product.PRICE)} <span className="text-base font-normal text-ink-muted">{t.taxIncluded}</span>
+            {formatPriceYen(product.PRICE)} <span className="text-base font-normal text-ink-muted">{t.taxIncluded}</span>
           </p>
-          {displayDesc01 && !tasteWithDesc01Only && (
+          {safeDisplayDesc01 && !tasteWithDesc01Only && (
             <div
               className="product-description mb-4 text-[0.9375rem] leading-relaxed text-ink [&_a]:text-tea [&_a]:underline [&_img]:max-w-full [&_p]:mb-2 [&_p:last-child]:mb-0"
-              dangerouslySetInnerHTML={{ __html: displayDesc01 }}
+              dangerouslySetInnerHTML={{ __html: safeDisplayDesc01 }}
             />
           )}
-          {displayDesc01 && tasteWithDesc01Only && (
+          {safeDisplayDesc01 && tasteWithDesc01Only && (
             <div className="mb-4 grid w-full min-w-0 grid-cols-1 gap-4 md:grid-cols-[minmax(0,3fr)_minmax(0,1fr)] md:items-start md:gap-5">
               <div
                 className="product-description min-w-0 text-[0.9375rem] leading-relaxed text-ink [&_a]:text-tea [&_a]:underline [&_img]:max-w-full [&_p]:mb-2 [&_p:last-child]:mb-0"
-                dangerouslySetInnerHTML={{ __html: displayDesc01 }}
+                dangerouslySetInnerHTML={{ __html: safeDisplayDesc01 }}
               />
               <ProductTasteImages paths={tasteImagePaths} altBase={displayTitle || titleJa} className="min-w-0" />
             </div>
@@ -294,7 +291,7 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
           )}
         </div>
       </div>
-      {(displayDesc02 || tasteStandalone) && (
+      {(safeDisplayDesc02 || tasteStandalone) && (
         <div
           className={
             tasteWithDesc02
@@ -304,11 +301,11 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
                 : undefined
           }
         >
-          {displayDesc02 && (
+          {safeDisplayDesc02 && (
             <div className="min-w-0">
               <div
                 className="product-description text-[0.9375rem] leading-relaxed text-ink [&_a]:text-tea [&_a]:underline [&_img]:max-w-full [&_p]:mb-2 [&_p:last-child]:mb-0"
-                dangerouslySetInnerHTML={{ __html: displayDesc02 }}
+                dangerouslySetInnerHTML={{ __html: safeDisplayDesc02 }}
               />
               {showDescription02Ctas && (
                 <ul className="list-none m-0 mt-4 p-0 flex flex-col gap-2 md:flex-row md:flex-wrap md:items-start">

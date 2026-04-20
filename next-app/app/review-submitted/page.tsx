@@ -1,7 +1,5 @@
 import Link from "next/link";
 
-export const dynamic = "force-dynamic";
-
 export default function ReviewSubmittedPage() {
   return (
     <main className="max-w-3xl mx-auto px-4 py-10">

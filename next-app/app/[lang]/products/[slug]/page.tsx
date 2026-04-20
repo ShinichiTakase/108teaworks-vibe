@@ -3,8 +3,6 @@ import ProductDetailContent from "@/components/ProductDetailContent";
 import type { Locale } from "@/lib/i18n";
 import { buildAlternatesForLocales } from "@/lib/seo";
 
-export const dynamic = "force-dynamic";
-
 const SUPPORTED: Locale[] = ["ja", "en", "ko", "zh"];
 
 type Props = {

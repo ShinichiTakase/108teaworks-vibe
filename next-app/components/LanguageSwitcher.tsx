@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { detectLocaleFromPath } from "@/lib/urlPath";
 
 const locales = [
   { code: "zh", label: "Chinese", flag: "🇨🇳" },
@@ -9,11 +10,6 @@ const locales = [
   { code: "en", label: "English", flag: "🇺🇸" },
   { code: "ja", label: "Japanese", flag: "🇯🇵" },
 ];
-
-function detectLocaleFromPath(pathname: string): string {
-  const match = pathname.match(/^\/(ja|en|ko|zh)(?=\/|$)/);
-  return match ? match[1] : "ja";
-}
 
 function stripLocaleFromPath(pathname: string): string {
   return pathname.replace(/^\/(ja|en|ko|zh)(?=\/|$)/, "") || "/";

@@ -4,8 +4,6 @@ import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import type { Locale } from "@/lib/i18n";
 import { getBreadcrumbItems } from "@/lib/breadcrumb";
 
-export const dynamic = "force-dynamic";
-
 const SUPPORTED: Locale[] = ["ja", "en", "ko", "zh"];
 
 type Props = {

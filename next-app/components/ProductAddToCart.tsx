@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import type { Locale } from "@/lib/i18n";
@@ -18,11 +18,28 @@ export default function ProductAddToCart({ slug, price, title, imagePath, locale
   const locale = localeProp ?? "ja";
   const t = COMMON_TEXTS[locale];
   const [quantity, setQuantity] = useState(1);
+  const [feedback, setFeedback] = useState<string>("");
   const { addToCart } = useCart();
   const router = useRouter();
 
+  useEffect(() => {
+    if (!feedback) return;
+    const timer = setTimeout(() => setFeedback(""), 2000);
+    return () => clearTimeout(timer);
+  }, [feedback]);
+
+  const addedToCartMessage =
+    locale === "ja"
+      ? "カートに追加しました"
+      : locale === "en"
+        ? "Added to cart"
+        : locale === "ko"
+          ? "장바구니에 담았습니다"
+          : "已加入购物车";
+
   const handleAddToCart = () => {
     addToCart(slug, title, price ?? 0, quantity, imagePath);
+    setFeedback(addedToCartMessage);
   };
 
   const handleBuyNow = () => {
@@ -91,6 +108,9 @@ export default function ProductAddToCart({ slug, price, title, imagePath, locale
           {t.product.buyNow}
         </button>
       </div>
+      <p className="mt-2 min-h-[1.25rem] text-[0.8125rem] text-tea-deep" aria-live="polite">
+        {feedback}
+      </p>
     </div>
   );
 }

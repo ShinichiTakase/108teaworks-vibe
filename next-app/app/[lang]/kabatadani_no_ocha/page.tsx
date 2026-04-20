@@ -4,8 +4,6 @@ import type { Locale } from "@/lib/i18n";
 import { getFixedSeo, buildAlternatesForLocales } from "@/lib/seo";
 import { getBreadcrumbItems } from "@/lib/breadcrumb";
 
-export const dynamic = "force-dynamic";
-
 type Props = {
   params: Promise<{ lang: string }>;
 };

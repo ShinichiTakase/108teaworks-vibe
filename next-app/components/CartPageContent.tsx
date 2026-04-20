@@ -5,29 +5,16 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useCart } from "@/context/CartContext";
-import type { Locale } from "@/lib/i18n";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
-import { buildLocalizedPath } from "@/lib/urlPath";
+import { formatPriceYen } from "@/lib/formatters";
+import { buildLocalizedHref, detectLocaleFromPath } from "@/lib/urlPath";
 
 const FALLBACK_IMAGE = "/images/products/product-01.webp";
-
-function formatPrice(price: number): string {
-  return `¥${Number(price).toLocaleString()}`;
-}
 
 const FREE_SHIPPING_THRESHOLD = 20000;
 
 function taxIncluded(amount: number): number {
   return Math.floor(amount * 10 / 110);
-}
-
-function detectLocaleFromPath(pathname: string): Locale {
-  const match = pathname.match(/^\/(ja|en|ko|zh)(?=\/|$)/);
-  return (match ? match[1] : "ja") as Locale;
-}
-
-function buildLocalizedHref(locale: Locale, href: string): string {
-  return buildLocalizedPath(locale, href);
 }
 
 export default function CartPageContent() {
@@ -52,7 +39,7 @@ export default function CartPageContent() {
       .then((res) => (res.ok ? res.json() : {}))
       .then((data: Record<string, string>) => setTranslatedTitles(data ?? {}))
       .catch(() => setTranslatedTitles({}));
-  }, [locale, slugsToFetch.join(",")]);
+  }, [locale, slugsToFetch]);
 
   const getDisplayTitle = (slug: string, fallback: string) =>
     locale === "ja" ? fallback : (translatedTitles[slug] ?? fallback);
@@ -99,7 +86,6 @@ export default function CartPageContent() {
                       width={80}
                       height={80}
                       className="w-full h-full object-cover"
-                      priority
                     />
                   </Link>
                   <div className="min-w-0 flex-1 w-full sm:min-w-[8rem]">
@@ -110,7 +96,7 @@ export default function CartPageContent() {
                       {displayTitle}
                     </Link>
                     <p className="m-0 mt-1 text-[0.875rem] text-ink-muted">
-                      {formatPrice(item.price)}{t.taxIncluded} × {item.quantity} = {formatPrice(item.price * item.quantity)}
+                      {formatPriceYen(item.price)}{t.taxIncluded} × {item.quantity} = {formatPriceYen(item.price * item.quantity)}
                     </p>
                   </div>
                 </div>
@@ -151,18 +137,18 @@ export default function CartPageContent() {
           <div className="border-t border-border pt-6 space-y-2 max-w-md ml-auto">
             <div className="flex justify-between text-[0.9375rem]">
               <span className="text-ink-muted">{t.subtotal}</span>
-              <span className="font-medium">{formatPrice(subtotal)}</span>
+              <span className="font-medium">{formatPriceYen(subtotal)}</span>
             </div>
             <div className="flex justify-between text-[0.9375rem] pb-2 border-b border-border">
               <span className="text-ink-muted">{t.shipping}</span>
-              <span className="font-medium">{shippingKnown ? formatPrice(shipping) : t.shippingCalculating}</span>
+              <span className="font-medium">{shippingKnown ? formatPriceYen(shipping) : t.shippingCalculating}</span>
             </div>
             <div className="flex justify-between items-center text-base font-semibold text-tea-deep pt-2">
               <span>{t.total}</span>
-              <span>{shippingKnown ? formatPrice(total) : formatPrice(subtotal)}</span>
+              <span>{shippingKnown ? formatPriceYen(total) : formatPriceYen(subtotal)}</span>
             </div>
             <p className="m-0 text-[0.8125rem] text-ink-muted text-right">
-              {t.taxNote}{formatPrice(taxAmount)}{t.taxNoteSuffix}
+              {t.taxNote}{formatPriceYen(taxAmount)}{t.taxNoteSuffix}
             </p>
             <div className="pt-4 space-y-3">
               <Link
@@ -175,7 +161,7 @@ export default function CartPageContent() {
             <p className="m-0 pt-2 text-[0.9375rem] font-bold text-tea-deep text-right">
               {subtotal >= FREE_SHIPPING_THRESHOLD
                 ? t.freeShipping
-                : `${t.freeShippingRemainPrefix}${formatPrice(FREE_SHIPPING_THRESHOLD - subtotal)}${t.freeShippingRemain}`}
+                : `${t.freeShippingRemainPrefix}${formatPriceYen(FREE_SHIPPING_THRESHOLD - subtotal)}${t.freeShippingRemain}`}
             </p>
           </div>
         </>

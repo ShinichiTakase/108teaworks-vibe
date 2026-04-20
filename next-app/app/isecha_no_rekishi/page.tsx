@@ -14,8 +14,6 @@ import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import { getFixedSeo, buildAlternatesForLocales } from "@/lib/seo";
 import { getBreadcrumbItems } from "@/lib/breadcrumb";
 
-export const dynamic = "force-dynamic";
-
 const PDF_URL = "/pdf/isecha_no_rekishi.pdf";
 
 export async function generateMetadata() {

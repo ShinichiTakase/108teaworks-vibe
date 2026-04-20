@@ -2,13 +2,8 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import type { Locale } from "@/lib/i18n";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
-
-function detectLocaleFromPath(pathname: string): Locale {
-  const match = pathname.match(/^\/(ja|en|ko|zh)(?=\/|$)/);
-  return (match ? match[1] : "ja") as Locale;
-}
+import { detectLocaleFromPath } from "@/lib/urlPath";
 
 export default function CouponBanner() {
   const pathname = usePathname() || "/";

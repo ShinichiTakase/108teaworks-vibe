@@ -8,8 +8,6 @@ type Params = {
   lang: string;
 };
 
-export const dynamic = "force-dynamic";
-
 export async function generateMetadata({ params }: { params: Params }) {
   const supported: Locale[] = ["ja", "en", "ko", "zh"];
   const lang = params.lang as Locale;

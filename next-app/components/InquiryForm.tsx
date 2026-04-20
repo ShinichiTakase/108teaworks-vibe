@@ -37,6 +37,8 @@ export default function InquiryForm({ locale: localeProp }: Props) {
   const [errors, setErrors] = useState<FormErrors>({});
   const [sending, setSending] = useState(false);
   const [sendError, setSendError] = useState<string | null>(null);
+  const [website, setWebsite] = useState("");
+  const [formStartedAt] = useState<number>(() => Date.now());
 
   const handleChange =
     (field: keyof FormState) =>
@@ -74,7 +76,7 @@ export default function InquiryForm({ locale: localeProp }: Props) {
       const res = await fetch("/api/inquiry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, locale }),
+        body: JSON.stringify({ ...form, locale, website, formStartedAt }),
       });
       if (!res.ok) throw new Error("Failed to send");
       setStep("done");
@@ -104,6 +106,18 @@ export default function InquiryForm({ locale: localeProp }: Props) {
           </p>
 
           <form noValidate onSubmit={handleConfirm} className="space-y-5">
+            <div className="hidden" aria-hidden="true">
+              <label htmlFor="website">Website</label>
+              <input
+                id="website"
+                name="website"
+                type="text"
+                value={website}
+                onChange={(e) => setWebsite(e.target.value)}
+                tabIndex={-1}
+                autoComplete="off"
+              />
+            </div>
             <div>
               <label
                 htmlFor="name"
@@ -122,7 +136,7 @@ export default function InquiryForm({ locale: localeProp }: Props) {
                 }`}
               />
               {errors.name && (
-                <p className="mt-1 text-[0.75rem] text-red-500">{errors.name}</p>
+                <p className="mt-1 text-[0.75rem] text-red-500" role="alert">{errors.name}</p>
               )}
             </div>
 
@@ -144,7 +158,7 @@ export default function InquiryForm({ locale: localeProp }: Props) {
                 }`}
               />
               {errors.email && (
-                <p className="mt-1 text-[0.75rem] text-red-500">{errors.email}</p>
+                <p className="mt-1 text-[0.75rem] text-red-500" role="alert">{errors.email}</p>
               )}
             </div>
 
@@ -166,7 +180,7 @@ export default function InquiryForm({ locale: localeProp }: Props) {
                 }`}
               />
             {errors.message && (
-              <p className="mt-1 text-[0.75rem] text-red-500">{errors.message}</p>
+              <p className="mt-1 text-[0.75rem] text-red-500" role="alert">{errors.message}</p>
             )}
           </div>
 
@@ -229,7 +243,7 @@ export default function InquiryForm({ locale: localeProp }: Props) {
           </div>
 
           {sendError && (
-            <p className="mt-2 text-[0.8125rem] text-red-500">{sendError}</p>
+            <p className="mt-2 text-[0.8125rem] text-red-500" role="alert">{sendError}</p>
           )}
         </form>
       )}

@@ -3,18 +3,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import HeaderCartAccountLinks from "./HeaderCartAccountLinks";
-import { buildLocalizedPath } from "@/lib/urlPath";
-
-type Locale = "ja" | "en" | "ko" | "zh";
-
-function detectLocaleFromPath(pathname: string): Locale {
-  const match = pathname.match(/^\/(ja|en|ko|zh)(?=\/|$)/);
-  return (match ? match[1] : "ja") as Locale;
-}
-
-function buildLocalizedHref(locale: Locale, href: string): string {
-  return buildLocalizedPath(locale, href);
-}
+import type { Locale } from "@/lib/i18n";
+import { buildLocalizedHref, detectLocaleFromPath } from "@/lib/urlPath";
 
 const TAGLINES: Record<Locale, string> = {
   ja: "シングルオリジン伊勢茶・お茶の魅力を三重から世界へ",
@@ -35,7 +25,7 @@ export default function Header() {
       role="banner"
     >
       <div className="max-w-[min(90vw,1200px)] mx-auto">
-        <h1 className="m-0 font-heading text-[clamp(1.25rem,4vw,1.5rem)] font-semibold tracking-wider">
+        <div className="m-0 font-heading text-[clamp(1.25rem,4vw,1.5rem)] font-semibold tracking-wider">
           <Link href={homeHref} className="text-tea-deep no-underline hover:text-tea">
             <picture>
               <source
@@ -57,7 +47,7 @@ export default function Header() {
               />
             </picture>
           </Link>
-        </h1>
+        </div>
         <div className="mt-0.5 md:mt-1 flex items-center justify-end md:justify-center">
           <div className="hidden md:block flex-1 min-w-0" aria-hidden="true" />
           <p className="hidden md:block flex-shrink-0 text-[0.8125rem] leading-snug text-ink-muted tracking-wide text-center">

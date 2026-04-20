@@ -8,6 +8,7 @@ import type { ProductItem } from "@/lib/microcms";
 import type { Locale } from "@/lib/i18n";
 import { HOME_PRODUCTS_TEXTS } from "@/lib/homeSectionTexts";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
+import { formatPriceYen } from "@/lib/formatters";
 import { buildLocalizedPath } from "@/lib/urlPath";
 
 function getLocaleFromPath(pathname: string | null): Locale {
@@ -31,11 +32,6 @@ const FILTER_OPTIONS: { value: string; labelKey: keyof Omit<typeof HOME_PRODUCTS
   { value: "ティーバッグ", labelKey: "filterTeabag" },
   { value: "パウダー", labelKey: "filterPowder" },
 ];
-
-function formatPrice(price: number | undefined): string {
-  if (price == null || Number.isNaN(price)) return "—";
-  return `¥${Number(price).toLocaleString()}`;
-}
 
 /** TAG を LIKE %filterValue% で部分一致判定 */
 function productMatchesTag(product: ProductItem, filterValue: string): boolean {
@@ -108,7 +104,6 @@ export default function ProductListWithFilter({ products }: Props) {
                       width={200}
                       height={200}
                       className="w-full h-auto object-cover rounded bg-cream"
-                      priority
                     />
                     {outOfStock && (
                       <span
@@ -123,7 +118,7 @@ export default function ProductListWithFilter({ products }: Props) {
                     {product.TITLE ?? "—"}
                   </span>
                   <span className="block text-right text-[0.9375rem] font-bold text-tea-deep">
-                    {formatPrice(product.PRICE)}{" "}
+                    {formatPriceYen(product.PRICE)}{" "}
                     <span className="text-[0.8125rem] text-ink-muted font-normal">
                       {taxLabel}
                     </span>

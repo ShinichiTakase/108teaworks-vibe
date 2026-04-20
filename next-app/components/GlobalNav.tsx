@@ -2,10 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import type { Locale } from "@/lib/i18n";
+import { usePathname, useRouter } from "next/navigation";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
-import { buildLocalizedPath } from "@/lib/urlPath";
+import { buildLocalizedHref, detectLocaleFromPath } from "@/lib/urlPath";
 
 const NAV_KEYS = [
   { key: "top" as const, href: "/" },
@@ -17,25 +16,17 @@ const NAV_KEYS = [
   { key: "wholesale" as const, href: "/wholesale" },
 ] as const;
 
-function detectLocaleFromPath(pathname: string): Locale {
-  const match = pathname.match(/^\/(ja|en|ko|zh)(?=\/|$)/);
-  return (match ? match[1] : "ja") as Locale;
-}
-
-function buildLocalizedHref(locale: Locale, href: string): string {
-  return buildLocalizedPath(locale, href);
-}
-
 export default function GlobalNav() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
   const locale = detectLocaleFromPath(pathname || "/");
   const t = COMMON_TEXTS[locale];
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (pathname === href) {
       e.preventDefault();
-      window.location.href = href;
+      router.refresh();
     }
     setOpen(false);
   };

@@ -92,10 +92,10 @@ export default function RootLayout({
           <Layout>{children}</Layout>
         </Providers>
         {/* 茶々丸: アイコンURLを渡してからスクリプト読み込み */}
-        <Script id="chachamaru-vars" strategy="beforeInteractive">
+        <Script id="chachamaru-vars" strategy="afterInteractive">
           {`window.chachamaruVars={iconUrl:"/images/chachamaru-icon.png",proxyUrl:"/api/chachamaru/ask",texts:${JSON.stringify(CHACHAMARU_TEXTS)},useReactBar:true};`}
         </Script>
-        <Script src="/js/chachamaru.js" strategy="beforeInteractive" />
+        <Script src="/js/chachamaru.js" strategy="afterInteractive" />
       </body>
     </html>
   );

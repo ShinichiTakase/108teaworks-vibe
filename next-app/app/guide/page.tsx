@@ -1,5 +1,3 @@
-export const dynamic = "force-dynamic";
-
 import GuidePage from "@/components/pages/GuidePage";
 import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import type { Locale } from "@/lib/i18n";

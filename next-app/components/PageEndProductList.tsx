@@ -6,17 +6,13 @@ import { translateManyForLocale } from "@/lib/translateForLocale";
 import type { Locale } from "@/lib/i18n";
 import { HOME_PRODUCTS_TEXTS } from "@/lib/homeSectionTexts";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
+import { formatPriceYen } from "@/lib/formatters";
 import { buildLocalizedPath } from "@/lib/urlPath";
 
 type Props = { locale: Locale };
 
 function productHref(locale: Locale, slug: string): string {
   return buildLocalizedPath(locale, `/ise-cha/${slug}`);
-}
-
-function formatPrice(price: number | undefined): string {
-  if (price == null || Number.isNaN(price)) return "—";
-  return `¥${Number(price).toLocaleString()}`;
 }
 
 /**
@@ -71,7 +67,6 @@ export default async function PageEndProductList({ locale }: Props) {
                     width={160}
                     height={160}
                     className="w-full h-full object-cover rounded bg-cream"
-                    priority
                   />
                   {outOfStock && (
                     <span
@@ -86,7 +81,7 @@ export default async function PageEndProductList({ locale }: Props) {
                   {product.TITLE ?? "—"}
                 </span>
                 <span className="block text-right text-[0.8125rem] font-bold text-tea-deep">
-                  {formatPrice(product.PRICE)}{" "}
+                  {formatPriceYen(product.PRICE)}{" "}
                   <span className="text-[0.6875rem] text-ink-muted font-normal">
                     {taxLabel}
                   </span>

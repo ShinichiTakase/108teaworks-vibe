@@ -5,8 +5,6 @@ import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import { getFixedSeo, buildAlternatesForLocales } from "@/lib/seo";
 import { getBreadcrumbItems } from "@/lib/breadcrumb";
 
-export const dynamic = "force-dynamic";
-
 const SUPPORTED: Locale[] = ["ja", "en", "ko", "zh"];
 
 type Props = {
