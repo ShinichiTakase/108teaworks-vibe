@@ -99,6 +99,7 @@ export default function CheckoutPage() {
   const cardContainerRef = useRef<HTMLDivElement | null>(null);
   const expressContainerRef = useRef<HTMLDivElement | null>(null);
   const [cardReady, setCardReady] = useState(false);
+  const [selectedPaymentType, setSelectedPaymentType] = useState<string | null>(null);
 
   const handlePayRef = useRef<null | (() => Promise<void>)>(null);
   const subtotalRef = useRef<number>(0);
@@ -395,6 +396,7 @@ export default function CheckoutPage() {
       setPaymentInitError(null);
       amountForIntentRef.current = null;
       setCardReady(false);
+      setSelectedPaymentType(null);
       try {
         paymentElementRef.current?.destroy();
         paymentElementRef.current = null;
@@ -455,6 +457,14 @@ export default function CheckoutPage() {
         } as any);
         paymentElementRef.current = paymentElement;
         paymentElement.mount(cardContainerRef.current!);
+        paymentElement.on("change", (event: any) => {
+          const type =
+            event?.value?.type ??
+            event?.value?.payment_method_type ??
+            event?.value?.paymentMethodType ??
+            null;
+          setSelectedPaymentType(typeof type === "string" ? type : null);
+        });
         paymentElement.on("ready", () => {
           if (!cancelled) setCardReady(true);
         });
@@ -696,6 +706,19 @@ export default function CheckoutPage() {
     handlePayRef.current = handlePay;
   }, [handlePay]);
   const stripeEnvMissing = !STRIPE_PK;
+  const isGooglePaySelected = selectedPaymentType === "google_pay";
+  const isApplePaySelected = selectedPaymentType === "apple_pay";
+  const payButtonLabel = paying
+    ? t.paying
+    : isGooglePaySelected
+      ? "Google Payで支払う"
+      : isApplePaySelected
+        ? "Apple Payで支払う"
+        : t.payNow;
+  const walletSectionTitle =
+    locale === "ja"
+      ? "クレジットカード / Apple Pay / Google Pay"
+      : "Card / Apple Pay / Google Pay";
 
   // 保存済みプロファイルの有無を確認し、あればマウント時にオートフィル
   useEffect(() => {
@@ -1209,10 +1232,15 @@ export default function CheckoutPage() {
             </div>
           ) : (
             <div className="p-4 rounded-xl bg-[#f0ebe5] border border-border">
-              <h3 className="m-0 mb-4 text-[0.9375rem] font-semibold text-tea-deep">{t.cardOrGooglePay}</h3>
+              <h3 className="m-0 mb-4 text-[0.9375rem] font-semibold text-tea-deep">{walletSectionTitle}</h3>
               <div className="bg-white rounded-lg border-2 border-border p-3 min-h-[120px]">
                 <div ref={cardContainerRef} />
               </div>
+              {(isGooglePaySelected || isApplePaySelected) && (
+                <p className="m-0 mt-3 text-[0.8125rem] text-ink-muted">
+                  ウォレットを選択後、下のボタンを押すと決済ウィンドウが開きます。
+                </p>
+              )}
               <div className="mt-4 pt-4 border-t border-border">
                 <button
                   type="button"
@@ -1220,7 +1248,7 @@ export default function CheckoutPage() {
                   disabled={paying || shipping === null || !cardReady}
                   className="w-full py-3 px-6 rounded-lg border-2 border-tea bg-tea text-white text-[0.9375rem] font-semibold transition-colors hover:bg-tea-light hover:border-tea-light disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {paying ? t.paying : t.payNow}
+                  {payButtonLabel}
                 </button>
               </div>
             </div>
