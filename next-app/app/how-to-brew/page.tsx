@@ -195,6 +195,7 @@ export default function HowToBrewPage({ params }: Props = {}) {
                 alt={t.altWater}
                 width={960}
                 height={640}
+                sizes="(max-width: 767px) 90vw, (max-width: 1280px) 44vw, 540px"
                 className="h-auto w-full object-cover"
               />
             </figure>
@@ -262,6 +263,7 @@ export default function HowToBrewPage({ params }: Props = {}) {
                   alt={t.altGreenLatte}
                   width={600}
                   height={400}
+                  sizes="(max-width: 767px) 90vw, (max-width: 1280px) 22vw, 270px"
                   className="h-40 w-full object-cover md:h-44"
                 />
               </figure>
@@ -286,6 +288,7 @@ export default function HowToBrewPage({ params }: Props = {}) {
                   alt={t.altHojichaLatte}
                   width={600}
                   height={400}
+                  sizes="(max-width: 767px) 90vw, (max-width: 1280px) 22vw, 270px"
                   className="h-40 w-full object-cover md:h-44"
                 />
               </figure>
