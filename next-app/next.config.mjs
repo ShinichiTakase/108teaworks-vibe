@@ -1,8 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // pdfkit は .afm 等を __dirname で参照するためバンドルせず node_modules から読み込む
+  // optimizeCss: critical CSS をインライン展開し、残りを非同期ロードに変換（critters 使用）
   experimental: {
     serverComponentsExternalPackages: ["pdfkit"],
+    optimizeCss: true,
   },
   // 商品画像は差し替え時にすぐ反映されるようキャッシュを短くする
   async headers() {
