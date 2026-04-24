@@ -28,9 +28,9 @@ const config: Config = {
         },
       },
       fontFamily: {
-        // 本文はシステム明朝を優先、見出しだけ Noto Serif JP を使う。
-        heading: ["var(--font-heading)", "Yu Mincho", "Hiragino Mincho ProN", "serif"],
-        body: ["Yu Mincho", "Hiragino Mincho ProN", "Hiragino Serif", "Noto Serif JP", "serif"],
+        // システムフォントのみ使用（外部フォント読み込みなし）
+        heading: ["Yu Mincho", "YuMincho", "Hiragino Mincho ProN", "Hiragino Serif", "Noto Serif JP", "serif"],
+        body: ["Yu Mincho", "YuMincho", "Hiragino Mincho ProN", "Hiragino Serif", "Noto Serif JP", "serif"],
       },
       maxWidth: {
         content: "720px",

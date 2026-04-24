@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import Script from "next/script";
-import { Noto_Serif_JP } from "next/font/google";
 import "./globals.css";
 import Layout from "@/components/Layout";
 import Providers from "@/components/Providers";
@@ -10,15 +9,6 @@ import MetaPixel from "@/components/MetaPixel";
 import ChachamaruDeferredStylesheet from "@/components/ChachamaruDeferredStylesheet";
 import { CHACHAMARU_TEXTS } from "@/lib/chachamaruTexts";
 import { OG_IMAGE_URL, ORGANIZATION_LOGO_URL, ORGANIZATION_NAME_JA, ORGANIZATION_NAME_EN, ORGANIZATION_URL, ORGANIZATION_INSTAGRAM } from "@/lib/siteConstants";
-
-// 見出しのみ Noto Serif JP を使い、初期表示の本文はシステム明朝で先に描画する。
-const notoSerifHeading = Noto_Serif_JP({
-  subsets: ["latin"],
-  weight: ["600", "700"],
-  display: "swap",
-  preload: false,
-  variable: "--font-heading",
-});
 
 const GSC_VERIFICATION = process.env.NEXT_PUBLIC_GSC_VERIFICATION?.trim();
 const METADATA_BASE =
@@ -74,7 +64,7 @@ export default function RootLayout({
     loc === "ja" ? "ja" : loc === "en" ? "en-JP" : loc === "ko" ? "ko-JP" : "zh-JP";
 
   return (
-    <html lang={htmlLang} className={notoSerifHeading.variable} suppressHydrationWarning>
+    <html lang={htmlLang} suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <script
