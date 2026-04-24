@@ -49,7 +49,7 @@ export default function HowToBrewPage({ params }: Props = {}) {
           <div className="mb-10 grid grid-cols-1 items-start gap-6 md:grid-cols-2 md:gap-8">
             <figure className="order-2 overflow-hidden rounded-md md:order-1">
               <Image
-                src="/images/how-to-brew/top.jpg"
+                src="/images/how-to-brew/top.webp"
                 alt={t.altTop}
                 width={960}
                 height={640}
@@ -189,7 +189,7 @@ export default function HowToBrewPage({ params }: Props = {}) {
           <div className="mb-10 grid grid-cols-1 items-start gap-6 md:grid-cols-2 md:gap-8">
             <figure className="order-2 overflow-hidden rounded-md md:order-1">
               <Image
-                src="/images/how-to-brew/water.jpg"
+                src="/images/how-to-brew/water.webp"
                 alt={t.altWater}
                 width={960}
                 height={640}
@@ -256,7 +256,7 @@ export default function HowToBrewPage({ params }: Props = {}) {
             <div className="flex items-stretch">
               <figure className="w-full overflow-hidden rounded-md">
                 <Image
-                  src="/images/how-to-brew/green-tea-latte.jpg"
+                  src="/images/how-to-brew/green-tea-latte.webp"
                   alt={t.altGreenLatte}
                   width={600}
                   height={400}
@@ -280,7 +280,7 @@ export default function HowToBrewPage({ params }: Props = {}) {
             <div className="flex items-stretch">
               <figure className="w-full overflow-hidden rounded-md">
                 <Image
-                  src="/images/how-to-brew/roasted-tea-latte.jpg"
+                  src="/images/how-to-brew/roasted-tea-latte.webp"
                   alt={t.altHojichaLatte}
                   width={600}
                   height={400}

@@ -105,7 +105,7 @@ const nextConfig = {
       },
       {
         source: "/images/books/isecha_no_rekushi.png",
-        destination: "/images/books/isecha_no_rekishi.png",
+        destination: "/images/books/isecha_no_rekishi.jpg",
         permanent: true,
       },
       { source: "/ise-cha/amerika", destination: "/ise-cha/america", permanent: true },

@@ -92,7 +92,7 @@ export default function IsechaHowToBrewPage({ locale }: Props) {
             <div className="flex justify-end">
               <figure className="m-0 w-full max-w-md shrink-0 overflow-hidden rounded-md">
                 <Image
-                  src="/images/how-to-brew/top.jpg"
+                  src="/images/how-to-brew/top.webp"
                   alt={doc.imageAlt}
                   width={1200}
                   height={800}
