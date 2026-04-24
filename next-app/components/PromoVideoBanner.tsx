@@ -10,7 +10,7 @@ import type { Locale } from "@/lib/i18n";
 const THUMB_SRC = "/images/thumbnail/green-tea-latte.jpg";
 const VIDEO_SRC = "/mp4/houjicha_latte.mp4";
 
-const linkClass = "text-tea no-underline hover:text-tea-deep focus:outline-none focus:underline";
+const linkClass = "text-tea underline underline-offset-2 decoration-tea/60 hover:text-tea-deep hover:decoration-tea-deep focus:outline-none";
 
 function getLocaleFromPath(pathname: string | null): Locale {
   if (!pathname) return "ja";

@@ -20,7 +20,7 @@ export default function FloatingProductListBar() {
   return (
     <Link
       href={href}
-      className="fixed left-0 z-50 flex items-center justify-center gap-2 rounded-r-full bg-lime-600 text-white no-underline shadow-lg transition-colors hover:bg-lime-500 max-md:h-12 max-md:min-w-0 max-md:pl-3 max-md:pr-3 max-md:py-0 max-md:text-[0.9375rem] md:h-14 md:min-w-[152px] md:pl-4 md:pr-4 md:py-3 md:text-[0.875rem]"
+      className="fixed left-0 z-50 flex items-center justify-center gap-2 rounded-r-full bg-tea-deep text-white no-underline shadow-lg transition-colors hover:bg-tea max-md:h-12 max-md:min-w-0 max-md:pl-3 max-md:pr-3 max-md:py-0 max-md:text-[0.9375rem] md:h-14 md:min-w-[152px] md:pl-4 md:pr-4 md:py-3 md:text-[0.875rem]"
       style={{ bottom: "40%" }}
       aria-label={t.nav.products}
     >
