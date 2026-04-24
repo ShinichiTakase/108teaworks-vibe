@@ -96,6 +96,7 @@ export default function IsechaHowToBrewPage({ locale }: Props) {
                   alt={doc.imageAlt}
                   width={1200}
                   height={800}
+                  priority
                   className="h-auto w-full object-cover"
                   sizes="(max-width: 768px) 100vw, 28rem"
                 />

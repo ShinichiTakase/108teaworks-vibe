@@ -53,6 +53,8 @@ export default function HowToBrewPage({ params }: Props = {}) {
                 alt={t.altTop}
                 width={960}
                 height={640}
+                priority
+                sizes="(max-width: 767px) 90vw, (max-width: 1280px) 44vw, 540px"
                 className="h-auto w-full object-cover"
               />
             </figure>

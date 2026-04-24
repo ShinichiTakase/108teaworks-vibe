@@ -1,9 +1,26 @@
+"use client";
+
+import { useEffect } from "react";
+
 /**
  * 茶々丸ウィジェット用 CSS。
- * 以前は media="print" → onLoad で all に切り替える非ブロッキング読み込みをしていたが、
- * キャッシュヒット時に load が先に終わり onLoad が発火しないと画面にスタイルが当たらず、
- * パネルが本文末尾に素の DOM として表示される不具合があったため、通常の stylesheet 読み込みに統一する。
+ * 初期レンダリングをブロックしないよう、ハイドレーション後に一度だけ追加する。
  */
 export default function ChachamaruDeferredStylesheet() {
-  return <link rel="stylesheet" href="/css/chachamaru-widget.css" />;
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+
+    const existing = document.querySelector<HTMLLinkElement>(
+      'link[data-chachamaru-stylesheet="true"]',
+    );
+    if (existing) return;
+
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "/css/chachamaru-widget.css";
+    link.dataset.chachamaruStylesheet = "true";
+    document.head.appendChild(link);
+  }, []);
+
+  return null;
 }

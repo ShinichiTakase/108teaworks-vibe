@@ -11,11 +11,13 @@ import ChachamaruDeferredStylesheet from "@/components/ChachamaruDeferredStylesh
 import { CHACHAMARU_TEXTS } from "@/lib/chachamaruTexts";
 import { OG_IMAGE_URL, ORGANIZATION_LOGO_URL, ORGANIZATION_NAME_JA, ORGANIZATION_NAME_EN, ORGANIZATION_URL, ORGANIZATION_INSTAGRAM } from "@/lib/siteConstants";
 
-// 基本フォントを Noto Serif JP に統一（Regular 400 / SemiBold 600 / Bold 700）
-const notoSerif = Noto_Serif_JP({
+// 見出しのみ Noto Serif JP を使い、初期表示の本文はシステム明朝で先に描画する。
+const notoSerifHeading = Noto_Serif_JP({
   subsets: ["latin"],
-  weight: ["400", "600", "700"],
-  variable: "--font-body",
+  weight: ["600", "700"],
+  display: "swap",
+  preload: false,
+  variable: "--font-heading",
 });
 
 const GSC_VERIFICATION = process.env.NEXT_PUBLIC_GSC_VERIFICATION?.trim();
@@ -72,10 +74,9 @@ export default function RootLayout({
     loc === "ja" ? "ja" : loc === "en" ? "en-JP" : loc === "ko" ? "ko-JP" : "zh-JP";
 
   return (
-    <html lang={htmlLang} className={notoSerif.variable} suppressHydrationWarning>
+    <html lang={htmlLang} className={notoSerifHeading.variable} suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-        <ChachamaruDeferredStylesheet />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
@@ -91,6 +92,7 @@ export default function RootLayout({
         <Providers>
           <Layout>{children}</Layout>
         </Providers>
+        <ChachamaruDeferredStylesheet />
         {/* 茶々丸: アイコンURLを渡してからスクリプト読み込み */}
         <Script id="chachamaru-vars" strategy="afterInteractive">
           {`window.chachamaruVars={iconUrl:"/images/chachamaru-icon.png",proxyUrl:"/api/chachamaru/ask",texts:${JSON.stringify(CHACHAMARU_TEXTS)},useReactBar:true};`}
