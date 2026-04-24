@@ -116,10 +116,11 @@ export default function HowToBrewPage({ params }: Props = {}) {
             </div>
             <figure className="overflow-hidden rounded-md">
               <Image
-                src="/images/how-to-brew/tea-bag.jpg"
+                src="/images/how-to-brew/tea-bag.webp"
                 alt={t.altTeaBag}
                 width={960}
                 height={640}
+                sizes="(max-width: 767px) 90vw, (max-width: 1280px) 44vw, 540px"
                 className="h-auto w-full object-cover"
               />
             </figure>
@@ -156,10 +157,11 @@ export default function HowToBrewPage({ params }: Props = {}) {
             </div>
             <figure className="overflow-hidden rounded-md">
               <Image
-                src="/images/how-to-brew/pot.jpg"
+                src="/images/how-to-brew/pot.webp"
                 alt={t.altPot}
                 width={960}
                 height={640}
+                sizes="(max-width: 767px) 90vw, (max-width: 1280px) 44vw, 540px"
                 className="h-auto w-full object-cover"
               />
             </figure>
