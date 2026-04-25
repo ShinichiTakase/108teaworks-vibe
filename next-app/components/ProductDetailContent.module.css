@@ -1,0 +1,44 @@
+.scope :global(.my-info-list) li {
+  position: relative;
+  padding-left: 28px !important;
+  margin-bottom: 8px;
+  color: #666;
+  font-size: 14px;
+  line-height: 1.6;
+  list-style: none;
+}
+
+.scope :global(.my-info-list) li::before {
+  content: "i";
+  position: absolute;
+  left: 0;
+  top: 0.1em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #999;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.scope :global(.product-description ul:not(.my-info-list)),
+.scope :global(.product-description ol:not(.my-info-list)) {
+  padding-left: 1.5em;
+}
+
+.scope :global(.product-description ul:not(.my-info-list) li) {
+  padding-left: 1em;
+  list-style-type: disc;
+  list-style-position: outside;
+}
+
+.scope :global(.product-description ol:not(.my-info-list) li) {
+  padding-left: 1em;
+  list-style-type: decimal;
+  list-style-position: outside;
+}

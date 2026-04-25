@@ -1,3 +1,5 @@
+import styles from "@/components/ProductTasteImages.module.css";
+
 type Props = {
   paths: string[];
   altBase: string;
@@ -8,13 +10,12 @@ type Props = {
 /**
  * 商品「味わい」補足画像。
  * スマホは常に2列横並び・拡大なし。md 以上は4枚未満を縦1列、4枚以上は2列。md 以上のみホバーで2倍拡大。
- * グリッド列数は globals.css の .product-taste-images-grid（purge に影響されない）。
  */
 export default function ProductTasteImages({ paths, altBase, className = "" }: Props) {
   if (paths.length === 0) return null;
 
   /** 4枚未満だけ md 以上で1列（縦積み）。4枚以上は常に2列。 */
-  const gridModifier = paths.length < 4 ? "product-taste-images-grid--stack-wide" : "";
+  const gridModifier = paths.length < 4 ? styles.stackWide : "";
 
   /**
    * 基準 11rem の 7.5 倍を上限にし、親幅でクリップ（md 以上）。
@@ -26,7 +27,7 @@ export default function ProductTasteImages({ paths, altBase, className = "" }: P
 
   return (
     <div
-      className={["product-taste-images-grid", gridModifier, rootWidth, className].filter(Boolean).join(" ")}
+      className={[styles.grid, gridModifier, rootWidth, className].filter(Boolean).join(" ")}
       aria-label={altBase ? `${altBase} の味わい・茶葉の写真` : "味わい・茶葉の写真"}
     >
       {paths.map((src, i) => (

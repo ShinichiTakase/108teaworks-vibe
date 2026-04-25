@@ -68,15 +68,18 @@ export default function Hero({ locale }: Props) {
         {t.heading}
       </h2>
       <p
-        className={`hero-lead m-0 text-[0.9375rem] md:text-base text-ink-muted max-w-[38em] mx-auto ${
-          expanded ? "hero-lead--expanded" : ""
-        }`}
+        className={[
+          "m-0 text-[0.9375rem] md:text-base text-ink-muted max-w-[38em] mx-auto",
+          expanded
+            ? "block"
+            : "max-md:[display:-webkit-box] max-md:[-webkit-box-orient:vertical] max-md:[-webkit-line-clamp:3] max-md:overflow-hidden",
+        ].join(" ")}
       >
         {t.body}
       </p>
       <button
         type="button"
-        className="hero-lead-more m-0 max-w-[38em] mx-auto text-right text-sm text-tea md:hidden"
+        className="m-0 mt-1 block w-full max-w-[38em] mx-auto text-right text-sm text-tea bg-transparent border-0 cursor-pointer md:hidden"
         onClick={() => setExpanded((prev) => !prev)}
         aria-expanded={expanded}
       >

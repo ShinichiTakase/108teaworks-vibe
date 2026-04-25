@@ -7,6 +7,7 @@ import ProductImageGallery from "@/components/ProductImageGallery";
 import ProductAddToCart from "@/components/ProductAddToCart";
 import PageEndProductList from "@/components/PageEndProductList";
 import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
+import styles from "@/components/ProductDetailContent.module.css";
 import { getBreadcrumbItems } from "@/lib/breadcrumb";
 import type { Locale } from "@/lib/i18n";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
@@ -229,7 +230,7 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
   return (
     <>
     <BreadcrumbListSchema items={breadcrumbItems} />
-    <article className="mb-10">
+    <article className={["mb-10", styles.scope].join(" ")}>
       <script
         type="application/ld+json"
         suppressHydrationWarning
