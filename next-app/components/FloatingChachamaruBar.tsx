@@ -79,7 +79,7 @@ export default function FloatingChachamaruBar() {
       <span className="flex h-6 w-6 md:h-9 md:w-9 shrink-0 items-center justify-center text-white">
         {useCustomIcon ? (
           <Image
-            src="/images/chachamaru-icon.png"
+            src="/images/chachamaru-icon.webp"
             alt=""
             width={36}
             height={36}
