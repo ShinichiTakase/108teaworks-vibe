@@ -45,6 +45,8 @@ export default function Header() {
                 width={1023}
                 height={298}
                 className="block w-full max-w-full h-auto mx-auto md:w-full md:max-w-wide"
+                fetchPriority="high"
+                loading="eager"
                 decoding="async"
               />
             </picture>
