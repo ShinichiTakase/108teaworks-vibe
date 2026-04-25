@@ -195,9 +195,10 @@ export default function HowToBrewPage({ params }: Props = {}) {
               <Image
                 src="/images/how-to-brew/water.webp"
                 alt={t.altWater}
-                width={960}
-                height={640}
-                sizes="(max-width: 767px) 90vw, (max-width: 1280px) 44vw, 540px"
+                width={480}
+                height={320}
+                sizes="(max-width: 767px) 76vw, 480px"
+                quality={65}
                 className="h-auto w-full object-cover"
               />
             </figure>

@@ -6,13 +6,49 @@ const nextConfig = {
     serverComponentsExternalPackages: ["pdfkit"],
     optimizeCss: true,
   },
-  // 商品画像は差し替え時にすぐ反映されるようキャッシュを短くする
+  // 商品画像は差し替え時にすぐ反映、固定アセットは長期キャッシュ
   async headers() {
     return [
       {
         source: "/images/products/:path*",
         headers: [
           { key: "Cache-Control", value: "public, max-age=0, must-revalidate" },
+        ],
+      },
+      {
+        source: "/images/how-to-brew/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+      {
+        source: "/images/logo/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+      {
+        source: "/images/books/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+      {
+        source: "/images/chachamaru-icon.webp",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+      {
+        source: "/_next/static/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+      {
+        source: "/_next/image",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=604800, stale-while-revalidate=86400" },
         ],
       },
     ];
