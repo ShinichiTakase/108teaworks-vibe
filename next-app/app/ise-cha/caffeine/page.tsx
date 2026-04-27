@@ -36,8 +36,9 @@ export default function IseChaCaffeinePage() {
             お茶とカフェインの知っておきたい関係：心地よいティータイムのために
           </h1>
 
-          <section className="mb-8">
-            <div className="max-w-[420px]">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-[minmax(260px,420px)_minmax(0,1fr)] md:items-start">
+            <aside className="w-full">
+              <section className="max-w-[420px]">
               {structureImageExists ? (
                 <Image
                   src={STRUCTURE_IMAGE_SRC}
@@ -78,8 +79,8 @@ export default function IseChaCaffeinePage() {
                   伊勢茶 カフェインカット（デカフェ）緑茶
                 </p>
               </Link>
-            </div>
-          </section>
+              </section>
+            </aside>
 
           <section className="space-y-4 text-[0.9375rem] leading-relaxed text-ink">
             <p>
@@ -185,6 +186,7 @@ export default function IseChaCaffeinePage() {
               カフェインは決して「避けるべきもの」ではありません。仕事中の集中力アップや、アクティブに動きたい時には強い味方になってくれます。大切なのは、時間帯や体調に合わせて飲み分けること。朝の目覚めには力強い深蒸し茶を。そしてリラックスしたい夜や、ご家族で囲む食卓には藤八茶寮のカフェインカット緑茶を。上手に使い分けて、心豊かなティータイムをお過ごしください。
             </p>
           </section>
+          </div>
         </article>
       </div>
     </main>
