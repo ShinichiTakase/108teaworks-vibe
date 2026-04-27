@@ -36,15 +36,15 @@ export default function IseChaCaffeinePage() {
             お茶とカフェインの知っておきたい関係：心地よいティータイムのために
           </h1>
 
-          <section className="mb-8 grid grid-cols-1 gap-8 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:items-start">
-            <div>
+          <section className="mb-8">
+            <div className="max-w-[420px]">
               {structureImageExists ? (
                 <Image
                   src={STRUCTURE_IMAGE_SRC}
                   alt="カフェイン構造式"
                   width={480}
                   height={480}
-                  className="h-auto w-full max-w-[320px] rounded border border-border bg-white object-contain"
+                  className="h-auto w-full max-w-[320px] object-contain"
                   sizes="(max-width: 767px) 70vw, 320px"
                 />
               ) : (
@@ -56,12 +56,15 @@ export default function IseChaCaffeinePage() {
                   に配置してください
                 </div>
               )}
-            </div>
 
-            <div className="md:pt-4">
+              <p className="m-0 mt-3 text-[0.875rem] leading-relaxed text-ink-muted">
+                化学式: C8H10N4O2
+              </p>
+              <h2 className="m-0 mt-1 text-lg font-semibold text-tea-deep">Caffeine</h2>
+
               <Link
                 href="/ise-cha/decaf_green_tea/"
-                className="block max-w-[420px] no-underline text-inherit rounded-lg border border-border bg-washi p-3 transition-colors hover:bg-cream"
+                className="mt-6 block max-w-[420px] no-underline text-inherit rounded-lg border border-border bg-washi p-3 transition-colors hover:bg-cream"
               >
                 <Image
                   src={decafImagePath}
