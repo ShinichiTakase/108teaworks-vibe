@@ -58,14 +58,14 @@ export default function IseChaCaffeinePage() {
                 </div>
               )}
 
-              <p className="m-0 mt-3 text-[0.875rem] leading-relaxed text-ink-muted">
+              <p className="m-0 mt-3 text-center text-[0.875rem] leading-relaxed text-ink-muted">
                 化学式: C8H10N4O2
               </p>
-              <h2 className="m-0 mt-1 text-lg font-semibold text-tea-deep">Caffeine</h2>
+              <h2 className="m-0 mt-1 text-center text-lg font-semibold text-tea-deep">Caffeine</h2>
 
               <Link
                 href="/ise-cha/decaf_green_tea/"
-                className="mt-6 block max-w-[420px] no-underline text-inherit rounded-lg border border-border bg-washi p-3 transition-colors hover:bg-cream"
+                className="mt-[10lh] block max-w-[420px] no-underline text-inherit rounded-lg border border-border bg-washi p-3 transition-colors hover:bg-cream"
               >
                 <Image
                   src={decafImagePath}
@@ -75,7 +75,7 @@ export default function IseChaCaffeinePage() {
                   className="h-auto w-full rounded object-cover"
                   sizes="(max-width: 767px) 90vw, 420px"
                 />
-                <p className="m-0 mt-3 text-[0.9375rem] font-semibold text-tea-deep">
+                <p className="m-0 mt-3 text-center text-[0.9375rem] font-semibold text-tea-deep">
                   伊勢茶 カフェインカット（デカフェ）緑茶
                 </p>
               </Link>
