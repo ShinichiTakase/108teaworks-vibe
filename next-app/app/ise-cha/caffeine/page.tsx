@@ -3,6 +3,7 @@ import path from "path";
 import Image from "next/image";
 import Link from "next/link";
 import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
+import IsechaSubNav from "@/components/IsechaSubNav";
 import { MAIN_CLASS, INNER_CLASS } from "@/components/Layout";
 import { getBreadcrumbItems } from "@/lib/breadcrumb";
 import { getProductImagePath } from "@/lib/productImage";
@@ -32,6 +33,7 @@ export default function IseChaCaffeinePage() {
       <BreadcrumbListSchema items={getBreadcrumbItems("/ise-cha/caffeine", "ja")} />
       <div className={INNER_CLASS}>
         <article className="mb-12">
+          <IsechaSubNav locale="ja" current="caffeine" />
           <h1 className="m-0 mb-6 font-heading text-xl font-semibold text-tea-deep md:text-2xl">
             お茶とカフェインの知っておきたい関係：心地よいティータイムのために
           </h1>
