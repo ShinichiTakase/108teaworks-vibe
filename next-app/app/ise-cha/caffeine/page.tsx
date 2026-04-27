@@ -160,13 +160,20 @@ export default function IseChaCaffeinePage() {
             </div>
 
             <h2 className="m-0 mt-8 text-lg font-semibold text-tea-deep">
-              美味しさを諦めない「藤八茶寮」のカフェインカット緑茶
+              美味しさを諦めない「藤八茶寮」の
+              <Link href="/ise-cha/decaf_green_tea/" className="text-inherit underline underline-offset-2">
+                カフェインカット緑茶
+              </Link>
             </h2>
             <p>
               「夜もお茶を楽しみたいけれど、眠れなくなるのは困る」「妊娠中や授乳中でも、本格的なお茶の味を楽しみたい」……そんな声にお応えして生まれたのが、藤八茶寮のカフェインカット緑茶です。
             </p>
             <p>
-              私たちのカフェインカット緑茶は、薬剤を使わず「水と二酸化炭素」のみを用いる超臨界二酸化炭素抽出法を採用しています。
+              私たちの
+              <Link href="/ise-cha/decaf_green_tea/" className="text-tea underline underline-offset-2">
+                カフェインカット緑茶
+              </Link>
+              は、薬剤を使わず「水と二酸化炭素」のみを用いる超臨界二酸化炭素抽出法を採用しています。
             </p>
 
             <ol className="m-0 pl-5">
