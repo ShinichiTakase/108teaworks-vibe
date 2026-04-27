@@ -45,11 +45,11 @@ export default function IseChaCaffeinePage() {
                   alt="カフェイン構造式"
                   width={480}
                   height={480}
-                  className="h-auto w-full max-w-[320px] object-contain"
+                  className="mt-[3lh] mx-auto h-auto w-full max-w-[320px] object-contain"
                   sizes="(max-width: 767px) 70vw, 320px"
                 />
               ) : (
-                <div className="flex h-[240px] w-full max-w-[320px] items-center justify-center rounded border border-dashed border-border bg-cream px-4 text-center text-[0.875rem] text-ink-muted">
+                <div className="mt-[3lh] mx-auto flex h-[240px] w-full max-w-[320px] items-center justify-center rounded border border-dashed border-border bg-cream px-4 text-center text-[0.875rem] text-ink-muted">
                   Caffeine_structure.webp を
                   <br />
                   /public/images/ise-cha/caffeine/
