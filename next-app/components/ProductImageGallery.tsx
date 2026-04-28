@@ -19,7 +19,7 @@ export default function ProductImageGallery({ imagePaths, alt }: Props) {
   const [mouse, setMouse] = useState({ x: 0, y: 0 });
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const paths = imagePaths.length > 0 ? imagePaths : ["/images/products/product-01.webp"];
+  const paths = imagePaths.length > 0 ? imagePaths : [];
   const mainSrc = paths[mainIndex] ?? paths[0];
   const thumbnails = paths.slice(0, MAX_THUMBNAILS);
 
@@ -67,14 +67,18 @@ export default function ProductImageGallery({ imagePaths, alt }: Props) {
         onMouseLeave={handleMouseLeave}
         onMouseMove={handleMouseMove}
       >
-        <Image
-          src={mainSrc}
-          alt={alt}
-          width={400}
-          height={400}
-          className="h-full w-full object-contain"
-          style={imageStyle}
-        />
+        {mainSrc ? (
+          <Image
+            src={mainSrc}
+            alt={alt}
+            width={400}
+            height={400}
+            className="h-full w-full object-contain"
+            style={imageStyle}
+          />
+        ) : (
+          <div className="h-full w-full bg-cream" aria-hidden="true" />
+        )}
       </div>
       {thumbnails.length > 1 && (
         <ul className="grid grid-cols-4 gap-2 list-none m-0 p-0 max-w-md">

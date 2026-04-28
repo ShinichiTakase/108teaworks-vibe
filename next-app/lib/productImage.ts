@@ -1,27 +1,57 @@
 import fs from "fs";
 import path from "path";
 
-const FALLBACK_IMAGE = "/images/products/product-01.webp";
-
 const PRODUCTS_IMAGE_DIR = ["public", "images", "products"];
+const IMAGE_EXTENSIONS = new Set([".webp", ".png", ".jpg", ".jpeg", ".gif", ".avif"]);
+
+function sortByFilenameAsc(a: string, b: string): number {
+  return a.localeCompare(b, undefined, { numeric: true, sensitivity: "base" });
+}
+
+function readImageFilesAsc(dir: string): string[] {
+  if (!fs.existsSync(dir)) return [];
+  return fs
+    .readdirSync(dir)
+    .filter((f) => {
+      const p = path.join(dir, f);
+      return fs.statSync(p).isFile() && IMAGE_EXTENSIONS.has(path.extname(f).toLowerCase());
+    })
+    .sort(sortByFilenameAsc);
+}
+
+function getFallbackImage(): string {
+  const root = path.join(process.cwd(), ...PRODUCTS_IMAGE_DIR);
+  if (!fs.existsSync(root)) return "";
+
+  const dirs = fs
+    .readdirSync(root)
+    .filter((name) => fs.statSync(path.join(root, name)).isDirectory())
+    .sort(sortByFilenameAsc);
+
+  for (const dirName of dirs) {
+    const files = readImageFilesAsc(path.join(root, dirName));
+    if (files.length > 0) {
+      return `/images/products/${dirName}/${files[0]}`;
+    }
+  }
+
+  return "";
+}
+
+const FALLBACK_IMAGE = getFallbackImage();
 
 /**
  * public/images/products/{slug}/ 内の全ファイルパスを辞書順で返す（メインは先頭、サムネイルは2番目以降）
  */
 export function getProductImagePaths(slug: string): string[] {
-  if (!slug || typeof slug !== "string") return [FALLBACK_IMAGE];
+  if (!slug || typeof slug !== "string") return FALLBACK_IMAGE ? [FALLBACK_IMAGE] : [];
   const dir = path.join(process.cwd(), ...PRODUCTS_IMAGE_DIR, slug);
   try {
-    if (!fs.existsSync(dir)) return [FALLBACK_IMAGE];
-    const files = fs.readdirSync(dir).filter((f) => {
-      const p = path.join(dir, f);
-      return fs.statSync(p).isFile();
-    });
-    if (files.length === 0) return [FALLBACK_IMAGE];
-    files.sort();
+    const files = readImageFilesAsc(dir);
+    if (files.length === 0) return FALLBACK_IMAGE ? [FALLBACK_IMAGE] : [];
     return files.map((f) => `/images/products/${slug}/${f}`);
   } catch {
-    return [FALLBACK_IMAGE];
+    return FALLBACK_IMAGE ? [FALLBACK_IMAGE] : [];
   }
 }
 
@@ -30,7 +60,7 @@ export function getProductImagePaths(slug: string): string[] {
  */
 export function getProductImagePath(slug: string): string {
   const paths = getProductImagePaths(slug);
-  return paths[0] ?? FALLBACK_IMAGE;
+  return paths[0] ?? "";
 }
 
 /**

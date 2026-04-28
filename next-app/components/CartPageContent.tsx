@@ -9,8 +9,6 @@ import { COMMON_TEXTS } from "@/lib/commonTexts";
 import { formatPriceYen } from "@/lib/formatters";
 import { buildLocalizedHref, detectLocaleFromPath } from "@/lib/urlPath";
 
-const FALLBACK_IMAGE = "/images/products/product-01.webp";
-
 const FREE_SHIPPING_THRESHOLD = 20000;
 
 function taxIncluded(amount: number): number {
@@ -23,11 +21,16 @@ export default function CartPageContent() {
   const t = COMMON_TEXTS[locale].cart;
   const { items, updateQuantity, removeFromCart } = useCart();
   const [translatedTitles, setTranslatedTitles] = useState<Record<string, string>>({});
+  const [resolvedImagePaths, setResolvedImagePaths] = useState<Record<string, string>>({});
 
   const slugsToFetch = useMemo(() => {
     if (locale === "ja" || items.length === 0) return [];
     return Array.from(new Set(items.map((i) => i.slug)));
   }, [locale, items]);
+
+  const missingImageSlugs = useMemo(() => {
+    return Array.from(new Set(items.filter((i) => !i.imagePath).map((i) => i.slug)));
+  }, [items]);
 
   useEffect(() => {
     if (slugsToFetch.length === 0) {
@@ -40,6 +43,18 @@ export default function CartPageContent() {
       .then((data: Record<string, string>) => setTranslatedTitles(data ?? {}))
       .catch(() => setTranslatedTitles({}));
   }, [locale, slugsToFetch]);
+
+  useEffect(() => {
+    if (missingImageSlugs.length === 0) {
+      setResolvedImagePaths({});
+      return;
+    }
+    const params = new URLSearchParams({ slugs: missingImageSlugs.join(",") });
+    fetch(`/api/product-images?${params}`)
+      .then((res) => (res.ok ? res.json() : {}))
+      .then((data: Record<string, string>) => setResolvedImagePaths(data ?? {}))
+      .catch(() => setResolvedImagePaths({}));
+  }, [missingImageSlugs]);
 
   const getDisplayTitle = (slug: string, fallback: string) =>
     locale === "ja" ? fallback : (translatedTitles[slug] ?? fallback);
@@ -70,6 +85,7 @@ export default function CartPageContent() {
           <ul className="list-none m-0 p-0 flex flex-col gap-4 mb-6">
             {items.map((item) => {
               const displayTitle = getDisplayTitle(item.slug, item.title);
+              const imageSrc = item.imagePath ?? resolvedImagePaths[item.slug] ?? "";
               return (
               <li
                 key={item.slug}
@@ -80,13 +96,17 @@ export default function CartPageContent() {
                     href={buildLocalizedHref(locale, `/ise-cha/${item.slug}`)}
                     className="shrink-0 w-20 h-20 rounded overflow-hidden bg-cream self-start"
                   >
-                    <Image
-                      src={item.imagePath ?? FALLBACK_IMAGE}
-                      alt={displayTitle}
-                      width={80}
-                      height={80}
-                      className="w-full h-full object-cover"
-                    />
+                    {imageSrc ? (
+                      <Image
+                        src={imageSrc}
+                        alt={displayTitle}
+                        width={80}
+                        height={80}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-cream" aria-hidden="true" />
+                    )}
                   </Link>
                   <div className="min-w-0 flex-1 w-full sm:min-w-[8rem]">
                     <Link

@@ -10,7 +10,6 @@ import { CHECKOUT_TEXTS } from "@/lib/checkoutTexts";
 import { formatPriceYen } from "@/lib/formatters";
 import { detectLocaleFromPath } from "@/lib/urlPath";
 
-const FALLBACK_IMAGE = "/images/products/product-01.webp";
 const FREE_SHIPPING_THRESHOLD = 20000;
 const ZIPCLOUD_API = "https://zipcloud.ibsnet.co.jp/api/search";
 
@@ -59,6 +58,7 @@ export default function CheckoutPage() {
   const t = CHECKOUT_TEXTS[locale];
   const homeHref = locale === "ja" ? "/" : `/${locale}`;
   const { items, updateQuantity, removeFromCart, clearCart } = useCart();
+  const [resolvedImagePaths, setResolvedImagePaths] = useState<Record<string, string>>({});
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -114,6 +114,22 @@ export default function CheckoutPage() {
 
   const zip7 = normalizePostalCode(postalCode);
   const zip7Ship = normalizePostalCode(shipPostalCode);
+
+  const missingImageSlugs = useMemo(() => {
+    return Array.from(new Set(items.filter((i) => !i.imagePath).map((i) => i.slug)));
+  }, [items]);
+
+  useEffect(() => {
+    if (missingImageSlugs.length === 0) {
+      setResolvedImagePaths({});
+      return;
+    }
+    const params = new URLSearchParams({ slugs: missingImageSlugs.join(",") });
+    fetch(`/api/product-images?${params}`)
+      .then((res) => (res.ok ? res.json() : {}))
+      .then((data: Record<string, string>) => setResolvedImagePaths(data ?? {}))
+      .catch(() => setResolvedImagePaths({}));
+  }, [missingImageSlugs]);
 
   const fetchAddress = useCallback(async (code: string) => {
     if (code.length !== 7) {
@@ -807,20 +823,26 @@ export default function CheckoutPage() {
         <div className="order-1 lg:col-start-1 lg:row-start-1">
           <h2 className="m-0 mb-4 text-base font-semibold text-tea-deep">{t.orderSummary}</h2>
           <ul className="list-none m-0 p-0 flex flex-col gap-3 mb-6">
-            {items.map((item) => (
+            {items.map((item) => {
+              const imageSrc = item.imagePath ?? resolvedImagePaths[item.slug] ?? "";
+              return (
               <li
                 key={item.slug}
                 className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 p-3 rounded-lg border border-border bg-washi"
               >
                 <div className="flex items-center gap-3 min-w-0">
                   <div className="shrink-0 w-14 h-14 rounded overflow-hidden bg-cream">
-                    <Image
-                      src={item.imagePath ?? FALLBACK_IMAGE}
-                      alt={item.title}
-                      width={56}
-                      height={56}
-                      className="w-full h-full object-cover"
-                    />
+                    {imageSrc ? (
+                      <Image
+                        src={imageSrc}
+                        alt={item.title}
+                        width={56}
+                        height={56}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-cream" aria-hidden="true" />
+                    )}
                   </div>
                   <div className="min-w-0 flex-1 sm:min-w-[6rem]">
                     <p className="m-0 text-[0.9375rem] font-medium text-ink break-words">{item.title}</p>
@@ -864,7 +886,8 @@ export default function CheckoutPage() {
                   {t.remove}
                 </button>
               </li>
-            ))}
+              );
+            })}
           </ul>
 
           <div className="border-t border-border pt-4 space-y-2">
