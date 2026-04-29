@@ -196,6 +196,11 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
               "@type": "MerchantReturnPolicy",
               applicableCountry: "JP",
               merchantReturnLink: legalUrl,
+              returnPolicyCategory:
+                "https://schema.org/MerchantReturnFiniteReturnWindow",
+              merchantReturnDays: 7,
+              returnMethod: "https://schema.org/ReturnByMail",
+              returnFees: "https://schema.org/FreeReturn",
             },
           }
         : undefined,
