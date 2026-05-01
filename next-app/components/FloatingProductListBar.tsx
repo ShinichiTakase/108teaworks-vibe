@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
 import { buildLocalizedHref, detectLocaleFromPath } from "@/lib/urlPath";
@@ -9,10 +10,28 @@ import { buildLocalizedHref, detectLocaleFromPath } from "@/lib/urlPath";
 /**
  * 左端から突き出る「商品一覧」フローティングバー。
  * トップページへのリンク。
- * スマホ: 画面下部から40%、コンパクト表示・文字間標準・アイコン非表示。
+ * スマホでは非表示。タブレット・デスクトップで表示。
  */
 export default function FloatingProductListBar() {
   const pathname = usePathname() || "/";
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const onChange = () => setIsMobile(mediaQuery.matches);
+    onChange();
+
+    if (typeof mediaQuery.addEventListener === "function") {
+      mediaQuery.addEventListener("change", onChange);
+      return () => mediaQuery.removeEventListener("change", onChange);
+    }
+
+    mediaQuery.addListener(onChange);
+    return () => mediaQuery.removeListener(onChange);
+  }, []);
+
+  if (isMobile) return null;
+
   const locale = detectLocaleFromPath(pathname);
   const t = COMMON_TEXTS[locale];
   const href = buildLocalizedHref(locale, "/");
@@ -20,7 +39,7 @@ export default function FloatingProductListBar() {
   return (
     <Link
       href={href}
-      className="fixed left-0 z-50 flex items-center justify-center gap-2 rounded-r-full bg-tea-deep text-white no-underline shadow-lg transition-colors hover:bg-tea max-md:h-12 max-md:min-w-0 max-md:pl-3 max-md:pr-3 max-md:py-0 max-md:text-[0.9375rem] md:h-14 md:min-w-[152px] md:pl-4 md:pr-4 md:py-3 md:text-[0.875rem]"
+      className="hidden fixed left-0 z-50 items-center justify-center gap-2 rounded-r-full bg-tea-deep text-white no-underline shadow-lg transition-colors hover:bg-tea md:flex md:h-14 md:min-w-[152px] md:pl-4 md:pr-4 md:py-3 md:text-[0.875rem]"
       style={{ bottom: "40%" }}
       aria-label={t.nav.products}
     >
