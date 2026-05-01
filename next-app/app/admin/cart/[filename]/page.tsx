@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { readFile } from "fs/promises";
+import path from "path";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -15,13 +17,52 @@ async function getCartFile(
   filename: string
 ): Promise<{ headers: string[]; records: string[][] } | null> {
   if (!/^cart_\d{8}\.csv$/.test(filename)) return null;
+
+  const cartDir = path.resolve(process.cwd(), "data/cart");
+  const filePath = path.join(cartDir, filename);
+
+  if (!filePath.startsWith(cartDir + path.sep) && filePath !== cartDir) {
+    return null;
+  }
+
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || "http://localhost:3000";
-    const res = await fetch(`${baseUrl}/api/admin/cart/${encodeURIComponent(filename)}`, {
-      cache: "no-store",
+    const content = await readFile(filePath, "utf8");
+    const lines = content.split("\n").filter((l) => l.trim() !== "");
+    const [headerLine, ...rows] = lines;
+    const headers = headerLine?.split(",") ?? [];
+    const records = rows.map((line) => {
+      const cols: string[] = [];
+      let cur = "";
+      let inQuote = false;
+
+      for (let i = 0; i < line.length; i++) {
+        const ch = line[i];
+        if (inQuote) {
+          if (ch === '"' && line[i + 1] === '"') {
+            cur += '"';
+            i++;
+          } else if (ch === '"') {
+            inQuote = false;
+          } else {
+            cur += ch;
+          }
+        } else {
+          if (ch === '"') {
+            inQuote = true;
+          } else if (ch === ",") {
+            cols.push(cur);
+            cur = "";
+          } else {
+            cur += ch;
+          }
+        }
+      }
+
+      cols.push(cur);
+      return cols;
     });
-    if (!res.ok) return null;
-    return await res.json();
+
+    return { headers, records };
   } catch {
     return null;
   }
