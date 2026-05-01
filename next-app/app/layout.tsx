@@ -6,6 +6,7 @@ import Layout from "@/components/Layout";
 import Providers from "@/components/Providers";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import MetaPixel from "@/components/MetaPixel";
+import MicrosoftClarity from "@/components/MicrosoftClarity";
 import ChachamaruDeferredStylesheet from "@/components/ChachamaruDeferredStylesheet";
 import { CHACHAMARU_TEXTS } from "@/lib/chachamaruTexts";
 import { OG_IMAGE_URL, ORGANIZATION_LOGO_URL, ORGANIZATION_NAME_JA, ORGANIZATION_NAME_EN, ORGANIZATION_URL, ORGANIZATION_INSTAGRAM } from "@/lib/siteConstants";
@@ -79,6 +80,7 @@ export default function RootLayout({
       </head>
       <body className="font-body">
         <MetaPixel />
+        <MicrosoftClarity />
         <Providers>
           <Layout>{children}</Layout>
         </Providers>
