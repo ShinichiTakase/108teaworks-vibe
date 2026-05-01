@@ -8,12 +8,12 @@ function localeFromPathname(pathname: string): "ja" | "en" | "ko" | "zh" {
   return loc;
 }
 
-function isB2bAdminPath(pathname: string): boolean {
-  return pathname === "/admin/b2b" || pathname.startsWith("/admin/b2b/");
+function isAdminPath(pathname: string): boolean {
+  return pathname === "/admin" || pathname.startsWith("/admin/");
 }
 
-function isB2bAdminApiPath(pathname: string): boolean {
-  return pathname === "/api/admin/b2b" || pathname.startsWith("/api/admin/b2b/");
+function isAdminApiPath(pathname: string): boolean {
+  return pathname === "/api/admin" || pathname.startsWith("/api/admin/");
 }
 
 function unauthorizedBasicAuth(): NextResponse {
@@ -76,12 +76,11 @@ function legacyProductDestPathname(pathname: string): string | null {
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
-  // Basic Auth for /admin/b2b and its API endpoints
-  if (isB2bAdminPath(pathname) || isB2bAdminApiPath(pathname)) {
+  // Basic Auth for all /admin pages and API endpoints
+  if (isAdminPath(pathname) || isAdminApiPath(pathname)) {
     if (!checkBasicAuth(request)) {
       return unauthorizedBasicAuth();
     }
-    // Allow request to continue without modifying headers
     return NextResponse.next();
   }
 
@@ -110,7 +109,7 @@ export const config = {
      */
     "/((?!_next|api|images|css|js|pdf|favicon\\.ico|robots\\.txt|sitemap\\.xml).*)",
     // Admin API needs middleware
-    "/api/admin/b2b/:path*",
+    "/api/admin/:path*",
   ],
 };
 
