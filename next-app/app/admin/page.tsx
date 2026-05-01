@@ -1,0 +1,48 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+
+export const metadata: Metadata = {
+  robots: "noindex, nofollow",
+  title: "管理メニュー",
+};
+
+const MENU = [
+  {
+    href: "/admin/send-shipping/",
+    label: "発送完了メール送信",
+    description: "注文番号を指定して発送完了メールを送信する",
+  },
+  {
+    href: "/admin/b2b/",
+    label: "B2B 取引一覧",
+    description: "法人・卸取引の申請・受注一覧を管理する",
+  },
+  {
+    href: "/admin/cart/",
+    label: "カート商品一覧",
+    description: "利用者がカートに追加した商品のログを確認する",
+  },
+];
+
+export default function AdminTopPage() {
+  return (
+    <main className="min-h-screen bg-washi py-16 px-4">
+      <div className="mx-auto max-w-lg">
+        <h1 className="mb-8 text-2xl font-semibold text-tea-deep">管理メニュー</h1>
+        <ul className="space-y-3">
+          {MENU.map(({ href, label, description }) => (
+            <li key={href}>
+              <Link
+                href={href}
+                className="flex flex-col gap-0.5 rounded border border-border bg-white px-5 py-4 shadow-sm transition-colors hover:bg-cream hover:border-tea"
+              >
+                <span className="font-semibold text-tea-deep">{label}</span>
+                <span className="text-xs text-ink-muted">{description}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </main>
+  );
+}
