@@ -92,6 +92,13 @@ export function CartProvider({ children }: { children: ReactNode }) {
         }
         return [...prev, { slug, title, price, quantity, imagePath }];
       });
+
+      // カート追加をサーバーにログ記録（失敗してもカート操作には影響しない）
+      fetch("/api/cart/log", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title, quantity }),
+      }).catch(() => {/* ログ失敗は無視 */});
     },
     []
   );
