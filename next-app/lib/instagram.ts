@@ -4,6 +4,8 @@
  * 参考: https://developers.facebook.com/docs/instagram-platform/instagram-graph-api/reference/ig-user/media
  */
 
+import { unstable_noStore as noStore } from "next/cache";
+
 export type InstagramMedia = {
   id: string;
   media_type?: "IMAGE" | "VIDEO" | "CAROUSEL_ALBUM";
@@ -13,6 +15,9 @@ export type InstagramMedia = {
 };
 
 export async function fetchInstagramMedia(limit = 10): Promise<InstagramMedia[]> {
+  // Docker 本番では build 時に環境変数が未注入でも、実行時に取得できるよう静的化を無効化。
+  noStore();
+
   const token = process.env.INSTAGRAM_ACCESS_TOKEN?.trim();
   const userId = process.env.INSTAGRAM_USER_ID?.trim();
   if (!token || !userId) {

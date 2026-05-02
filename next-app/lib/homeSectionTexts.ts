@@ -116,6 +116,7 @@ export const HOME_INSTAGRAM_TEXTS: Record<
     postsAria: string;
     postAlt: string;
     followCta: string;
+    placeholderLabel: string;
   }
 > = {
   ja: {
@@ -124,6 +125,7 @@ export const HOME_INSTAGRAM_TEXTS: Record<
     postsAria: "最新の投稿",
     postAlt: "Instagramの投稿",
     followCta: "Instagram でフォロー",
+    placeholderLabel: "投稿準備中",
   },
   en: {
     heading: "Instagram",
@@ -131,6 +133,7 @@ export const HOME_INSTAGRAM_TEXTS: Record<
     postsAria: "Latest posts",
     postAlt: "Instagram post",
     followCta: "Follow us on Instagram",
+    placeholderLabel: "Post coming soon",
   },
   ko: {
     heading: "Instagram",
@@ -138,6 +141,7 @@ export const HOME_INSTAGRAM_TEXTS: Record<
     postsAria: "최신 게시물",
     postAlt: "Instagram 게시물",
     followCta: "Instagram에서 팔로우",
+    placeholderLabel: "게시물 준비 중",
   },
   zh: {
     heading: "Instagram",
@@ -145,6 +149,7 @@ export const HOME_INSTAGRAM_TEXTS: Record<
     postsAria: "最新动态",
     postAlt: "Instagram 帖子",
     followCta: "在 Instagram 关注我们",
+    placeholderLabel: "内容即将发布",
   },
 };
 

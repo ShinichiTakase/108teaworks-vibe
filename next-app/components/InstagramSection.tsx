@@ -12,16 +12,16 @@ function thumbnailSrc(src: string): string {
 }
 
 const FALLBACK_POSTS = [
-  { url: "https://www.instagram.com/p/DVK0TbkkbiJ/", img: "/images/instagram/post-01.jpg" },
-  { url: "https://www.instagram.com/p/DUx6ohyEawL/", img: "/images/instagram/post-02.jpg" },
-  { url: "https://www.instagram.com/p/DUsMdGJEU5u/", img: "/images/instagram/post-03.jpg" },
-  { url: "https://www.instagram.com/p/DUnWV1Jke7G/", img: "/images/instagram/post-04.jpg" },
-  { url: "https://www.instagram.com/p/DS11zPGkZoU/", img: "/images/instagram/post-05.jpg" },
-  { url: "https://www.instagram.com/p/DR4VZTgEQPM/", img: "/images/instagram/post-06.jpg" },
-  { url: "https://www.instagram.com/p/DQgS093EXJG/", img: "/images/instagram/post-07.jpg" },
-  { url: "https://www.instagram.com/p/DQTY-TWkVWA/", img: "/images/instagram/post-08.jpg" },
-  { url: "https://www.instagram.com/p/DQHYqH3kpcH/", img: "/images/instagram/post-09.jpg" },
-  { url: "https://www.instagram.com/p/DOHoNDhklII/", img: "/images/instagram/post-10.jpg" },
+  { url: "https://www.instagram.com/p/DVK0TbkkbiJ/", img: null },
+  { url: "https://www.instagram.com/p/DUx6ohyEawL/", img: null },
+  { url: "https://www.instagram.com/p/DUsMdGJEU5u/", img: null },
+  { url: "https://www.instagram.com/p/DUnWV1Jke7G/", img: null },
+  { url: "https://www.instagram.com/p/DS11zPGkZoU/", img: null },
+  { url: "https://www.instagram.com/p/DR4VZTgEQPM/", img: null },
+  { url: "https://www.instagram.com/p/DQgS093EXJG/", img: null },
+  { url: "https://www.instagram.com/p/DQTY-TWkVWA/", img: null },
+  { url: "https://www.instagram.com/p/DQHYqH3kpcH/", img: null },
+  { url: "https://www.instagram.com/p/DOHoNDhklII/", img: null },
 ];
 
 type Props = { locale?: Locale };
@@ -72,15 +72,21 @@ export default async function InstagramSection({ locale = "ja" }: Props) {
               rel="noopener noreferrer"
               className="block aspect-square overflow-hidden rounded bg-washi"
             >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={thumbnailSrc(post.img)}
-                alt={t.postAlt}
-                width={200}
-                height={200}
-                className="block w-full h-full object-cover"
-                loading="lazy"
-              />
+              {post.img ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={thumbnailSrc(post.img)}
+                  alt={t.postAlt}
+                  width={200}
+                  height={200}
+                  className="block w-full h-full object-cover"
+                  loading="lazy"
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-[#f8f3ea] to-[#efe5d2] text-tea-deep">
+                  <span className="text-xs font-medium tracking-[0.08em]">{t.placeholderLabel}</span>
+                </div>
+              )}
             </a>
           </li>
         ))}
