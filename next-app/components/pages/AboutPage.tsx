@@ -6,7 +6,7 @@ const ABOUT_TEXTS: Record<
   Locale,
   {
     h1: string;
-    lead1: string;
+    lead1: React.ReactNode;
     lead2: string;
     sec2Title: string;
     sec2P1: string;
@@ -26,8 +26,19 @@ const ABOUT_TEXTS: Record<
 > = {
   ja: {
     h1: "藤八茶寮について",
-    lead1:
-      "藤八茶寮では、三重県内で採れた茶葉のみを使用したシングルオリジンの伊勢茶を取り扱っています。こっくりとした甘みが広がる深蒸し緑茶、鼻に抜ける香ばしさが心地よいほうじ茶。思わずおうちに置いておきたくなるような日々のお茶を揃えました。私たちが目指すのは、コーヒーや紅茶のようにお気に入りのカップやおやつを用意してすてきな時間のお供にしたくなるお茶です。",
+    lead1: (
+      <>
+        <p className="mb-4 text-[0.9375rem] leading-relaxed text-ink-muted">
+          祖先より守り続けてきた、<strong>三重県松阪市飯南町のわずか1.7ヘクタールの茶園</strong>。藤八茶寮は、この希少な単一農園で育つ「シングルオリジン伊勢茶」の専門店です。
+        </p>
+        <p className="mb-4 text-[0.9375rem] leading-relaxed text-ink-muted">
+          櫛田川の清流が育む河岸段丘。午後の陽光が優しく遮られるこの特異な地形は、お茶にとって「<strong>天然の被せ（かぶせ）</strong>」の環境をもたらしました。限られた区画から収穫される希少な茶葉は、かつてはその質の高さゆえに、他の銘茶の「味を整えるための合組（ブレンド）用」として密かに重宝されてきました。
+        </p>
+        <p className="mb-4 text-[0.9375rem] leading-relaxed text-ink-muted">
+          私たちは、この希少なシングルオリジン（単一農園）の美味しさをそのままお届けしたいという想いから、オンラインでのご紹介を始めました。コーヒーや紅茶を愉しむように、お気に入りのカップで自分を整えるひとときを。伝統ある深蒸し緑茶が、あなたの日常に静かな贅沢を添えます。
+        </p>
+      </>
+    ),
     lead2:
       "ご自宅でお楽しみいただけるのはもちろん、コーヒースタンドをはじめとした飲食店様への卸業務も行っています。",
     sec2Title: "屋号に込めた想い：なぜ「藤八」なのか",
@@ -160,15 +171,26 @@ export default function AboutPage({ locale }: Props) {
 
           <div className="mb-12 grid grid-cols-1 items-center gap-6 md:grid-cols-2 md:gap-8">
             <figure className="order-2 overflow-hidden rounded-md md:order-1">
-              <Image src={`${IMG_BASE}/about01-1.png`} alt={t.altImage1} width={800} height={600} className="h-auto w-full object-cover" />
+              <Image src={`${IMG_BASE}/chaen.webp`} alt={t.altImage1} width={1600} height={1200} className="h-auto w-full object-cover" />
             </figure>
-            <div className="order-1 text-right md:order-2">
-              <p className="mb-4 text-[0.9375rem] leading-relaxed text-ink-muted">
+            <div className="order-1 text-left md:order-2">
+              <div className="mb-4">
                 {t.lead1}
-              </p>
-              <p className="text-[0.9375rem] leading-relaxed text-ink-muted">
+              </div>
+              <p className="mb-4 text-[0.9375rem] leading-relaxed text-ink-muted">
                 {t.lead2}
               </p>
+              <a
+                href="https://maps.app.goo.gl/6gYg91i3jbrov5dZ6"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-sm text-tea-deep underline underline-offset-2 hover:opacity-70"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
+                </svg>
+                Googleストリートビューで茶園を見る
+              </a>
             </div>
           </div>
 
@@ -193,7 +215,7 @@ export default function AboutPage({ locale }: Props) {
             <figure className="order-2 overflow-hidden rounded-md md:order-1">
               <Image src={`${IMG_BASE}/108-892x1024-1.jpg`} alt={t.altImage3} width={892} height={1024} className="h-auto w-full object-cover" />
             </figure>
-            <div className="order-1 text-right md:order-2">
+            <div className="order-1 text-left md:order-2">
               <h2 className="mt-0 mb-3 text-base font-semibold text-tea-deep">
                 {t.sec3Title}
               </h2>
