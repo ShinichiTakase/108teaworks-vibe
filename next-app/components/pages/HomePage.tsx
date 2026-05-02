@@ -16,8 +16,7 @@ export default function HomePage({ locale }: Props) {
       <Hero locale={locale} />
       <ProductList locale={locale} />
       <NewsList locale={locale} />
-      {/* TODO: Instagram 表示を再開する場合は false を true に戻す */}
-      {false && <InstagramSection locale={locale} />}
+      <InstagramSection locale={locale} />
       <WholesaleSection locale={locale} />
     </>
   );
