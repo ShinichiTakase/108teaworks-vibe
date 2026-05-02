@@ -14,6 +14,25 @@ export type InstagramMedia = {
   thumbnail_url?: string;
 };
 
+export type InstagramFetchAttempt = {
+  endpoint: string;
+  ok: boolean;
+  status?: number;
+  message?: string;
+  dataLength?: number;
+};
+
+export type InstagramFetchDiagnosis = {
+  hasToken: boolean;
+  hasUserId: boolean;
+  tokenLength: number;
+  userIdLength: number;
+  attempts: InstagramFetchAttempt[];
+  mediaCount: number;
+  samplePermalink?: string;
+  sampleMediaHost?: string;
+};
+
 function sanitizeEnv(value: string | undefined): string {
   if (!value) return "";
   const trimmed = value.trim();
@@ -73,6 +92,55 @@ async function fetchFromCandidates(token: string, userId: string, limit: number)
   return [];
 }
 
+async function fetchFromCandidatesWithDiagnosis(
+  token: string,
+  userId: string,
+  limit: number,
+  attempts: InstagramFetchAttempt[],
+): Promise<InstagramMedia[]> {
+  const fields = "id,media_type,media_url,permalink,thumbnail_url";
+  const candidates = [
+    `https://graph.instagram.com/v21.0/${userId}/media`,
+    "https://graph.instagram.com/me/media",
+    `https://graph.facebook.com/v21.0/${userId}/media`,
+  ];
+
+  for (const endpoint of candidates) {
+    const url = new URL(endpoint);
+    url.searchParams.set("fields", fields);
+    url.searchParams.set("limit", String(limit));
+    url.searchParams.set("access_token", token);
+
+    try {
+      const res = await fetch(url.toString(), { cache: "no-store" });
+      if (!res.ok) {
+        const errBody = await res.json().catch(() => ({})) as { error?: { message?: string } };
+        attempts.push({
+          endpoint,
+          ok: false,
+          status: res.status,
+          message: errBody?.error?.message ?? res.statusText,
+        });
+        continue;
+      }
+
+      const json = await res.json();
+      const data = json.data as Array<Record<string, unknown>> | undefined;
+      if (!Array.isArray(data) || data.length === 0) {
+        attempts.push({ endpoint, ok: false, status: 200, message: "empty data", dataLength: 0 });
+        continue;
+      }
+
+      attempts.push({ endpoint, ok: true, status: 200, dataLength: data.length });
+      return mapMedia(data, limit);
+    } catch (e) {
+      attempts.push({ endpoint, ok: false, message: e instanceof Error ? e.message : String(e) });
+    }
+  }
+
+  return [];
+}
+
 export async function fetchInstagramMedia(limit = 10): Promise<InstagramMedia[]> {
   // Docker 本番では build 時に環境変数が未注入でも、実行時に取得できるよう静的化を無効化。
   noStore();
@@ -89,4 +157,36 @@ export async function fetchInstagramMedia(limit = 10): Promise<InstagramMedia[]>
     console.error("[instagram] unexpected error", e);
     return [];
   }
+}
+
+export async function diagnoseInstagramFetch(limit = 3): Promise<InstagramFetchDiagnosis> {
+  noStore();
+
+  const token = sanitizeEnv(process.env.INSTAGRAM_ACCESS_TOKEN);
+  const userId = sanitizeEnv(process.env.INSTAGRAM_USER_ID);
+  const diagnosis: InstagramFetchDiagnosis = {
+    hasToken: Boolean(token),
+    hasUserId: Boolean(userId),
+    tokenLength: token.length,
+    userIdLength: userId.length,
+    attempts: [],
+    mediaCount: 0,
+  };
+
+  if (!token || !userId) {
+    return diagnosis;
+  }
+
+  const media = await fetchFromCandidatesWithDiagnosis(token, userId, limit, diagnosis.attempts);
+  diagnosis.mediaCount = media.length;
+  if (media.length > 0) {
+    diagnosis.samplePermalink = media[0].permalink;
+    try {
+      diagnosis.sampleMediaHost = new URL(media[0].thumbnail_url || media[0].media_url).hostname;
+    } catch {
+      diagnosis.sampleMediaHost = "invalid-url";
+    }
+  }
+
+  return diagnosis;
 }
