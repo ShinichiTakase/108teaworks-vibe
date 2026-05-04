@@ -1268,14 +1268,9 @@ export default function CheckoutPage() {
           ) : (
             <div className="p-4 rounded-xl bg-[#f0ebe5] border border-border">
               <h3 className="m-0 mb-4 text-[0.9375rem] font-semibold text-tea-deep">{walletSectionTitle}</h3>
-              <div className="bg-white rounded-lg border-2 border-border p-3 min-h-[120px]">
+              <div className={`bg-white rounded-lg border-2 border-border p-3 min-h-[120px] ${isApplePaySelected || isGooglePaySelected ? "hidden" : ""}`}>
                 <div ref={cardContainerRef} />
               </div>
-              {(isGooglePaySelected || isApplePaySelected) && (
-                <p className="m-0 mt-3 text-[0.8125rem] text-ink-muted">
-                  ウォレットを選択後、下のボタンを押すと決済ウィンドウが開きます。
-                </p>
-              )}
               <div className="mt-4 pt-4 border-t border-border">
                 <button
                   type="button"
