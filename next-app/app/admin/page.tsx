@@ -22,6 +22,16 @@ const MENU = [
     label: "カート商品一覧",
     description: "利用者がカートに追加した商品のログを確認する",
   },
+  {
+    href: "/admin/checkout/",
+    label: "購入ページ表示一覧",
+    description: "購入ページが表示された日時・IP・カート合計額のログを確認する",
+  },
+  {
+    href: "/admin/shipping/",
+    label: "送料計算一覧",
+    description: "送料が計算された日時・IP・送料・都道府県のログを確認する",
+  },
 ];
 
 export default function AdminTopPage() {

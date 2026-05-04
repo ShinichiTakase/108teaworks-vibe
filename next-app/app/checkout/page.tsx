@@ -104,6 +104,7 @@ export default function CheckoutPage() {
   const handlePayRef = useRef<null | (() => Promise<void>)>(null);
   const subtotalRef = useRef<number>(0);
   const itemsRef = useRef<typeof items>([]);
+  const checkoutLoggedRef = useRef(false);
   const walletShippingRef = useRef<number | null>(null);
 
   const [couponCode, setCouponCode] = useState("");
@@ -130,6 +131,17 @@ export default function CheckoutPage() {
       .then((data: Record<string, string>) => setResolvedImagePaths(data ?? {}))
       .catch(() => setResolvedImagePaths({}));
   }, [missingImageSlugs]);
+
+  useEffect(() => {
+    if (checkoutLoggedRef.current || items.length === 0) return;
+    checkoutLoggedRef.current = true;
+    const amount = items.reduce((sum, x) => sum + x.price * x.quantity, 0);
+    fetch("/api/checkout/log", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ total_amount: amount }),
+    }).catch(() => {});
+  }, [items]);
 
   const fetchAddress = useCallback(async (code: string) => {
     if (code.length !== 7) {
