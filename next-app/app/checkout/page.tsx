@@ -483,6 +483,7 @@ export default function CheckoutPage() {
 
         const paymentElement = elements.create("payment", {
           fields: { billingDetails: "never" },
+          layout: { type: "accordion", defaultCollapsed: false },
         } as any);
         paymentElementRef.current = paymentElement;
         paymentElement.mount(cardContainerRef.current!);
