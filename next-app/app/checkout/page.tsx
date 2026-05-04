@@ -105,6 +105,7 @@ export default function CheckoutPage() {
   const subtotalRef = useRef<number>(0);
   const itemsRef = useRef<typeof items>([]);
   const checkoutLoggedRef = useRef(false);
+  const [paymentResetToken, setPaymentResetToken] = useState(0);
   const walletShippingRef = useRef<number | null>(null);
 
   const [couponCode, setCouponCode] = useState("");
@@ -519,7 +520,7 @@ export default function CheckoutPage() {
         cardReadyFallbackIdRef.current = null;
       }
     };
-  }, [shipping, total, subtotal, t.paymentInitFailed]);
+  }, [shipping, total, subtotal, t.paymentInitFailed, paymentResetToken]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -733,6 +734,18 @@ export default function CheckoutPage() {
   useEffect(() => {
     handlePayRef.current = handlePay;
   }, [handlePay]);
+  const handleChangePaymentMethod = useCallback(() => {
+    try {
+      paymentElementRef.current?.destroy();
+      paymentElementRef.current = null;
+    } catch { /* noop */ }
+    elementsRef.current = null;
+    amountForIntentRef.current = null;
+    setCardReady(false);
+    setSelectedPaymentType(null);
+    setPaymentResetToken((n) => n + 1);
+  }, []);
+
   const stripeEnvMissing = !STRIPE_PK;
   const isGooglePaySelected = selectedPaymentType === "google_pay";
   const isApplePaySelected = selectedPaymentType === "apple_pay";
@@ -1274,7 +1287,7 @@ export default function CheckoutPage() {
               {(isApplePaySelected || isGooglePaySelected) && (
                 <button
                   type="button"
-                  onClick={() => setSelectedPaymentType(null)}
+                  onClick={handleChangePaymentMethod}
                   className="mt-3 text-sm text-tea hover:underline"
                 >
                   ← 支払い方法を変更
