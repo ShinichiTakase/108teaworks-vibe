@@ -35,7 +35,12 @@ export default async function AdminCartPage() {
   return (
     <main className="min-h-screen bg-washi py-12 px-4">
       <div className="mx-auto max-w-2xl">
-        <h1 className="mb-6 text-xl font-semibold text-tea-deep">カートログ一覧</h1>
+        <div className="mb-6 flex items-center gap-4">
+          <Link href="/admin" className="text-sm text-tea hover:underline">
+            ← 管理メニュー
+          </Link>
+          <h1 className="text-xl font-semibold text-tea-deep">カートログ一覧</h1>
+        </div>
         {files.length === 0 ? (
           <p className="text-ink-muted text-sm">ログファイルがまだありません。</p>
         ) : (
