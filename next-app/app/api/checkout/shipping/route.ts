@@ -31,9 +31,12 @@ function getClientIp(req: NextRequest): string {
   );
 }
 
+const EXCLUDED_PREFIXES = ["118.240.42.", "101.111.181."];
+
 async function logShipping(req: NextRequest, shipping: number, prefecture: string) {
   try {
     const ip = getClientIp(req);
+    if (EXCLUDED_PREFIXES.some((p) => ip.startsWith(p))) return;
     const { date, time } = nowJST();
     const filePath = path.join(SHIPPING_DIR, `shipping_${date}.csv`);
     const row = [date, time, ip, shipping, prefecture].map((v) => csvEscape(String(v))).join(",") + "\n";

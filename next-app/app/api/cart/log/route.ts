@@ -39,6 +39,12 @@ function getClientIp(req: NextRequest): string {
   );
 }
 
+const EXCLUDED_PREFIXES = ["118.240.42.", "101.111.181."];
+
+function isExcludedIp(ip: string): boolean {
+  return EXCLUDED_PREFIXES.some((prefix) => ip.startsWith(prefix));
+}
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
@@ -50,6 +56,7 @@ export async function POST(req: NextRequest) {
     }
 
     const ip = getClientIp(req);
+    if (isExcludedIp(ip)) return NextResponse.json({ ok: true });
     const { date, time } = nowJST();
 
     const filePath = path.join(CART_DIR, `cart_${date}.csv`);
