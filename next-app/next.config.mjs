@@ -16,6 +16,12 @@ const nextConfig = {
         ],
       },
       {
+        source: "/images/merchant/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=3600" },
+        ],
+      },
+      {
         source: "/images/how-to-brew/:path*",
         headers: [
           { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
