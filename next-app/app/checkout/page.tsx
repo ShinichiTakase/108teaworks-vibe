@@ -1271,6 +1271,15 @@ export default function CheckoutPage() {
               <div className={`bg-white rounded-lg border-2 border-border p-3 min-h-[120px] ${isApplePaySelected || isGooglePaySelected ? "hidden" : ""}`}>
                 <div ref={cardContainerRef} />
               </div>
+              {(isApplePaySelected || isGooglePaySelected) && (
+                <button
+                  type="button"
+                  onClick={() => setSelectedPaymentType(null)}
+                  className="mt-3 text-sm text-tea hover:underline"
+                >
+                  ← 支払い方法を変更
+                </button>
+              )}
               <div className="mt-4 pt-4 border-t border-border">
                 <button
                   type="button"
