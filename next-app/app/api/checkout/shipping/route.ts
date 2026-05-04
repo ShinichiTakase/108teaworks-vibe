@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getProducts } from "@/lib/microcms";
 import { getShippingByPrefecture } from "@/lib/shippingByPrefecture";
 
-const SHIPPING_DIR = path.resolve(process.cwd(), "shipping");
+const SHIPPING_DIR = path.resolve(process.cwd(), "data/shipping");
 
 function nowJST(): { date: string; time: string } {
   const now = new Date();

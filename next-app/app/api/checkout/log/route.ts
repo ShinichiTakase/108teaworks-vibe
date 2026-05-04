@@ -2,7 +2,7 @@ import { mkdir, appendFile, stat } from "fs/promises";
 import path from "path";
 import { NextRequest, NextResponse } from "next/server";
 
-const CHECKOUT_DIR = path.resolve(process.cwd(), "checkout");
+const CHECKOUT_DIR = path.resolve(process.cwd(), "data/checkout");
 
 function nowJST(): { date: string; time: string } {
   const now = new Date();

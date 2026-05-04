@@ -19,7 +19,7 @@ async function getLogFile(
 ): Promise<{ headers: string[]; records: string[][] } | null> {
   if (!/^checkout_\d{8}\.csv$/.test(filename)) return null;
 
-  const dir = path.resolve(process.cwd(), "checkout");
+  const dir = path.resolve(process.cwd(), "data/checkout");
   const filePath = path.join(dir, filename);
 
   if (!filePath.startsWith(dir + path.sep) && filePath !== dir) return null;

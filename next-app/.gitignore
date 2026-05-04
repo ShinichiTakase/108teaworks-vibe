@@ -28,10 +28,6 @@ yarn-error.log*
 # ローカルデータ（レビューキューなど）は同期しない（プロジェクト直下の data/ のみ）
 /data/
 
-# サーバー生成ログ（checkout・shipping）は Git 管理しない
-/checkout/
-/shipping/
-
 # TypeScript
 next-env.d.ts
 *.tsbuildinfo

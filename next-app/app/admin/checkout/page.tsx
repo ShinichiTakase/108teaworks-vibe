@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 async function getCheckoutFiles(): Promise<{ name: string; size: number }[]> {
-  const dir = path.resolve(process.cwd(), "checkout");
+  const dir = path.resolve(process.cwd(), "data/checkout");
   try {
     const entries = await readdir(dir);
     const csvFiles = entries
