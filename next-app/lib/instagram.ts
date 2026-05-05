@@ -1,10 +1,5 @@
-/**
- * Instagram Graph API で最新メディアを取得
- * 要: INSTAGRAM_ACCESS_TOKEN, INSTAGRAM_USER_ID（.env.local）
- * 参考: https://developers.facebook.com/docs/instagram-platform/instagram-graph-api/reference/ig-user/media
- */
-
 import { unstable_noStore as noStore } from "next/cache";
+import { getValidToken } from "./instagram-token";
 
 export type InstagramMedia = {
   id: string;
@@ -142,10 +137,9 @@ async function fetchFromCandidatesWithDiagnosis(
 }
 
 export async function fetchInstagramMedia(limit = 10): Promise<InstagramMedia[]> {
-  // Docker 本番では build 時に環境変数が未注入でも、実行時に取得できるよう静的化を無効化。
   noStore();
 
-  const token = sanitizeEnv(process.env.INSTAGRAM_ACCESS_TOKEN);
+  const token = await getValidToken();
   const userId = sanitizeEnv(process.env.INSTAGRAM_USER_ID);
   if (!token || !userId) {
     return [];
@@ -162,7 +156,7 @@ export async function fetchInstagramMedia(limit = 10): Promise<InstagramMedia[]>
 export async function diagnoseInstagramFetch(limit = 3): Promise<InstagramFetchDiagnosis> {
   noStore();
 
-  const token = sanitizeEnv(process.env.INSTAGRAM_ACCESS_TOKEN);
+  const token = (await getValidToken()) ?? "";
   const userId = sanitizeEnv(process.env.INSTAGRAM_USER_ID);
   const diagnosis: InstagramFetchDiagnosis = {
     hasToken: Boolean(token),

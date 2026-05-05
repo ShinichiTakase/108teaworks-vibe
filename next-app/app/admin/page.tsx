@@ -32,6 +32,11 @@ const MENU = [
     label: "送料計算一覧",
     description: "送料が計算された日時・IP・送料・都道府県のログを確認する",
   },
+  {
+    href: "/admin/instagram/",
+    label: "Instagram トークン管理",
+    description: "アクセストークンの有効期限確認・手動更新（残り30日で自動更新）",
+  },
 ];
 
 export default function AdminTopPage() {
