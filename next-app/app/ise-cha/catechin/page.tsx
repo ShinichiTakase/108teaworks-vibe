@@ -27,7 +27,7 @@ function SideImages({
   teabagExists: boolean;
 }) {
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 px-4">
       {catechinExists && (
         <figure className="m-0">
           <Image
@@ -38,6 +38,9 @@ function SideImages({
             className="h-auto w-full rounded object-contain"
             sizes="(max-width: 767px) 80vw, 420px"
           />
+          <figcaption className="mt-2 text-center text-xs text-ink-muted">
+            ガレート型カテキンの構造
+          </figcaption>
         </figure>
       )}
       {teabagExists && (
@@ -88,9 +91,6 @@ export default function IseChaGreenTeaCatechinPage() {
             </aside>
 
             <section className="space-y-4 text-[0.9375rem] leading-relaxed text-ink">
-              <p className="text-xs text-ink-muted">
-                【特集】2026年5月6日放送 NHK『あしたが変わるトリセツショー』
-              </p>
               <p>
                 2026年5月6日放送のNHK『あしたが変わるトリセツショー』において、コレステロールの吸収を抑える心強い味方として「緑茶」が紹介されました。緑茶に含まれる成分が、なぜこれほどまでに注目されているのか。その鍵を握るのは、お茶特有の成分である「カテキン」の驚くべき力です。
               </p>
@@ -122,7 +122,7 @@ export default function IseChaGreenTeaCatechinPage() {
               </div>
 
               <h2 className="m-0 mt-8 text-lg font-semibold text-tea-deep">
-                ペットボトルよりも「急須の深蒸し茶」を勧める理由
+                ペットボトルよりも自分で淹れた深蒸し茶を勧める理由
               </h2>
               <p>
                 効率よく健康を維持するなら、ぜひ「自分で淹れた深蒸し茶」を選んでください。実は、自分で淹れた深蒸し茶100mlには約400mgものガレート型カテキンが含まれており、これは市販のペットボトル緑茶の約10倍以上に相当します。
