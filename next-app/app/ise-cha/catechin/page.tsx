@@ -92,7 +92,7 @@ export default function IseChaGreenTeaCatechinPage() {
 
             <section className="space-y-4 text-[0.9375rem] leading-relaxed text-ink">
               <p>
-                2026年5月6日放送のNHK『あしたが変わるトリセツショー』において、コレステロールの吸収を抑える心強い味方として「緑茶」が紹介されました。緑茶に含まれる成分が、なぜこれほどまでに注目されているのか。その鍵を握るのは、お茶特有の成分である「カテキン」の驚くべき力です。
+                2026年5月6日放送の<strong>NHK『あしたが変わるトリセツショー』</strong>において、コレステロールの吸収を抑える心強い味方として「緑茶」が紹介されました。緑茶に含まれる成分が、なぜこれほどまでに注目されているのか。その鍵を握るのは、お茶特有の成分である「カテキン」の驚くべき力です。
               </p>
 
               <h2 className="m-0 mt-8 text-lg font-semibold text-tea-deep">
