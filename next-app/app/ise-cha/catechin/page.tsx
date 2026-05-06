@@ -27,7 +27,7 @@ function SideImages({
   teabagExists: boolean;
 }) {
   return (
-    <div className="space-y-8 px-4">
+    <div className="space-y-8 px-10">
       {catechinExists && (
         <figure className="m-0">
           <Image
@@ -36,9 +36,9 @@ function SideImages({
             width={480}
             height={480}
             className="h-auto w-full rounded object-contain"
-            sizes="(max-width: 767px) 80vw, 420px"
+            sizes="(max-width: 767px) 60vw, 320px"
           />
-          <figcaption className="mt-2 text-center text-xs text-ink-muted">
+          <figcaption className="mt-2 pb-6 text-center text-[15px] text-ink-muted">
             ガレート型カテキンの構造
           </figcaption>
         </figure>
@@ -51,7 +51,7 @@ function SideImages({
             width={480}
             height={480}
             className="h-auto w-full rounded object-cover"
-            sizes="(max-width: 767px) 80vw, 420px"
+            sizes="(max-width: 767px) 60vw, 320px"
           />
         </figure>
       )}
