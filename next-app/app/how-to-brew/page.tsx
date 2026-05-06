@@ -3,6 +3,7 @@ import Link from "next/link";
 import { MAIN_CLASS, INNER_CLASS } from "@/components/Layout";
 import PageEndProductList from "@/components/PageEndProductList";
 import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
+import IsechaSubNav from "@/components/IsechaSubNav";
 import PromoVideoBanner from "@/components/PromoVideoBanner";
 import { getBreadcrumbItems } from "@/lib/breadcrumb";
 import type { Locale } from "@/lib/i18n";
@@ -46,6 +47,7 @@ export default function HowToBrewPage({ params }: Props = {}) {
       <BreadcrumbListSchema items={getBreadcrumbItems(locale === "ja" ? "/how-to-brew" : `/${locale}/how-to-brew`, locale)} />
       <div className={INNER_CLASS}>
         <section aria-labelledby="howto-heading" className="mb-12">
+          <IsechaSubNav locale={locale} current="howToBrew" />
           <div className="mb-10 grid grid-cols-1 items-start gap-6 md:grid-cols-2 md:gap-8">
             <figure className="order-2 overflow-hidden rounded-md md:order-1">
               <Image
