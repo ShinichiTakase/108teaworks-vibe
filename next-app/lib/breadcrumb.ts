@@ -69,6 +69,18 @@ export function getBreadcrumbItems(
 
   if (pathKeyNorm === "/") return items;
 
+  if (pathKeyNorm === "/ise-cha/catechin") {
+    items.push({
+      name: getLabelFromKey("nav.isecha", locale),
+      url: makeUrl("/ise-cha", locale),
+    });
+    items.push({
+      name: getLabelFromKey("nav.isechaCatechin", locale),
+      url: makeUrl("/ise-cha/catechin", locale),
+    });
+    return items;
+  }
+
   if (pathKeyNorm === "/ise-cha/books") {
     items.push({
       name: getLabelFromKey("nav.isecha", locale),
