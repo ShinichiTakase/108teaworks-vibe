@@ -1,30 +1,35 @@
 "use client";
 
-import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { COMMON_TEXTS } from "@/lib/commonTexts";
-import { detectLocaleFromPath } from "@/lib/urlPath";
+
+const ITEMS = [
+  { text: "【特集】緑茶とコレステロールの健やかな関係", href: "/ise-cha/catechin/" },
+  { text: "【特集】お茶とカフェインの知っておきたい関係", href: "/ise-cha/caffeine/" },
+  { text: "【特集】抹茶とパウダー緑茶、それぞれの個性", href: "/ise-cha/maccha/" },
+  { text: "【特集】ニューヨークの日本茶ブーム", href: "/ise-cha/america/" },
+];
 
 export default function CouponBanner() {
-  const pathname = usePathname() || "/";
-  const locale = detectLocaleFromPath(pathname);
-  const text = COMMON_TEXTS[locale].couponBanner;
-
-  if (!text?.trim()) return null;
-
   return (
     <div
-      className="border-b-2 border-rose-700/80 bg-gradient-to-r from-rose-400 via-rose-500 to-rose-700 py-2.5 text-center shadow-sm"
+      className="overflow-hidden border-b border-tea-light/30 bg-tea-deep/[0.06] py-2.5"
       role="complementary"
-      aria-label="クーポンセールのご案内"
+      aria-label="特集記事のご案内"
     >
-      <div className="max-w-[min(90vw,1200px)] mx-auto px-2">
-        <Link
-          href="#"
-          className="text-[0.9375rem] md:text-[1rem] font-bold text-white no-underline hover:opacity-95 hover:underline underline-offset-2 tracking-wide drop-shadow-sm"
-        >
-          {text}
-        </Link>
+      <div className="flex animate-marquee whitespace-nowrap hover:[animation-play-state:paused]">
+        {[...ITEMS, ...ITEMS].map((item, i) => (
+          <span key={i} className="inline-flex items-center">
+            <Link
+              href={item.href}
+              className="px-8 text-[0.875rem] font-medium tracking-wide text-tea-deep no-underline underline-offset-2 hover:underline"
+            >
+              {item.text}
+            </Link>
+            <span className="select-none text-tea-light/40" aria-hidden="true">
+              ◆
+            </span>
+          </span>
+        ))}
       </div>
     </div>
   );
