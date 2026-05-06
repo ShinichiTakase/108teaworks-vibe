@@ -54,13 +54,35 @@ export default function IsechaSubNav({ locale, current }: Props) {
           )}
         </li>
         <li>
-          {current === "books" ? (
+          {current === "catechin" ? (
             <span className={`${linkBase} ${linkActive}`} aria-current="page">
-              {t.isechaBooks}
+              {t.isechaCatechin}
             </span>
           ) : (
-            <Link href={booksHref} className={`${linkBase} ${linkIdle}`}>
-              {t.isechaBooks}
+            <Link href={catechinHref} className={`${linkBase} ${linkIdle}`}>
+              {t.isechaCatechin}
+            </Link>
+          )}
+        </li>
+        <li>
+          {current === "caffeine" ? (
+            <span className={`${linkBase} ${linkActive}`} aria-current="page">
+              {t.isechaCaffeine}
+            </span>
+          ) : (
+            <Link href={caffeineHref} className={`${linkBase} ${linkIdle}`}>
+              {t.isechaCaffeine}
+            </Link>
+          )}
+        </li>
+        <li>
+          {current === "maccha" ? (
+            <span className={`${linkBase} ${linkActive}`} aria-current="page">
+              {t.isechaMaccha}
+            </span>
+          ) : (
+            <Link href={macchaHref} className={`${linkBase} ${linkIdle}`}>
+              {t.isechaMaccha}
             </Link>
           )}
         </li>
@@ -87,35 +109,13 @@ export default function IsechaSubNav({ locale, current }: Props) {
           )}
         </li>
         <li>
-          {current === "maccha" ? (
+          {current === "books" ? (
             <span className={`${linkBase} ${linkActive}`} aria-current="page">
-              {t.isechaMaccha}
+              {t.isechaBooks}
             </span>
           ) : (
-            <Link href={macchaHref} className={`${linkBase} ${linkIdle}`}>
-              {t.isechaMaccha}
-            </Link>
-          )}
-        </li>
-        <li>
-          {current === "caffeine" ? (
-            <span className={`${linkBase} ${linkActive}`} aria-current="page">
-              {t.isechaCaffeine}
-            </span>
-          ) : (
-            <Link href={caffeineHref} className={`${linkBase} ${linkIdle}`}>
-              {t.isechaCaffeine}
-            </Link>
-          )}
-        </li>
-        <li>
-          {current === "catechin" ? (
-            <span className={`${linkBase} ${linkActive}`} aria-current="page">
-              {t.isechaCatechin}
-            </span>
-          ) : (
-            <Link href={catechinHref} className={`${linkBase} ${linkIdle}`}>
-              {t.isechaCatechin}
+            <Link href={booksHref} className={`${linkBase} ${linkIdle}`}>
+              {t.isechaBooks}
             </Link>
           )}
         </li>
