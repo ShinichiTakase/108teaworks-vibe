@@ -71,8 +71,7 @@ export default function FloatingChachamaruBar() {
     <button
       type="button"
       onClick={handleClick}
-      className={`${BAR_BASE} ${BAR_SIZE} border-tea-deep bg-tea-deep text-white hover:bg-tea hover:border-tea focus:outline-none focus:ring-2 focus:ring-tea-light focus:ring-offset-2`}
-      style={{ bottom: "230px" }}
+      className={`${BAR_BASE} ${BAR_SIZE} border-tea-deep bg-tea-deep text-white hover:bg-tea hover:border-tea focus:outline-none focus:ring-2 focus:ring-tea-light focus:ring-offset-2 bottom-[60px] sm:bottom-[230px]`}
       aria-label={t.fabAriaLabel}
       data-chachamaru-trigger
     >

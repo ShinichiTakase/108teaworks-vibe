@@ -107,7 +107,7 @@ export default function FloatingBooksBanner() {
 
   return (
     <div
-      className={`fixed bottom-0 left-0 right-0 z-40 transition-transform duration-300 ease-out ${
+      className={`hidden sm:block fixed bottom-0 left-0 right-0 z-40 transition-transform duration-300 ease-out ${
         footerVisible ? "pointer-events-none translate-y-full" : "translate-y-0"
       }`}
       role="region"
