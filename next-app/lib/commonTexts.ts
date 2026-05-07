@@ -21,6 +21,8 @@ export const COMMON_TEXTS: Record<
       isechaCaffeine: string;
       /** /ise-cha/catechin/（お茶とコレステロール） */
       isechaCatechin: string;
+      /** /ise-cha/fukamushi/（深蒸し茶 通販ランディングページ） */
+      isechaFukamushi: string;
       howToBrew: string;
       userGuide: string;
       notice: string;
@@ -96,6 +98,7 @@ export const COMMON_TEXTS: Record<
       isechaMaccha: "抹茶とパウダー緑茶",
       isechaCaffeine: "お茶とカフェイン",
       isechaCatechin: "お茶とコレステロール",
+      isechaFukamushi: "深蒸し茶",
       howToBrew: "お茶の淹れ方",
       userGuide: "ご注文の流れ",
       notice: "お知らせ",
@@ -147,6 +150,7 @@ export const COMMON_TEXTS: Record<
       isechaMaccha: "Matcha vs. powdered green tea",
       isechaCaffeine: "Tea and Caffeine",
       isechaCatechin: "Tea and Cholesterol",
+      isechaFukamushi: "Fukamushi Sencha",
       howToBrew: "How to Brew",
       userGuide: "Order Guide",
       notice: "News",
@@ -198,6 +202,7 @@ export const COMMON_TEXTS: Record<
       isechaMaccha: "말차와 분말 녹차",
       isechaCaffeine: "차와 카페인",
       isechaCatechin: "차와 콜레스테롤",
+      isechaFukamushi: "후카무시 녹차",
       howToBrew: "우려내기",
       userGuide: "주문 안내",
       notice: "소식",
@@ -249,6 +254,7 @@ export const COMMON_TEXTS: Record<
       isechaMaccha: "抹茶与粉末绿茶",
       isechaCaffeine: "茶与咖啡因",
       isechaCatechin: "茶与胆固醇",
+      isechaFukamushi: "深蒸绿茶",
       howToBrew: "冲泡方法",
       userGuide: "订购流程",
       notice: "公告",

@@ -3,7 +3,7 @@ import type { Locale } from "@/lib/i18n";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
 import { buildLocalizedPath } from "@/lib/urlPath";
 
-export type IsechaSubNavCurrent = "main" | "books" | "america" | "howToBrew" | "maccha" | "caffeine" | "catechin";
+export type IsechaSubNavCurrent = "main" | "books" | "america" | "howToBrew" | "maccha" | "caffeine" | "catechin" | "fukamushi";
 
 type Props = {
   locale: Locale;
@@ -51,6 +51,7 @@ export default function IsechaSubNav({ locale, current }: Props) {
   const mobileText = mobileNavTexts[locale];
   const items: Array<{ key: IsechaSubNavCurrent; label: string; href: string }> = [
     { key: "main", label: t.isecha, href: buildLocalizedPath(locale, "/ise-cha") },
+    { key: "fukamushi", label: t.isechaFukamushi, href: buildLocalizedPath(locale, "/ise-cha/fukamushi") },
     { key: "catechin", label: t.isechaCatechin, href: buildLocalizedPath(locale, "/ise-cha/catechin") },
     { key: "caffeine", label: t.isechaCaffeine, href: buildLocalizedPath(locale, "/ise-cha/caffeine") },
     {
