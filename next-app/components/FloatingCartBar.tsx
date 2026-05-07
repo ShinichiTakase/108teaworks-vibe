@@ -13,24 +13,62 @@ export default function FloatingCartBar() {
   const cartItemCount = items.reduce((sum, item) => sum + Math.max(0, item.quantity), 0);
   const t = COMMON_TEXTS[locale];
   const checkoutHref = buildLocalizedHref(locale, "/checkout");
-  const isCartOrCheckout = pathname === "/cart" || pathname === "/checkout" || /^\/(en|ko|zh)\/(cart|checkout)(?:\/|$)/.test(pathname || "");
+  const isCartOrCheckout =
+    pathname === "/cart" ||
+    pathname === "/checkout" ||
+    /^\/(en|ko|zh)\/(cart|checkout)(?:\/|$)/.test(pathname || "");
   if (isCartOrCheckout || cartItemCount === 0) return null;
 
+  const activeItems = items.filter((item) => item.quantity > 0);
+
   return (
-    <Link
-      href={checkoutHref}
-      className="fixed right-0 z-50 flex h-12 w-12 md:h-14 md:min-w-[152px] items-center justify-center md:justify-start gap-2 rounded-l-full border-2 border-r-0 border-tea bg-tea p-0 md:py-3 md:pl-4 md:pr-3 text-white no-underline font-semibold text-[0.875rem] shadow-lg transition-colors hover:bg-tea-light hover:border-tea-light"
+    <div
+      className="fixed right-0 z-50 flex flex-col w-52 rounded-l-xl overflow-hidden shadow-xl"
       style={{ bottom: "max(calc(35% + 4em), 294px)" }}
-      aria-label={`${t.floatingCheckout}（カート${cartItemCount}点）`}
     >
-      <span className="inline-flex h-6 w-6 md:h-8 md:w-8 shrink-0 items-center justify-center text-white" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-full w-full">
-          <circle cx="9" cy="21" r="1" />
-          <circle cx="20" cy="21" r="1" />
-          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-        </svg>
-      </span>
-      <span className="hidden md:inline whitespace-nowrap">{t.floatingCheckout}</span>
-    </Link>
+      {/* 購入手続きへ — 緑・半透過 */}
+      <Link
+        href={checkoutHref}
+        className="flex items-center gap-2 px-4 py-3 text-white no-underline font-semibold text-sm transition-opacity hover:opacity-90"
+        style={{ backgroundColor: "rgba(45, 80, 22, 0.88)" }}
+        aria-label={`${t.floatingCheckout}（カート${cartItemCount}点）`}
+      >
+        <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center text-white" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-full w-full">
+            <circle cx="9" cy="21" r="1" />
+            <circle cx="20" cy="21" r="1" />
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+          </svg>
+        </span>
+        <span className="whitespace-nowrap">{t.floatingCheckout}</span>
+      </Link>
+
+      {/* 商品一覧 — 白・半透過・緑の枠線とテキスト */}
+      <div
+        className="overflow-y-auto max-h-48"
+        style={{
+          backgroundColor: "rgba(255, 255, 255, 0.88)",
+          borderLeft: "2px solid rgba(45, 80, 22, 0.45)",
+          borderBottom: "2px solid rgba(45, 80, 22, 0.45)",
+        }}
+      >
+        {activeItems.map((item, index) => (
+          <div
+            key={item.slug}
+            className="px-3 py-2"
+            style={{
+              borderTop: index === 0 ? "none" : "1px solid rgba(45, 80, 22, 0.22)",
+              color: "#2d5016",
+            }}
+          >
+            <div className="text-xs font-medium leading-tight line-clamp-2">{item.title}</div>
+            <div className="flex justify-between items-center text-xs mt-0.5 opacity-90">
+              <span>×{item.quantity}</span>
+              <span className="font-semibold">¥{(item.price * item.quantity).toLocaleString()}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }

@@ -21,12 +21,16 @@ export type CartItem = {
   imagePath?: string;
 };
 
+export type LastAdded = { title: string; price: number; quantity: number } | null;
+
 type CartState = {
   items: CartItem[];
+  lastAdded: LastAdded;
   addToCart: (slug: string, title: string, price: number, quantity: number, imagePath?: string) => void;
   removeFromCart: (slug: string) => void;
   updateQuantity: (slug: string, quantity: number) => void;
   clearCart: () => void;
+  clearLastAdded: () => void;
 };
 
 const CartContext = createContext<CartState | null>(null);
@@ -63,6 +67,7 @@ function saveCart(items: CartItem[]) {
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
+  const [lastAdded, setLastAdded] = useState<LastAdded>(null);
   const hasLoadedRef = useRef(false);
 
   useEffect(() => {
@@ -93,6 +98,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
         return [...prev, { slug, title, price, quantity, imagePath }];
       });
 
+      setLastAdded({ title, price, quantity });
+
       // カート追加をサーバーにログ記録（失敗してもカート操作には影響しない）
       fetch("/api/cart/log", {
         method: "POST",
@@ -102,6 +109,8 @@ export function CartProvider({ children }: { children: ReactNode }) {
     },
     []
   );
+
+  const clearLastAdded = useCallback(() => setLastAdded(null), []);
 
   const removeFromCart = useCallback((slug: string) => {
     setItems((prev) => prev.filter((x) => x.slug !== slug));
@@ -119,12 +128,14 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const value = useMemo(
     () => ({
       items,
+      lastAdded,
       addToCart,
       removeFromCart,
       updateQuantity,
       clearCart,
+      clearLastAdded,
     }),
-    [items, addToCart, removeFromCart, updateQuantity, clearCart]
+    [items, lastAdded, addToCart, removeFromCart, updateQuantity, clearCart, clearLastAdded]
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
