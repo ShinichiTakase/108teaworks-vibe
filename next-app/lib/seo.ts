@@ -67,10 +67,7 @@ export function getFixedSeo(
 export type BuildAlternatesOptions = {
   /** 現在表示しているページの言語（canonical を決めるために使用）。未指定は "ja" 扱い。 */
   currentLocale?: Locale;
-  /**
-   * true のとき hreflang を ja-JP / en-JP / ko-JP / zh-JP にする（Google Merchant Center Next 向け）。
-   * false または未指定は従来どおり ja / en / ko / zh（伊勢茶など情報ページ用）。
-   */
+  /** @deprecated 全ページ language-country 形式に統一済みのため不要。後方互換のため残す。 */
   jpRegionHreflang?: boolean;
 };
 
@@ -90,19 +87,14 @@ export function buildAlternatesForLocales(pathname: string, options?: BuildAlter
     ko: make("ko"),
     zh: make("zh"),
   };
-  const languages = options?.jpRegionHreflang
-    ? {
-        "ja-JP": urls.ja,
-        "en-JP": urls.en,
-        "ko-JP": urls.ko,
-        "zh-JP": urls.zh,
-      }
-    : {
-        ja: urls.ja,
-        en: urls.en,
-        ko: urls.ko,
-        zh: urls.zh,
-      };
+  // 全ページ統一: language-country 形式 + x-default（/ = 日本語トップ）
+  const languages = {
+    "ja-JP": urls.ja,
+    "en-JP": urls.en,
+    "ko-JP": urls.ko,
+    "zh-Hans-JP": urls.zh,
+    "x-default": urls.ja,
+  };
   return {
     canonical: urls[loc0],
     languages,

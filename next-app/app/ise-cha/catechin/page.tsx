@@ -2,11 +2,13 @@ import fs from "fs";
 import path from "path";
 import Image from "next/image";
 import Link from "next/link";
+import ArticleJsonLd from "@/components/ArticleJsonLd";
 import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import IsechaSubNav from "@/components/IsechaSubNav";
 import { MAIN_CLASS, INNER_CLASS } from "@/components/Layout";
 import { getBreadcrumbItems } from "@/lib/breadcrumb";
 import { buildAlternatesForLocales } from "@/lib/seo";
+import { SITE_BASE_URL } from "@/lib/siteConstants";
 
 const CATECHIN_IMG = "/images/ise-cha/catechin/catechin.webp";
 const TEABAG_IMG = "/images/ise-cha/catechin/3teabag-ise-deeproasted.webp";
@@ -91,6 +93,12 @@ export default function IseChaGreenTeaCatechinPage() {
 
   return (
     <main className={MAIN_CLASS} id="main-content" role="main">
+      <ArticleJsonLd
+        headline="「1日一杯」で変わる、緑茶とコレステロールの健やかな関係"
+        description="NHK『あしたが変わるトリセツショー』で紹介。ガレート型カテキンが悪玉LDLコレステロールだけを狙い撃ち。自分で淹れた深蒸し茶100mlに約400mgのカテキンが含まれ、TJD（The Japan Diet）でも推奨される緑茶の健康効果を解説します。"
+        imageUrl={`${SITE_BASE_URL}${CATECHIN_IMG}`}
+        canonicalUrl="https://108teaworks.com/ise-cha/catechin/"
+      />
       <BreadcrumbListSchema items={getBreadcrumbItems("/ise-cha/catechin", "ja")} />
       <div className={INNER_CLASS}>
         <article className="mb-12">

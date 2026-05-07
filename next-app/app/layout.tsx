@@ -9,7 +9,7 @@ import MetaPixel from "@/components/MetaPixel";
 import MicrosoftClarity from "@/components/MicrosoftClarity";
 import ChachamaruDeferredStylesheet from "@/components/ChachamaruDeferredStylesheet";
 import { CHACHAMARU_TEXTS } from "@/lib/chachamaruTexts";
-import { OG_IMAGE_URL, ORGANIZATION_LOGO_URL, ORGANIZATION_NAME_JA, ORGANIZATION_NAME_EN, ORGANIZATION_URL, ORGANIZATION_INSTAGRAM } from "@/lib/siteConstants";
+import { OG_IMAGE_URL, ORGANIZATION_ADDRESS, ORGANIZATION_LOGO_URL, ORGANIZATION_NAME_JA, ORGANIZATION_NAME_EN, ORGANIZATION_TELEPHONE, ORGANIZATION_URL, ORGANIZATION_INSTAGRAM } from "@/lib/siteConstants";
 
 const GSC_VERIFICATION = process.env.NEXT_PUBLIC_GSC_VERIFICATION?.trim();
 const METADATA_BASE =
@@ -40,7 +40,9 @@ const organizationSchema = {
   name: ORGANIZATION_NAME_JA,
   alternateName: ORGANIZATION_NAME_EN,
   url: ORGANIZATION_URL,
-  logo: ORGANIZATION_LOGO_URL,
+  logo: { "@type": "ImageObject", url: ORGANIZATION_LOGO_URL },
+  address: ORGANIZATION_ADDRESS,
+  telephone: ORGANIZATION_TELEPHONE,
   sameAs: [`https://www.instagram.com/${ORGANIZATION_INSTAGRAM}/`],
 };
 
@@ -62,7 +64,7 @@ export default function RootLayout({
   const loc = h.get("x-locale") ?? "ja";
   // Merchant Center / 地域ターゲティングの誤解を避けるため、言語 + JP 地域で明示
   const htmlLang =
-    loc === "ja" ? "ja" : loc === "en" ? "en-JP" : loc === "ko" ? "ko-JP" : "zh-JP";
+    loc === "ja" ? "ja" : loc === "en" ? "en-JP" : loc === "ko" ? "ko-JP" : "zh-Hans-JP";
 
   return (
     <html lang={htmlLang} suppressHydrationWarning>

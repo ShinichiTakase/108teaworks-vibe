@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import Image from "next/image";
 import Link from "next/link";
+import ArticleJsonLd from "@/components/ArticleJsonLd";
 import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import IsechaSubNav from "@/components/IsechaSubNav";
 import { MAIN_CLASS, INNER_CLASS } from "@/components/Layout";
@@ -79,6 +80,12 @@ export default function IseChaCaffeinePage() {
 
   return (
     <main className={MAIN_CLASS} id="main-content" role="main">
+      <ArticleJsonLd
+        headline="お茶とカフェインの知っておきたい関係：心地よいティータイムのために"
+        description="お茶とカフェインの関係、摂取目安、飲み物別の含有量、藤八茶寮のカフェインカット緑茶について解説します。"
+        imageUrl={STRUCTURE_IMAGE_SRC}
+        canonicalUrl="https://108teaworks.com/ise-cha/caffeine/"
+      />
       <BreadcrumbListSchema items={getBreadcrumbItems("/ise-cha/caffeine", "ja")} />
       <div className={INNER_CLASS}>
         <article className="mb-12">
