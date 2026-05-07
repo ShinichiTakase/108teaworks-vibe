@@ -14,9 +14,9 @@ export default function FloatingCartBar() {
   const t = COMMON_TEXTS[locale];
   const checkoutHref = buildLocalizedHref(locale, "/checkout");
   const isCartOrCheckout =
-    pathname === "/cart" ||
-    pathname === "/checkout" ||
-    /^\/(en|ko|zh)\/(cart|checkout)(?:\/|$)/.test(pathname || "");
+    /^\/cart(\/|$)/.test(pathname) ||
+    /^\/checkout(\/|$)/.test(pathname) ||
+    /^\/(en|ko|zh)\/(cart|checkout)(\/|$)/.test(pathname);
   if (isCartOrCheckout || cartItemCount === 0) return null;
 
   const activeItems = items.filter((item) => item.quantity > 0);
