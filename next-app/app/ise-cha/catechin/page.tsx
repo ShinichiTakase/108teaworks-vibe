@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import Image from "next/image";
+import Link from "next/link";
 import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import IsechaSubNav from "@/components/IsechaSubNav";
 import { MAIN_CLASS, INNER_CLASS } from "@/components/Layout";
@@ -43,6 +44,11 @@ function SideImages({
           </figcaption>
         </figure>
       )}
+      <p className="m-0 text-center text-[0.9375rem] font-medium">
+        <Link href="/ise-cha/deep-steamed-isecha/" className="text-tea-deep underline underline-offset-2 hover:text-tea">
+          伊勢茶 深蒸し茶 ティーバッグ
+        </Link>
+      </p>
       {teabagExists && (
         <figure className="m-0">
           <Image
@@ -55,6 +61,11 @@ function SideImages({
           />
         </figure>
       )}
+      <p className="m-0 text-center text-[0.9375rem] font-medium">
+        <Link href="/ise-cha/wakocha-isecha/" className="text-tea-deep underline underline-offset-2 hover:text-tea">
+          伊勢茶 和紅茶 ティーバッグ
+        </Link>
+      </p>
     </div>
   );
 }
