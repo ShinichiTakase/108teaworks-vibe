@@ -140,7 +140,7 @@ export default function IseChaGreenTeaCatechinPage() {
                 className="md:hidden flex items-center justify-between gap-2 w-full py-2.5 px-3 rounded-lg border-2 border-tea-light bg-washi text-[0.9375rem] font-medium text-tea-deep no-underline transition-colors hover:border-tea-deep hover:bg-cream hover:shadow-sm"
               >
                 <span>伊勢茶 深蒸し茶 ティーバッグ</span>
-                <span className="shrink-0 text-tea font-semibold" aria-hidden="true">詳しく見る &gt;&gt;</span>
+                <span className="shrink-0 text-tea font-semibold" aria-hidden="true">&gt;&gt;</span>
               </Link>
 
               <h2 className="m-0 mt-8 text-lg font-semibold text-tea-deep">
@@ -173,7 +173,7 @@ export default function IseChaGreenTeaCatechinPage() {
                 className="md:hidden flex items-center justify-between gap-2 w-full py-2.5 px-3 rounded-lg border-2 border-tea-light bg-washi text-[0.9375rem] font-medium text-tea-deep no-underline transition-colors hover:border-tea-deep hover:bg-cream hover:shadow-sm"
               >
                 <span>伊勢茶 和紅茶 ティーバッグ</span>
-                <span className="shrink-0 text-tea font-semibold" aria-hidden="true">詳しく見る &gt;&gt;</span>
+                <span className="shrink-0 text-tea font-semibold" aria-hidden="true">&gt;&gt;</span>
               </Link>
 
               <h2 className="m-0 mt-8 text-lg font-semibold text-tea-deep">
