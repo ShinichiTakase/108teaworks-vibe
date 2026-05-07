@@ -22,6 +22,11 @@ const ABOUT_TEXTS: Record<
     altImage2: string;
     altImage3: string;
     altImage4: string;
+    sec5Title: string;
+    sec5P1: string;
+    sec5P2: string;
+    sec5P3: string;
+    sec5P4: string;
   }
 > = {
   ja: {
@@ -62,6 +67,11 @@ const ABOUT_TEXTS: Record<
     altImage2: "高瀬",
     altImage3: "伊勢茶",
     altImage4: "春摘み",
+    sec5Title: "川俣谷の茶畑から、あなたの手元へ",
+    sec5P1: "藤八茶寮が販売する伊勢茶は、三重県松阪市飯南町・川俣谷にある自家茶畑で栽培されたお茶です。",
+    sec5P2: "川俣谷は伊勢茶発祥の地とされる歴史ある産地で、山に囲まれた地形が午後の日照を遮ることで、茶葉が自然にかぶせ茶に近い深い旨みを蓄えます。この土地固有の条件が、他産地では再現できない濃厚なコクと香りを生み出しています。",
+    sec5P3: "収穫した茶葉は、川俣谷をよく知る地元の製茶所で丁寧に仕上げられます。産地・製茶・販売が一本につながっているからこそ、茶葉の個性を損なわずそのままお届けできます。",
+    sec5P4: "高瀬藤八が明治に切り拓いた輸出航路も、令和の私たちが届けるお茶も、出発点は同じ川俣谷の茶畑です。",
   },
   en: {
     h1: "About Fujihachiya",
@@ -90,6 +100,11 @@ const ABOUT_TEXTS: Record<
     altImage2: "Takase",
     altImage3: "Ise tea",
     altImage4: "First flush",
+    sec5Title: "From Our Tea Fields in Kawamatatani to Your Cup",
+    sec5P1: "The Ise tea we sell at Fujihachi Saryo is grown in our family's own tea fields in Kawamatatani, Iinandcho, Matsusaka City, Mie Prefecture.",
+    sec5P2: "Kawamatatani is a historic tea-growing region considered the birthplace of Ise tea. Surrounded by mountains, the terrain naturally blocks afternoon sunlight, allowing the tea leaves to develop a deep umami similar to shaded-grown kabuse-cha. These unique local conditions produce a richness and aroma that cannot be replicated elsewhere.",
+    sec5P3: "After harvesting, the tea leaves are carefully processed by a local tea producer who knows Kawamatatani well. Because growing, processing, and selling are all connected in one chain, we can deliver the full character of the tea leaves directly to you.",
+    sec5P4: "The tea fields that Fujihachi Takase set out from in the Meiji era, and the tea we deliver today in the Reiwa era, share the same origin: the fields of Kawamatatani.",
   },
   ko: {
     h1: "후지하치야 소개",
@@ -118,6 +133,11 @@ const ABOUT_TEXTS: Record<
     altImage2: "다카세",
     altImage3: "이세차",
     altImage4: "봄 수확",
+    sec5Title: "가와마타다니 찻밭에서, 당신의 손으로",
+    sec5P1: "후지하치야가 판매하는 이세차는 미에현 마쓰사카시 이이난초·가와마타다니에 있는 자가 찻밭에서 재배된 차입니다.",
+    sec5P2: "가와마타다니는 이세차 발상지로 알려진 유서 깊은 산지로, 산으로 둘러싸인 지형이 오후 햇빛을 자연스럽게 차단함으로써 찻잎이 피복 차에 가까운 깊은 감칠맛을 쌓습니다. 이 지역 고유의 조건이 다른 산지에서는 재현할 수 없는 진한 감칠맛과 향을 만들어냅니다.",
+    sec5P3: "수확한 찻잎은 가와마타다니를 잘 아는 지역 제다소에서 정성스럽게 마무리됩니다. 산지·제다·판매가 하나로 이어져 있기에, 찻잎의 개성을 그대로 살려 배달할 수 있습니다.",
+    sec5P4: "다카세 도하치가 메이지에 개척한 수출 항로도, 레이와의 우리가 보내는 차도, 출발점은 같은 가와마타다니의 찻밭입니다.",
   },
   zh: {
     h1: "关于藤八茶寮",
@@ -146,6 +166,11 @@ const ABOUT_TEXTS: Record<
     altImage2: "高瀬",
     altImage3: "伊势茶",
     altImage4: "春摘",
+    sec5Title: "从川俣谷的茶园，到您的手边",
+    sec5P1: "藤八茶寮销售的伊势茶，是在三重县松阪市饭南町·川俣谷的自家茶园中栽培的茶叶。",
+    sec5P2: "川俣谷是被誉为伊势茶发祥地的历史悠久产区。四周环山的地形自然遮挡了午后的日照，使茶叶积蓄了接近遮阴茶的深沉鲜甜。这片土地独有的条件，孕育出了其他产地无法复现的醇厚口感与香气。",
+    sec5P3: "采收后的茶叶，由熟悉川俣谷的当地制茶厂精心加工。正因为产地、制茶、销售一脉相承，才能在不损伤茶叶个性的前提下，将原汁原味直接送到您手中。",
+    sec5P4: "高瀬藤八在明治时代开辟的出口航路，以及令和时代的我们所送达的茶，起点皆是同一片川俣谷的茶园。",
   },
 };
 
@@ -225,7 +250,7 @@ export default function AboutPage({ locale }: Props) {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-2 md:gap-8">
+          <div className="mb-12 grid grid-cols-1 items-start gap-6 md:grid-cols-2 md:gap-8">
             <div className="text-left">
               <h2 className="mt-0 mb-3 text-base font-semibold text-tea-deep">
                 {t.sec4Title}
@@ -246,6 +271,14 @@ export default function AboutPage({ locale }: Props) {
             <figure className="overflow-hidden rounded-md">
               <Image src={`${IMG_BASE}/haru-768x950-1.jpg`} alt={t.altImage4} width={768} height={950} className="h-auto w-full object-cover" />
             </figure>
+          </div>
+
+          <div className="mt-0 text-left">
+            <h2 className="mt-0 mb-3 text-base font-semibold text-tea-deep">{t.sec5Title}</h2>
+            <p className="mb-4 text-[0.9375rem] leading-relaxed text-ink-muted">{t.sec5P1}</p>
+            <p className="mb-4 text-[0.9375rem] leading-relaxed text-ink-muted">{t.sec5P2}</p>
+            <p className="mb-4 text-[0.9375rem] leading-relaxed text-ink-muted">{t.sec5P3}</p>
+            <p className="mb-0 text-[0.9375rem] leading-relaxed text-ink-muted">{t.sec5P4}</p>
           </div>
         </section>
       </div>
