@@ -23,7 +23,7 @@ export default function FloatingCartBar() {
 
   return (
     <div
-      className="fixed right-0 z-50 flex flex-col w-52 rounded-l-xl overflow-hidden shadow-xl bottom-[120px] sm:bottom-[max(calc(35%_+_4em),294px)]"
+      className="fixed right-0 z-50 flex flex-col w-52 rounded-l-xl overflow-hidden shadow-xl bottom-[60px] sm:bottom-[max(calc(35%_+_4em),294px)]"
     >
       {/* 購入手続きへ — 緑・半透過 */}
       <Link

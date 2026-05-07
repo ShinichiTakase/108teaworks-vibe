@@ -19,9 +19,12 @@ function getLocaleFromPath(pathname: string | null): Locale {
   return "ja";
 }
 
-const BAR_BASE =
-  "fixed right-0 z-[999999] flex items-center justify-center md:justify-start gap-2 rounded-l-full border-2 border-r-0 text-[0.875rem] font-semibold shadow-lg transition-colors cursor-pointer";
-const BAR_SIZE = "h-12 w-12 md:h-14 md:min-w-[152px] md:w-auto p-0 md:py-3 md:pl-4 md:pr-3";
+const BAR_COMMON =
+  "fixed z-[999999] flex items-center gap-2 border-2 text-[0.875rem] font-semibold shadow-lg transition-colors cursor-pointer h-12 w-12 p-0";
+const BAR_MOBILE = "left-0 bottom-4 justify-center rounded-r-full border-l-0";
+const BAR_SM =
+  "sm:left-auto sm:right-0 sm:bottom-[230px] sm:rounded-l-full sm:rounded-r-none sm:border-r-0 sm:border-l-2";
+const BAR_MD = "md:h-14 md:min-w-[152px] md:w-auto md:py-3 md:pl-4 md:pr-3 md:justify-start";
 
 /** 元アイコン風：黒背景に白線・上の弧・目（2点）・口・胴の線 */
 const ChachamaruIconSvg = ({ className }: { className?: string }) => (
@@ -71,7 +74,7 @@ export default function FloatingChachamaruBar() {
     <button
       type="button"
       onClick={handleClick}
-      className={`${BAR_BASE} ${BAR_SIZE} border-tea-deep bg-tea-deep text-white hover:bg-tea hover:border-tea focus:outline-none focus:ring-2 focus:ring-tea-light focus:ring-offset-2 bottom-[60px] sm:bottom-[230px]`}
+      className={`${BAR_COMMON} ${BAR_MOBILE} ${BAR_SM} ${BAR_MD} border-tea-deep bg-tea-deep text-white hover:bg-tea hover:border-tea focus:outline-none focus:ring-2 focus:ring-tea-light focus:ring-offset-2`}
       aria-label={t.fabAriaLabel}
       data-chachamaru-trigger
     >
