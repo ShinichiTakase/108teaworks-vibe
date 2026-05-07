@@ -91,11 +91,13 @@ export default function IseChaCaffeinePage() {
             <aside className="hidden w-full md:block">
               <div className="space-y-[10lh]">
                 <StructureFigure structureImageExists={structureImageExists} />
-                <p className="m-0 text-center text-[0.9375rem] font-medium">
-                  <Link href="/ise-cha/decaf_green_tea/" className="text-tea-deep underline underline-offset-2 hover:text-tea">
-                    伊勢茶 カフェインカット緑茶
-                  </Link>
-                </p>
+                <Link
+                  href="/ise-cha/decaf_green_tea/"
+                  className="flex items-center justify-between gap-2 w-full py-2.5 px-3 rounded-lg border-2 border-tea-light bg-washi text-[0.9375rem] font-medium text-tea-deep no-underline transition-colors hover:border-tea-deep hover:bg-cream hover:shadow-sm"
+                >
+                  <span>伊勢茶 カフェインカット緑茶</span>
+                  <span className="shrink-0 text-tea font-semibold" aria-hidden="true">詳しく見る &gt;&gt;</span>
+                </Link>
                 <DecafProductCard decafImagePath={decafImagePath} />
               </div>
             </aside>
