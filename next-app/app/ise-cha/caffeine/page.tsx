@@ -111,6 +111,14 @@ export default function IseChaCaffeinePage() {
             </p>
             <p>一方で、摂取するタイミングや量には少し注意が必要です。</p>
 
+            <Link
+              href="/ise-cha/decaf_green_tea/"
+              className="md:hidden flex items-center justify-between gap-2 w-full py-2.5 px-3 rounded-lg border-2 border-tea-light bg-washi text-[0.9375rem] font-medium text-tea-deep no-underline transition-colors hover:border-tea-deep hover:bg-cream hover:shadow-sm"
+            >
+              <span>伊勢茶 カフェインカット緑茶</span>
+              <span className="shrink-0 text-tea font-semibold" aria-hidden="true">詳しく見る &gt;&gt;</span>
+            </Link>
+
             <h2 className="m-0 mt-8 text-lg font-semibold text-tea-deep">
               カフェインの「半減期」と上手な付き合い方
             </h2>
