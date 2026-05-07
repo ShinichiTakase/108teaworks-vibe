@@ -89,7 +89,7 @@ export default function IseChaCaffeinePage() {
 
           <div className="grid grid-cols-1 gap-8 md:grid-cols-[minmax(260px,420px)_minmax(0,1fr)] md:items-start">
             <aside className="hidden w-full md:block">
-              <div className="space-y-[10lh]">
+              <div className="space-y-8">
                 <StructureFigure structureImageExists={structureImageExists} />
                 <Link
                   href="/ise-cha/decaf_green_tea/"

@@ -28,7 +28,7 @@ function SideImages({
   teabagExists: boolean;
 }) {
   return (
-    <div className="space-y-8 px-10">
+    <div className="space-y-8">
       {catechinExists && (
         <figure className="m-0">
           <Image
