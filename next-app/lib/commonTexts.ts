@@ -23,6 +23,8 @@ export const COMMON_TEXTS: Record<
       isechaCatechin: string;
       /** /ise-cha/fukamushi/（深蒸し茶 通販ランディングページ） */
       isechaFukamushi: string;
+      /** /ise-cha/decaf/（カフェインカット緑茶 通販ランディングページ） */
+      isechaDecaf: string;
       howToBrew: string;
       userGuide: string;
       notice: string;
@@ -99,6 +101,7 @@ export const COMMON_TEXTS: Record<
       isechaCaffeine: "お茶とカフェイン",
       isechaCatechin: "お茶とコレステロール",
       isechaFukamushi: "深蒸し茶について",
+      isechaDecaf: "カフェインカット緑茶",
       howToBrew: "お茶の淹れ方",
       userGuide: "ご注文の流れ",
       notice: "お知らせ",
@@ -151,6 +154,7 @@ export const COMMON_TEXTS: Record<
       isechaCaffeine: "Tea and Caffeine",
       isechaCatechin: "Tea and Cholesterol",
       isechaFukamushi: "About Fukamushi Sencha",
+      isechaDecaf: "Low-Caffeine Green Tea",
       howToBrew: "How to Brew",
       userGuide: "Order Guide",
       notice: "News",
@@ -203,6 +207,7 @@ export const COMMON_TEXTS: Record<
       isechaCaffeine: "차와 카페인",
       isechaCatechin: "차와 콜레스테롤",
       isechaFukamushi: "후카무시 녹차란",
+      isechaDecaf: "저카페인 녹차",
       howToBrew: "우려내기",
       userGuide: "주문 안내",
       notice: "소식",
@@ -255,6 +260,7 @@ export const COMMON_TEXTS: Record<
       isechaCaffeine: "茶与咖啡因",
       isechaCatechin: "茶与胆固醇",
       isechaFukamushi: "关于深蒸绿茶",
+      isechaDecaf: "低咖啡因绿茶",
       howToBrew: "冲泡方法",
       userGuide: "订购流程",
       notice: "公告",
