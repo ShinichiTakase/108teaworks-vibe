@@ -420,22 +420,47 @@ export default async function FukamushiPage({ locale }: Props) {
             <aside className="hidden w-full md:block">
               <div className="space-y-8">
                 {mainImagePath && (
-                  <figure className="m-0">
-                    <Image
-                      src={mainImagePath}
-                      alt={t.productNames[0]}
-                      width={640}
-                      height={640}
-                      className="h-auto w-full rounded object-cover"
-                      sizes="(max-width: 767px) 60vw, 320px"
-                    />
-                  </figure>
+                  <Link href={buildLocalizedPath(locale, "/ise-cha/deep-steamed-isecha")} className="block no-underline">
+                    <figure className="m-0 overflow-hidden rounded transition-opacity hover:opacity-90">
+                      <Image
+                        src={mainImagePath}
+                        alt={t.productNames[0]}
+                        width={640}
+                        height={640}
+                        className="h-auto w-full object-cover"
+                        sizes="(max-width: 767px) 60vw, 320px"
+                      />
+                    </figure>
+                  </Link>
                 )}
                 <Link
                   href={buildLocalizedPath(locale, "/ise-cha/deep-steamed-isecha")}
                   className="flex items-center justify-between gap-2 w-full py-2.5 px-3 rounded-lg border-2 border-tea-light bg-washi text-[0.9375rem] font-medium text-tea-deep no-underline transition-colors hover:border-tea-deep hover:bg-cream hover:shadow-sm"
                 >
                   <span>{t.productLinkLabel}</span>
+                  <span className="shrink-0 text-tea font-semibold" aria-hidden="true">
+                    {t.viewDetails}
+                  </span>
+                </Link>
+                {productData[3].imagePath && (
+                  <Link href={productData[3].href} className="block no-underline">
+                    <figure className="m-0 overflow-hidden rounded transition-opacity hover:opacity-90">
+                      <Image
+                        src={productData[3].imagePath}
+                        alt={productData[3].name}
+                        width={640}
+                        height={640}
+                        className="h-auto w-full object-cover"
+                        sizes="(max-width: 767px) 60vw, 320px"
+                      />
+                    </figure>
+                  </Link>
+                )}
+                <Link
+                  href={productData[3].href}
+                  className="flex items-center justify-between gap-2 w-full py-2.5 px-3 rounded-lg border-2 border-tea-light bg-washi text-[0.9375rem] font-medium text-tea-deep no-underline transition-colors hover:border-tea-deep hover:bg-cream hover:shadow-sm"
+                >
+                  <span>{productData[3].name}</span>
                   <span className="shrink-0 text-tea font-semibold" aria-hidden="true">
                     {t.viewDetails}
                   </span>
