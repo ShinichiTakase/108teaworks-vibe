@@ -55,11 +55,11 @@ type CaffeineTexts = {
 
 const TEXTS: Record<Locale, CaffeineTexts> = {
   ja: {
-    h1: "カフェインレス緑茶の通販｜お茶とカフェインの知っておきたい関係",
-    articleHeadline: "カフェインレス緑茶の通販｜お茶とカフェインの知っておきたい関係",
+    h1: "カフェインカット緑茶の通販｜お茶とカフェインの知っておきたい関係",
+    articleHeadline: "カフェインカット緑茶の通販｜お茶とカフェインの知っておきたい関係",
     articleDescription:
-      "薬剤不使用・超臨界CO2抽出でカフェイン75%オフ。伊勢茶本来の旨みはそのままに、妊娠中・授乳中・夜のティータイムも安心して楽しめるカフェインカット緑茶。三重県川俣谷産シングルオリジン。",
-    breadcrumbName: "カフェインレス緑茶",
+      "薬剤不使用・超臨界CO2抽出でカフェイン75%オフ。伊勢茶本来の旨みはそのままに、夜のティータイムや低カフェインを気にする方に。三重県川俣谷産シングルオリジン。",
+    breadcrumbName: "カフェインカット緑茶",
     leadP1:
       "お茶には150種類以上の成分が含まれていますが、その中でも特に注目されるのが「カフェイン」です。",
     leadP2:
@@ -119,8 +119,8 @@ const TEXTS: Record<Locale, CaffeineTexts> = {
         a: "はい、異なります。デカフェはカフェインを大幅に低減したものですが、完全にゼロではありません。藤八茶寮のカフェインカット緑茶は約75%オフで、100mlあたり約5mg残っています。完全にカフェインを避けたい場合は麦茶などをお選びください。",
       },
       {
-        q: "妊婦・授乳中でも飲めますか？",
-        a: "カフェイン量はコーラと同程度（100mlあたり約5mg）まで低減していますが、妊娠中・授乳中の方は念のためかかりつけの医師にご相談の上でお召し上がりください。",
+        q: "妊娠中や授乳中でも飲めますか？",
+        a: "本商品のカフェイン量は100mlあたり約5mgで、一般的な緑茶の約3分の1以下です。ただし妊娠中・授乳中の方の食品摂取についてはかかりつけの医師にご相談ください。",
       },
       {
         q: "子どもでも飲めますか？",
@@ -141,11 +141,11 @@ const TEXTS: Record<Locale, CaffeineTexts> = {
   },
 
   en: {
-    h1: "Decaf Green Tea Online | What You Should Know About Tea and Caffeine",
-    articleHeadline: "Decaf Green Tea Online | What You Should Know About Tea and Caffeine",
+    h1: "Low-Caffeine Green Tea | What You Should Know About Tea and Caffeine",
+    articleHeadline: "Low-Caffeine Green Tea | What You Should Know About Tea and Caffeine",
     articleDescription:
-      "Caffeine reduced by 75% using supercritical CO2 extraction — no chemicals. Enjoy the full umami of Ise tea from Kawamatatani, safe for pregnancy, breastfeeding, and evening drinking.",
-    breadcrumbName: "Decaf Green Tea",
+      "Caffeine reduced by 75% using supercritical CO2 extraction—no chemicals. Full umami of Kawamatatani Ise tea, ideal for evenings and those watching their caffeine intake.",
+    breadcrumbName: "Low-Caffeine Green Tea",
     leadP1:
       "Green tea contains over 150 components, but one of the most notable is caffeine.",
     leadP2:
@@ -208,8 +208,8 @@ const TEXTS: Record<Locale, CaffeineTexts> = {
         a: "Yes. Decaf means the caffeine has been greatly reduced, but not completely removed. Fujihachi Saryo's caffeine-cut green tea is about 75% lower, leaving approximately 5 mg per 100 ml. If you need to avoid caffeine entirely, please choose something like barley tea.",
       },
       {
-        q: "Is it safe to drink during pregnancy or while breastfeeding?",
-        a: "The caffeine level is reduced to about the same as cola (~5 mg per 100 ml), but if you are pregnant or breastfeeding, we recommend consulting your doctor before drinking.",
+        q: "Is it suitable for pregnant or breastfeeding women?",
+        a: "This product contains approximately 5 mg of caffeine per 100 ml, which is less than one-third of regular green tea. If you are pregnant or breastfeeding, please consult your doctor regarding food and beverage intake.",
       },
       {
         q: "Can children drink it?",
@@ -230,11 +230,11 @@ const TEXTS: Record<Locale, CaffeineTexts> = {
   },
 
   ko: {
-    h1: "카페인레스 녹차 통신판매｜차와 카페인에 대해 알아두어야 할 것",
-    articleHeadline: "카페인레스 녹차 통신판매｜차와 카페인에 대해 알아두어야 할 것",
+    h1: "저카페인 녹차 통신판매｜차와 카페인에 대해 알아두어야 할 것",
+    articleHeadline: "저카페인 녹차 통신판매｜차와 카페인에 대해 알아두어야 할 것",
     articleDescription:
-      "약제 불사용·초임계 CO2 추출로 카페인 75% 감소. 이세차 본연의 감칠맛은 그대로, 임신 중·수유 중·야간 티타임도 안심하고 즐길 수 있는 카페인컷 녹차. 미에현 가와마타다니산 싱글 오리진.",
-    breadcrumbName: "카페인레스 녹차",
+      "약제 불사용·초임계 CO2 추출로 카페인 75% 감소. 이세차 본연의 감칠맛은 그대로, 야간 티타임이나 저카페인이 신경 쓰이는 분에게. 미에현 가와마타다니산 싱글 오리진.",
+    breadcrumbName: "저카페인 녹차",
     leadP1: "녹차에는 150종 이상의 성분이 함유되어 있는데, 그 중에서도 특히 주목받는 것이 「카페인」입니다.",
     leadP2:
       "커피에도 들어 있는 쓴맛 성분의 일종으로, 졸음을 억제하고 집중력·주의력을 높이거나 기분을 향상시키는 등 다양한 장점이 있습니다. 또 지방 연소 촉진과 운동 퍼포먼스 향상에 기여한다는 연구 데이터도 있어, 우리의 일상에 활력을 주는 존재입니다.",
@@ -293,8 +293,8 @@ const TEXTS: Record<Locale, CaffeineTexts> = {
         a: "네, 다릅니다. 디카페인은 카페인을 대폭 저감한 것이지만 완전히 제로는 아닙니다. 후지하치야의 카페인컷 녹차는 약 75% 감소로, 100ml당 약 5mg이 남아 있습니다. 카페인을 완전히 피하고 싶은 경우에는 보리차 등을 선택해 주세요.",
       },
       {
-        q: "임산부·수유 중에도 마실 수 있나요?",
-        a: "카페인 함량은 콜라와 같은 수준(100ml당 약 5mg)까지 저감되었지만, 임신 중·수유 중인 분은 안전을 위해 주치의와 상담 후 음용해 주세요.",
+        q: "임신 중이나 수유 중에도 마실 수 있나요?",
+        a: "본 상품의 카페인 함량은 100ml당 약 5mg으로, 일반 녹차의 약 3분의 1 이하입니다. 다만 임신 중·수유 중인 분의 식품 섭취에 대해서는 주치의에게 상담해 주세요.",
       },
       {
         q: "어린이도 마실 수 있나요?",
@@ -318,7 +318,7 @@ const TEXTS: Record<Locale, CaffeineTexts> = {
     h1: "低咖啡因绿茶网购｜关于茶与咖啡因你应该了解的知识",
     articleHeadline: "低咖啡因绿茶网购｜关于茶与咖啡因你应该了解的知识",
     articleDescription:
-      "不使用药剂·超临界CO2萃取，咖啡因减少75%。保留伊势茶本来的鲜甜，妊娠期、哺乳期及夜间茶时也可放心享用的低咖啡因绿茶。三重县川俣谷产单一产地。",
+      "不使用药剂·超临界CO2萃取，咖啡因减少75%。保留伊势茶本来的鲜甜，适合夜间饮用及关注咖啡因摄入的人士。三重县川俣谷产单一产地。",
     breadcrumbName: "低咖啡因绿茶",
     leadP1: "绿茶含有150种以上的成分，其中最受关注的是「咖啡因」。",
     leadP2:
@@ -379,7 +379,7 @@ const TEXTS: Record<Locale, CaffeineTexts> = {
       },
       {
         q: "妊娠期或哺乳期可以饮用吗？",
-        a: "咖啡因含量已降至与可乐相当（每100ml约5mg），但妊娠期或哺乳期人士请务必咨询主治医生后再饮用。",
+        a: "本商品每100ml咖啡因含量约为5mg，不足普通绿茶的三分之一。妊娠期或哺乳期人士在食品摄取方面请咨询主治医生。",
       },
       {
         q: "儿童可以饮用吗？",
