@@ -20,6 +20,7 @@ const PRODUCT_SLUGS = [
   "3teabag-ise-deeproasted",
   "ise-tea-deep-steamed-bulkpack",
   "isecha-powder-unsweetened",
+  "ise-tea-powder-unsweetened-bulkpack",
 ] as const;
 
 type FukamushiTexts = {
@@ -37,8 +38,13 @@ type FukamushiTexts = {
   sec3P3: string;
   sec3P4: React.ReactNode;
   sec4Title: string;
-  productNames: readonly [string, string, string, string];
+  productNames: readonly [string, string, string, string, string];
   viewDetails: string;
+  sec4bTitle: string;
+  sec4bP: string;
+  sec4bItems: readonly [string, string, string];
+  sec4bLinkText: string;
+  sec4bLinkHref: string;
   sec5Title: string;
   sec5HotLabel: string;
   sec5HotItems: readonly [string, string, string, string];
@@ -87,8 +93,18 @@ const TEXTS: Record<Locale, FukamushiTexts> = {
       "伊勢茶 深蒸し茶 ティーバッグ 3個",
       "お得用 伊勢茶 深蒸し茶 ティーバッグ 50個",
       "伊勢茶 深蒸し茶パウダー 100g",
+      "お得用 伊勢茶 深蒸し茶パウダー 500g",
     ],
     viewDetails: "詳しく見る >>",
+    sec4bTitle: "深蒸し茶パウダーの使い方",
+    sec4bP: "深蒸し茶パウダーは、お茶として飲むだけでなく、お菓子作りや料理にも幅広く活用できます。",
+    sec4bItems: [
+      "緑茶ラテ：温めたミルクにパウダーを溶かすだけ。砂糖やはちみつをお好みで加えてどうぞ。",
+      "お菓子作り：クッキーやケーキの生地に混ぜ込む場合、小麦粉100gに対してパウダー小さじ2〜3杯が目安です。",
+      "料理への活用：抹茶塩の代わりに天ぷらや揚げ物に合わせても。茶葉の旨みが食材を引き立てます。",
+    ],
+    sec4bLinkText: "抹茶との違いについては「抹茶とパウダー緑茶」",
+    sec4bLinkHref: "/ise-cha/maccha/",
     sec5Title: "深蒸し茶の美味しい淹れ方",
     sec5HotLabel: "ホットの場合",
     sec5HotItems: [
@@ -170,8 +186,18 @@ const TEXTS: Record<Locale, FukamushiTexts> = {
       "Ise Tea Deep-Steamed Teabags × 3",
       "Ise Tea Deep-Steamed Teabags × 50 (Value Pack)",
       "Ise Tea Deep-Steamed Powder 100 g",
+      "Ise Tea Deep-Steamed Powder 500 g (Value Pack)",
     ],
     viewDetails: "View details >>",
+    sec4bTitle: "How to Use Deep-Steamed Tea Powder",
+    sec4bP: "The powder can be used not just as tea, but also in baking and cooking.",
+    sec4bItems: [
+      "Green tea latte: dissolve the powder in warm milk. Add sugar or honey to taste.",
+      "Baking: when mixing into cookie or cake batter, use 2–3 teaspoons per 100 g of flour as a guide.",
+      "Cooking: use as a substitute for matcha salt alongside tempura or fried foods. The tea's umami brings out the flavour of ingredients.",
+    ],
+    sec4bLinkText: "For the difference between matcha and powdered green tea, see our Maccha page",
+    sec4bLinkHref: "/en/ise-cha/maccha/",
     sec5Title: "How to Brew Fukamushi Sencha",
     sec5HotLabel: "Hot",
     sec5HotItems: [
@@ -251,8 +277,18 @@ const TEXTS: Record<Locale, FukamushiTexts> = {
       "이세차 후카무시 녹차 티백 3개",
       "대용량 이세차 후카무시 녹차 티백 50개",
       "이세차 후카무시 녹차 파우더 100g",
+      "대용량 이세차 후카무시 녹차 파우더 500g",
     ],
     viewDetails: "자세히 보기 >>",
+    sec4bTitle: "후카무시 녹차 파우더 활용법",
+    sec4bP: "후카무시 녹차 파우더는 차로 마시는 것 외에도 과자 만들기와 요리에도 폭넓게 활용할 수 있습니다.",
+    sec4bItems: [
+      "녹차 라테：따뜻한 우유에 파우더를 녹이기만 하면 됩니다. 설탕이나 꿀을 취향에 따라 추가하세요.",
+      "과자 만들기：쿠키나 케이크 반죽에 섞을 때는 밀가루 100g에 파우더 작은 스푼 2~3스푼이 기준입니다.",
+      "요리 활용：말차 소금 대신 튀김 요리에 곁들여도 좋습니다. 찻잎의 감칠맛이 식재료를 돋보이게 합니다.",
+    ],
+    sec4bLinkText: "말차와의 차이점은 「말차와 파우더 녹차」 페이지를 참고하세요",
+    sec4bLinkHref: "/ko/ise-cha/maccha/",
     sec5Title: "후카무시 녹차 맛있게 우리는 법",
     sec5HotLabel: "따뜻하게 마실 때",
     sec5HotItems: [
@@ -330,8 +366,18 @@ const TEXTS: Record<Locale, FukamushiTexts> = {
       "伊势茶深蒸绿茶茶包 3个",
       "大容量伊势茶深蒸绿茶茶包 50个",
       "伊势茶深蒸绿茶粉 100g",
+      "大容量伊势茶深蒸绿茶粉 500g",
     ],
     viewDetails: "查看详情 >>",
+    sec4bTitle: "深蒸绿茶粉的使用方法",
+    sec4bP: "深蒸绿茶粉不仅可以冲泡饮用，还可广泛用于点心制作和料理。",
+    sec4bItems: [
+      "绿茶拿铁：将粉末溶入温热牛奶中即可，可按喜好加入砂糖或蜂蜜。",
+      "点心制作：揉入饼干或蛋糕面糊时，以每100g面粉加入2～3茶匙为参考。",
+      "料理应用：可代替抹茶盐搭配天妇罗等炸物，茶叶鲜味能衬托食材风味。",
+    ],
+    sec4bLinkText: "关于与抹茶的区别，请参阅「抹茶与绿茶粉」页面",
+    sec4bLinkHref: "/zh/ise-cha/maccha/",
     sec5Title: "深蒸绿茶的冲泡方法",
     sec5HotLabel: "热饮",
     sec5HotItems: [
@@ -532,6 +578,23 @@ export default async function FukamushiPage({ locale }: Props) {
                 </Link>
               ))}
             </div>
+          </div>
+
+          {/* セクション4b：パウダーの使い方 */}
+          <div className="mt-12">
+            <h2 className="m-0 mb-4 text-lg font-semibold text-tea-deep">{t.sec4bTitle}</h2>
+            <p className="mb-4 text-[0.9375rem] leading-relaxed text-ink">{t.sec4bP}</p>
+            <ul className="m-0 mb-4 space-y-2 pl-5 text-[0.9375rem] leading-relaxed text-ink">
+              {t.sec4bItems.map((item, i) => (
+                <li key={i}>{item}</li>
+              ))}
+            </ul>
+            <p className="text-[0.9375rem] leading-relaxed text-ink-muted">
+              →{" "}
+              <Link href={buildLocalizedPath(locale, "/ise-cha/maccha")} className="text-tea underline underline-offset-2">
+                {t.sec4bLinkText}
+              </Link>
+            </p>
           </div>
 
           {/* セクション5：淹れ方 */}
