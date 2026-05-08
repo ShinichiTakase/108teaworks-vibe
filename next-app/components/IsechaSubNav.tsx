@@ -54,11 +54,7 @@ export default function IsechaSubNav({ locale, current }: Props) {
     { key: "fukamushi", label: t.isechaFukamushi, href: buildLocalizedPath(locale, "/ise-cha/fukamushi") },
     { key: "catechin", label: t.isechaCatechin, href: buildLocalizedPath(locale, "/ise-cha/catechin") },
     { key: "caffeine", label: t.isechaCaffeine, href: buildLocalizedPath(locale, "/ise-cha/caffeine") },
-    {
-      key: "maccha",
-      label: t.isechaMaccha,
-      href: locale === "ja" ? "/maccha" : buildLocalizedPath(locale, "/ise-cha/maccha"),
-    },
+    { key: "maccha", label: t.isechaMaccha, href: buildLocalizedPath(locale, "/ise-cha/maccha") },
     { key: "america", label: t.isechaAmerica, href: buildLocalizedPath(locale, "/ise-cha/america") },
     {
       key: "howToBrew",
