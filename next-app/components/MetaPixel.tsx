@@ -7,7 +7,7 @@ import { useEffect, useRef } from "react";
 const fromEnv = process.env.NEXT_PUBLIC_META_PIXEL_ID?.trim();
 /** 未設定時は本番ピクセル。空文字を明示すると読み込まない。 */
 const META_PIXEL_ID =
-  fromEnv === "" ? "" : fromEnv || "4106662349587657";
+  fromEnv === "" ? "" : fromEnv || "2487381581715717";
 
 declare global {
   interface Window {
@@ -36,7 +36,7 @@ export default function MetaPixel() {
 
   return (
     <>
-      <Script id="meta-pixel-fbq" strategy="lazyOnload">
+      <Script id="meta-pixel-fbq" strategy="afterInteractive">
         {`
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?

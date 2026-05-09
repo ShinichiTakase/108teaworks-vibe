@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import type { Locale } from "@/lib/i18n";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
+import { fbTrack } from "@/lib/metaPixel";
 
 type Props = {
   slug: string;
@@ -39,6 +40,12 @@ export default function ProductAddToCart({ slug, price, title, imagePath, locale
 
   const handleAddToCart = () => {
     addToCart(slug, title, price ?? 0, quantity, imagePath);
+    fbTrack("AddToCart", {
+      content_ids: [slug],
+      content_type: "product",
+      value: (price ?? 0) * quantity,
+      currency: "JPY",
+    });
     setFeedback(addedToCartMessage);
   };
 

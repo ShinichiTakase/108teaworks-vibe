@@ -518,6 +518,7 @@ export async function POST(req: NextRequest) {
       clientHtml,
       summary: {
         items: summaryLines.map((l) => ({
+          slug: l.slug as string,
           name: l.name,
           quantity: l.quantity,
           unitPrice: l.unitPrice,

@@ -4,9 +4,11 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import type { Locale } from "@/lib/i18n";
 import { CHECKOUT_COMPLETE_TEXTS } from "@/lib/checkoutCompleteTexts";
+import { fbTrack } from "@/lib/metaPixel";
 
 type CompleteSummary = {
   items: {
+    slug: string;
     name: string;
     quantity: number;
     unitPrice: number;
@@ -36,7 +38,14 @@ export default function CheckoutCompletePage() {
     try {
       const stored = sessionStorage.getItem("lastOrderSummary");
       if (stored) {
-        setSummary(JSON.parse(stored) as CompleteSummary);
+        const data = JSON.parse(stored) as CompleteSummary;
+        setSummary(data);
+        fbTrack("Purchase", {
+          value: data.total,
+          currency: "JPY",
+          content_ids: data.items.map((i) => i.slug),
+          content_type: "product",
+        });
       }
       sessionStorage.removeItem("lastOrderSummary");
     } catch {
