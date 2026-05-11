@@ -7,7 +7,7 @@ import { useEffect, useRef } from "react";
 const fromEnv = process.env.NEXT_PUBLIC_META_PIXEL_ID?.trim();
 /** 未設定時は本番ピクセル。空文字を明示すると読み込まない。 */
 const META_PIXEL_ID =
-  fromEnv === "" ? "" : fromEnv || "2487381581715717";
+  fromEnv === "" ? "" : fromEnv || "1725497478865844";
 
 declare global {
   interface Window {
