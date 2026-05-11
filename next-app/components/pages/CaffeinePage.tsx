@@ -58,7 +58,7 @@ const TEXTS: Record<Locale, CaffeineTexts> = {
     h1: "カフェインカット緑茶の通販｜お茶とカフェインの知っておきたい関係",
     articleHeadline: "カフェインカット緑茶の通販｜お茶とカフェインの知っておきたい関係",
     articleDescription:
-      "薬剤不使用・超臨界CO2抽出でカフェイン75%オフ。伊勢茶本来の旨みはそのままに、夜のティータイムや低カフェインを気にする方に。三重県川俣谷産シングルオリジン。",
+      "薬剤不使用・超臨界CO2抽出でカフェイン70%オフ。伊勢茶本来の旨みはそのままに、夜のティータイムや低カフェインを気にする方に。三重県川俣谷産シングルオリジン。",
     breadcrumbName: "カフェインカット緑茶",
     leadP1:
       "お茶には150種類以上の成分が含まれていますが、その中でも特に注目されるのが「カフェイン」です。",
@@ -95,7 +95,7 @@ const TEXTS: Record<Locale, CaffeineTexts> = {
       ["緑茶（煎茶）", "約15mg", "番茶などはこれより低め"],
       ["ほうじ茶", "約10mg", "焙煎の工程でカフェインが揮発"],
       ["コーラ", "約5mg", "清涼飲料水としての微量含有"],
-      ["カフェインカット緑茶", "約5mg", "藤八茶寮の商品（75%オフ）"],
+      ["カフェインカット緑茶", "約5mg", "藤八茶寮の商品（70%オフ）"],
       ["麦茶", "ほぼ0mg", "ノンカフェイン飲料"],
     ],
     decafH2Prefix: "美味しさを諦めない「藤八茶寮」の",
@@ -108,7 +108,7 @@ const TEXTS: Record<Locale, CaffeineTexts> = {
     decafListItems: [
       "まず、深蒸し茶からカフェインを85%除去します。",
       "そのままだと失われがちな「濃厚なコク」と「まろやかな旨み」を保つため、あえて高品質な深蒸し茶を黄金比で再ブレンド。",
-      "最終的にカフェイン75%オフという、美味しさと優しさを両立したバランスに仕上げました。",
+      "最終的にカフェイン70%オフという、美味しさと優しさを両立したバランスに仕上げました。",
     ],
     decafP3:
       "100ml当たりのカフェイン量は約5mg。これはコーラと同程度で、一般的な緑茶の3分の1以下です。お子様からカフェインに敏感な体質の方まで、伊勢茶ならではの薫り高い風味を安心してお楽しみいただけます。",
@@ -116,7 +116,7 @@ const TEXTS: Record<Locale, CaffeineTexts> = {
     faqs: [
       {
         q: "デカフェと完全ノンカフェインは違いますか？",
-        a: "はい、異なります。デカフェはカフェインを大幅に低減したものですが、完全にゼロではありません。藤八茶寮のカフェインカット緑茶は約75%オフで、100mlあたり約5mg残っています。完全にカフェインを避けたい場合は麦茶などをお選びください。",
+        a: "はい、異なります。デカフェはカフェインを大幅に低減したものですが、完全にゼロではありません。藤八茶寮のカフェインカット緑茶は約70%オフで、100mlあたり約5mg残っています。完全にカフェインを避けたい場合は麦茶などをお選びください。",
       },
       {
         q: "妊娠中や授乳中でも飲めますか？",
@@ -144,7 +144,7 @@ const TEXTS: Record<Locale, CaffeineTexts> = {
     h1: "Low-Caffeine Green Tea | What You Should Know About Tea and Caffeine",
     articleHeadline: "Low-Caffeine Green Tea | What You Should Know About Tea and Caffeine",
     articleDescription:
-      "Caffeine reduced by 75% using supercritical CO2 extraction—no chemicals. Full umami of Kawamatatani Ise tea, ideal for evenings and those watching their caffeine intake.",
+      "Caffeine reduced by 70% using supercritical CO2 extraction—no chemicals. Full umami of Kawamatatani Ise tea, ideal for evenings and those watching their caffeine intake.",
     breadcrumbName: "Low-Caffeine Green Tea",
     leadP1:
       "Green tea contains over 150 components, but one of the most notable is caffeine.",
@@ -183,7 +183,7 @@ const TEXTS: Record<Locale, CaffeineTexts> = {
       ["Green tea (sencha)", "~15 mg", "Bancha etc. is lower"],
       ["Hojicha", "~10 mg", "Caffeine evaporates during roasting"],
       ["Cola", "~5 mg", "Trace amounts in soft drinks"],
-      ["Caffeine-cut green tea", "~5 mg", "Fujihachi Saryo product (75% off)"],
+      ["Caffeine-cut green tea", "~5 mg", "Fujihachi Saryo product (70% off)"],
       ["Barley tea (mugicha)", "Nearly 0 mg", "Caffeine-free beverage"],
     ],
     decafH2Prefix: "Fujihachi Saryo's ",
@@ -197,7 +197,7 @@ const TEXTS: Record<Locale, CaffeineTexts> = {
     decafListItems: [
       "First, 85% of the caffeine is removed from the deep-steamed tea.",
       "To preserve the rich body and smooth umami that can be lost in processing, we then blend in premium deep-steamed tea at a golden ratio.",
-      "The result is a 75%-caffeine-reduced tea that balances great taste with gentle caffeine levels.",
+      "The result is a 70%-caffeine-reduced tea that balances great taste with gentle caffeine levels.",
     ],
     decafP3:
       "About 5 mg of caffeine per 100 ml — the same as cola, and less than one-third of regular green tea. From children to those sensitive to caffeine, everyone can enjoy the aromatic flavour unique to Ise tea with peace of mind.",
@@ -205,7 +205,7 @@ const TEXTS: Record<Locale, CaffeineTexts> = {
     faqs: [
       {
         q: "Is decaf different from completely caffeine-free?",
-        a: "Yes. Decaf means the caffeine has been greatly reduced, but not completely removed. Fujihachi Saryo's caffeine-cut green tea is about 75% lower, leaving approximately 5 mg per 100 ml. If you need to avoid caffeine entirely, please choose something like barley tea.",
+        a: "Yes. Decaf means the caffeine has been greatly reduced, but not completely removed. Fujihachi Saryo's caffeine-cut green tea is about 70% lower, leaving approximately 5 mg per 100 ml. If you need to avoid caffeine entirely, please choose something like barley tea.",
       },
       {
         q: "Is it suitable for pregnant or breastfeeding women?",
@@ -233,7 +233,7 @@ const TEXTS: Record<Locale, CaffeineTexts> = {
     h1: "저카페인 녹차 통신판매｜차와 카페인에 대해 알아두어야 할 것",
     articleHeadline: "저카페인 녹차 통신판매｜차와 카페인에 대해 알아두어야 할 것",
     articleDescription:
-      "약제 불사용·초임계 CO2 추출로 카페인 75% 감소. 이세차 본연의 감칠맛은 그대로, 야간 티타임이나 저카페인이 신경 쓰이는 분에게. 미에현 가와마타다니산 싱글 오리진.",
+      "약제 불사용·초임계 CO2 추출로 카페인 70% 감소. 이세차 본연의 감칠맛은 그대로, 야간 티타임이나 저카페인이 신경 쓰이는 분에게. 미에현 가와마타다니산 싱글 오리진.",
     breadcrumbName: "저카페인 녹차",
     leadP1: "녹차에는 150종 이상의 성분이 함유되어 있는데, 그 중에서도 특히 주목받는 것이 「카페인」입니다.",
     leadP2:
@@ -269,7 +269,7 @@ const TEXTS: Record<Locale, CaffeineTexts> = {
       ["녹차(센차)", "약15mg", "반차 등은 이보다 낮음"],
       ["호지차", "약10mg", "볶음 과정에서 카페인이 증발"],
       ["콜라", "약5mg", "청량음료로서의 미량 함유"],
-      ["카페인컷 녹차", "약5mg", "후지하치야 상품(75% 감소)"],
+      ["카페인컷 녹차", "약5mg", "후지하치야 상품(70% 감소)"],
       ["보리차", "거의0mg", "무카페인 음료"],
     ],
     decafH2Prefix: "맛을 포기하지 않는 「후지하치야」의 ",
@@ -282,7 +282,7 @@ const TEXTS: Record<Locale, CaffeineTexts> = {
     decafListItems: [
       "먼저, 후카무시 녹차에서 카페인을 85% 제거합니다.",
       "그대로 두면 잃어버리기 쉬운 「진한 감칠맛」과 「부드러운 우마미」를 유지하기 위해, 고품질 후카무시 녹차를 황금 비율로 재블렌드.",
-      "최종적으로 카페인 75% 감소라는, 맛과 부드러움을 양립한 밸런스로 완성했습니다.",
+      "최종적으로 카페인 70% 감소라는, 맛과 부드러움을 양립한 밸런스로 완성했습니다.",
     ],
     decafP3:
       "100ml당 카페인 함량은 약5mg. 이는 콜라와 같은 수준으로, 일반적인 녹차의 3분의 1 이하입니다. 어린이부터 카페인에 민감한 분까지, 이세차 특유의 향긋한 풍미를 안심하고 즐기실 수 있습니다.",
@@ -290,7 +290,7 @@ const TEXTS: Record<Locale, CaffeineTexts> = {
     faqs: [
       {
         q: "디카페인과 완전 논카페인은 다른가요?",
-        a: "네, 다릅니다. 디카페인은 카페인을 대폭 저감한 것이지만 완전히 제로는 아닙니다. 후지하치야의 카페인컷 녹차는 약 75% 감소로, 100ml당 약 5mg이 남아 있습니다. 카페인을 완전히 피하고 싶은 경우에는 보리차 등을 선택해 주세요.",
+        a: "네, 다릅니다. 디카페인은 카페인을 대폭 저감한 것이지만 완전히 제로는 아닙니다. 후지하치야의 카페인컷 녹차는 약 70% 감소로, 100ml당 약 5mg이 남아 있습니다. 카페인을 완전히 피하고 싶은 경우에는 보리차 등을 선택해 주세요.",
       },
       {
         q: "임신 중이나 수유 중에도 마실 수 있나요?",
@@ -318,7 +318,7 @@ const TEXTS: Record<Locale, CaffeineTexts> = {
     h1: "低咖啡因绿茶网购｜关于茶与咖啡因你应该了解的知识",
     articleHeadline: "低咖啡因绿茶网购｜关于茶与咖啡因你应该了解的知识",
     articleDescription:
-      "不使用药剂·超临界CO2萃取，咖啡因减少75%。保留伊势茶本来的鲜甜，适合夜间饮用及关注咖啡因摄入的人士。三重县川俣谷产单一产地。",
+      "不使用药剂·超临界CO2萃取，咖啡因减少70%。保留伊势茶本来的鲜甜，适合夜间饮用及关注咖啡因摄入的人士。三重县川俣谷产单一产地。",
     breadcrumbName: "低咖啡因绿茶",
     leadP1: "绿茶含有150种以上的成分，其中最受关注的是「咖啡因」。",
     leadP2:
@@ -354,7 +354,7 @@ const TEXTS: Record<Locale, CaffeineTexts> = {
       ["绿茶(煎茶)", "约15mg", "番茶等低于此值"],
       ["焙茶", "约10mg", "烘焙过程中咖啡因挥发"],
       ["可乐", "约5mg", "作为清凉饮料的微量含有"],
-      ["低咖啡因绿茶", "约5mg", "藤八茶寮商品（减少75%）"],
+      ["低咖啡因绿茶", "约5mg", "藤八茶寮商品（减少70%）"],
       ["大麦茶", "几乎0mg", "无咖啡因饮料"],
     ],
     decafH2Prefix: "不妥协美味的「藤八茶寮」",
@@ -367,7 +367,7 @@ const TEXTS: Record<Locale, CaffeineTexts> = {
     decafListItems: [
       "首先，从深蒸绿茶中去除85%的咖啡因。",
       "为保留容易流失的「浓郁甘鲜」与「醇和鲜味」，特以黄金比例混入优质深蒸绿茶进行再调配。",
-      "最终制成咖啡因减少75%、兼顾美味与温和的平衡产品。",
+      "最终制成咖啡因减少70%、兼顾美味与温和的平衡产品。",
     ],
     decafP3:
       "每100ml咖啡因含量约5mg，与可乐相当，不到一般绿茶的三分之一。无论是儿童还是对咖啡因敏感的人群，都可以放心享用伊势茶独特的馥郁风味。",
@@ -375,7 +375,7 @@ const TEXTS: Record<Locale, CaffeineTexts> = {
     faqs: [
       {
         q: "脱咖啡因与完全无咖啡因有区别吗？",
-        a: "有区别。脱咖啡因是大幅降低咖啡因含量，但并非完全为零。藤八茶寮的低咖啡因绿茶减少约75%，每100ml仍残留约5mg。如需完全避免咖啡因，请选择大麦茶等无咖啡因饮品。",
+        a: "有区别。脱咖啡因是大幅降低咖啡因含量，但并非完全为零。藤八茶寮的低咖啡因绿茶减少约70%，每100ml仍残留约5mg。如需完全避免咖啡因，请选择大麦茶等无咖啡因饮品。",
       },
       {
         q: "妊娠期或哺乳期可以饮用吗？",
