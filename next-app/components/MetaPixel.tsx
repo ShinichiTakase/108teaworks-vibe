@@ -1,17 +1,14 @@
 "use client";
-
-import Script from "next/script";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 
 const fromEnv = process.env.NEXT_PUBLIC_META_PIXEL_ID?.trim();
-/** 未設定時は本番ピクセル。空文字を明示すると読み込まない。 */
-const META_PIXEL_ID =
-  fromEnv === "" ? "" : fromEnv || "1725497478865844";
+const META_PIXEL_ID = fromEnv === "" ? "" : fromEnv || "1725497478865844";
 
 declare global {
   interface Window {
     fbq?: (...args: unknown[]) => void;
+    _fbq?: unknown;
   }
 }
 
@@ -19,40 +16,47 @@ export default function MetaPixel() {
   const pathname = usePathname();
   const initialized = useRef(false);
 
-  const trackPageView = () => {
-    if (typeof window.fbq !== "function") return;
-    window.fbq("track", "PageView");
-  };
-
   useEffect(() => {
+    if (!META_PIXEL_ID) return;
+
+    // 初回：fbevents.js をロードして初期化
     if (!initialized.current) {
       initialized.current = true;
+
+      // fbq スタブを作成
+      if (!window.fbq) {
+        const fbq: any = function (...args: unknown[]) {
+          if (fbq.callMethod) {
+            fbq.callMethod(...args);
+          } else {
+            fbq.queue.push(args);
+          }
+        };
+        fbq.push = fbq;
+        fbq.loaded = true;
+        fbq.version = "2.0";
+        fbq.queue = [];
+        window.fbq = fbq;
+        if (!window._fbq) window._fbq = fbq;
+      }
+
+      // fbevents.js を動的ロード
+      const script = document.createElement("script");
+      script.async = true;
+      script.src = "https://connect.facebook.net/en_US/fbevents.js";
+      script.onload = () => {
+        window.fbq!("init", META_PIXEL_ID);
+        window.fbq!("track", "PageView");
+      };
+      document.head.appendChild(script);
       return;
     }
-    trackPageView();
+
+    // ページ遷移時
+    if (window.fbq) {
+      window.fbq("track", "PageView");
+    }
   }, [pathname]);
 
-  if (!META_PIXEL_ID) return null;
-
-  return (
-    <Script
-      id="meta-pixel-fbq"
-      strategy="afterInteractive"
-      onReady={() => {
-        if (typeof window.fbq === "function") {
-          window.fbq("init", META_PIXEL_ID);
-          trackPageView();
-        }
-      }}
-    >
-      {`!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');`}
-    </Script>
-  );
+  return null;
 }
