@@ -610,6 +610,7 @@ export default function CheckoutPage() {
         },
         redirect: "if_required",
       } as any);
+      console.log("[debug] confirmPayment result", JSON.stringify(result.error ?? result.paymentIntent?.status));
 
       if (result.error) {
         alert(result.error.message ?? t.paymentFailed);
@@ -627,6 +628,7 @@ export default function CheckoutPage() {
           : Math.max(0, (pi.amount ?? 0) - subtotalRef.current);
       const effectiveOrder = { ...orderPayload, shipping: effectiveShipping };
 
+      console.log("[debug] calling /api/checkout/complete");
       const completeRes = await fetch("/api/checkout/complete", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -646,7 +648,7 @@ export default function CheckoutPage() {
             approval: approval ? 1 : 0,
           },
         }),
-      });
+      }).catch((e: unknown) => { console.error("[debug] fetch failed", e); throw e; });
       let completeData: any = { ok: false };
       try {
         const jsonText = await completeRes.text();
