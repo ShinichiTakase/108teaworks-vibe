@@ -702,7 +702,7 @@ export default function CheckoutPage() {
       }
 
       clearCart();
-      window.location.href = locale === "ja" ? "/checkout/complete" : `/${locale}/checkout/complete`;
+      window.location.href = locale === "ja" ? "/checkout/complete/" : `/${locale}/checkout/complete/`;
     } catch (e) {
       console.error("[checkout handlePay]", e);
       const detail = e instanceof Error ? e.message : String(e);
