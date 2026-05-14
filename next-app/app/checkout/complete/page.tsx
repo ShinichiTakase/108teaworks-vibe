@@ -46,6 +46,19 @@ export default function CheckoutCompletePage() {
           content_ids: data.items.map((i) => i.slug),
           content_type: "product",
         });
+        if (typeof window !== "undefined" && typeof (window as any).gtag === "function") {
+          (window as any).gtag("event", "purchase", {
+            transaction_id: data.orderNo,
+            value: data.total,
+            currency: "JPY",
+            items: data.items.map((i) => ({
+              item_id: i.slug,
+              item_name: i.name,
+              price: i.unitPrice,
+              quantity: i.quantity,
+            })),
+          });
+        }
       }
       sessionStorage.removeItem("lastOrderSummary");
     } catch {
