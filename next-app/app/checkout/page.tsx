@@ -656,6 +656,9 @@ export default function CheckoutPage() {
       } catch {
         // レスポンスが JSON でない場合（500 エラーページ等）も決済は成功しているので完了ページへ
       }
+      console.log("[debug] completeRes.status", completeRes.status);
+      console.log("[debug] completeData", JSON.stringify(completeData));
+      console.log("[debug] summary", JSON.stringify(completeData?.summary));
       if (!completeRes.ok || !completeData?.ok) {
         // メール送信失敗等があっても、決済が成功していれば注文自体は完了扱いにする
         // （SES sandbox 等でお客様宛メールが拒否されるケースを許容）
