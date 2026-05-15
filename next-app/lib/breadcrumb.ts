@@ -129,6 +129,19 @@ export function getBreadcrumbItems(
     return items;
   }
 
+  const kabatadaniChapterMatch = pathKeyNorm.match(/^\/kabatadani_no_ocha\/(.+)$/);
+  if (kabatadaniChapterMatch) {
+    items.push({
+      name: PATH_LITERALS["/kabatadani_no_ocha"][locale] ?? PATH_LITERALS["/kabatadani_no_ocha"].ja,
+      url: makeUrl("/kabatadani_no_ocha", locale),
+    });
+    items.push({
+      name: options?.productName ?? kabatadaniChapterMatch[1],
+      url: makeUrl(pathKeyNorm, locale),
+    });
+    return items;
+  }
+
   const productMatch = pathKeyNorm.match(/^\/ise-cha\/(.+)$/);
   if (productMatch) {
     items.push({

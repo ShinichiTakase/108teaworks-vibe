@@ -1,6 +1,7 @@
 import { MetadataRoute } from "next";
 import { getProducts } from "@/lib/microcms";
 import { getNotices } from "@/lib/microcms";
+import { getAllChapterSlugs } from "@/lib/kabatadani";
 
 const LOCALES = ["ja", "en", "ko", "zh"] as const;
 type Locale = (typeof LOCALES)[number];
@@ -64,6 +65,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: new Date(),
         changeFrequency,
         priority,
+      });
+    }
+  }
+
+  // 川俣谷のお茶・各章ページ
+  for (const slug of getAllChapterSlugs()) {
+    const path = `/kabatadani_no_ocha/${slug}`;
+    for (const locale of LOCALES) {
+      entries.push({
+        url: localizedUrl(baseUrl, locale, path),
+        lastModified: new Date(),
+        changeFrequency: "monthly",
+        priority: 0.65,
       });
     }
   }
