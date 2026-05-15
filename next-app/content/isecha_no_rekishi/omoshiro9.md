@@ -20,11 +20,11 @@ schema: |
     "isPartOf": {"@type": "Book", "name": "伊勢茶の歴史", "url": "https://108teaworks.com/isecha_no_rekishi/"}
   }
 slug: "omoshiro9"
-shortTitle: "❾昔の製茶法・今の製茶法"
+shortTitle: "9 昔の製茶法・今の製茶法"
 order: 19
 ---
 
-# ❾ 昔の製茶法・今の製茶法
+# 9 昔の製茶法・今の製茶法
 
 お茶づくりには、茶畑でお茶の原料となる茶葉を作る作業（栽培）と、茶葉を加工して飲むお茶に仕上げる作業（製茶）があります。
 

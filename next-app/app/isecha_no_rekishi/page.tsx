@@ -45,7 +45,7 @@ export default function IsechaNoRekishiPage() {
 
             {/* 伊勢茶の歴史 */}
             <div className="mb-6">
-              <h3 className="mb-2 px-3 text-[0.8125rem] font-semibold uppercase tracking-wider text-ink-muted">
+              <h3 className="mb-2 px-3 text-[0.9375rem] font-semibold text-tea-deep border-b border-border pb-1">
                 伊勢茶の歴史
               </h3>
               <ol className="space-y-1">
@@ -55,10 +55,12 @@ export default function IsechaNoRekishiPage() {
                       href={`/isecha_no_rekishi/${ch.slug}/`}
                       className="group flex items-baseline gap-2 rounded-md px-3 py-2 text-[0.9375rem] text-ink transition-colors hover:bg-washi hover:text-tea-deep"
                     >
-                      <span className="shrink-0 text-[0.8125rem] text-ink-muted group-hover:text-tea-deep">
-                        {ch.order === 0 ? "序" : `${ch.order}`}
-                      </span>
-                      <span>{ch.shortTitle}</span>
+                      {ch.order > 0 && (
+                        <span className="shrink-0 text-[0.8125rem] text-ink-muted group-hover:text-tea-deep">
+                          {ch.order}
+                        </span>
+                      )}
+                      <span>{ch.shortTitle.replace(/^\d+[\s　]/, "")}</span>
                     </Link>
                   </li>
                 ))}
@@ -67,7 +69,7 @@ export default function IsechaNoRekishiPage() {
 
             {/* お茶のおもしろ知識 */}
             <div className="mb-6">
-              <h3 className="mb-2 px-3 text-[0.8125rem] font-semibold uppercase tracking-wider text-ink-muted">
+              <h3 className="mb-2 px-3 text-[0.9375rem] font-semibold text-tea-deep border-b border-border pb-1">
                 お茶のおもしろ知識
               </h3>
               <ol className="space-y-1">
@@ -80,7 +82,7 @@ export default function IsechaNoRekishiPage() {
                       <span className="shrink-0 text-[0.8125rem] text-ink-muted group-hover:text-tea-deep">
                         {ch.order - 10}
                       </span>
-                      <span>{ch.shortTitle}</span>
+                      <span>{ch.shortTitle.replace(/^\d+\s*/, "")}</span>
                     </Link>
                   </li>
                 ))}
@@ -90,7 +92,7 @@ export default function IsechaNoRekishiPage() {
             {/* 巻末資料 */}
             {appendixChapters.length > 0 && (
               <div>
-                <h3 className="mb-2 px-3 text-[0.8125rem] font-semibold uppercase tracking-wider text-ink-muted">
+                <h3 className="mb-2 px-3 text-[0.9375rem] font-semibold text-tea-deep border-b border-border pb-1">
                   巻末資料
                 </h3>
                 <ol className="space-y-1">

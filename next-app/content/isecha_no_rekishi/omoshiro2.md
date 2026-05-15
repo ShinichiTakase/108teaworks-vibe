@@ -16,11 +16,11 @@ schema: |
     "isPartOf": {"@type": "Book", "name": "伊勢茶の歴史", "url": "https://108teaworks.com/isecha_no_rekishi/"}
   }
 slug: "omoshiro2"
-shortTitle: "❷茶の樹はツバキの仲間"
+shortTitle: "2 茶の樹はツバキの仲間"
 order: 12
 ---
 
-# ❷ 茶の樹はツバキの仲間
+# 2 茶の樹はツバキの仲間
 
 植物の分類には、植物の花や子実（種子）の仕組みや形で、属・科・節（目）・種・系などに分類されています。
 

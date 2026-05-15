@@ -20,11 +20,11 @@ schema: |
     "isPartOf": {"@type": "Book", "name": "伊勢茶の歴史", "url": "https://108teaworks.com/isecha_no_rekishi/"}
   }
 slug: "omoshiro10"
-shortTitle: "⓫日本茶の輸出"
+shortTitle: "10 日本茶の輸出"
 order: 20
 ---
 
-# ⓫ 日本茶の輸出
+# 10 日本茶の輸出
 
 ## 明治〜大正時代には、日本茶はアメリカに盛んに輸出されていた
 

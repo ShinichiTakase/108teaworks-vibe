@@ -12,11 +12,11 @@ schema: |
     "isPartOf": {"@type": "Book", "name": "伊勢茶の歴史", "url": "https://108teaworks.com/isecha_no_rekishi/"}
   }
 slug: "omoshiro3"
-shortTitle: "❸庶民がお茶を飲むようになったのはいつごろ？"
+shortTitle: "3 庶民がお茶を飲むようになったのはいつごろ？"
 order: 13
 ---
 
-# ❸ 庶民（一般の人）がお茶を飲むようになったのは、いつごろ？
+# 3 庶民（一般の人）がお茶を飲むようになったのは、いつごろ？
 
 ## 日本での喫茶の始まり
 

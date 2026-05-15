@@ -18,11 +18,11 @@ schema: |
     "isPartOf": {"@type": "Book", "name": "伊勢茶の歴史", "url": "https://108teaworks.com/isecha_no_rekishi/"}
   }
 slug: "omoshiro11"
-shortTitle: "⓬お茶の分類"
+shortTitle: "11 お茶の分類"
 order: 21
 ---
 
-# ⓬ お茶の分類
+# 11 お茶の分類
 
 ## 緑茶、紅茶、ウーロン茶は、同じ茶の葉から作れる？
 

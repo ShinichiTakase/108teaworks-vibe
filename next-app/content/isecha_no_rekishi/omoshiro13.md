@@ -18,11 +18,11 @@ schema: |
     "isPartOf": {"@type": "Book", "name": "伊勢茶の歴史", "url": "https://108teaworks.com/isecha_no_rekishi/"}
   }
 slug: "omoshiro13"
-shortTitle: "⓰煎茶茶器のいろいろ"
+shortTitle: "13 煎茶茶器のいろいろ"
 order: 23
 ---
 
-# ⓰ 「煎茶茶器」のいろいろ
+# 13 「煎茶茶器」のいろいろ
 
 ## ご飯を食べている器を、なぜ、「茶わん」という？
 

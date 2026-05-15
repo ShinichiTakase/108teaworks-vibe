@@ -26,11 +26,11 @@ schema: |
     "isPartOf": {"@type": "Book", "name": "伊勢茶の歴史", "url": "https://108teaworks.com/isecha_no_rekishi/"}
   }
 slug: "chapter3"
-shortTitle: "三　伊勢神宮「御師」の手土産として伊勢茶が使われた"
+shortTitle: "3　伊勢神宮「御師」の手土産として伊勢茶が使われた"
 order: 3
 ---
 
-# 三　伊勢神宮「御師」の手土産として伊勢茶が使われた
+# 3　伊勢神宮「御師」の手土産として伊勢茶が使われた
 
 三重県には有名な伊勢神宮があります。
 

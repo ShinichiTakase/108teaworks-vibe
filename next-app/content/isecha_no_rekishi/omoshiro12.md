@@ -16,11 +16,11 @@ schema: |
     "isPartOf": {"@type": "Book", "name": "伊勢茶の歴史", "url": "https://108teaworks.com/isecha_no_rekishi/"}
   }
 slug: "omoshiro12"
-shortTitle: "⓮お茶の品種"
+shortTitle: "12 お茶の品種"
 order: 22
 ---
 
-# ⓮ お茶の品種
+# 12 お茶の品種
 
 ## 「在来種」って、お茶の品種？
 

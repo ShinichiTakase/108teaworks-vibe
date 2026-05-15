@@ -18,11 +18,11 @@ schema: |
     "isPartOf": {"@type": "Book", "name": "伊勢茶の歴史", "url": "https://108teaworks.com/isecha_no_rekishi/"}
   }
 slug: "omoshiro5"
-shortTitle: "❺夏も近づく八十八夜"
+shortTitle: "5 夏も近づく八十八夜"
 order: 15
 ---
 
-# ❺ 夏も近づく八十八夜　昔の茶摘み、今の茶摘み
+# 5 夏も近づく八十八夜　昔の茶摘み、今の茶摘み
 
 > 夏も近づく八十八夜  
 > 野にも山にも若葉が茂る  

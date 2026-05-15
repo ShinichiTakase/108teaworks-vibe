@@ -16,11 +16,11 @@ schema: |
     "isPartOf": {"@type": "Book", "name": "伊勢茶の歴史", "url": "https://108teaworks.com/isecha_no_rekishi/"}
   }
 slug: "omoshiro1"
-shortTitle: "❶お茶の原産地は中国雲南地方"
+shortTitle: "1 お茶の原産地は中国雲南地方"
 order: 11
 ---
 
-# ❶ お茶の原産地は中国雲南地方
+# 1 お茶の原産地は中国雲南地方
 
 お茶の原産地（茶の樹が最初に発見されたところ）は今の中国南部の雲南地方と伝えられています。雲南地方はヒマラヤ山脈の東側、ベトナム・ラオス・ミャンマーと国境を接する山岳地帯です。
 

@@ -16,11 +16,11 @@ schema: |
     "isPartOf": {"@type": "Book", "name": "伊勢茶の歴史", "url": "https://108teaworks.com/isecha_no_rekishi/"}
   }
 slug: "omoshiro8"
-shortTitle: "❽川霧の立つところのお茶はおいしい？"
+shortTitle: "8 川霧の立つところのお茶はおいしい？"
 order: 18
 ---
 
-# ❽ 川霧の立つところのお茶はおいしい？
+# 8 川霧の立つところのお茶はおいしい？
 
 昔から川霧の立つところのお茶はおいしいといわれています。どうして川霧の立つところのお茶はおいしいのか考えてみました。
 

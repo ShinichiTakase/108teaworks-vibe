@@ -20,11 +20,11 @@ schema: |
     "isPartOf": {"@type": "Book", "name": "伊勢茶の歴史", "url": "https://108teaworks.com/isecha_no_rekishi/"}
   }
 slug: "omoshiro14"
-shortTitle: "⓱お茶は身体に良い飲み物"
+shortTitle: "14 お茶は身体に良い飲み物"
 order: 24
 ---
 
-# ⓱ お茶は身体に良い飲み物
+# 14 お茶は身体に良い飲み物
 
 ## お茶の効能
 

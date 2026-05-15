@@ -22,11 +22,11 @@ schema: |
     "isPartOf": {"@type": "Book", "name": "伊勢茶の歴史", "url": "https://108teaworks.com/isecha_no_rekishi/"}
   }
 slug: "omoshiro15"
-shortTitle: "⓲お茶のおいしい淹れ方"
+shortTitle: "15 お茶のおいしい淹れ方"
 order: 25
 ---
 
-# ⓲ お茶のおいしい淹れ方
+# 15 お茶のおいしい淹れ方
 
 ## お茶をおいしく淹れるコツ
 
