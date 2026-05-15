@@ -40,11 +40,12 @@ export default function IsechaNoRekishiPage() {
           </p>
 
           {/* 表紙画像 */}
-          <div className="relative mb-8 w-full rounded-lg overflow-hidden">
+          <div className="mb-8">
             <img
               src="/images/isecha_no_rekishi.jpg"
               alt="伊勢茶の歴史 お茶のおもしろ知識 表紙"
-              className="block w-full h-auto"
+              className="block h-auto rounded-lg"
+              style={{ width: "80%" }}
             />
           </div>
 
