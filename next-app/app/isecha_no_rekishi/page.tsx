@@ -39,6 +39,15 @@ export default function IsechaNoRekishiPage() {
             著：高瀬 孝二
           </p>
 
+          {/* 表紙画像 */}
+          <div className="relative mb-8 w-full rounded-lg overflow-hidden">
+            <img
+              src="/images/isecha_no_rekishi.jpg"
+              alt="伊勢茶の歴史 お茶のおもしろ知識 表紙"
+              className="block w-full h-auto"
+            />
+          </div>
+
           {/* 目次 */}
           <nav aria-label="目次" className="mb-10">
             <h2 className="mb-4 text-[0.9375rem] font-semibold text-tea-deep">目次</h2>
