@@ -50,7 +50,7 @@ export default function KabatadaniNoOchaPage() {
                     className="group flex items-baseline gap-2 rounded-md px-3 py-2 text-[0.9375rem] text-ink transition-colors hover:bg-washi hover:text-tea-deep"
                   >
                     <span className="shrink-0 text-[0.8125rem] text-ink-muted group-hover:text-tea-deep">
-                      {ch.order === 0 ? "序" : ch.order >= 13 ? "付" : `${ch.order}`}
+                      {ch.order === 0 ? "" : ch.order >= 13 ? "付" : `${ch.order}`}
                     </span>
                     <span>{ch.shortTitle}</span>
                   </Link>
