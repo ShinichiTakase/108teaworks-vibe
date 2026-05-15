@@ -34,7 +34,7 @@ export async function getChapterBySlug(slug: string): Promise<Chapter | null> {
   if (!fs.existsSync(filePath)) return null;
   const raw = fs.readFileSync(filePath, "utf8");
   const { data, content } = matter(raw);
-  const processed = await remark().use(remarkGfm).use(remarkHtml).process(content);
+  const processed = await remark().use(remarkGfm).use(remarkHtml, { allowDangerousHtml: true }).process(content);
   return {
     ...(data as ChapterMeta),
     contentHtml: processed.toString(),
