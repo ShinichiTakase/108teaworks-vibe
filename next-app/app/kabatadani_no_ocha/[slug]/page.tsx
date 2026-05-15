@@ -98,18 +98,13 @@ export default async function KabatadaniChapterPage({ params }: Props) {
             </div>
           </nav>
 
-          <h1
-            id="chapter-heading"
-            className="m-0 mb-8 font-heading text-xl font-semibold text-tea-deep"
-          >
-            {chapter.title}
-          </h1>
-
-          {/* 本文 */}
+          {/* 本文（markdownのH1がページタイトルになる） */}
           {chapter.contentHtml.trim() ? (
             <div
+              id="chapter-heading"
               className="prose prose-sm max-w-3xl
                 prose-headings:font-heading prose-headings:text-tea-deep
+                prose-h1:text-xl prose-h1:font-semibold prose-h1:mb-8
                 prose-h2:mt-10 prose-h3:mt-8
                 prose-p:text-ink prose-p:leading-loose prose-p:my-4
                 prose-a:text-tea-deep prose-a:underline-offset-4
