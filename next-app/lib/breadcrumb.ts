@@ -142,6 +142,19 @@ export function getBreadcrumbItems(
     return items;
   }
 
+  const isechaChapterMatch = pathKeyNorm.match(/^\/isecha_no_rekishi\/(.+)$/);
+  if (isechaChapterMatch) {
+    items.push({
+      name: PATH_LITERALS["/isecha_no_rekishi"][locale] ?? PATH_LITERALS["/isecha_no_rekishi"].ja,
+      url: makeUrl("/isecha_no_rekishi", locale),
+    });
+    items.push({
+      name: options?.productName ?? isechaChapterMatch[1],
+      url: makeUrl(pathKeyNorm, locale),
+    });
+    return items;
+  }
+
   const productMatch = pathKeyNorm.match(/^\/ise-cha\/(.+)$/);
   if (productMatch) {
     items.push({

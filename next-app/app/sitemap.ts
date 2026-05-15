@@ -2,6 +2,7 @@ import { MetadataRoute } from "next";
 import { getProducts } from "@/lib/microcms";
 import { getNotices } from "@/lib/microcms";
 import { getAllChapterSlugs } from "@/lib/kabatadani";
+import { getAllChapterSlugs as getIsechaChapterSlugs } from "@/lib/isecha_rekishi";
 
 const LOCALES = ["ja", "en", "ko", "zh"] as const;
 type Locale = (typeof LOCALES)[number];
@@ -72,6 +73,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // 川俣谷のお茶・各章ページ
   for (const slug of getAllChapterSlugs()) {
     const path = `/kabatadani_no_ocha/${slug}`;
+    for (const locale of LOCALES) {
+      entries.push({
+        url: localizedUrl(baseUrl, locale, path),
+        lastModified: new Date(),
+        changeFrequency: "monthly",
+        priority: 0.65,
+      });
+    }
+  }
+
+  // 伊勢茶の歴史・各章ページ
+  for (const slug of getIsechaChapterSlugs()) {
+    const path = `/isecha_no_rekishi/${slug}`;
     for (const locale of LOCALES) {
       entries.push({
         url: localizedUrl(baseUrl, locale, path),
