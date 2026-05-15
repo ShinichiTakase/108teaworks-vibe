@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 import { remark } from "remark";
+import remarkGfm from "remark-gfm";
 import remarkHtml from "remark-html";
 
 const CONTENT_DIR = path.join(process.cwd(), "content", "isecha_no_rekishi");
@@ -33,7 +34,7 @@ export async function getChapterBySlug(slug: string): Promise<Chapter | null> {
   if (!fs.existsSync(filePath)) return null;
   const raw = fs.readFileSync(filePath, "utf8");
   const { data, content } = matter(raw);
-  const processed = await remark().use(remarkHtml).process(content);
+  const processed = await remark().use(remarkGfm).use(remarkHtml).process(content);
   return {
     ...(data as ChapterMeta),
     contentHtml: processed.toString(),
