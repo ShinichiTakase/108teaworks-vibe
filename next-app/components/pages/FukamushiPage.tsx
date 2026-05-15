@@ -1,6 +1,7 @@
 import type React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import AddToCartButton from "@/components/AddToCartButton";
 import ArticleJsonLd from "@/components/ArticleJsonLd";
 import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import FaqJsonLd from "@/components/FaqJsonLd";
@@ -54,6 +55,9 @@ type FukamushiTexts = {
   sec5LinkHref: string;
   sec6Title: string;
   faqs: readonly { q: string; a: string }[];
+  heroPitch: string;
+  heroCta: string;
+  heroCtaSub: string;
 };
 
 const TEXTS: Record<Locale, FukamushiTexts> = {
@@ -144,6 +148,9 @@ const TEXTS: Record<Locale, FukamushiTexts> = {
         a: "手軽においしい一杯を楽しみたい方にはティーバッグ、お菓子作りや緑茶ラテなど幅広い用途で使いたい方にはパウダーがおすすめです。どちらも同じ川俣谷産の茶葉を使用しています。",
       },
     ],
+    heroPitch: "渋みなし・まろやか・急須不要。伊勢の一番茶をティーバッグで。",
+    heroCta: "まずはお試し3個",
+    heroCtaSub: "今すぐ試す",
   },
 
   en: {
@@ -237,6 +244,9 @@ const TEXTS: Record<Locale, FukamushiTexts> = {
         a: "Teabags are ideal if you want a quick, delicious cup. Powder is recommended if you want to use it for baking, matcha lattes, or other recipes. Both use the same tea leaves from Kawamatatani.",
       },
     ],
+    heroPitch: "No bitterness, smooth & rich. Premium Ise tea in a convenient teabag.",
+    heroCta: "Try 3 teabags",
+    heroCtaSub: "Try now",
   },
 
   ko: {
@@ -328,6 +338,9 @@ const TEXTS: Record<Locale, FukamushiTexts> = {
         a: "간편하게 맛있는 한 잔을 즐기고 싶은 분께는 티백을, 과자 만들기나 녹차 라테 등 다양한 용도로 사용하고 싶은 분께는 파우더를 추천합니다. 모두 같은 가와마타다니산 찻잎을 사용하고 있습니다.",
       },
     ],
+    heroPitch: "떫은맛 없이 부드럽고 진한 이세 일번차를 티백으로.",
+    heroCta: "먼저 3개 체험하기",
+    heroCtaSub: "지금 바로",
   },
 
   zh: {
@@ -417,6 +430,9 @@ const TEXTS: Record<Locale, FukamushiTexts> = {
         a: "如果想简便享用一杯美茶，推荐茶包；如果想用于点心制作、绿茶拿铁等多种用途，则推荐粉末。两者均使用同一款川俣谷产茶叶。",
       },
     ],
+    heroPitch: "无涩味、醇厚顺口、无需茶壶。伊势头茶茶包，随时享用。",
+    heroCta: "先试试3个装",
+    heroCtaSub: "立即体验",
   },
 };
 
@@ -457,9 +473,27 @@ export default async function FukamushiPage({ locale }: Props) {
       <div className={INNER_CLASS}>
         <article className="mb-12">
           <IsechaSubNav locale={locale} current="fukamushi" />
-          <h1 className="m-0 mb-6 font-heading text-xl font-semibold text-tea-deep md:text-2xl">
+          <h1 className="m-0 mb-4 font-heading text-xl font-semibold text-tea-deep md:text-2xl">
             {t.h1}
           </h1>
+
+          {/* ヒーローCTA */}
+          <p className="mb-3 text-sm text-ink">{t.heroPitch}</p>
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-tea-light bg-cream px-4 py-3">
+            <div>
+              <p className="m-0 text-[0.9375rem] font-semibold text-tea-deep">{t.heroCta}</p>
+              <p className="m-0 text-[0.8125rem] text-ink-muted">{t.heroCtaSub}</p>
+            </div>
+            <AddToCartButton
+              slug="3teabag-ise-deeproasted"
+              price={productData[1].price}
+              title={productData[1].name}
+              imagePath={productData[1].imagePath ?? undefined}
+              locale={locale}
+              label={`${t.heroCta} ${formatPriceYen(productData[1].price)}`}
+              className="shrink-0 rounded-lg border-2 border-tea bg-tea px-5 py-2.5 text-[0.9375rem] font-semibold text-white transition-colors hover:border-tea-light hover:bg-tea-light disabled:cursor-not-allowed disabled:opacity-50"
+            />
+          </div>
 
           <div className="grid grid-cols-1 gap-8 md:grid-cols-[minmax(260px,420px)_minmax(0,1fr)] md:items-start">
             {/* デスクトップ：左サイドバー */}
@@ -546,36 +580,50 @@ export default async function FukamushiPage({ locale }: Props) {
             <h2 className="m-0 mb-6 text-lg font-semibold text-tea-deep">{t.sec4Title}</h2>
             <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
               {productData.map((p) => (
-                <Link
+                <div
                   key={p.slug}
-                  href={p.href}
-                  className="flex flex-col no-underline rounded-lg border border-border bg-washi p-3 text-inherit transition-colors hover:border-tea-light hover:bg-white"
+                  className="flex flex-col rounded-lg border border-border bg-washi p-3"
                 >
-                  <span className="relative block mb-2 aspect-square">
-                    {p.imagePath && (
-                      <Image
-                        src={p.imagePath}
-                        alt={p.name}
-                        width={640}
-                        height={640}
-                        className="w-full h-full rounded object-cover bg-cream"
-                        sizes="(max-width: 767px) 45vw, 220px"
-                      />
-                    )}
-                    {p.outOfStock && (
-                      <span className="absolute bottom-1 left-1 rounded bg-ink/80 px-1.5 py-0.5 text-[0.75rem] font-semibold text-cream">
-                        {locale === "ja" ? "在庫切れ" : locale === "en" ? "Out of stock" : locale === "ko" ? "품절" : "缺货"}
-                      </span>
-                    )}
-                  </span>
-                  <span className="block text-right text-[0.8125rem] font-normal mb-0.5 leading-snug">
-                    {p.name}
-                  </span>
-                  <span className="block text-right text-[0.875rem] font-bold text-tea-deep">
-                    {formatPriceYen(p.price)}{" "}
-                    <span className="text-[0.75rem] text-ink-muted font-normal">{pt.taxIncluded}</span>
-                  </span>
-                </Link>
+                  <Link
+                    href={p.href}
+                    className="flex flex-col no-underline text-inherit transition-opacity hover:opacity-90"
+                  >
+                    <span className="relative block mb-2 aspect-square">
+                      {p.imagePath && (
+                        <Image
+                          src={p.imagePath}
+                          alt={p.name}
+                          width={640}
+                          height={640}
+                          className="w-full h-full rounded object-cover bg-cream"
+                          sizes="(max-width: 767px) 45vw, 220px"
+                        />
+                      )}
+                      {p.outOfStock && (
+                        <span className="absolute bottom-1 left-1 rounded bg-ink/80 px-1.5 py-0.5 text-[0.75rem] font-semibold text-cream">
+                          {locale === "ja" ? "在庫切れ" : locale === "en" ? "Out of stock" : locale === "ko" ? "품절" : "缺货"}
+                        </span>
+                      )}
+                    </span>
+                    <span className="block text-right text-[0.8125rem] font-normal mb-0.5 leading-snug">
+                      {p.name}
+                    </span>
+                    <span className="block text-right text-[0.875rem] font-bold text-tea-deep">
+                      {formatPriceYen(p.price)}{" "}
+                      <span className="text-[0.75rem] text-ink-muted font-normal">{pt.taxIncluded}</span>
+                    </span>
+                  </Link>
+                  <div className="mt-2">
+                    <AddToCartButton
+                      slug={p.slug}
+                      price={p.price}
+                      title={p.name}
+                      imagePath={p.imagePath ?? undefined}
+                      locale={locale}
+                      disabled={p.outOfStock}
+                    />
+                  </div>
+                </div>
               ))}
             </div>
           </div>
