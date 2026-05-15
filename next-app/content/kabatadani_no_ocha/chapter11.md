@@ -92,7 +92,6 @@ order: 11
 
 ---
 
-## 写真・図版
 
 ![深蒸し茶](/images/kabatadani/ch11-fukamushi.webp)
 *深蒸し茶*

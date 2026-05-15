@@ -125,7 +125,6 @@ order: 13
 
 ---
 
-## 写真・図版
 
 ![郷土英傑仮装行列・除幕式に華を添える](/images/kabatadani/appendix-procession.webp)
 *郷土英傑仮装行列・除幕式に華を添える*

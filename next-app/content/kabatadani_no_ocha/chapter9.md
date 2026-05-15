@@ -121,7 +121,6 @@ order: 9
 
 ---
 
-## 写真・図版
 
 ![竹川竹斎（1809〜1882）](/images/kabatadani/ch9-chikusai.webp)
 *竹川竹斎（1809〜1882）*
