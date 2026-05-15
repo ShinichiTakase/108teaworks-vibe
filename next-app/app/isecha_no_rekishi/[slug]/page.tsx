@@ -49,6 +49,55 @@ export default async function IsechaChapterPage({ params }: Props) {
             <span>{chapter.shortTitle}</span>
           </nav>
 
+          {/* 前後ナビ（上） */}
+          <nav
+            aria-label="前後の章（上）"
+            className="mb-8 flex items-center justify-between gap-4 border-b border-border pb-4"
+          >
+            <div className="min-w-0 flex-1">
+              {prev ? (
+                <Link
+                  href={`/isecha_no_rekishi/${prev.slug}/`}
+                  className="group flex flex-col gap-0.5 text-left"
+                >
+                  <span className="text-[0.75rem] text-ink-muted group-hover:text-tea-deep">
+                    ◀ 前の章
+                  </span>
+                  <span className="truncate text-[0.875rem] text-ink group-hover:text-tea-deep">
+                    {prev.shortTitle}
+                  </span>
+                </Link>
+              ) : (
+                <span />
+              )}
+            </div>
+
+            <Link
+              href="/isecha_no_rekishi/"
+              className="shrink-0 rounded-full border border-border px-3 py-1.5 text-[0.8125rem] text-ink-muted hover:border-tea-deep hover:text-tea-deep"
+            >
+              目次
+            </Link>
+
+            <div className="min-w-0 flex-1 text-right">
+              {next ? (
+                <Link
+                  href={`/isecha_no_rekishi/${next.slug}/`}
+                  className="group flex flex-col items-end gap-0.5"
+                >
+                  <span className="text-[0.75rem] text-ink-muted group-hover:text-tea-deep">
+                    次の章 ▶
+                  </span>
+                  <span className="truncate text-[0.875rem] text-ink group-hover:text-tea-deep">
+                    {next.shortTitle}
+                  </span>
+                </Link>
+              ) : (
+                <span />
+              )}
+            </div>
+          </nav>
+
           {/* 本文（markdownのH1がページタイトルになる） */}
           {chapter.contentHtml.trim() ? (
             <div
