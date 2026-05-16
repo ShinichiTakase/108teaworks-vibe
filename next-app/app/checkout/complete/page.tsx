@@ -59,6 +59,9 @@ export default function CheckoutCompletePage() {
             })),
           });
         }
+        if (typeof window !== "undefined" && typeof (window as any).clarity === "function") {
+          (window as any).clarity("set", "purchase", "true");
+        }
       }
       sessionStorage.removeItem("lastOrderSummary");
     } catch {
