@@ -53,11 +53,9 @@ order: 21
 
 ---
 
-## 写真・図版
 
-![緑茶・紅茶・ウーロン茶の発酵度合い比較図](/images/isecha_rekishi/omoshiro15-bunrui.webp)
-*緑茶・紅茶・ウーロン茶の発酵度合い比較図*
-
-![緑茶の種類と特徴一覧](/images/isecha_rekishi/omoshiro16-ryokucha-types.webp)
-*緑茶の種類と特徴一覧*
+<figure style="margin:1.5rem 0;">
+<img src="/images/isecha_rekishi/omoshiro16-ryokucha-types.webp" alt="緑茶の種類と特徴一覧" style="width:80%;" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">緑茶の種類と特徴一覧</figcaption>
+</figure>
 

@@ -68,14 +68,8 @@ order: 10
 
 ---
 
-## 写真・図版
+<figure style="margin:1.5rem 0; text-align:center;">
+<img src="/images/isecha_rekishi/chapter10.webp" alt="三重県はお茶の産地の全国第３位：茶園面積とお茶の生産量の推移" />
+</figure>
 
-![中嶋末治郎](/images/isecha_rekishi/ch10-nakashima.webp)
-*中嶋末治郎*
-
-![野呂恭一](/images/isecha_rekishi/ch10-noro.webp)
-*野呂恭一*
-
-![杉本健太郎](/images/isecha_rekishi/ch10-sugimoto.webp)
-*杉本健太郎*
 

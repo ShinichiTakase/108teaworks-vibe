@@ -20,6 +20,10 @@ shortTitle: "1 お茶の原産地は中国雲南地方"
 order: 11
 ---
 
+<figure style="margin:1.5rem 0; text-align:center;">
+<img src="/images/isecha_rekishi/p53.webp" alt="なぜ？、なに？答えるお茶のおもしろ知識" />
+</figure>
+
 # 1 お茶の原産地は中国雲南地方
 
 お茶の原産地（茶の樹が最初に発見されたところ）は今の中国南部の雲南地方と伝えられています。雲南地方はヒマラヤ山脈の東側、ベトナム・ラオス・ミャンマーと国境を接する山岳地帯です。
@@ -34,18 +38,28 @@ order: 11
 
 お茶の原産地は中国南部の雲南地方と云いましたが、雲南地方の他にインドのアッサム地方も原産地であると主張する研究者もあります。インドの東北部に位置するアッサム地方は紅茶の発祥の地と云われ、アッサム地方で発展した紅茶はヨーロッパ（イギリス）に送られ、世界で紅茶が飲まれるようになったことから、インドのアッサム地方は紅茶の原産地といわれる根拠となっている様です。このことから研究者の間では、お茶の原産地は2つある「二元説」があります。
 
+<figure style="margin:1.5rem 0; text-align:center;">
+<img src="/images/isecha_rekishi/omoshiro1-1.webp" alt="茶の原産地と云われる中国雲南地方（ヒマラヤ山脈の東方、ミャンマー、ラオスの国境近く）と紅茶発祥の地といわれるインドアッサム地方" />
+</figure>
+
 ## 日本の大茶樹
 
 日本には茶の大木があるのでしょうか。残念ながら中国雲南地方のような茶の大木はありませんが、樹齢300年を超える大茶樹は存在します。代表的なものを紹介します。
 
-- **藤枝の大茶樹**（静岡県藤枝市）：樹齢300年以上
-- **政所の大茶樹**（滋賀県永源寺町）：樹齢300年超
-- **嬉野の大茶樹**（佐賀県嬉野町）：樹齢330年以上
-
 ---
 
-## 写真・図版
-
-![樹齢数百年の日本の大茶樹](/images/isecha_rekishi/omoshiro1-daichaJyu.webp)
-*樹齢数百年の日本の大茶樹*
+<div style="display:flex; gap:2rem; margin:1.5rem 0; align-items:flex-start;">
+<figure style="flex:1; margin:0;">
+<img src="/images/isecha_rekishi/omoshiro1-4.webp" alt="藤枝芦ノ谷・朝比奈地区 藤枝の大茶樹 静岡県藤枝市にあり、樹齢300年以上といわれる" style="width:100%;" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">藤枝芦ノ谷・朝比奈地区<br>藤枝の大茶樹<br>静岡県藤枝市にあり、樹齢300年以上といわれる</figcaption>
+</figure>
+<figure style="flex:1; margin:0;">
+<img src="/images/isecha_rekishi/omoshiro1-2.webp" alt="嬉野の大茶樹 佐賀県嬉野町にあり、樹齢は330年以上といわれる" style="width:100%;" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">嬉野の大茶樹<br>佐賀県嬉野町にあり、樹齢は330年以上といわれる</figcaption>
+</figure>
+<figure style="flex:1; margin:0;">
+<img src="/images/isecha_rekishi/omoshiro1-3.webp" alt="政所の大茶樹 滋賀県永源寺町にあり、樹齢300年を超えと云われる" style="width:100%;" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">政所の大茶樹<br>滋賀県永源寺町にあり、樹齢300年を超えと云われる</figcaption>
+</figure>
+</div>
 

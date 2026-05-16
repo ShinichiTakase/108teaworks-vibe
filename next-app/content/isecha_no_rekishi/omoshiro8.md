@@ -42,8 +42,9 @@ order: 18
 
 ---
 
-## 写真・図版
 
-![川霧と茶園の関係図](/images/isecha_rekishi/omoshiro8-kawagiri.webp)
-*川霧と茶園の関係図*
+<figure style="margin:1.5rem 0;">
+<img src="/images/isecha_rekishi/omoshiro8-kawagiri.webp" alt="川霧と茶園の関係図" style="width:80%;" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">川霧と茶園の関係図</figcaption>
+</figure>
 

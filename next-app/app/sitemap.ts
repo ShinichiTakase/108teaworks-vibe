@@ -55,6 +55,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/checkout", changeFrequency: "weekly", priority: 0.5 },
     { path: "/privacy-policy", changeFrequency: "monthly", priority: 0.4 },
     { path: "/legal", changeFrequency: "monthly", priority: 0.4 },
+    { path: "/maccha", changeFrequency: "monthly", priority: 0.75 },
     { path: "/kabatadani_no_ocha", changeFrequency: "monthly", priority: 0.7 },
     { path: "/isecha_no_rekishi", changeFrequency: "monthly", priority: 0.7 },
   ];

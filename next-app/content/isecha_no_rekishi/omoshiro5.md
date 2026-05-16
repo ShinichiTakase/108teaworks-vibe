@@ -52,11 +52,9 @@ order: 15
 
 ---
 
-## 写真・図版
 
-![乗用型茶摘機](/images/isecha_rekishi/omoshiro5-joyoteisumiki.webp)
-*乗用型茶摘機*
+<figure style="margin:1.5rem 0; text-align:center;">
+<img src="/images/isecha_rekishi/omoshiro5.webp" alt="茶摘み、昔と今：手摘みの茶摘み風景、ハサミ摘み、回転式茶摘み機、可搬式茶摘み機、レール走行式茶摘機、乗用型茶摘機" />
+</figure>
 
-![八十八夜カレンダー](/images/isecha_rekishi/omoshiro6-hachijuhachiya.webp)
-*八十八夜カレンダー*
 

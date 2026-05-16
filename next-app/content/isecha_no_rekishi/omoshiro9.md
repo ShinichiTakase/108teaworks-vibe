@@ -32,11 +32,20 @@ order: 19
 
 今の製茶は「機械製茶法」といってすべて機械で製茶します。製茶工場ではコンピューターで制御された茶葉が、いくつもの機械をくぐりながらお茶が出来上がります。
 
+<figure style="margin:1.5rem 0; text-align:center;">
+<img src="/images/isecha_rekishi/omoshiro9-1.webp" alt="昔の製茶法、今の製茶法：昔の製茶（手もみ製茶法）、手もみ製茶法の保存活動、今の製茶（機械製茶法）" />
+</figure>
+
 ## 手もみ製茶法を最初に考案した人は、山城国宇治の永谷宗円という人
 
 お茶屋さんで売っているお茶は濃い緑色で細長い針のような形をしていますね。この様なお茶を作るようになったのは、今から280年ほど前の元文3年（1738）に山城国宇治湯屋谷村（京都府宇治市）の永谷宗円という人が考案した手もみ製茶法です。
 
 それまでのお茶は、日本にお茶が伝えられた当時は固形茶（餅茶）で、その後は蒸して乾燥させた茶葉を粉にした抹茶や中国伝来の釜炒り茶が多かったようです。釜で茶葉を炒ると緑色が消えた黒褐色のお茶ができ、「釜炒り黒茶」とも呼ばれていた様です。永谷宗円が考案した手もみ製茶法は、茶葉を蒸してから作るので緑色のきれいなお茶ができます。
+
+<figure style="margin:1.5rem 0;">
+<img src="/images/isecha_rekishi/omoshiro9-mochiza.webp" alt="固形茶（餅茶）・日本にお茶が伝わった当時の形" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">固形茶（餅茶）・日本にお茶が伝わった当時の形</figcaption>
+</figure>
 
 ## 製茶機械を最初に作った人は、埼玉県の高林謙三という人
 
@@ -61,14 +70,5 @@ order: 19
 
 ---
 
-## 写真・図版
 
-![固形茶（餅茶）・日本にお茶が伝わった当時の形](/images/isecha_rekishi/omoshiro9-mochiza.webp)
-*固形茶（餅茶）・日本にお茶が伝わった当時の形*
-
-![近代的な機械が並んだ製茶工場の内部](/images/isecha_rekishi/omoshiro10-kikai-seicya.webp)
-*近代的な機械が並んだ製茶工場の内部*
-
-![手もみ製茶の工程写真](/images/isecha_rekishi/omoshiro11-temomi-steps.webp)
-*手もみ製茶の工程写真*
 

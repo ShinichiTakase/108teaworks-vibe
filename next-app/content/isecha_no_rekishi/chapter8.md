@@ -44,14 +44,17 @@ order: 8
 
 ---
 
-## 写真・図版
 
-![中南勢の茶産地・松阪市飯高町赤桶地区の茶園](/images/isecha_rekishi/ch8-chunansei-chaen.webp)
-*中南勢の茶産地・松阪市飯高町赤桶地区の茶園*
-
-![北勢の茶産地・亀山市中ノ山の集団茶園](/images/isecha_rekishi/ch8-hokusei-chaen.webp)
-*北勢の茶産地・亀山市中ノ山の集団茶園*
-
-![三重県茶産地マップ](/images/isecha_rekishi/ch8-chaen-map.webp)
-*三重県茶産地マップ*
+<figure style="margin:1.5rem 0;">
+<img src="/images/isecha_rekishi/ch8-chunansei-chaen.webp" alt="今の三重県茶産地の成り立ち：北勢茶産地、中南勢茶産地" style="width:80%;" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">三重県茶産地マップ</figcaption>
+</figure>
+<figure style="margin:1.5rem 0;">
+<img src="/images/isecha_rekishi/ch8-hokusei-chaen.webp" alt="北勢の茶産地・亀山市中ノ山の集団茶園" style="width:80%;" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">北勢の茶産地・亀山市中ノ山の集団茶園</figcaption>
+</figure>
+<figure style="margin:1.5rem 0;">
+<img src="/images/isecha_rekishi/ch8-chaen-map.webp" alt="三重県茶産地マップ" style="width:80%;" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">中南勢の茶産地・松阪市飯高町赤桶地区の茶園</figcaption>
+</figure>
 

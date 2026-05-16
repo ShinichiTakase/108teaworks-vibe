@@ -21,8 +21,8 @@ export default function IsechaNoRekishiPage() {
   const chapters = getAllChapterMetas();
 
   const historyChapters = chapters.filter((c) => c.order <= 10);
-  const omoshiroChapters = chapters.filter((c) => c.order >= 11 && c.order <= 25);
-  const appendixChapters = chapters.filter((c) => c.order >= 26);
+  const omoshiroChapters = chapters.filter((c) => c.order >= 11 && c.order <= 30);
+  const appendixChapters = chapters.filter((c) => c.order >= 31);
 
   return (
     <main className={MAIN_CLASS} id="main-content" role="main">

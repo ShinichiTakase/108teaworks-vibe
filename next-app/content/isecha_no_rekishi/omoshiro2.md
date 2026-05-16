@@ -32,8 +32,24 @@ order: 12
 
 ---
 
-## 写真・図版
-
-![お茶とツバキの花・実・葉の比較](/images/isecha_rekishi/omoshiro2-tsubaki.webp)
-*お茶とツバキの花・実・葉の比較*
+<div style="display:flex; gap:1.5rem; margin:1.5rem 0; align-items:flex-start;">
+<figure style="flex:1; margin:0;">
+<img src="/images/isecha_rekishi/omoshiro2-1.webp" alt="ツバキの原種といわれるヤブツバキの花（赤色）" style="width:100%;" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">ツバキの原種といわれるヤブツバキの花（赤色）</figcaption>
+</figure>
+<figure style="flex:1; margin:0;">
+<img src="/images/isecha_rekishi/omoshiro2-2.webp" alt="茶の花は白色" style="width:100%;" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">茶の花は白色</figcaption>
+</figure>
+</div>
+<div style="display:flex; gap:1.5rem; margin:0 0 1.5rem; align-items:flex-start;">
+<figure style="flex:1; margin:0;">
+<img src="/images/isecha_rekishi/omoshiro2-3.webp" alt="つばきの実" style="width:100%;" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">つばきの実<br>お茶とツバキの花は、色は違うが良く似ている。<br>実はそっくり。葉も似ている。</figcaption>
+</figure>
+<figure style="flex:1; margin:0;">
+<img src="/images/isecha_rekishi/omoshiro2-4.webp" alt="茶の実" style="width:100%;" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">茶の実</figcaption>
+</figure>
+</div>
 

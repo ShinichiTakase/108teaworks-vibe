@@ -42,11 +42,8 @@ order: 14
 
 ---
 
-## 写真・図版
 
 ![竹川竹斎がつくった日本最初の私立図書館「井沢文庫」の玄関](/images/isecha_rekishi/omoshiro3-izawa-bunko.webp)
 *竹川竹斎がつくった日本最初の私立図書館「井沢文庫」の玄関*
 
-![「桑茶並ヒ楮植方書」竹川竹斎著](/images/isecha_rekishi/omoshiro4-kuwachashyo.webp)
-*「桑茶並ヒ楮植方書」竹川竹斎著*
 

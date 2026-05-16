@@ -40,7 +40,6 @@ order: 17
 
 ---
 
-## 写真・図版
 
 ![防霜ファンの仕組み](/images/isecha_rekishi/omoshiro7-bosofan.webp)
 *防霜ファンの仕組み*

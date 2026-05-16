@@ -62,7 +62,6 @@ order: 9
 
 ---
 
-## 写真・図版
 
 ![日本茶業の発展に貢献した三重県人たち](/images/isecha_rekishi/ch9-pioneers.webp)
 *日本茶業の発展に貢献した三重県人たち*

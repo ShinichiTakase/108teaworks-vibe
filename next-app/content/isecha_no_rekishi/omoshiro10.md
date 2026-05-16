@@ -46,22 +46,29 @@ order: 20
 
 その後、独立して茶貿易商「大谷」を開き、自らの道を拓く。中でも特筆すべきはアメリカが日本茶に高額の関税をかける法案に対して、アメリカ大統領マッキンリーに直接交渉して茶関税法案を撤回させるなど、日本茶輸出の先頭に立った。
 
+<figure style="margin:1.5rem 0; text-align:center;">
+<img src="/images/isecha_rekishi/omoshiro12-export-yokohama.webp" alt="外国商社が軒を連ねる横浜港・当時の賑わい" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">外国商社が軒を連ねる横浜港・当時の賑わい</figcaption>
+</figure>
+
 ## お茶の輸送容器
 
+<img src="/images/isecha_rekishi/omoshiro10-3.webp" alt="お茶の輸送容器" style="float:left; margin:0 1.5rem 1rem 0;" />
 江戸時代のお茶の容器は、信楽焼きの素焼きの茶壷にお茶を入れて、茶壷をコモ（ワラを編んだもの）で巻いて運びました。しかし、茶壷は土で出来ているので壊れやすいことから、江戸時代後期になると茶箱（木の箱）になり、明治時代になると紙袋に入れて運ぶようになりました。
 
 お茶の生産者やお茶屋さんは、お茶を入れて運ぶ紙袋（30kg入る大きな袋）を「大海」と呼んでいます。明治時代にアメリカへ日本茶を紙袋に入れて送ったところ、袋も破れず、お茶の品質も変わらずに無事に送ることが出来たので、大きな海（太平洋）を無事に渡ったとの意味から「大海」と呼ばれるようになったそうです。
 
+<div style="clear:both;"></div>
+
 ---
 
-## 写真・図版
 
-![外国商社が軒を連ねる横浜港・当時の賑わい](/images/isecha_rekishi/omoshiro12-export-yokohama.webp)
-*外国商社が軒を連ねる横浜港・当時の賑わい*
-
-![輸出用茶箱に貼られた蘭字ラベル](/images/isecha_rekishi/omoshiro13-ranjilabel.webp)
-*輸出用茶箱に貼られた蘭字ラベル*
-
-![茶葉輸送用茶壺](/images/isecha_rekishi/omoshiro14-chatsuko.webp)
-*茶葉輸送用茶壺*
+<figure style="margin:1.5rem 0;">
+<img src="/images/isecha_rekishi/omoshiro10-1.webp" alt="外国商社が軒を連ねる横浜港当時の賑わい" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">外国商社が軒を連ねる横浜港当時の賑わい</figcaption>
+</figure>
+<figure style="margin:1.5rem 0;">
+<img src="/images/isecha_rekishi/omoshiro10-2.webp" alt="輸出用茶箱に貼られた蘭字ラベル（蘭字とは外国（西洋）を意味する）" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">輸出用茶箱に貼られた蘭字ラベル（蘭字とは外国（西洋）を意味する）</figcaption>
+</figure>
 

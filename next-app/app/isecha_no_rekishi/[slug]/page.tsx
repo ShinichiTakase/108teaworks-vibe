@@ -43,7 +43,9 @@ export default async function IsechaChapterPage({ params }: Props) {
           {/* パンくず */}
           <nav aria-label="パンくず" className="mb-6 text-[0.8125rem] text-ink-muted">
             <Link href="/isecha_no_rekishi/" className="hover:text-tea-deep hover:underline">
-              伊勢茶の歴史
+              {params.slug.startsWith("omoshiro") || params.slug === "world-japan-map"
+                ? "お茶のおもしろ知識"
+                : "伊勢茶の歴史"}
             </Link>
             <span className="mx-1.5">›</span>
             <span>{chapter.shortTitle}</span>
