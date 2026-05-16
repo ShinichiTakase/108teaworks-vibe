@@ -44,18 +44,24 @@ order: 10
 ---
 
 
-![仙台大博覧会における伊勢茶接待所・昭和3年（1928）](/images/kabatadani/ch10-isecha-expo.webp)
-*仙台大博覧会における伊勢茶接待所・昭和3年（1928）*
-
-![満州大連での伊勢茶喫茶所・昭和7年（1932）](/images/kabatadani/ch10-manchuria.webp)
-*満州大連での伊勢茶喫茶所・昭和7年（1932）*
-
-![共同製茶場（飯南町粥見）](/images/kabatadani/ch10-factory.webp)
-*共同製茶場（飯南町粥見）*
-
-![手もみ茶台（焙炉）が並ぶ](/images/kabatadani/ch10-hoiro.webp)
-*手もみ茶台（焙炉）が並ぶ*
-
-![手もみ茶製造風景](/images/kabatadani/ch10-teamaking.webp)
-*手もみ茶製造風景*
+<figure style="margin:1.5rem 0;">
+<img src="/images/kabatadani/ch10-isecha-expo.webp" alt="仙台大博覧会における伊勢茶接待所・昭和3年（1928）" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">仙台大博覧会における伊勢茶接待所・昭和3年（1928）</figcaption>
+</figure>
+<figure style="margin:1.5rem 0;">
+<img src="/images/kabatadani/ch10-manchuria.webp" alt="満州大連での伊勢茶喫茶所・昭和7年（1932）" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">満州大連での伊勢茶喫茶所・昭和7年（1932）</figcaption>
+</figure>
+<figure style="margin:1.5rem 0;">
+<img src="/images/kabatadani/ch10-factory.webp" alt="共同製茶場（飯南町粥見）" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">共同製茶場（飯南町粥見）</figcaption>
+</figure>
+<figure style="margin:1.5rem 0;">
+<img src="/images/kabatadani/ch10-hoiro.webp" alt="手もみ茶台（焙炉）が並ぶ" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">手もみ茶台（焙炉）が並ぶ</figcaption>
+</figure>
+<figure style="margin:1.5rem 0;">
+<img src="/images/kabatadani/ch10-teamaking.webp" alt="手もみ茶製造風景" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">手もみ茶製造風景</figcaption>
+</figure>
 

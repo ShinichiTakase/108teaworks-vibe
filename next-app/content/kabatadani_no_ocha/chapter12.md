@@ -74,39 +74,52 @@ order: 12
 ---
 
 
-![茶販売と煎茶喫茶「深緑茶房」（飯南町粥見）](/images/kabatadani/ch12-shinryoku.webp)
-*茶販売と煎茶喫茶「深緑茶房」（飯南町粥見）*
-
-![茶販売と煎茶喫茶「茶来」（飯南町粥見）](/images/kabatadani/ch12-charai.webp)
-*茶販売と煎茶喫茶「茶来」（飯南町粥見）*
-
-![道の駅「茶倉駅」とリバーサイド茶倉（飯南町粥見）](/images/kabatadani/ch12-chakura.webp)
-*道の駅「茶倉駅」とリバーサイド茶倉（飯南町粥見）*
-
-![茶販売と煎茶喫茶「茶工房かはだ」（飯高町作滝）](/images/kabatadani/ch12-chahada.webp)
-*茶販売と煎茶喫茶「茶工房かはだ」（飯高町作滝）*
-
-![野呂恭一の胸像（飯高町宮前）](/images/kabatadani/ch12-noro.webp)
-*野呂恭一の胸像（飯高町宮前）*
-
-![映画監督小津安二郎資料館（飯高町宮前）](/images/kabatadani/ch12-ozu.webp)
-*映画監督小津安二郎資料館（飯高町宮前）*
-
-![道の駅「飯高駅」と特産品直売所（飯高町宮前）](/images/kabatadani/ch12-iitaka-roadstation.webp)
-*道の駅「飯高駅」と特産品直売所（飯高町宮前）*
-
-![旧川俣小学校と大谷嘉兵衛翁資料館（飯高町粟野）](/images/kabatadani/ch12-kawamata-school.webp)
-*旧川俣小学校と大谷嘉兵衛翁資料館（飯高町粟野）*
-
-![水屋神社の大楠・樹齢千年の天然記念物（飯高町赤桶）](/images/kabatadani/ch12-kusunoki.webp)
-*水屋神社の大楠・樹齢千年の天然記念物（飯高町赤桶）*
-
-![嘉兵衛翁が愛したお熊ヶ池（飯高町宮本・標高700m）](/images/kabatadani/ch12-okuma-pond.webp)
-*嘉兵衛翁が愛したお熊ヶ池（飯高町宮本・標高700m）*
-
-![川俣谷源流域「蓮ダム湖」（飯高町森）](/images/kabatadani/ch12-ren-dam.webp)
-*川俣谷源流域「蓮ダム湖」（飯高町森）*
-
-![高見山の樹氷（飯高町波瀬）](/images/kabatadani/ch12-takamiyama.webp)
-*高見山の樹氷（飯高町波瀬）*
+<figure style="margin:1.5rem 0;">
+<img src="/images/kabatadani/ch12-shinryoku.webp" alt="茶販売と煎茶喫茶「深緑茶房」（飯南町粥見）" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">茶販売と煎茶喫茶「深緑茶房」（飯南町粥見）</figcaption>
+</figure>
+<figure style="margin:1.5rem 0;">
+<img src="/images/kabatadani/ch12-charai.webp" alt="茶販売と煎茶喫茶「茶来」（飯南町粥見）" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">茶販売と煎茶喫茶「茶来」（飯南町粥見）</figcaption>
+</figure>
+<figure style="margin:1.5rem 0;">
+<img src="/images/kabatadani/ch12-chakura.webp" alt="道の駅「茶倉駅」とリバーサイド茶倉（飯南町粥見）" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">道の駅「茶倉駅」とリバーサイド茶倉（飯南町粥見）</figcaption>
+</figure>
+<figure style="margin:1.5rem 0;">
+<img src="/images/kabatadani/ch12-chahada.webp" alt="茶販売と煎茶喫茶「茶工房かはだ」（飯高町作滝）" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">茶販売と煎茶喫茶「茶工房かはだ」（飯高町作滝）</figcaption>
+</figure>
+<figure style="margin:1.5rem 0;">
+<img src="/images/kabatadani/ch12-noro.webp" alt="野呂恭一の胸像（飯高町宮前）" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">野呂恭一の胸像（飯高町宮前）</figcaption>
+</figure>
+<figure style="margin:1.5rem 0;">
+<img src="/images/kabatadani/ch12-ozu.webp" alt="映画監督小津安二郎資料館（飯高町宮前）" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">映画監督小津安二郎資料館（飯高町宮前）</figcaption>
+</figure>
+<figure style="margin:1.5rem 0;">
+<img src="/images/kabatadani/ch12-iitaka-roadstation.webp" alt="道の駅「飯高駅」と特産品直売所（飯高町宮前）" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">道の駅「飯高駅」と特産品直売所（飯高町宮前）</figcaption>
+</figure>
+<figure style="margin:1.5rem 0;">
+<img src="/images/kabatadani/ch12-kawamata-school.webp" alt="旧川俣小学校と大谷嘉兵衛翁資料館（飯高町粟野）" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">旧川俣小学校と大谷嘉兵衛翁資料館（飯高町粟野）</figcaption>
+</figure>
+<figure style="margin:1.5rem 0;">
+<img src="/images/kabatadani/ch12-kusunoki.webp" alt="水屋神社の大楠・樹齢千年の天然記念物（飯高町赤桶）" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">水屋神社の大楠・樹齢千年の天然記念物（飯高町赤桶）</figcaption>
+</figure>
+<figure style="margin:1.5rem 0;">
+<img src="/images/kabatadani/ch12-okuma-pond.webp" alt="嘉兵衛翁が愛したお熊ヶ池（飯高町宮本・標高700m）" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">嘉兵衛翁が愛したお熊ヶ池（飯高町宮本・標高700m）</figcaption>
+</figure>
+<figure style="margin:1.5rem 0;">
+<img src="/images/kabatadani/ch12-ren-dam.webp" alt="川俣谷源流域「蓮ダム湖」（飯高町森）" style="max-width:420px;" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">川俣谷源流域「蓮ダム湖」（飯高町森）</figcaption>
+</figure>
+<figure style="margin:1.5rem 0;">
+<img src="/images/kabatadani/ch12-takamiyama.webp" alt="高見山の樹氷（飯高町波瀬）" style="max-width:420px;" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">高見山の樹氷（飯高町波瀬）</figcaption>
+</figure>
 

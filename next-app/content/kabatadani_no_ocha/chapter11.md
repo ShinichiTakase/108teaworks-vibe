@@ -93,12 +93,16 @@ order: 11
 ---
 
 
-![深蒸し茶](/images/kabatadani/ch11-fukamushi.webp)
-*深蒸し茶*
-
-![コンピュータ制御の大型製茶工場](/images/kabatadani/ch11-bigfactory.webp)
-*コンピュータ制御の大型製茶工場*
-
-![防霜ファンと乗用型茶摘機](/images/kabatadani/ch11-bosofan.webp)
-*防霜ファンと乗用型茶摘機*
+<figure style="margin:1.5rem 0;">
+<img src="/images/kabatadani/ch11-fukamushi.webp" alt="深蒸し茶" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">深蒸し茶</figcaption>
+</figure>
+<figure style="margin:1.5rem 0;">
+<img src="/images/kabatadani/ch11-bigfactory.webp" alt="コンピュータ制御の大型製茶工場" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">コンピュータ制御の大型製茶工場</figcaption>
+</figure>
+<figure style="margin:1.5rem 0;">
+<img src="/images/kabatadani/ch11-bosofan.webp" alt="防霜ファンと乗用型茶摘機" />
+<figcaption style="font-size:0.8125rem; color:#666; margin-top:0.25rem; text-align:center;">防霜ファンと乗用型茶摘機</figcaption>
+</figure>
 
