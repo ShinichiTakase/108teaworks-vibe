@@ -428,6 +428,21 @@ export default async function HoujichaPage({ locale }: Props) {
             {t.h1}
           </h1>
 
+          {locale === "ja" && (
+            <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-tea-light bg-cream px-4 py-3">
+              <div>
+                <p className="m-0 text-[0.9375rem] font-semibold text-tea-deep">香ばしさとまろやかさ。夜でも安心の伊勢茶</p>
+                <p className="m-0 text-[0.8125rem] text-ink-muted">川俣谷産シングルオリジン・低カフェイン</p>
+              </div>
+              <Link
+                href={productData[0].href}
+                className="shrink-0 rounded-lg border border-tea-light px-5 py-2.5 text-[0.9375rem] font-semibold text-tea-deep no-underline transition-colors hover:border-tea hover:bg-washi"
+              >
+                試してみる {formatPriceYen(productData[0].price)}
+              </Link>
+            </div>
+          )}
+
           <div className="grid grid-cols-1 gap-8 md:grid-cols-[minmax(260px,420px)_minmax(0,1fr)] md:items-start">
             {/* デスクトップ：左サイドバー */}
             <aside className="hidden w-full md:block">
@@ -513,54 +528,43 @@ export default async function HoujichaPage({ locale }: Props) {
                   {t.sec2LinkText}
                 </Link>
               </p>
-            </section>
-          </div>
 
-          {/* セクション3：商品一覧（全幅） */}
-          <div className="mt-12">
-            <h2 className="m-0 mb-6 text-lg font-semibold text-tea-deep">{t.sec3Title}</h2>
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-              {productData.map((p) => (
-                <Link
-                  key={p.slug}
-                  href={p.href}
-                  className="flex flex-col no-underline rounded-lg border border-border bg-washi p-3 text-inherit transition-colors hover:border-tea-light hover:bg-white"
-                >
-                  <span className="relative block mb-2 aspect-square">
-                    {p.imagePath && (
-                      <Image
-                        src={p.imagePath}
-                        alt={p.name}
-                        width={640}
-                        height={640}
-                        className="w-full h-full rounded object-cover bg-cream"
-                        sizes="(max-width: 767px) 45vw, 220px"
-                      />
-                    )}
-                    {p.outOfStock && (
-                      <span className="absolute bottom-1 left-1 rounded bg-ink/80 px-1.5 py-0.5 text-[0.75rem] font-semibold text-cream">
-                        {locale === "ja"
-                          ? "在庫切れ"
-                          : locale === "en"
-                            ? "Out of stock"
-                            : locale === "ko"
-                              ? "품절"
-                              : "缺货"}
-                      </span>
-                    )}
-                  </span>
-                  <span className="block text-right text-[0.8125rem] font-normal mb-0.5 leading-snug">
-                    {p.name}
-                  </span>
-                  <span className="block text-right text-[0.875rem] font-bold text-tea-deep">
-                    {formatPriceYen(p.price)}{" "}
-                    <span className="text-[0.75rem] text-ink-muted font-normal">
-                      {pt.taxIncluded}
-                    </span>
-                  </span>
-                </Link>
-              ))}
-            </div>
+              {locale === "ja" && (
+                <>
+                  <h2 className="m-0 mt-8 text-lg font-semibold text-tea-deep">明治から令和へ、160年続く川俣谷の茶園</h2>
+                  <p>藤八茶寮の屋号は、明治の茶商人・高瀬藤八に由来します。三重県松阪市の自社茶園で育てた伊勢茶を携えて神戸の港へ向かい、アメリカ商館を相手に渡り合いながら、西海岸への輸出航路を切り拓いた人物です。</p>
+                  <p>その茶園が今も川俣谷にあります。鎌倉時代に始まったとされる伊勢茶の栽培が続くこの地で、160年以上受け継がれてきた茶葉を、現代の技術と藤八の志をあわせて令和の食卓へお届けしています。</p>
+                  <p className="text-[0.9375rem] leading-relaxed text-ink-muted">
+                    →{" "}
+                    <Link href={buildLocalizedPath(locale, "/about")} className="text-tea underline underline-offset-2">
+                      藤八茶寮についてもっと詳しく
+                    </Link>
+                  </p>
+                  <p className="text-[0.9375rem] leading-relaxed text-ink-muted">
+                    →{" "}
+                    <Link href={buildLocalizedPath(locale, "/ise-cha")} className="text-tea underline underline-offset-2">
+                      伊勢茶の産地・歴史についてもっと詳しく
+                    </Link>
+                  </p>
+
+                  <h2 className="m-0 mt-8 text-lg font-semibold text-tea-deep">夜でも安心——ほうじ茶のカフェインとカテキン</h2>
+                  <p>ほうじ茶は焙煎の工程でカフェインが揮発し、100mlあたり約10mgと一般的な緑茶の約3分の2以下になります。夕食後や就寝前のリラックスタイムにも気兼ねなくお召し上がりいただけます。</p>
+                  <p>カフェインが減少する一方、緑茶由来のカテキンは焙煎後も適量残ります。カテキン、特に「ガレート型カテキン」には、悪玉（LDL）コレステロールだけを選択的に低下させる働きが確認されており、毎日続けやすい健康習慣として注目されています。</p>
+                  <p className="text-[0.9375rem] leading-relaxed text-ink-muted">
+                    →{" "}
+                    <Link href={buildLocalizedPath(locale, "/ise-cha/caffeine")} className="text-tea underline underline-offset-2">
+                      お茶とカフェインについてもっと詳しく
+                    </Link>
+                  </p>
+                  <p className="text-[0.9375rem] leading-relaxed text-ink-muted">
+                    →{" "}
+                    <Link href={buildLocalizedPath(locale, "/ise-cha/catechin")} className="text-tea underline underline-offset-2">
+                      お茶の健康成分（カテキン）についてもっと詳しく
+                    </Link>
+                  </p>
+                </>
+              )}
+            </section>
           </div>
 
           {/* セクション4：パウダーの使い方 */}
@@ -649,6 +653,45 @@ export default async function HoujichaPage({ locale }: Props) {
                 </details>
               ))}
             </dl>
+          </div>
+
+          {/* 商品一覧（最下部） */}
+          <div className="mt-12">
+            <h2 className="m-0 mb-6 text-lg font-semibold text-tea-deep">{t.sec3Title}</h2>
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+              {productData.map((p) => (
+                <Link
+                  key={p.slug}
+                  href={p.href}
+                  className="flex flex-col no-underline rounded-lg border border-border bg-washi p-3 text-inherit transition-colors hover:border-tea-light hover:bg-white"
+                >
+                  <span className="relative block mb-2 aspect-square">
+                    {p.imagePath && (
+                      <Image
+                        src={p.imagePath}
+                        alt={p.name}
+                        width={640}
+                        height={640}
+                        className="w-full h-full rounded object-cover bg-cream"
+                        sizes="(max-width: 767px) 45vw, 220px"
+                      />
+                    )}
+                    {p.outOfStock && (
+                      <span className="absolute bottom-1 left-1 rounded bg-ink/80 px-1.5 py-0.5 text-[0.75rem] font-semibold text-cream">
+                        {locale === "ja" ? "在庫切れ" : locale === "en" ? "Out of stock" : locale === "ko" ? "품절" : "缺货"}
+                      </span>
+                    )}
+                  </span>
+                  <span className="block text-right text-[0.8125rem] font-normal mb-0.5 leading-snug">
+                    {p.name}
+                  </span>
+                  <span className="block text-right text-[0.875rem] font-bold text-tea-deep">
+                    {formatPriceYen(p.price)}{" "}
+                    <span className="text-[0.75rem] text-ink-muted font-normal">{pt.taxIncluded}</span>
+                  </span>
+                </Link>
+              ))}
+            </div>
           </div>
         </article>
       </div>
