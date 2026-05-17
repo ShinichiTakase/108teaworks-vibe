@@ -48,14 +48,14 @@ const TEXTS: Record<Locale, DecafTexts> = {
   ja: {
     h1: "カフェインカット緑茶の通販｜薬剤不使用で伊勢茶の旨みそのまま",
     leadP:
-      "藤八茶寮のカフェインカット緑茶は、薬剤を一切使わず「水と二酸化炭素」のみによる超臨界CO₂抽出法でカフェインを75%カットした低カフェイン緑茶です。三重県松阪市・川俣谷産シングルオリジン伊勢茶の濃厚な旨みとコクはそのままに、夜のティータイムやカフェインが気になる方でも安心してお楽しみいただけます。",
+      "藤八茶寮のカフェインカット緑茶は、薬剤を一切使わず「水と二酸化炭素」のみによる超臨界CO₂抽出法でカフェインを70%カットした低カフェイン緑茶です。三重県松阪市・川俣谷産シングルオリジン伊勢茶の濃厚な旨みとコクはそのままに、夜のティータイムやカフェインが気になる方でも安心してお楽しみいただけます。",
     sec1Title: "なぜ「薬剤不使用」にこだわるのか",
     sec1P1:
       "一般的なデカフェ処理では、カフェインを溶かし出すために塩化メチレン（ジクロロメタン）などの有機溶媒が用いられる場合があります。こうした化学溶媒は微量でも残留の懸念が生じるため、毎日飲むお茶として気になる方も少なくありません。",
     sec1P2:
       "藤八茶寮のカフェインカット緑茶は、「超臨界CO₂抽出法」を採用しています。この製法では水と二酸化炭素のみを使用するため、化学溶媒が残留する心配がありません。",
     sec1P3:
-      "まず品質の高い深蒸し茶を原料として超臨界CO₂処理を行い、カフェインを85%除去します。その後、お茶本来の旨みと香りを最大限に保つため、高品質な深蒸し茶を黄金比でブレンドします。最終的に仕上がったカフェインカット緑茶は、カフェイン75%オフ・100mlあたり約5mgに抑えられています。",
+      "まず品質の高い深蒸し茶を原料として超臨界CO₂処理を行い、カフェインを85%除去します。その後、お茶本来の旨みと香りを最大限に保つため、高品質な深蒸し茶を黄金比でブレンドします。最終的に仕上がったカフェインカット緑茶は、カフェイン70%オフ・100mlあたり約5mgに抑えられています。",
     sec1LinkText: "カフェインについて詳しくはこちら",
     sec2Title: "川俣谷産シングルオリジンの深蒸し茶をベースに",
     sec2P1:
@@ -85,7 +85,7 @@ const TEXTS: Record<Locale, DecafTexts> = {
     faqs: [
       {
         q: "カフェインは完全にゼロになりますか？",
-        a: "ゼロにはなりません。超臨界CO₂抽出法により75%カットし、100mlあたり約5mgまで低減しています。これはコーラとほぼ同程度、一般的な緑茶の約3分の1以下です。完全にカフェインを避けたい場合は麦茶などをお選びください。",
+        a: "ゼロにはなりません。超臨界CO₂抽出法により70%カットし、100mlあたり約5mgまで低減しています。これはコーラとほぼ同程度、一般的な緑茶の約3分の1以下です。完全にカフェインを避けたい場合は麦茶などをお選びください。",
       },
       {
         q: "妊娠中や授乳中でも飲めますか？",
@@ -120,16 +120,16 @@ const TEXTS: Record<Locale, DecafTexts> = {
   },
 
   en: {
-    h1: "Low-Caffeine Green Tea Online | No Chemicals, 75% Less Caffeine | Fujihachi Saryo",
+    h1: "Low-Caffeine Green Tea Online | No Chemicals, 70% Less Caffeine | Fujihachi Saryo",
     leadP:
-      "Fujihachi Saryo's low-caffeine green tea removes 75% of caffeine using supercritical CO₂ extraction — just water and carbon dioxide, no chemical solvents. The result: the full, rich umami of single-origin Ise tea from Kawamatatani, Matsusaka, Mie Prefecture, in a cup you can enjoy at night or whenever you're watching your caffeine intake.",
+      "Fujihachi Saryo's low-caffeine green tea removes 70% of caffeine using supercritical CO₂ extraction — just water and carbon dioxide, no chemical solvents. The result: the full, rich umami of single-origin Ise tea from Kawamatatani, Matsusaka, Mie Prefecture, in a cup you can enjoy at night or whenever you're watching your caffeine intake.",
     sec1Title: "Why we insist on no chemical solvents",
     sec1P1:
       "Conventional decaffeination sometimes uses organic solvents such as methylene chloride (dichloromethane) to extract caffeine from tea. Even in trace amounts, chemical solvent residues can be a concern for something you drink every day.",
     sec1P2:
       "Fujihachi Saryo's low-caffeine green tea uses supercritical CO₂ extraction. This process uses only water and carbon dioxide, so there is no risk of chemical solvent residue.",
     sec1P3:
-      "First, high-quality deep-steamed tea undergoes supercritical CO₂ treatment to remove 85% of its caffeine. It is then blended back with premium deep-steamed tea in a carefully balanced ratio to preserve the original umami and aroma. The finished tea contains 75% less caffeine than regular green tea — approximately 5 mg per 100 ml.",
+      "First, high-quality deep-steamed tea undergoes supercritical CO₂ treatment to remove 85% of its caffeine. It is then blended back with premium deep-steamed tea in a carefully balanced ratio to preserve the original umami and aroma. The finished tea contains 70% less caffeine than regular green tea — approximately 5 mg per 100 ml.",
     sec1LinkText: "Learn more about tea and caffeine",
     sec2Title: "Based on single-origin deep-steamed tea from Kawamatatani",
     sec2P1:
@@ -159,7 +159,7 @@ const TEXTS: Record<Locale, DecafTexts> = {
     faqs: [
       {
         q: "Is the caffeine completely zero?",
-        a: "No, it is not zero. Supercritical CO₂ extraction reduces caffeine by 75%, bringing it down to approximately 5 mg per 100 ml — roughly the same as cola and less than one-third of regular green tea. If you need to avoid caffeine entirely, we recommend barley tea or similar caffeine-free options.",
+        a: "No, it is not zero. Supercritical CO₂ extraction reduces caffeine by 70%, bringing it down to approximately 5 mg per 100 ml — roughly the same as cola and less than one-third of regular green tea. If you need to avoid caffeine entirely, we recommend barley tea or similar caffeine-free options.",
       },
       {
         q: "Can pregnant or breastfeeding women drink this?",
@@ -184,14 +184,14 @@ const TEXTS: Record<Locale, DecafTexts> = {
   ko: {
     h1: "카페인 컷 녹차 통신판매｜약제 불사용으로 이세차의 감칠맛 그대로",
     leadP:
-      "후지하치야의 카페인 컷 녹차는 약제를 일절 사용하지 않고 「물과 이산화탄소」만을 사용하는 초임계 CO₂ 추출법으로 카페인을 75% 커트한 저카페인 녹차입니다. 미에현 마쓰사카시·가와마타다니산 싱글 오리진 이세차의 진한 감칠맛은 그대로, 저녁 티타임이나 카페인이 신경 쓰이는 분도 안심하고 즐기실 수 있습니다.",
+      "후지하치야의 카페인 컷 녹차는 약제를 일절 사용하지 않고 「물과 이산화탄소」만을 사용하는 초임계 CO₂ 추출법으로 카페인을 70% 커트한 저카페인 녹차입니다. 미에현 마쓰사카시·가와마타다니산 싱글 오리진 이세차의 진한 감칠맛은 그대로, 저녁 티타임이나 카페인이 신경 쓰이는 분도 안심하고 즐기실 수 있습니다.",
     sec1Title: "왜 「약제 불사용」에 집착하는가",
     sec1P1:
       "일반적인 디카페인 처리에는 염화메틸렌 등의 유기 용매가 사용되는 경우가 있습니다. 이러한 화학 용매는 미량이라도 잔류 우려가 생기기 때문에 매일 마시는 차로서 신경 쓰이는 분도 적지 않습니다.",
     sec1P2:
       "후지하치야의 카페인 컷 녹차는 「초임계 CO₂ 추출법」을 채택하고 있습니다. 이 제법에서는 물과 이산화탄소만을 사용하므로 화학 용매가 잔류할 우려가 없습니다.",
     sec1P3:
-      "먼저 품질 높은 후카무시 녹차를 원료로 초임계 CO₂ 처리를 하여 카페인을 85% 제거합니다. 그 후 차 본래의 감칠맛과 향을 최대한 보존하기 위해 고품질 후카무시 녹차를 황금 비율로 블렌드합니다. 최종적으로 완성된 카페인 컷 녹차는 카페인 75% 오프·100ml당 약 5mg으로 억제됩니다.",
+      "먼저 품질 높은 후카무시 녹차를 원료로 초임계 CO₂ 처리를 하여 카페인을 85% 제거합니다. 그 후 차 본래의 감칠맛과 향을 최대한 보존하기 위해 고품질 후카무시 녹차를 황금 비율로 블렌드합니다. 최종적으로 완성된 카페인 컷 녹차는 카페인 70% 오프·100ml당 약 5mg으로 억제됩니다.",
     sec1LinkText: "카페인에 대해 자세히 보기",
     sec2Title: "가와마타다니산 싱글 오리진 후카무시 녹차를 베이스로",
     sec2P1:
@@ -221,7 +221,7 @@ const TEXTS: Record<Locale, DecafTexts> = {
     faqs: [
       {
         q: "카페인이 완전히 제로가 되나요?",
-        a: "제로는 되지 않습니다. 초임계 CO₂ 추출법으로 75% 커트하여 100ml당 약 5mg까지 낮춥니다. 이는 콜라와 비슷한 수준으로, 일반 녹차의 약 3분의 1 이하입니다. 카페인을 완전히 피하고 싶은 경우에는 보리차 등을 선택해 주세요.",
+        a: "제로는 되지 않습니다. 초임계 CO₂ 추출법으로 70% 커트하여 100ml당 약 5mg까지 낮춥니다. 이는 콜라와 비슷한 수준으로, 일반 녹차의 약 3분의 1 이하입니다. 카페인을 완전히 피하고 싶은 경우에는 보리차 등을 선택해 주세요.",
       },
       {
         q: "임신 중이나 수유 중에도 마실 수 있나요?",
@@ -246,14 +246,14 @@ const TEXTS: Record<Locale, DecafTexts> = {
   zh: {
     h1: "低咖啡因绿茶网购｜无化学溶剂，伊势茶鲜甜原汁原味",
     leadP:
-      "藤八茶寮的低咖啡因绿茶，不使用任何药剂，仅以「水与二氧化碳」进行超临界CO₂萃取，将咖啡因减少75%。三重县松阪市·川俣谷产单一产地伊势茶的浓郁鲜甜依然如故，夜间品茗或担心咖啡因摄入的朋友均可放心享用。",
+      "藤八茶寮的低咖啡因绿茶，不使用任何药剂，仅以「水与二氧化碳」进行超临界CO₂萃取，将咖啡因减少70%。三重县松阪市·川俣谷产单一产地伊势茶的浓郁鲜甜依然如故，夜间品茗或担心咖啡因摄入的朋友均可放心享用。",
     sec1Title: "为何坚持「不使用化学溶剂」",
     sec1P1:
       "一般的脱咖啡因处理有时会使用氯化亚甲基（二氯甲烷）等有机溶剂来溶出咖啡因。这类化学溶剂即便微量残留也令人担忧，对每天都要饮用的茶来说更是如此。",
     sec1P2:
       "藤八茶寮的低咖啡因绿茶采用「超临界CO₂萃取法」。该工艺仅使用水和二氧化碳，无化学溶剂残留之虞。",
     sec1P3:
-      "首先以优质深蒸绿茶为原料进行超临界CO₂处理，去除85%的咖啡因；然后为最大限度保留茶本来的鲜甜与香气，以黄金比例将高品质深蒸绿茶重新混配。最终成品咖啡因减少75%，每100ml约含5mg。",
+      "首先以优质深蒸绿茶为原料进行超临界CO₂处理，去除85%的咖啡因；然后为最大限度保留茶本来的鲜甜与香气，以黄金比例将高品质深蒸绿茶重新混配。最终成品咖啡因减少70%，每100ml约含5mg。",
     sec1LinkText: "了解更多关于茶与咖啡因的知识",
     sec2Title: "以川俣谷产单一产地深蒸绿茶为基底",
     sec2P1:
@@ -283,7 +283,7 @@ const TEXTS: Record<Locale, DecafTexts> = {
     faqs: [
       {
         q: "咖啡因能降到完全为零吗？",
-        a: "不能降为零。超临界CO₂萃取法将咖啡因减少75%，降至每100ml约5mg——与可乐大致相当，不足一般绿茶的三分之一。如需完全避免咖啡因，建议选择大麦茶等无咖啡因饮品。",
+        a: "不能降为零。超临界CO₂萃取法将咖啡因减少70%，降至每100ml约5mg——与可乐大致相当，不足一般绿茶的三分之一。如需完全避免咖啡因，建议选择大麦茶等无咖啡因饮品。",
       },
       {
         q: "孕期或哺乳期可以饮用吗？",
@@ -458,7 +458,7 @@ export default async function DecafPage({ locale }: Props) {
                         <tr className="bg-cream font-semibold">
                           <td className="px-3 py-2 text-tea-deep">カフェインカット緑茶</td>
                           <td className="px-3 py-2 text-tea-deep">約5mg</td>
-                          <td className="px-3 py-2 text-tea-deep">藤八茶寮の商品（75%オフ）</td>
+                          <td className="px-3 py-2 text-tea-deep">藤八茶寮の商品（70%オフ）</td>
                         </tr>
                         <tr><td className="px-3 py-2">麦茶</td><td className="px-3 py-2">ほぼ0mg</td><td className="px-3 py-2 text-ink-muted">ノンカフェイン飲料</td></tr>
                       </tbody>
