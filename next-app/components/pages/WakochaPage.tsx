@@ -419,6 +419,21 @@ export default async function WakochaPage({ locale }: Props) {
             {t.h1}
           </h1>
 
+          {locale === "ja" && (
+            <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-tea-light bg-cream px-4 py-3">
+              <div>
+                <p className="m-0 text-[0.9375rem] font-semibold text-tea-deep">渋みなく、やさしい甘みの国産紅茶</p>
+                <p className="m-0 text-[0.8125rem] text-ink-muted">川俣谷産シングルオリジン伊勢茶を完全発酵</p>
+              </div>
+              <Link
+                href={productData[0].href}
+                className="shrink-0 rounded-lg border border-tea-light px-5 py-2.5 text-[0.9375rem] font-semibold text-tea-deep no-underline transition-colors hover:border-tea hover:bg-washi"
+              >
+                試してみる {formatPriceYen(productData[0].price)}
+              </Link>
+            </div>
+          )}
+
           <div className="grid grid-cols-1 gap-8 md:grid-cols-[minmax(260px,420px)_minmax(0,1fr)] md:items-start">
             {/* デスクトップ：左サイドバー */}
             <aside className="hidden w-full md:block">
@@ -512,52 +527,32 @@ export default async function WakochaPage({ locale }: Props) {
             </section>
           </div>
 
-          {/* セクション3：商品一覧（全幅） */}
-          <div className="mt-12">
-            <h2 className="m-0 mb-6 text-lg font-semibold text-tea-deep">{t.sec3Title}</h2>
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-              {productData.map((p) => (
-                <Link
-                  key={p.slug}
-                  href={p.href}
-                  className="flex flex-col no-underline rounded-lg border border-border bg-washi p-3 text-inherit transition-colors hover:border-tea-light hover:bg-white"
-                >
-                  <span className="relative block mb-2 aspect-square">
-                    {p.imagePath && (
-                      <Image
-                        src={p.imagePath}
-                        alt={p.name}
-                        width={640}
-                        height={640}
-                        className="w-full h-full rounded object-cover bg-cream"
-                        sizes="(max-width: 767px) 45vw, 220px"
-                      />
-                    )}
-                    {p.outOfStock && (
-                      <span className="absolute bottom-1 left-1 rounded bg-ink/80 px-1.5 py-0.5 text-[0.75rem] font-semibold text-cream">
-                        {locale === "ja"
-                          ? "在庫切れ"
-                          : locale === "en"
-                            ? "Out of stock"
-                            : locale === "ko"
-                              ? "품절"
-                              : "缺货"}
-                      </span>
-                    )}
-                  </span>
-                  <span className="block text-right text-[0.8125rem] font-normal mb-0.5 leading-snug">
-                    {p.name}
-                  </span>
-                  <span className="block text-right text-[0.875rem] font-bold text-tea-deep">
-                    {formatPriceYen(p.price)}{" "}
-                    <span className="text-[0.75rem] text-ink-muted font-normal">
-                      {pt.taxIncluded}
-                    </span>
-                  </span>
-                </Link>
-              ))}
+          {locale === "ja" && (
+            <div className="mt-12">
+              <h2 className="m-0 mb-4 text-lg font-semibold text-tea-deep">明治から令和へ、160年続く川俣谷の茶園</h2>
+              <div className="space-y-3 text-[0.9375rem] leading-relaxed text-ink">
+                <p>藤八茶寮の茶畑がある川俣谷は、明治時代から続く伊勢茶の産地です。山に囲まれた谷地形と清らかな水が育む茶葉は、この土地ならではの個性を持ちます。深蒸し茶・ほうじ茶・和紅茶——製法を変えながら、同じ土地が生み出す異なる表情のお茶をお届けしています。</p>
+                <p className="flex flex-wrap gap-4">
+                  <Link href={buildLocalizedPath(locale, "/about")} className="text-tea underline underline-offset-2">藤八茶寮について</Link>
+                  <Link href={buildLocalizedPath(locale, "/ise-cha")} className="text-tea underline underline-offset-2">伊勢茶について</Link>
+                </p>
+              </div>
             </div>
-          </div>
+          )}
+
+          {locale === "ja" && (
+            <div className="mt-12">
+              <h2 className="m-0 mb-4 text-lg font-semibold text-tea-deep">和紅茶のカフェインと健康成分</h2>
+              <div className="space-y-3 text-[0.9375rem] leading-relaxed text-ink">
+                <p>和紅茶のカフェイン量は100mlあたり約17mgで、一般的な緑茶とほぼ同程度です。就寝前の摂取は控えることをおすすめします。カフェインが気になる方には、同じ川俣谷の茶葉を使ったカフェインカット緑茶もご用意しています。</p>
+                <p>完全発酵によって生まれる茶ポリフェノール（テアフラビン）は、紅茶特有の成分です。緑茶のカテキンが発酵過程で変化したもので、抗酸化作用が期待されています。</p>
+                <p className="flex flex-wrap gap-4">
+                  <Link href={buildLocalizedPath(locale, "/ise-cha/caffeine")} className="text-tea underline underline-offset-2">カフェインについて詳しく</Link>
+                  <Link href={buildLocalizedPath(locale, "/ise-cha/catechin")} className="text-tea underline underline-offset-2">カテキン・ポリフェノールについて</Link>
+                </p>
+              </div>
+            </div>
+          )}
 
           {/* セクション4：楽しみ方 */}
           <div className="mt-12">
@@ -628,6 +623,53 @@ export default async function WakochaPage({ locale }: Props) {
                 </details>
               ))}
             </dl>
+          </div>
+
+          {/* セクション3：商品一覧（全幅） */}
+          <div className="mt-12">
+            <h2 className="m-0 mb-6 text-lg font-semibold text-tea-deep">{t.sec3Title}</h2>
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+              {productData.map((p) => (
+                <Link
+                  key={p.slug}
+                  href={p.href}
+                  className="flex flex-col no-underline rounded-lg border border-border bg-washi p-3 text-inherit transition-colors hover:border-tea-light hover:bg-white"
+                >
+                  <span className="relative block mb-2 aspect-square">
+                    {p.imagePath && (
+                      <Image
+                        src={p.imagePath}
+                        alt={p.name}
+                        width={640}
+                        height={640}
+                        className="w-full h-full rounded object-cover bg-cream"
+                        sizes="(max-width: 767px) 45vw, 220px"
+                      />
+                    )}
+                    {p.outOfStock && (
+                      <span className="absolute bottom-1 left-1 rounded bg-ink/80 px-1.5 py-0.5 text-[0.75rem] font-semibold text-cream">
+                        {locale === "ja"
+                          ? "在庫切れ"
+                          : locale === "en"
+                            ? "Out of stock"
+                            : locale === "ko"
+                              ? "품절"
+                              : "缺货"}
+                      </span>
+                    )}
+                  </span>
+                  <span className="block text-right text-[0.8125rem] font-normal mb-0.5 leading-snug">
+                    {p.name}
+                  </span>
+                  <span className="block text-right text-[0.875rem] font-bold text-tea-deep">
+                    {formatPriceYen(p.price)}{" "}
+                    <span className="text-[0.75rem] text-ink-muted font-normal">
+                      {pt.taxIncluded}
+                    </span>
+                  </span>
+                </Link>
+              ))}
+            </div>
           </div>
         </article>
       </div>
