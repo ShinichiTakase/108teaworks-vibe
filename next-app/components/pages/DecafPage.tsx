@@ -63,7 +63,7 @@ const TEXTS: Record<Locale, DecafTexts> = {
     sec2P2:
       "超臨界CO₂抽出法でカフェインを除去しても、この産地固有の旨みやテアニンの豊かさは変わりません。カフェインを気にしながらも伊勢茶の濃厚な味わいを楽しみたい方へ、妥協なき一杯をお届けします。",
     sec2LinkText: "深蒸し茶について詳しくはこちら",
-    sec3Title: "藤八茶寮のカフェインカット緑茶",
+    sec3Title: "商品",
     productName: "伊勢茶 カフェインカット（デカフェ）緑茶 ティーバッグ 8個",
     viewDetails: "詳しく見る >>",
     sec4Title: "美味しい淹れ方",
@@ -102,6 +102,18 @@ const TEXTS: Record<Locale, DecafTexts> = {
       {
         q: "賞味期限はどのくらいですか？",
         a: "製造から1年です。開封後は湿気を避けて保存し、お早めにお召し上がりください。",
+      },
+      {
+        q: "子どもに飲ませても大丈夫ですか？",
+        a: "本商品のカフェイン量は100mlあたり約5mgです。子どものカフェイン摂取目安は体重1kgあたり2.5mg/日以下（食品安全委員会）とされており、体重20kgのお子様であれば1日50mgが目安となります。本商品はコーラと同程度のカフェイン量ですが、お子様への食品摂取については保護者の方がご判断ください。",
+      },
+      {
+        q: "朝の深蒸し茶と飲み分けるメリットはありますか？",
+        a: "朝は通常の深蒸し茶でカフェインとカテキンをしっかり摂り、午後〜夜はカフェインカット緑茶に切り替えるのがおすすめです。緑茶の旨みや健康成分は変わらず、睡眠への影響を気にせずお茶を楽しめます。",
+      },
+      {
+        q: "カフェインカット緑茶にもカテキンは含まれますか？",
+        a: "はい。超臨界CO₂抽出法はカフェインのみを選択的に除去するため、カテキンをはじめとする健康成分はそのまま保たれています。カフェインを控えながら、緑茶本来の健康効果も引き続き得ることができます。",
       },
     ],
     breadcrumbName: "カフェインカット緑茶の通販",
@@ -337,6 +349,21 @@ export default async function DecafPage({ locale }: Props) {
             {t.h1}
           </h1>
 
+          {locale === "ja" && (
+            <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-tea-light bg-cream px-4 py-3">
+              <div>
+                <p className="m-0 text-[0.9375rem] font-semibold text-tea-deep">夜も飲める、本格伊勢茶</p>
+                <p className="m-0 text-[0.8125rem] text-ink-muted">薬剤不使用・水とCO₂のみでカフェインカット</p>
+              </div>
+              <Link
+                href={productHref}
+                className="shrink-0 rounded-lg border border-tea-light px-5 py-2.5 text-[0.9375rem] font-semibold text-tea-deep no-underline transition-colors hover:border-tea hover:bg-washi"
+              >
+                試してみる {formatPriceYen(price)}
+              </Link>
+            </div>
+          )}
+
           <div className="grid grid-cols-1 gap-8 md:grid-cols-[minmax(260px,420px)_minmax(0,1fr)] md:items-start">
             {/* デスクトップ：左サイドバー */}
             <aside className="hidden w-full md:block">
@@ -395,6 +422,51 @@ export default async function DecafPage({ locale }: Props) {
                 </Link>
               </p>
 
+              {locale === "ja" && (
+                <>
+                  <h2 className="m-0 mt-8 text-lg font-semibold text-tea-deep">カフェインとの上手な付き合い方</h2>
+                  <p>カフェインは眠気を抑えて集中力を高めたり、気分を向上させる働きがあります。一方で、摂取してから体内で半分に分解されるまでに約5〜6時間かかるため、午後遅くに飲むと夜の寝つきや睡眠の質に影響が出ることがあります。</p>
+                  <p>妊娠中の方はWHOの基準で1日200mg以下が推奨されており、カフェインに敏感な体質の方や、子どもとお茶を共有したい場面でもカフェイン量を意識することが大切です。</p>
+                  <p className="text-[0.9375rem] leading-relaxed text-ink-muted">
+                    →{" "}
+                    <Link href={buildLocalizedPath(locale, "/ise-cha/caffeine")} className="text-tea underline underline-offset-2">
+                      カフェインについてもっと詳しく
+                    </Link>
+                  </p>
+
+                  <h2 className="m-0 mt-8 text-lg font-semibold text-tea-deep">飲み物別カフェイン含有量の比較</h2>
+                  <p>日本の食品安全委員会が示す1日の摂取目安：成人400mg、妊婦200mg、子どもは体重1kgあたり2.5mg以下。</p>
+                  <div className="overflow-x-auto rounded border border-border">
+                    <table className="w-full min-w-[400px] border-collapse text-[0.875rem]">
+                      <thead>
+                        <tr className="bg-cream">
+                          <th className="border-b border-border px-3 py-2 text-left font-semibold text-tea-deep">飲み物</th>
+                          <th className="border-b border-border px-3 py-2 text-left font-semibold text-tea-deep">カフェイン (mg/100ml)</th>
+                          <th className="border-b border-border px-3 py-2 text-left font-semibold text-tea-deep">備考</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-border">
+                        <tr><td className="px-3 py-2">玉露</td><td className="px-3 py-2">約160mg</td><td className="px-3 py-2 text-ink-muted">少量を楽しむのが基本</td></tr>
+                        <tr><td className="px-3 py-2">エスプレッソ</td><td className="px-3 py-2">約60mg</td><td className="px-3 py-2 text-ink-muted">1杯（30ml）で約60〜75mg</td></tr>
+                        <tr><td className="px-3 py-2">ドリップコーヒー</td><td className="px-3 py-2">約40mg</td><td className="px-3 py-2 text-ink-muted">1杯（150ml）で約60mg</td></tr>
+                        <tr><td className="px-3 py-2">エナジードリンク</td><td className="px-3 py-2">約30mg</td><td className="px-3 py-2 text-ink-muted">製品により異なる</td></tr>
+                        <tr><td className="px-3 py-2">深蒸し茶</td><td className="px-3 py-2">約20mg</td><td className="px-3 py-2 text-ink-muted">普通の緑茶よりやや多め</td></tr>
+                        <tr><td className="px-3 py-2">紅茶</td><td className="px-3 py-2">約17mg</td><td className="px-3 py-2 text-ink-muted">抽出時間によって変動</td></tr>
+                        <tr><td className="px-3 py-2">緑茶（煎茶）</td><td className="px-3 py-2">約15mg</td><td className="px-3 py-2 text-ink-muted">番茶などはこれより低め</td></tr>
+                        <tr><td className="px-3 py-2">ほうじ茶</td><td className="px-3 py-2">約10mg</td><td className="px-3 py-2 text-ink-muted">焙煎でカフェインが揮発</td></tr>
+                        <tr><td className="px-3 py-2">コーラ</td><td className="px-3 py-2">約5mg</td><td className="px-3 py-2 text-ink-muted">清涼飲料水としての微量含有</td></tr>
+                        <tr className="bg-cream font-semibold">
+                          <td className="px-3 py-2 text-tea-deep">カフェインカット緑茶</td>
+                          <td className="px-3 py-2 text-tea-deep">約5mg</td>
+                          <td className="px-3 py-2 text-tea-deep">藤八茶寮の商品（75%オフ）</td>
+                        </tr>
+                        <tr><td className="px-3 py-2">麦茶</td><td className="px-3 py-2">ほぼ0mg</td><td className="px-3 py-2 text-ink-muted">ノンカフェイン飲料</td></tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </>
+              )}
+
               <h2 className="m-0 mt-8 text-lg font-semibold text-tea-deep">{t.sec2Title}</h2>
               <p>{t.sec2P1}</p>
               <p>{t.sec2P2}</p>
@@ -406,51 +478,40 @@ export default async function DecafPage({ locale }: Props) {
                   {t.sec2LinkText}
                 </Link>
               </p>
-            </section>
-          </div>
 
-          {/* セクション3：商品一覧（全幅） */}
-          <div className="mt-12">
-            <h2 className="m-0 mb-6 text-lg font-semibold text-tea-deep">{t.sec3Title}</h2>
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-              <Link
-                href={productHref}
-                className="flex flex-col no-underline rounded-lg border border-border bg-washi p-3 text-inherit transition-colors hover:border-tea-light hover:bg-white"
-              >
-                <span className="relative block mb-2 aspect-square">
-                  {productImagePath && (
-                    <Image
-                      src={productImagePath}
-                      alt={t.productName}
-                      width={640}
-                      height={640}
-                      className="w-full h-full rounded object-cover bg-cream"
-                      sizes="(max-width: 767px) 45vw, 220px"
-                    />
-                  )}
-                  {outOfStock && (
-                    <span className="absolute bottom-1 left-1 rounded bg-ink/80 px-1.5 py-0.5 text-[0.75rem] font-semibold text-cream">
-                      {locale === "ja"
-                        ? "在庫切れ"
-                        : locale === "en"
-                          ? "Out of stock"
-                          : locale === "ko"
-                            ? "품절"
-                            : "缺货"}
-                    </span>
-                  )}
-                </span>
-                <span className="block text-right text-[0.8125rem] font-normal mb-0.5 leading-snug">
-                  {t.productName}
-                </span>
-                <span className="block text-right text-[0.875rem] font-bold text-tea-deep">
-                  {formatPriceYen(price)}{" "}
-                  <span className="text-[0.75rem] text-ink-muted font-normal">
-                    {pt.taxIncluded}
-                  </span>
-                </span>
-              </Link>
-            </div>
+              {locale === "ja" && (
+                <>
+                  <h2 className="m-0 mt-8 text-lg font-semibold text-tea-deep">カフェインを減らしても、カテキンはそのまま</h2>
+                  <p>藤八茶寮のカフェインカット緑茶は、超臨界CO₂抽出法によりカフェインのみを選択的に除去しています。そのため、緑茶本来の健康成分である「カテキン」はそのまま保たれています。</p>
+                  <p>緑茶のカテキン、特に「ガレート型カテキン」には、悪玉（LDL）コレステロールだけを選択的に低下させる働きが確認されています。善玉（HDL）コレステロールには影響を与えないため、毎日続けやすい健康習慣として注目されています。</p>
+                  <p>2026年5月放送のNHK『あしたが変わるトリセツショー』でも、コレステロールの吸収を抑える食品として緑茶が紹介されました。</p>
+                  <p>自分で淹れた深蒸し茶100mlに含まれるカテキンは、市販のペットボトル緑茶の約10倍以上。カフェインカット緑茶でも、この豊富なカテキンをそのまま摂ることができます。</p>
+                  <p>「カフェインは控えたいけれど、健康効果は諦めたくない」——そんな方にこそ、藤八茶寮のカフェインカット緑茶はお役に立てます。</p>
+                  <p className="text-[0.9375rem] leading-relaxed text-ink-muted">
+                    →{" "}
+                    <Link href={buildLocalizedPath(locale, "/ise-cha/catechin")} className="text-tea underline underline-offset-2">
+                      お茶とコレステロールについてもっと詳しく
+                    </Link>
+                  </p>
+                  <p className="text-[0.9375rem] leading-relaxed text-ink-muted">
+                    →{" "}
+                    <Link href={buildLocalizedPath(locale, "/ise-cha/caffeine")} className="text-tea underline underline-offset-2">
+                      お茶とカフェインについてもっと詳しく
+                    </Link>
+                  </p>
+
+                  <h2 className="m-0 mt-8 text-lg font-semibold text-tea-deep">こんな方におすすめ</h2>
+                  <ul className="m-0 space-y-2 pl-5 text-[0.9375rem] leading-relaxed text-ink">
+                    <li>夜もお茶を楽しみたいが、眠れなくなるのは困る方</li>
+                    <li>妊娠中・授乳中で、本格的なお茶の味を諦めたくない方</li>
+                    <li>子どもと同じお茶を飲みたい方</li>
+                    <li>カフェインに敏感な体質の方</li>
+                    <li>朝は深蒸し茶、夜はカフェインカットと飲み分けたい方</li>
+                    <li>カフェインを控えながら、カテキンの健康効果も得たい方</li>
+                  </ul>
+                </>
+              )}
+            </section>
           </div>
 
           {/* セクション4：淹れ方 */}
@@ -512,6 +573,49 @@ export default async function DecafPage({ locale }: Props) {
                 </details>
               ))}
             </dl>
+          </div>
+          {/* 商品（最下部） */}
+          <div className="mt-12">
+            <h2 className="m-0 mb-4 text-lg font-semibold text-tea-deep">{t.sec3Title}</h2>
+            <div className="flex flex-wrap gap-4">
+              <Link
+                href={productHref}
+                className="flex w-[200px] flex-col no-underline rounded-lg border border-border bg-washi p-3 text-inherit transition-colors hover:border-tea-light hover:bg-white"
+              >
+                <span className="relative block mb-2 aspect-square">
+                  {productImagePath && (
+                    <Image
+                      src={productImagePath}
+                      alt={t.productName}
+                      width={640}
+                      height={640}
+                      className="w-full h-full rounded object-cover bg-cream"
+                      sizes="(max-width: 767px) 45vw, 220px"
+                    />
+                  )}
+                  {outOfStock && (
+                    <span className="absolute bottom-1 left-1 rounded bg-ink/80 px-1.5 py-0.5 text-[0.75rem] font-semibold text-cream">
+                      {locale === "ja"
+                        ? "在庫切れ"
+                        : locale === "en"
+                          ? "Out of stock"
+                          : locale === "ko"
+                            ? "품절"
+                            : "缺货"}
+                    </span>
+                  )}
+                </span>
+                <span className="block text-right text-[0.8125rem] font-normal mb-0.5 leading-snug">
+                  {t.productName}
+                </span>
+                <span className="block text-right text-[0.875rem] font-bold text-tea-deep">
+                  {formatPriceYen(price)}{" "}
+                  <span className="text-[0.75rem] text-ink-muted font-normal">
+                    {pt.taxIncluded}
+                  </span>
+                </span>
+              </Link>
+            </div>
           </div>
         </article>
       </div>
