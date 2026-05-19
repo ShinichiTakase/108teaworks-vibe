@@ -1,11 +1,16 @@
 import { type NextRequest, NextResponse } from "next/server";
+import { getCapiToken } from "@/lib/meta-capi-token";
 
 const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID;
-const ACCESS_TOKEN = process.env.META_CAPI_ACCESS_TOKEN;
 
 export async function POST(req: NextRequest) {
-  if (!PIXEL_ID || !ACCESS_TOKEN) {
+  if (!PIXEL_ID) {
     return NextResponse.json({ error: "CAPI not configured" }, { status: 503 });
+  }
+
+  const ACCESS_TOKEN = await getCapiToken();
+  if (!ACCESS_TOKEN) {
+    return NextResponse.json({ error: "CAPI access token not available" }, { status: 503 });
   }
 
   const body = await req.json() as {
@@ -55,6 +60,8 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({ data: [event] }),
     });
     const json = await res.json();
+    console.log("CAPI response status:", res.status);
+    console.log("CAPI response body:", JSON.stringify(json));
     if (!res.ok) {
       return NextResponse.json({ error: json }, { status: res.status });
     }
