@@ -3,7 +3,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 
 const fromEnv = process.env.NEXT_PUBLIC_META_PIXEL_ID?.trim();
-const META_PIXEL_ID = fromEnv === "" ? "" : fromEnv || "1725497478865844";
+const META_PIXEL_ID = fromEnv === "" ? "" : fromEnv || "4435209756708792";
 
 declare global {
   interface Window {
