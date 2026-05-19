@@ -40,12 +40,22 @@ export default function CheckoutCompletePage() {
       if (stored) {
         const data = JSON.parse(stored) as CompleteSummary;
         setSummary(data);
-        fbTrack("Purchase", {
-          value: data.total,
-          currency: "JPY",
-          content_ids: data.items.map((i) => i.slug),
-          content_type: "product",
-        });
+        const getCookie = (name: string) =>
+          document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`))?.[2] ?? "";
+        fbTrack(
+          "Purchase",
+          {
+            value: data.total,
+            currency: "JPY",
+            content_ids: data.items.map((i) => i.slug),
+            content_type: "product",
+          },
+          {
+            event_source_url: window.location.href,
+            fbc: getCookie("_fbc"),
+            fbp: getCookie("_fbp"),
+          },
+        );
         if (typeof window !== "undefined" && typeof (window as any).gtag === "function") {
           (window as any).gtag("event", "purchase", {
             transaction_id: data.orderNo,
