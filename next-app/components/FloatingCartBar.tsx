@@ -94,6 +94,18 @@ export default function FloatingCartBar() {
           <span>{t.cart.total}</span>
           <span>¥{(subtotal + shipping).toLocaleString()}</span>
         </div>
+        {subtotal >= FREE_SHIPPING_THRESHOLD * 0.5 && subtotal < FREE_SHIPPING_THRESHOLD && (
+          <div
+            className="px-3 py-1.5 text-xs text-center font-medium"
+            style={{
+              borderTop: "1px solid rgba(45, 80, 22, 0.30)",
+              color: "#2d5016",
+              backgroundColor: "rgba(240, 248, 230, 0.70)",
+            }}
+          >
+            {t.cart.freeShippingRemainPrefix}¥{(FREE_SHIPPING_THRESHOLD - subtotal).toLocaleString()}{t.cart.freeShippingRemain}
+          </div>
+        )}
       </div>
     </div>
   );
