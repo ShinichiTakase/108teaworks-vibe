@@ -48,13 +48,12 @@ export default function FloatingCartBar() {
         <span className="whitespace-nowrap">{t.floatingCheckout}</span>
       </Link>
 
-      {/* 商品一覧 — 白・半透過・緑の枠線とテキスト */}
+      {/* 商品一覧 — スクロール対象はアイテムのみ */}
       <div
-        className="overflow-y-auto max-h-48"
+        className="overflow-y-auto max-h-32"
         style={{
           backgroundColor: "rgba(255, 255, 255, 0.88)",
           borderLeft: "2px solid rgba(45, 80, 22, 0.45)",
-          borderBottom: "2px solid rgba(45, 80, 22, 0.45)",
         }}
       >
         {activeItems.map((item, index) => (
@@ -73,6 +72,16 @@ export default function FloatingCartBar() {
             </div>
           </div>
         ))}
+      </div>
+
+      {/* 送料・合計・送料無料メッセージ — 常に表示 */}
+      <div
+        style={{
+          backgroundColor: "rgba(255, 255, 255, 0.88)",
+          borderLeft: "2px solid rgba(45, 80, 22, 0.45)",
+          borderBottom: "2px solid rgba(45, 80, 22, 0.45)",
+        }}
+      >
         <div
           className="px-3 py-1.5 flex justify-between items-center text-xs"
           style={{
