@@ -12,6 +12,12 @@ export default function FloatingCartBar() {
   const { items } = useCart();
   const cartItemCount = items.reduce((sum, item) => sum + Math.max(0, item.quantity), 0);
   const t = COMMON_TEXTS[locale];
+
+  const FREE_SHIPPING_THRESHOLD = 10000;
+  const subtotal = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
+  const rankSum = items.reduce((sum, i) => sum + (i.shipRank ?? 0) * i.quantity, 0);
+  const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : rankSum <= 6.0 ? 380 : 880;
+  const shippingLabel = shipping === 0 ? t.cart.shippingFreeShort : `¥${shipping.toLocaleString()}`;
   const checkoutHref = buildLocalizedHref(locale, "/checkout");
   const isCartOrCheckout =
     /^\/cart(\/|$)/.test(pathname) ||
@@ -67,6 +73,27 @@ export default function FloatingCartBar() {
             </div>
           </div>
         ))}
+        <div
+          className="px-3 py-1.5 flex justify-between items-center text-xs"
+          style={{
+            borderTop: "1px solid rgba(45, 80, 22, 0.30)",
+            color: "#2d5016",
+          }}
+        >
+          <span>{t.cart.shipping}</span>
+          <span className="font-semibold">{shippingLabel}</span>
+        </div>
+        <div
+          className="px-3 py-2 flex justify-between items-center text-sm font-bold"
+          style={{
+            borderTop: "1px solid rgba(45, 80, 22, 0.45)",
+            color: "#2d5016",
+            backgroundColor: "rgba(240, 248, 230, 0.70)",
+          }}
+        >
+          <span>{t.cart.total}</span>
+          <span>¥{(subtotal + shipping).toLocaleString()}</span>
+        </div>
       </div>
     </div>
   );

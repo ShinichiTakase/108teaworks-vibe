@@ -9,7 +9,7 @@
 }
 
 .scope :global(.my-info-list) li::before {
-  content: "i";
+  content: "！";
   position: absolute;
   left: 0;
   top: 0.1em;
@@ -19,10 +19,10 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #999;
+  background: #93c5fd;
   color: #fff;
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 900;
   line-height: 1;
 }
 

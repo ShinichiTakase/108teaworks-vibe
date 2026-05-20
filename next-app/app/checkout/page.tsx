@@ -10,7 +10,7 @@ import { CHECKOUT_TEXTS } from "@/lib/checkoutTexts";
 import { formatPriceYen } from "@/lib/formatters";
 import { detectLocaleFromPath } from "@/lib/urlPath";
 
-const FREE_SHIPPING_THRESHOLD = 20000;
+const FREE_SHIPPING_THRESHOLD = 10000;
 const ZIPCLOUD_API = "https://zipcloud.ibsnet.co.jp/api/search";
 
 const STRIPE_PK = process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY || "";
@@ -81,8 +81,6 @@ export default function CheckoutPage() {
   const [addressResults2, setAddressResults2] = useState<ZipcloudResult[]>([]);
   const [addressLoading2, setAddressLoading2] = useState(false);
   const [addressError2, setAddressError2] = useState<string | null>(null);
-  const [shipping, setShipping] = useState<number | null>(null);
-  const [shippingLoading, setShippingLoading] = useState(false);
   const [paying, setPaying] = useState(false);
   const paymentIntentIdRef = useRef<string | null>(null);
   const [paymentInitError, setPaymentInitError] = useState<string | null>(null);
@@ -238,6 +236,16 @@ export default function CheckoutPage() {
 
   const subtotal = items.reduce((sum, x) => sum + x.price * x.quantity, 0);
   const effectiveSubtotal = Math.max(0, subtotal - discountAmount);
+
+  const CLICKPOST_RATE = 380;
+  const HEAVY_RATE = 880;
+  const RANK_THRESHOLD = 6.0;
+  const rankSum = items.reduce((sum, i) => sum + (i.shipRank ?? 0) * i.quantity, 0);
+  const shipping: number | null = items.length === 0 ? null
+    : subtotal >= FREE_SHIPPING_THRESHOLD ? 0
+    : rankSum <= RANK_THRESHOLD ? CLICKPOST_RATE : HEAVY_RATE;
+  const shippingDisplay = shipping === null ? "計算中" : formatPriceYen(shipping);
+
   const total = effectiveSubtotal + (shipping ?? 0);
   const taxAmount = taxIncluded(total);
   subtotalRef.current = effectiveSubtotal;
@@ -246,56 +254,19 @@ export default function CheckoutPage() {
   const effectivePrefecture = shipToDifferent ? shipPrefecture.trim() : prefecture.trim();
   const itemsSignature = items.map((i) => `${i.slug}:${i.quantity}`).join(",");
 
-  const getPrefectureForFee = () => {
-    if (shipToDifferent) {
-      const el = document.getElementById("check-ship-prefecture") as HTMLInputElement | null;
-      return el?.value?.trim() ?? shipPrefecture.trim();
-    }
-    const el = document.getElementById("check-prefecture") as HTMLInputElement | null;
-    return el?.value?.trim() ?? prefecture.trim();
-  };
-
+  // 送料ログ（バックグラウンド、UI非依存）
   useEffect(() => {
-    const prefectureForFee = getPrefectureForFee();
-    if (!prefectureForFee || items.length === 0) {
-      setShipping(null);
-      return;
-    }
-    let cancelled = false;
-    setShippingLoading(true);
+    if (shipping === null || items.length === 0) return;
     fetch("/api/checkout/shipping", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        prefecture: prefectureForFee,
+        prefecture: effectivePrefecture,
         items: items.map((i) => ({ slug: i.slug, quantity: i.quantity })),
         subtotal,
       }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (cancelled) return;
-        if (data?.ok && typeof data.shipping === "number") {
-          walletShippingRef.current = null;
-          setShipping(data.shipping);
-        } else setShipping(null);
-      })
-      .catch(() => {
-        if (!cancelled) setShipping(null);
-      })
-      .finally(() => {
-        if (!cancelled) setShippingLoading(false);
-      });
-    return () => {
-      cancelled = true;
-    };
+    }).catch(() => {});
   }, [effectivePrefecture, itemsSignature]);
-
-  const shippingDisplay = shippingLoading
-    ? "計算中..."
-    : shipping === null
-      ? "計算中"
-      : formatPriceYen(shipping);
 
   const formatPostal = (raw: string) => {
     const digits = raw.replace(/\D/g, "").slice(0, 7);
@@ -1140,9 +1111,7 @@ export default function CheckoutPage() {
                   type="checkbox"
                   checked={shipToDifferent}
                   onChange={(e) => {
-                  const checked = e.target.checked;
-                  setShipToDifferent(checked);
-                  if (checked) setShipping(null);
+                  setShipToDifferent(e.target.checked);
                 }}
                   className="w-4 h-4 rounded border-border text-tea focus:ring-tea"
                 />

@@ -2,7 +2,6 @@ import { mkdir, appendFile, stat } from "fs/promises";
 import path from "path";
 import { NextRequest, NextResponse } from "next/server";
 import { getProducts } from "@/lib/microcms";
-import { getShippingByPrefecture } from "@/lib/shippingByPrefecture";
 
 const SHIPPING_DIR = path.resolve(process.cwd(), "data/shipping");
 
@@ -56,8 +55,9 @@ async function logShipping(req: NextRequest, shipping: number, prefecture: strin
   }
 }
 
-const FREE_SHIPPING_THRESHOLD = 20000;
-const FLAT_SHIPPING = 280;
+const FREE_SHIPPING_THRESHOLD = 10000;
+const CLICKPOST_SHIPPING = 380;
+const HEAVY_SHIPPING = 880;
 const RANK_THRESHOLD = 6.0;
 
 export async function POST(req: NextRequest) {
@@ -110,13 +110,7 @@ export async function POST(req: NextRequest) {
       rankSum += rank * (quantity || 0);
     }
 
-    if (rankSum <= RANK_THRESHOLD) {
-      await logShipping(req, FLAT_SHIPPING, prefecture.trim());
-      return NextResponse.json({ ok: true, shipping: FLAT_SHIPPING });
-    }
-
-    const shippingResult = await getShippingByPrefecture(prefecture.trim(), { noCache: true });
-    const shipping = shippingResult !== null ? shippingResult.fee : FLAT_SHIPPING;
+    const shipping = rankSum <= RANK_THRESHOLD ? CLICKPOST_SHIPPING : HEAVY_SHIPPING;
     await logShipping(req, shipping, prefecture.trim());
     return NextResponse.json({ ok: true, shipping });
   } catch (e) {

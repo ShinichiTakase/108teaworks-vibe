@@ -13,9 +13,10 @@ type Props = {
   title: string;
   imagePath?: string;
   locale?: Locale;
+  shipRank?: number;
 };
 
-export default function ProductAddToCart({ slug, price, title, imagePath, locale: localeProp }: Props) {
+export default function ProductAddToCart({ slug, price, title, imagePath, locale: localeProp, shipRank }: Props) {
   const locale = localeProp ?? "ja";
   const t = COMMON_TEXTS[locale];
   const [quantity, setQuantity] = useState(1);
@@ -39,7 +40,7 @@ export default function ProductAddToCart({ slug, price, title, imagePath, locale
           : "已加入购物车";
 
   const handleAddToCart = () => {
-    addToCart(slug, title, price ?? 0, quantity, imagePath);
+    addToCart(slug, title, price ?? 0, quantity, imagePath, shipRank);
     fbTrack("AddToCart", {
       content_ids: [slug],
       content_type: "product",
@@ -50,10 +51,12 @@ export default function ProductAddToCart({ slug, price, title, imagePath, locale
   };
 
   const handleBuyNow = () => {
-    addToCart(slug, title, price ?? 0, quantity, imagePath);
+    addToCart(slug, title, price ?? 0, quantity, imagePath, shipRank);
     const checkoutPath = locale === "ja" ? "/checkout" : `/${locale}/checkout`;
     router.push(checkoutPath);
   };
+
+  const [tooltipOpen, setTooltipOpen] = useState(false);
 
   const decrement = () => setQuantity((q) => (q <= 1 ? 1 : q - 1));
   const increment = () => setQuantity((q) => (q >= 99 ? 99 : q + 1));
@@ -118,6 +121,36 @@ export default function ProductAddToCart({ slug, price, title, imagePath, locale
       <p className="mt-2 min-h-[1.25rem] text-[0.8125rem] text-tea-deep" aria-live="polite">
         {feedback}
       </p>
+      {shipRank !== undefined && (
+        <div className="mt-3 rounded-lg border-2 border-tea/30 bg-washi px-3 py-2.5 text-[0.8125rem] text-ink-muted space-y-1.5">
+          <p className="m-0 leading-relaxed text-[0.9375rem] text-ink">
+            {t.product.shipRankPre}
+            <span className="relative inline-block">
+              <button
+                type="button"
+                onClick={() => setTooltipOpen((v) => !v)}
+                onBlur={() => setTooltipOpen(false)}
+                className="underline decoration-dotted decoration-tea/60 cursor-help font-medium text-tea-deep"
+                aria-describedby="ship-rank-tooltip"
+              >
+                {t.product.shipRankLink}
+              </button>
+              <span
+                id="ship-rank-tooltip"
+                role="tooltip"
+                className={`absolute bottom-full left-0 mb-2 w-64 rounded-lg bg-ink/90 text-white text-[0.75rem] leading-snug px-3 py-2 z-20 shadow-xl pointer-events-none whitespace-normal text-left transition-opacity ${tooltipOpen ? "opacity-100" : "opacity-0"}`}
+              >
+                {t.product.shipRankTooltip}
+              </span>
+            </span>
+            {t.product.shipRankMid && <>{t.product.shipRankMid} </>}
+            <strong className="font-bold text-tea-deep">{shipRank.toFixed(1)}</strong>
+            {t.product.shipRankSuffix && <> {t.product.shipRankSuffix}</>}
+          </p>
+          <p className="m-0 leading-relaxed">{t.product.shipRankDetail}</p>
+          <p className="m-0 leading-relaxed font-semibold text-ink">{t.product.shipRankFree}</p>
+        </div>
+      )}
     </div>
   );
 }

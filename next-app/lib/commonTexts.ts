@@ -67,6 +67,13 @@ export const COMMON_TEXTS: Record<
       quantity: string;
       addToCart: string;
       buyNow: string;
+      shipRankPre: string;
+      shipRankLink: string;
+      shipRankMid: string;
+      shipRankSuffix: string;
+      shipRankDetail: string;
+      shipRankFree: string;
+      shipRankTooltip: string;
     };
     aria: { mainMenu: string; menuButton: string };
     /** ヘッダー下のクーポン告知（空なら非表示） */
@@ -86,6 +93,7 @@ export const COMMON_TEXTS: Record<
       freeShipping: string;
       freeShippingRemainPrefix: string;
       freeShippingRemain: string;
+      shippingFreeShort: string;
       decreaseQty: string;
       increaseQty: string;
       remove: string;
@@ -124,7 +132,7 @@ export const COMMON_TEXTS: Record<
     },
     pagination: { prev: "前へ", next: "次へ", noticeAria: "お知らせのページネーション" },
     notice: { title: "お知らせ", empty: "現在、お知らせはありません。", backToList: "← お知らせ一覧へ" },
-    product: { taxIncluded: "(税込)", productCode: "商品コード", janCode: "JANコード", relatedProducts: "関連商品", viewDetails: "詳しく見る >>", quantity: "数量", addToCart: "カートに追加", buyNow: "今すぐ買う" },
+    product: { taxIncluded: "(税込)", productCode: "商品コード", janCode: "JANコード", relatedProducts: "関連商品", viewDetails: "詳しく見る >>", quantity: "数量", addToCart: "カートに追加", buyNow: "今すぐ買う", shipRankPre: "この商品の", shipRankLink: "配送ポイント", shipRankMid: "は", shipRankSuffix: "です", shipRankDetail: "ポイントの合計が6.0以下の場合は、クリックポスト ¥380 で、6.0を超える場合は、60サイズ ¥880 でお送りします", shipRankFree: "お買い上げ¥10,000以上で送料無料となります", shipRankTooltip: "商品ごとに設定された配送サイズの目安です。カート内の合計が6.0以下なら小型便（¥380）、6.0を超えると宅配便（¥880）でお届けします。" },
     aria: { mainMenu: "メインメニュー", menuButton: "メニュー" },
     couponBanner: "",
     cart: {
@@ -142,6 +150,7 @@ export const COMMON_TEXTS: Record<
       freeShipping: "送料無料です",
       freeShippingRemainPrefix: "あと ",
       freeShippingRemain: " のお買い上げで送料無料です",
+      shippingFreeShort: "無料",
       decreaseQty: "数量を減らす",
       increaseQty: "数量を増やす",
       remove: "削除",
@@ -179,7 +188,7 @@ export const COMMON_TEXTS: Record<
     },
     pagination: { prev: "Previous", next: "Next", noticeAria: "News pagination" },
     notice: { title: "News", empty: "There are no news items at the moment.", backToList: "← Back to news" },
-    product: { taxIncluded: "(tax incl.)", productCode: "Product code", janCode: "JAN", relatedProducts: "Related products", viewDetails: "View details >>", quantity: "Quantity", addToCart: "Add to cart", buyNow: "Buy now" },
+    product: { taxIncluded: "(tax incl.)", productCode: "Product code", janCode: "JAN", relatedProducts: "Related products", viewDetails: "View details >>", quantity: "Quantity", addToCart: "Add to cart", buyNow: "Buy now", shipRankPre: "", shipRankLink: "Shipping rank", shipRankMid: "for this product:", shipRankSuffix: "", shipRankDetail: "Total rank ≤ 6.0: Click Post ¥380 / Over 6.0: 60-size parcel ¥880", shipRankFree: "Free shipping on orders of ¥10,000 or more.", shipRankTooltip: "A shipping size estimate for this product. Total rank ≤ 6.0 → small parcel (¥380); over 6.0 → courier (¥880)." },
     aria: { mainMenu: "Main menu", menuButton: "Menu" },
     couponBanner: "",
     cart: {
@@ -197,6 +206,7 @@ export const COMMON_TEXTS: Record<
       freeShipping: "Free shipping",
       freeShippingRemainPrefix: "",
       freeShippingRemain: " away from free shipping",
+      shippingFreeShort: "Free",
       decreaseQty: "Decrease quantity",
       increaseQty: "Increase quantity",
       remove: "Remove",
@@ -234,7 +244,7 @@ export const COMMON_TEXTS: Record<
     },
     pagination: { prev: "이전", next: "다음", noticeAria: "소식 페이지네이션" },
     notice: { title: "소식", empty: "현재 소식이 없습니다.", backToList: "← 소식 목록으로" },
-    product: { taxIncluded: "(세금 포함)", productCode: "상품 코드", janCode: "JAN 코드", relatedProducts: "관련 상품", viewDetails: "자세히 보기 >>", quantity: "수량", addToCart: "장바구니에 담기", buyNow: "지금 구매" },
+    product: { taxIncluded: "(세금 포함)", productCode: "상품 코드", janCode: "JAN 코드", relatedProducts: "관련 상품", viewDetails: "자세히 보기 >>", quantity: "수량", addToCart: "장바구니에 담기", buyNow: "지금 구매", shipRankPre: "이 상품의", shipRankLink: "배송 포인트", shipRankMid: ":", shipRankSuffix: "", shipRankDetail: "합계 6.0 이하: 클릭포스트 ¥380 / 6.0 초과: 60사이즈 ¥880", shipRankFree: "¥10,000 이상 구매 시 배송비 무료", shipRankTooltip: "상품별 배송 크기 기준입니다. 카트 내 합계가 6.0 이하면 소형 택배（¥380）, 6.0 초과면 택배（¥880）로 배송합니다." },
     aria: { mainMenu: "메인 메뉴", menuButton: "메뉴" },
     couponBanner: "",
     cart: {
@@ -252,6 +262,7 @@ export const COMMON_TEXTS: Record<
       freeShipping: "무료 배송",
       freeShippingRemainPrefix: "",
       freeShippingRemain: " 추가 구매 시 무료 배송",
+      shippingFreeShort: "무료",
       decreaseQty: "수량 줄이기",
       increaseQty: "수량 늘리기",
       remove: "삭제",
@@ -289,7 +300,7 @@ export const COMMON_TEXTS: Record<
     },
     pagination: { prev: "上一页", next: "下一页", noticeAria: "公告分页" },
     notice: { title: "公告", empty: "暂无公告。", backToList: "← 返回公告列表" },
-    product: { taxIncluded: "（含税）", productCode: "商品代码", janCode: "JAN码", relatedProducts: "相关商品", viewDetails: "查看详情 >>", quantity: "数量", addToCart: "加入购物车", buyNow: "立即购买" },
+    product: { taxIncluded: "（含税）", productCode: "商品代码", janCode: "JAN码", relatedProducts: "相关商品", viewDetails: "查看详情 >>", quantity: "数量", addToCart: "加入购物车", buyNow: "立即购买", shipRankPre: "本商品", shipRankLink: "配送积分", shipRankMid: "：", shipRankSuffix: "", shipRankDetail: "合计6.0以下：Click Post ¥380 / 超过6.0：60尺寸 ¥880", shipRankFree: "满¥10,000免运费", shipRankTooltip: "各商品设定的配送尺寸参考值。购物车合计6.0以下发小件（¥380），超过6.0发快递（¥880）。" },
     aria: { mainMenu: "主导航", menuButton: "菜单" },
     couponBanner: "",
     cart: {
@@ -307,6 +318,7 @@ export const COMMON_TEXTS: Record<
       freeShipping: "免运费",
       freeShippingRemainPrefix: "再买 ",
       freeShippingRemain: " 即免运费",
+      shippingFreeShort: "免费",
       decreaseQty: "减少数量",
       increaseQty: "增加数量",
       remove: "删除",

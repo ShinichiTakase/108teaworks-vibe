@@ -19,6 +19,7 @@ export type CartItem = {
   price: number;
   quantity: number;
   imagePath?: string;
+  shipRank?: number;
 };
 
 export type LastAdded = { title: string; price: number; quantity: number } | null;
@@ -26,7 +27,7 @@ export type LastAdded = { title: string; price: number; quantity: number } | nul
 type CartState = {
   items: CartItem[];
   lastAdded: LastAdded;
-  addToCart: (slug: string, title: string, price: number, quantity: number, imagePath?: string) => void;
+  addToCart: (slug: string, title: string, price: number, quantity: number, imagePath?: string, shipRank?: number) => void;
   removeFromCart: (slug: string) => void;
   updateQuantity: (slug: string, quantity: number) => void;
   clearCart: () => void;
@@ -81,7 +82,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, [items]);
 
   const addToCart = useCallback(
-    (slug: string, title: string, price: number, quantity: number, imagePath?: string) => {
+    (slug: string, title: string, price: number, quantity: number, imagePath?: string, shipRank?: number) => {
       setItems((prev) => {
         const i = prev.findIndex((x) => x.slug === slug);
         if (i >= 0) {
@@ -92,10 +93,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
             title,
             price,
             imagePath: imagePath ?? next[i].imagePath,
+            shipRank: shipRank ?? next[i].shipRank,
           };
           return next;
         }
-        return [...prev, { slug, title, price, quantity, imagePath }];
+        return [...prev, { slug, title, price, quantity, imagePath, shipRank }];
       });
 
       setLastAdded({ title, price, quantity });

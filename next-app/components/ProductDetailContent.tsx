@@ -38,8 +38,8 @@ const SCHEMA_RATING_WORST = 1;
 
 /** 商品の販売・配送対象を日本国内のみと JSON-LD で明示 */
 const OFFER_ELIGIBLE_REGION_JP = "JP";
-/** リッチリザルト用。実送料は都道府県・配送ランク・2万円以上無料等で変動（api/checkout/shipping と整合） */
-const SCHEMA_SHIPPING_RATE_JPY = 280;
+/** リッチリザルト用。実送料はランク・1万円以上無料等で変動（api/checkout/shipping と整合） */
+const SCHEMA_SHIPPING_RATE_JPY = 380;
 /** 注文確定メール等の「本日より2～5営業日」に合わせた日数レンジ（calendar DAY 表現） */
 const OFFER_SHIPPING_DETAILS_JP = [
   {
@@ -278,6 +278,7 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
             title={displayTitle}
             imagePath={imagePaths[0]}
             locale={locale}
+            shipRank={product.SHIP_RANK}
           />
           {related.length > 0 && (
             <div className="mt-6">

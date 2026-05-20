@@ -25,6 +25,9 @@ export function sanitizeRichHtml(input: string): string {
       a: ["href", "target", "rel"],
       img: ["src", "alt", "width", "height", "loading", "decoding"],
       span: ["class"],
+      ul: ["class"],
+      ol: ["class"],
+      li: ["class"],
     },
     allowedSchemes: ["http", "https", "mailto", "tel", "data"],
     allowedSchemesByTag: {

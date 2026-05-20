@@ -9,7 +9,7 @@ import { COMMON_TEXTS } from "@/lib/commonTexts";
 import { formatPriceYen } from "@/lib/formatters";
 import { buildLocalizedHref, detectLocaleFromPath } from "@/lib/urlPath";
 
-const FREE_SHIPPING_THRESHOLD = 20000;
+const FREE_SHIPPING_THRESHOLD = 10000;
 
 function taxIncluded(amount: number): number {
   return Math.floor(amount * 10 / 110);
