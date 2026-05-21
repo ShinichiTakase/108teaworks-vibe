@@ -86,6 +86,8 @@ export default function CheckoutPage() {
   const [paymentInitError, setPaymentInitError] = useState<string | null>(null);
   const [hasSavedProfile, setHasSavedProfile] = useState(false);
   const [approval, setApproval] = useState(true);
+  const [showAutocompleteTip, setShowAutocompleteTip] = useState(false);
+  const autocompleteTipShownAtRef = useRef<number | null>(null);
 
   // Stripe.js を直接扱うための参照（React 再レンダーで壊れないようにする）
   const stripeRef = useRef<any>(null);
@@ -770,6 +772,13 @@ export default function CheckoutPage() {
     }
   }, []);
 
+  useEffect(() => {
+    setShowAutocompleteTip(true);
+    autocompleteTipShownAtRef.current = Date.now();
+    const timer = setTimeout(() => setShowAutocompleteTip(false), 6000);
+    return () => clearTimeout(timer);
+  }, []);
+
   const applySavedProfile = useCallback(() => {
     try {
       const raw = localStorage.getItem("lastCheckoutProfile");
@@ -964,18 +973,41 @@ export default function CheckoutPage() {
             )}
           </div>
           <div className="space-y-4">
-            <div>
+            <div className="relative">
               <label htmlFor="checkout-name" className="block text-[0.875rem] font-medium text-ink mb-1">
                 {t.name} <span className="text-red-600">*</span>
               </label>
               <input
                 id="checkout-name"
+                name="name"
                 type="text"
                 required
+                autoComplete="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                onFocus={() => {
+                  if (autocompleteTipShownAtRef.current && Date.now() - autocompleteTipShownAtRef.current >= 800) {
+                    setShowAutocompleteTip(false);
+                  }
+                }}
                 className="w-full px-3 py-2 border-2 border-border rounded-lg text-[0.9375rem] focus:border-tea-deep focus:outline-none"
               />
+              {showAutocompleteTip && (
+                <div className="absolute left-0 w-1/2 top-full mt-1 z-20">
+                  <div className="relative bg-tea-deep text-white text-[0.8125rem] px-3 py-2.5 rounded-lg shadow-lg flex items-center gap-2">
+                    <div className="absolute -top-1.5 left-5 w-3 h-3 bg-tea-deep rotate-45" />
+                    <span>ブラウザに保存された住所情報で<br />かんたん入力できます</span>
+                    <button
+                      type="button"
+                      onClick={() => setShowAutocompleteTip(false)}
+                      className="ml-auto shrink-0 opacity-70 hover:opacity-100"
+                      aria-label="閉じる"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
             <div>
               <label htmlFor="checkout-email" className="block text-[0.875rem] font-medium text-ink mb-1">
@@ -983,8 +1015,10 @@ export default function CheckoutPage() {
               </label>
               <input
                 id="checkout-email"
+                name="email"
                 type="email"
                 required
+                autoComplete="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-3 py-2 border-2 border-border rounded-lg text-[0.9375rem] focus:border-tea-deep focus:outline-none"
@@ -996,8 +1030,10 @@ export default function CheckoutPage() {
               </label>
               <input
                 id="checkout-phone"
+                name="tel"
                 type="tel"
                 required
+                autoComplete="tel"
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 className="w-full px-3 py-2 border-2 border-border rounded-lg text-[0.9375rem] focus:border-tea-deep focus:outline-none"
@@ -1009,11 +1045,13 @@ export default function CheckoutPage() {
               </label>
               <input
                 id="checkout-postal"
+                name="postal-code"
                 type="text"
                 inputMode="numeric"
                 pattern="[0-9\-]*"
                 placeholder="123-4567"
                 required
+                autoComplete="postal-code"
                 value={postalCode}
                   onChange={(e) => handlePostalInput(e.target.value)}
                 className="w-full px-3 py-2 border-2 border-border rounded-lg text-[0.9375rem] focus:border-tea-deep focus:outline-none"
@@ -1049,8 +1087,10 @@ export default function CheckoutPage() {
               </label>
               <input
                 id="check-prefecture"
+                name="address-level1"
                 type="text"
                 required
+                autoComplete="address-level1"
                 value={prefecture}
                 onChange={(e) => setPrefecture(e.target.value)}
                 className="w-full px-3 py-2 border-2 border-border rounded-lg text-[0.9375rem] focus:border-tea-deep focus:outline-none"
@@ -1062,8 +1102,10 @@ export default function CheckoutPage() {
               </label>
               <input
                 id="checkout-city"
+                name="address-level2"
                 type="text"
                 required
+                autoComplete="address-level2"
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
                 className="w-full px-3 py-2 border-2 border-border rounded-lg text-[0.9375rem] focus:border-tea-deep focus:outline-none"
@@ -1075,8 +1117,10 @@ export default function CheckoutPage() {
               </label>
               <input
                 id="checkout-address"
+                name="street-address"
                 type="text"
                 required
+                autoComplete="street-address"
                 value={addressLine}
                 onChange={(e) => setAddressLine(e.target.value)}
                 className="w-full px-3 py-2 border-2 border-border rounded-lg text-[0.9375rem] focus:border-tea-deep focus:outline-none"
@@ -1128,8 +1172,10 @@ export default function CheckoutPage() {
                     </label>
                     <input
                       id="checkout-ship-name"
+                      name="ship-name"
                       type="text"
                       required={shipToDifferent}
+                      autoComplete="section-shipping name"
                       value={shipName}
                       onChange={(e) => setShipName(e.target.value)}
                       className="w-full px-3 py-2 border-2 border-border rounded-lg text-[0.9375rem] focus:border-tea-deep focus:outline-none"
@@ -1141,8 +1187,10 @@ export default function CheckoutPage() {
                     </label>
                     <input
                       id="checkout-ship-phone"
+                      name="ship-tel"
                       type="tel"
                       required={shipToDifferent}
+                      autoComplete="section-shipping tel"
                       value={shipPhone}
                       onChange={(e) => setShipPhone(e.target.value)}
                       className="w-full px-3 py-2 border-2 border-border rounded-lg text-[0.9375rem] focus:border-tea-deep focus:outline-none"
@@ -1154,11 +1202,13 @@ export default function CheckoutPage() {
                     </label>
                     <input
                       id="checkout-ship-postal"
+                      name="ship-postal-code"
                       type="text"
                       inputMode="numeric"
                       pattern="[0-9\-]*"
                       placeholder="123-4567"
                       required={shipToDifferent}
+                      autoComplete="section-shipping postal-code"
                       value={shipPostalCode}
                       onChange={(e) => handleShipPostalInput(e.target.value)}
                       className="w-full px-3 py-2 border-2 border-border rounded-lg text-[0.9375rem] focus:border-tea-deep focus:outline-none"
@@ -1194,8 +1244,10 @@ export default function CheckoutPage() {
                     </label>
                     <input
                       id="check-ship-prefecture"
+                      name="ship-address-level1"
                       type="text"
                       required={shipToDifferent}
+                      autoComplete="section-shipping address-level1"
                       value={shipPrefecture}
                       onChange={(e) => setShipPrefecture(e.target.value)}
                       className="w-full px-3 py-2 border-2 border-border rounded-lg text-[0.9375rem] focus:border-tea-deep focus:outline-none"
@@ -1207,8 +1259,10 @@ export default function CheckoutPage() {
                     </label>
                     <input
                       id="checkout-ship-city"
+                      name="ship-address-level2"
                       type="text"
                       required={shipToDifferent}
+                      autoComplete="section-shipping address-level2"
                       value={shipCity}
                       onChange={(e) => setShipCity(e.target.value)}
                       className="w-full px-3 py-2 border-2 border-border rounded-lg text-[0.9375rem] focus:border-tea-deep focus:outline-none"
@@ -1220,8 +1274,10 @@ export default function CheckoutPage() {
                     </label>
                     <input
                       id="checkout-ship-address"
+                      name="ship-street-address"
                       type="text"
                       required={shipToDifferent}
+                      autoComplete="section-shipping street-address"
                       value={shipAddressLine}
                       onChange={(e) => setShipAddressLine(e.target.value)}
                       className="w-full px-3 py-2 border-2 border-border rounded-lg text-[0.9375rem] focus:border-tea-deep focus:outline-none"
