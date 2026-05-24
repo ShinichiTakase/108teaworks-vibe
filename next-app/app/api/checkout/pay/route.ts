@@ -24,11 +24,29 @@ export async function POST(req: NextRequest) {
       amount,
       billing,
       cancelPreviousId,
+      turnstileToken,
     } = body as {
       amount?: number;
       billing?: { name?: string; email?: string };
       cancelPreviousId?: string;
+      turnstileToken?: string;
     };
+
+    const turnstileSecret = process.env.TURNSTILE_SECRET_KEY;
+    if (turnstileSecret) {
+      if (!turnstileToken || typeof turnstileToken !== "string") {
+        return NextResponse.json({ ok: false, error: "turnstile_required" }, { status: 400 });
+      }
+      const verifyRes = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ secret: turnstileSecret, response: turnstileToken }),
+      });
+      const verifyData = await verifyRes.json() as { success: boolean };
+      if (!verifyData.success) {
+        return NextResponse.json({ ok: false, error: "turnstile_failed" }, { status: 400 });
+      }
+    }
 
     if (typeof amount !== "number" || !Number.isFinite(amount)) {
       return NextResponse.json(

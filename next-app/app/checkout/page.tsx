@@ -6,6 +6,7 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import { loadStripe } from "@stripe/stripe-js";
+import { Turnstile } from "@marsidev/react-turnstile";
 import { CHECKOUT_TEXTS } from "@/lib/checkoutTexts";
 import { formatPriceYen } from "@/lib/formatters";
 import { detectLocaleFromPath } from "@/lib/urlPath";
@@ -14,6 +15,7 @@ const FREE_SHIPPING_THRESHOLD = 10000;
 const ZIPCLOUD_API = "https://zipcloud.ibsnet.co.jp/api/search";
 
 const STRIPE_PK = process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY || "";
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "";
 const stripePromise = loadStripe(STRIPE_PK);
 
 type ZipcloudResult = {
@@ -113,6 +115,8 @@ export default function CheckoutPage() {
   const [couponMessage, setCouponMessage] = useState<string | null>(null);
   const [couponChecking, setCouponChecking] = useState(false);
   const appliedCouponCodeRef = useRef<string | null>(null);
+
+  const [turnstileToken, setTurnstileToken] = useState("");
 
   const zip7 = normalizePostalCode(postalCode);
   const zip7Ship = normalizePostalCode(shipPostalCode);
@@ -538,6 +542,7 @@ export default function CheckoutPage() {
         body: JSON.stringify({
           amount: Math.round(amountForIntent),
           cancelPreviousId: paymentIntentIdRef.current ?? undefined,
+          turnstileToken: turnstileToken || undefined,
         }),
       });
       const text = await res.text();
@@ -703,6 +708,7 @@ export default function CheckoutPage() {
     clearCart,
     locale,
     approval,
+    turnstileToken,
     t.shippingRequiredToPay,
     t.paymentInitFailed,
     t.paymentFailed,
@@ -1325,10 +1331,20 @@ export default function CheckoutPage() {
                 </button>
               )}
               <div className="mt-4 pt-4 border-t border-border">
+                {TURNSTILE_SITE_KEY && (
+                  <div className="mb-3 flex justify-center">
+                    <Turnstile
+                      siteKey={TURNSTILE_SITE_KEY}
+                      onSuccess={(token) => setTurnstileToken(token)}
+                      onExpire={() => setTurnstileToken("")}
+                      onError={() => setTurnstileToken("")}
+                    />
+                  </div>
+                )}
                 <button
                   type="button"
                   onClick={handlePay}
-                  disabled={paying || shipping === null || !cardReady}
+                  disabled={paying || shipping === null || !cardReady || (!!TURNSTILE_SITE_KEY && !turnstileToken)}
                   className="w-full py-3 px-6 rounded-lg border-2 border-tea bg-tea text-white text-[0.9375rem] font-semibold transition-colors hover:bg-tea-light hover:border-tea-light disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {payButtonLabel}
