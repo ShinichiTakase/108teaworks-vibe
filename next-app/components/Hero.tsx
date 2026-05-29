@@ -11,7 +11,7 @@ const HERO_TEXTS: Record<
     label: "Single Origin Ise Tea",
     heading: "幕末より続く日本茶の伝統を日常に。",
     body:
-      "三重県産茶葉のみにこだわった、希少な日本茶「シングルオリジン伊勢茶（単一農園・単一品種）」を産地直送でお届けします。こっくり甘い「深蒸し茶」、香ばしさが心地よい「ほうじ茶」、渋みが少なくやさしい「和紅茶」など、ご自宅用の日本茶としてはもちろん、大切な方へのギフトとしても喜ばれる美味しいお茶を揃えました。歴史ある伊勢茶を、現代のライフスタイルに合わせて気軽にお楽しみいただきたい。その想いを込め、こだわりの日本茶を贈答用から普段使いまでひとつひとつ丁寧に梱包してお届けします。",
+      "深蒸し茶の名産地三重県松阪市飯南町産の茶葉のみにこだわった、希少な日本茶「シングルオリジン伊勢茶（単一農園・単一品種）」を産地直送でお届けします。\nこっくり甘い「深蒸し茶」、香ばしさが心地よい「ほうじ茶」、渋みが少なくやさしい「和紅茶」など、ご自宅用の日本茶としてはもちろん、大切な方へのギフトとしても喜ばれる美味しいお茶を揃えました。\n歴史ある伊勢茶を、現代のライフスタイルに合わせて気軽にお楽しみいただきたい。その想いを込め、こだわりの日本茶を贈答用から普段使いまでひとつひとつ丁寧に梱包してお届けします。",
     more: "…もっと読む",
     close: "閉じる",
   },
@@ -69,7 +69,7 @@ export default function Hero({ locale }: Props) {
       </h2>
       <p
         className={[
-          "m-0 text-[0.9375rem] md:text-base text-ink-muted max-w-[38em] mx-auto",
+          "m-0 text-[0.9375rem] md:text-base text-ink-muted max-w-[38em] mx-auto text-left whitespace-pre-line",
           expanded
             ? "block"
             : "max-md:[display:-webkit-box] max-md:[-webkit-box-orient:vertical] max-md:[-webkit-line-clamp:3] max-md:overflow-hidden",
