@@ -1,7 +1,6 @@
 import Hero from "@/components/Hero";
 import ProductList from "@/components/ProductList";
 import NewsList from "@/components/NewsList";
-import InstagramSection from "@/components/InstagramSection";
 import WholesaleSection from "@/components/WholesaleSection";
 import type { Locale } from "@/lib/i18n";
 
@@ -16,7 +15,6 @@ export default function HomePage({ locale }: Props) {
       <Hero locale={locale} />
       <ProductList locale={locale} />
       <NewsList locale={locale} />
-      <InstagramSection locale={locale} />
       <WholesaleSection locale={locale} />
     </>
   );

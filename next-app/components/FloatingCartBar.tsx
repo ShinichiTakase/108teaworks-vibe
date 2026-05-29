@@ -1,13 +1,13 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
 import { buildLocalizedHref, detectLocaleFromPath } from "@/lib/urlPath";
 
 export default function FloatingCartBar() {
   const pathname = usePathname() || "/";
+  const router = useRouter();
   const locale = detectLocaleFromPath(pathname);
   const { items } = useCart();
   const cartItemCount = items.reduce((sum, item) => sum + Math.max(0, item.quantity), 0);
@@ -29,14 +29,17 @@ export default function FloatingCartBar() {
 
   return (
     <div
-      className="fixed right-0 z-50 flex flex-col w-52 rounded-l-xl overflow-hidden shadow-xl bottom-[60px] sm:bottom-[max(calc(35%_+_4em),294px)]"
+      className="fixed right-0 z-50 flex flex-col w-52 rounded-l-xl overflow-hidden shadow-xl bottom-[60px] sm:bottom-[max(calc(35%_+_4em),294px)] cursor-pointer"
+      onClick={() => router.push(checkoutHref)}
+      role="link"
+      tabIndex={0}
+      onKeyDown={(e) => e.key === "Enter" && router.push(checkoutHref)}
+      aria-label={`${t.floatingCheckout}（カート${cartItemCount}点）`}
     >
       {/* 購入手続きへ — 緑・半透過 */}
-      <Link
-        href={checkoutHref}
-        className="flex items-center gap-2 px-4 py-3 text-white no-underline font-semibold text-sm transition-opacity hover:opacity-90"
+      <div
+        className="flex items-center gap-2 px-4 py-3 text-white font-semibold text-sm transition-opacity hover:opacity-90"
         style={{ backgroundColor: "rgba(45, 80, 22, 0.88)" }}
-        aria-label={`${t.floatingCheckout}（カート${cartItemCount}点）`}
       >
         <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center text-white" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-full w-full">
@@ -46,7 +49,7 @@ export default function FloatingCartBar() {
           </svg>
         </span>
         <span className="whitespace-nowrap">{t.floatingCheckout}</span>
-      </Link>
+      </div>
 
       {/* 商品一覧 — スクロール対象はアイテムのみ */}
       <div
