@@ -39,6 +39,8 @@ export default function AdminSendShippingPage() {
             ? "認証キーが正しくありません。"
             : data.error === "invalid_email"
               ? "送信先メールアドレスを確認してください。"
+              : data.error === "self_send"
+                ? "送信元・管理者アドレスには送信できません。お客様のメールアドレスを入力してください。"
               : data.error === "invalid_order_no"
                 ? "注文番号を入力してください。"
                 : data.error === "not_configured"

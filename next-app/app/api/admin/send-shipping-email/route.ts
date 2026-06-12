@@ -27,6 +27,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: false, error: "invalid_email" }, { status: 400 });
   }
 
+  const fromAddr = process.env.CLIENT_MAIL_FROM || process.env.ORDER_FROM || process.env.INQUERY_FROM || "";
+  const adminTo = process.env.ORDER_ADMIN_TO || process.env.INQUERY_TO || "";
+  const blockedAddresses = [fromAddr, adminTo].filter(Boolean).map((a) => a.trim().toLowerCase());
+  if (blockedAddresses.includes(toEmail.toLowerCase())) {
+    return NextResponse.json({ ok: false, error: "self_send" }, { status: 400 });
+  }
+
   const orderNo = typeof body.orderNo === "string" ? body.orderNo.trim() : "";
   if (!orderNo) {
     return NextResponse.json({ ok: false, error: "invalid_order_no" }, { status: 400 });
@@ -43,14 +50,12 @@ export async function POST(req: NextRequest) {
   const port = Number(process.env.SMTP_PORT || 587);
   const user = process.env.SMTP_USER;
   const pass = process.env.SMTP_PASS;
-  const fromAddr = process.env.CLIENT_MAIL_FROM || process.env.ORDER_FROM || process.env.INQUERY_FROM;
 
   if (!host || !user || !pass || !fromAddr) {
     return NextResponse.json({ ok: false, error: "smtp_not_configured" }, { status: 500 });
   }
 
   const from = getMailFrom(fromAddr);
-  const adminTo = process.env.ORDER_ADMIN_TO || process.env.INQUERY_TO || "";
   const transporter = nodemailer.createTransport({
     host,
     port,
