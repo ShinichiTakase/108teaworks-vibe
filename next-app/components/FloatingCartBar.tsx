@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
-import { buildLocalizedHref, detectLocaleFromPath } from "@/lib/urlPath";
+import { buildLocalizedHref, detectLocaleFromPath, isJaOnlyBookPath } from "@/lib/urlPath";
 
 export default function FloatingCartBar() {
   const pathname = usePathname() || "/";
@@ -23,7 +23,7 @@ export default function FloatingCartBar() {
     /^\/cart(\/|$)/.test(pathname) ||
     /^\/checkout(\/|$)/.test(pathname) ||
     /^\/(en|ko|zh)\/(cart|checkout)(\/|$)/.test(pathname);
-  if (isCartOrCheckout || cartItemCount === 0) return null;
+  if (isCartOrCheckout || isJaOnlyBookPath(pathname) || cartItemCount === 0) return null;
 
   const activeItems = items.filter((item) => item.quantity > 0);
 

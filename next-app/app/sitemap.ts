@@ -3,6 +3,7 @@ import { getProducts } from "@/lib/microcms";
 import { getNotices } from "@/lib/microcms";
 import { getAllChapterSlugs } from "@/lib/kabatadani";
 import { getAllChapterSlugs as getIsechaChapterSlugs } from "@/lib/isecha_rekishi";
+import { getAllChapterSlugs as getMieChagyoShiChapterSlugs } from "@/lib/mie_chagyo_shi";
 
 const LOCALES = ["ja", "en", "ko", "zh"] as const;
 type Locale = (typeof LOCALES)[number];
@@ -56,8 +57,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/privacy-policy", changeFrequency: "monthly", priority: 0.4 },
     { path: "/legal", changeFrequency: "monthly", priority: 0.4 },
     { path: "/maccha", changeFrequency: "monthly", priority: 0.75 },
-    { path: "/kabatadani_no_ocha", changeFrequency: "monthly", priority: 0.7 },
-    { path: "/isecha_no_rekishi", changeFrequency: "monthly", priority: 0.7 },
   ];
 
   for (const { path, changeFrequency, priority } of staticPaths) {
@@ -71,30 +70,53 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }
   }
 
-  // 川俣谷のお茶・各章ページ
-  for (const slug of getAllChapterSlugs()) {
-    const path = `/kabatadani_no_ocha/${slug}`;
-    for (const locale of LOCALES) {
-      entries.push({
-        url: localizedUrl(baseUrl, locale, path),
-        lastModified: new Date(),
-        changeFrequency: "monthly",
-        priority: 0.65,
-      });
-    }
+  // 日本語のみのコンテンツ（多言語ルートは日本語版へリダイレクトするためsitemapには載せない）
+  const jaOnlyStaticPaths: { path: string; changeFrequency?: "daily" | "weekly" | "monthly"; priority?: number }[] = [
+    { path: "/kabatadani_no_ocha", changeFrequency: "monthly", priority: 0.7 },
+    { path: "/isecha_no_rekishi", changeFrequency: "monthly", priority: 0.7 },
+    { path: "/mie_chagyo_shi/toc", changeFrequency: "monthly", priority: 0.7 },
+  ];
+
+  for (const { path, changeFrequency, priority } of jaOnlyStaticPaths) {
+    entries.push({
+      url: localizedUrl(baseUrl, "ja", path),
+      lastModified: new Date(),
+      changeFrequency,
+      priority,
+    });
   }
 
-  // 伊勢茶の歴史・各章ページ
+  // 川俣谷のお茶・各章ページ（日本語のみ）
+  for (const slug of getAllChapterSlugs()) {
+    const path = `/kabatadani_no_ocha/${slug}`;
+    entries.push({
+      url: localizedUrl(baseUrl, "ja", path),
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.65,
+    });
+  }
+
+  // 伊勢茶の歴史・各章ページ（日本語のみ）
   for (const slug of getIsechaChapterSlugs()) {
     const path = `/isecha_no_rekishi/${slug}`;
-    for (const locale of LOCALES) {
-      entries.push({
-        url: localizedUrl(baseUrl, locale, path),
-        lastModified: new Date(),
-        changeFrequency: "monthly",
-        priority: 0.65,
-      });
-    }
+    entries.push({
+      url: localizedUrl(baseUrl, "ja", path),
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.65,
+    });
+  }
+
+  // 三重県茶業史・各章ページ（日本語のみ）
+  for (const slug of getMieChagyoShiChapterSlugs()) {
+    const path = `/mie_chagyo_shi/${slug}`;
+    entries.push({
+      url: localizedUrl(baseUrl, "ja", path),
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.65,
+    });
   }
 
   try {

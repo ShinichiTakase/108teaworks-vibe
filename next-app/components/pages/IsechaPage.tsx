@@ -11,6 +11,14 @@ export const ISECHA_TEXTS: Record<
   {
     h1: string;
     intro: string;
+    bookMieTitle: string;
+    bookMieP1: string;
+    bookMieP2: string;
+    bookMieLinkText: string;
+    altMieCover: string;
+    bookMieNoticeBefore: string;
+    bookMieNoticeLinkText: string;
+    bookMieNoticeAfter: string;
     bookHistoryTitle: string;
     bookHistoryP1: string;
     bookHistoryP2: string;
@@ -52,6 +60,18 @@ export const ISECHA_TEXTS: Record<
     h1: "伊勢茶とは",
     intro:
       "伊勢茶は、三重県内で生産されるお茶の総称として親しまれているブランド名です。その歴史は古く、江戸時代には既に「伊勢国（現在の三重県）」の特産品として広く栽培されていました。現在では三重県全域が産地となっており、地域の豊かな風土がその深い味わいを育んでいます。",
+    bookMieTitle: "三重県茶業史",
+    bookMieP1:
+      "三重県茶業会議所設立50周年記念として刊行された「三重県茶業史」。平安時代から平成に至る伊勢茶の歴史と茶業の変遷を、写真とともに章別に振り返る一冊です。",
+    bookMieP2:
+      "著者は元三重県農業技術センター茶業センター場長・高瀬孝二氏。序文、第一章〜第十章、付録、参考文献まで、原本の構成に沿ってウェブサイト上でお読みいただけます。",
+    bookMieLinkText: "三重県茶業史を読む",
+    altMieCover: "三重県茶業史 表紙",
+    bookMieNoticeBefore:
+      "三重県茶業会議所、および編者である高瀬孝二氏の許諾を得て掲載しております。掲載にあたり、著作権等の権利関係には最大限の配慮をしておりますが、一部に古い資料からの引用・転記が含まれております。万が一、掲載について不都合がある権利者様がいらっしゃいましたら、大変お手数ですが下記",
+    bookMieNoticeLinkText: "お問合せ窓口",
+    bookMieNoticeAfter:
+      "までご連絡いただけますようお願い申し上げます。確認の上、速やかに修正・削除等の対応をいたします。",
     bookHistoryTitle: "伊勢茶の歴史 お茶のおもしろ知識",
     bookHistoryP1:
       "三重県の伝統ブランド「伊勢茶」は、鎌倉時代から続く深い歴史を持ち、江戸時代には将軍家への献上や海外輸出で日本の茶業を牽引しました。現在は全国第3位の生産量を誇り、その濃厚な風味と高い品質が特徴です。",
@@ -116,6 +136,18 @@ export const ISECHA_TEXTS: Record<
     h1: "What is Ise Tea",
     intro:
       "Ise tea is the name given to tea produced in Mie Prefecture. Its history is long: by the Edo period it was already grown as a specialty of Ise (today’s Mie). The whole of Mie is now a production area, and the region’s climate and soil give the tea its deep flavour.",
+    bookMieTitle: "History of Tea Industry in Mie Prefecture",
+    bookMieP1:
+      "Published to mark the 50th anniversary of the Mie Prefecture Tea Council, this book traces the history of Ise tea and its industry from the Heian period to the Heisei era, chapter by chapter with historical photographs.",
+    bookMieP2:
+      "Written by Koji Takase, former director of the Tea Research Center at the Mie Prefecture Agricultural Technology Center. The full text — preface, ten chapters, appendices, and bibliography — is available on this site, following the structure of the original book. (Japanese text only)",
+    bookMieLinkText: "Read History of Tea Industry in Mie Prefecture",
+    altMieCover: "Cover: History of Tea Industry in Mie Prefecture",
+    bookMieNoticeBefore:
+      "This content is published with permission from the Mie Prefecture Tea Council and the editor, Mr. Koji Takase. While we have taken the utmost care regarding copyright and other rights, the material includes some quotations and transcriptions from older historical sources. If any rights holder has a concern about this content, we apologize for the inconvenience and kindly ask you to contact us via our ",
+    bookMieNoticeLinkText: "inquiry desk",
+    bookMieNoticeAfter:
+      ". We will review the matter promptly and take appropriate action, including correction or removal, as needed.",
     bookHistoryTitle: "History of Ise Tea — Fun Facts About Tea",
     bookHistoryP1:
       "Mie’s traditional brand “Ise tea” has deep roots from the Kamakura period; in the Edo period it was presented to the shogun’s household and exported abroad, helping drive Japan’s tea industry. Today it ranks third in national production, known for rich flavour and high quality.",
@@ -180,6 +212,18 @@ export const ISECHA_TEXTS: Record<
     h1: "이세차란",
     intro:
       "이세차는 미에현에서 생산되는 차의 총칭으로 사랑받는 브랜드 이름입니다. 역사는 오래되어 에도 시대에는 이미 「이세국(현재의 미에현)」의 특산품으로 널리 재배되고 있었습니다. 현재는 미에현 전역이 산지이며, 지역의 풍부한 풍토가 그 깊은 맛을 키우고 있습니다.",
+    bookMieTitle: "미에현 차업사",
+    bookMieP1:
+      "미에현 차업회의소 설립 50주년을 기념하여 발간된 「미에현 차업사」. 헤이안 시대부터 헤이세이 시대까지 이세차와 차업의 역사를 사진과 함께 장별로 되짚어 봅니다.",
+    bookMieP2:
+      "저자는 전 미에현 농업기술센터 차업센터 소장 다카세 고지. 서문, 제1장~제10장, 부록, 참고문헌까지 원본 구성을 따라 웹사이트에서 읽을 수 있습니다. (일본어 원문)",
+    bookMieLinkText: "『미에현 차업사』 읽기",
+    altMieCover: "표지: 미에현 차업사",
+    bookMieNoticeBefore:
+      "본 콘텐츠는 미에현 차업회의소 및 편저자 다카세 고지 씨의 허락을 받아 게재하고 있습니다. 게재에 있어 저작권 등 권리 관계에 최대한 배려하였으나, 일부 오래된 자료로부터의 인용·전재가 포함되어 있습니다. 만약 게재에 관하여 문제가 있는 권리자께서 계시다면, 번거로우시더라도 아래 ",
+    bookMieNoticeLinkText: "문의처",
+    bookMieNoticeAfter:
+      "로 연락해 주시기 바랍니다. 확인 후 신속히 수정·삭제 등의 조치를 취하겠습니다.",
     bookHistoryTitle: "이세차의 역사·차의 재미있는 지식",
     bookHistoryP1:
       "미에현의 전통 브랜드 「이세차」는 가마쿠라 시대부터 이어진 깊은 역사를 지니며, 에도 시대에는 장군가에 헌상되고 해외 수출로 일본 차업을 이끌었습니다. 현재는 전국 제3위의 생산량과 진한 풍미·높은 품질로 알려져 있습니다.",
@@ -244,6 +288,18 @@ export const ISECHA_TEXTS: Record<
     h1: "什么是伊势茶",
     intro:
       "伊势茶是在三重县内生产的茶的总称，是广为人知的品牌名。其历史久远，在江户时代已作为「伊势国（现三重县）」的特产广泛栽培。如今三重县全域均为产地，当地的风土孕育了其深厚的滋味。",
+    bookMieTitle: "三重县茶业史",
+    bookMieP1:
+      "为纪念三重县茶业会议所成立50周年而刊行的《三重县茶业史》。从平安时代到平成时代，以章节形式配合历史照片回顾伊势茶与茶业的变迁。",
+    bookMieP2:
+      "作者为原三重县农业技术中心茶业中心主任高濑孝二。序言、第一章至第十章、附录、参考文献均按照原书结构在本网站上提供阅读。（日文原文）",
+    bookMieLinkText: "阅读《三重县茶业史》",
+    altMieCover: "封面：三重县茶业史",
+    bookMieNoticeBefore:
+      "本内容已获得三重县茶业会议所及编者高濑孝二先生的许可后刊载。在刊载过程中，我们已就著作权等权利关系给予了最大程度的关注，但其中部分内容引用、转载自较为陈旧的资料。若有权利人对刊载内容有任何异议，烦请通过下方",
+    bookMieNoticeLinkText: "咨询窗口",
+    bookMieNoticeAfter:
+      "与我们联系。我们将在确认后尽快进行修正或删除等处理。",
     bookHistoryTitle: "伊势茶历史与茶的趣味知识",
     bookHistoryP1:
       "三重县的传统品牌「伊势茶」自镰仓时代起便有深厚历史，江户时代曾进献将军家并外销海外，引领日本茶业。如今产量居全国第三位，以浓郁风味与高品质著称。",

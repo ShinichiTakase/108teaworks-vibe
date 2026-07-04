@@ -10,6 +10,7 @@ const NAV_KEYS = [
   { key: "top" as const, href: "/" },
   { key: "about" as const, href: "/about" },
   { key: "isecha" as const, href: "/ise-cha" },
+  { key: "isechaBooks" as const, href: "/ise-cha/books" },
   { key: "howToBrew" as const, href: "/how-to-brew" },
   { key: "userGuide" as const, href: "/user-guide" },
   { key: "notice" as const, href: "/notice" },

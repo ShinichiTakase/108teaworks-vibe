@@ -39,3 +39,11 @@ export function buildLocalizedHref(locale: Locale, href: string): string {
   return buildLocalizedPath(locale, href);
 }
 
+/** 日本語のみのコンテンツ（多言語ルートを持たない書籍系ページ） */
+const JA_ONLY_BOOK_PATH_RE =
+  /^\/(?:(?:en|ko|zh)\/)?(mie_chagyo_shi|kabatadani_no_ocha|isecha_no_rekishi)(\/|$)/;
+
+export function isJaOnlyBookPath(pathname: string): boolean {
+  return JA_ONLY_BOOK_PATH_RE.test(pathname);
+}
+

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { detectLocaleFromPath } from "@/lib/urlPath";
+import { detectLocaleFromPath, isJaOnlyBookPath } from "@/lib/urlPath";
 
 const locales = [
   { code: "zh", label: "Chinese", flag: "🇨🇳" },
@@ -17,6 +17,7 @@ function stripLocaleFromPath(pathname: string): string {
 
 export default function LanguageSwitcher() {
   const pathname = usePathname() || "/";
+  if (isJaOnlyBookPath(pathname)) return null;
   const currentLocale = detectLocaleFromPath(pathname);
   const basePath = stripLocaleFromPath(pathname);
 

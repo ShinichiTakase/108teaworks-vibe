@@ -8,6 +8,8 @@ import type { Locale } from "@/lib/i18n";
 import { buildLocalizedHref, detectLocaleFromPath } from "@/lib/urlPath";
 
 type BannerTextEntry = {
+  book0Lead: string;
+  book0Name: string;
   book1Lead: string;
   book1Name: string;
   book2Lead: string;
@@ -20,6 +22,8 @@ type BannerTextEntry = {
 
 const BANNER_TEXTS: Record<Locale, BannerTextEntry> = {
   ja: {
+    book0Lead: "三重県茶業会議所",
+    book0Name: "三重県茶業史",
     book1Lead: "お茶を日常にする本",
     book1Name: "伊勢茶の歴史 お茶のおもしろ知識",
     book2Lead: "伝統の香りと歴史を綴る",
@@ -30,6 +34,8 @@ const BANNER_TEXTS: Record<Locale, BannerTextEntry> = {
     authorName: "高瀬　孝二著",
   },
   en: {
+    book0Lead: "Mie Prefecture Tea Council",
+    book0Name: "History of Tea Industry in Mie Prefecture",
     book1Lead: "Bringing tea into daily life",
     book1Name: "History of Ise Tea — Fun Facts About Tea",
     book2Lead: "Tradition, aroma & history",
@@ -39,6 +45,8 @@ const BANNER_TEXTS: Record<Locale, BannerTextEntry> = {
     authorName: "Koji Takase",
   },
   ko: {
+    book0Lead: "미에현 차업회의소",
+    book0Name: "미에현 차업사",
     book1Lead: "차를 일상으로",
     book1Name: "이세차의 역사·차의 재미있는 지식",
     book2Lead: "전통의 향과 역사",
@@ -48,6 +56,8 @@ const BANNER_TEXTS: Record<Locale, BannerTextEntry> = {
     authorName: "다카세 고지 저",
   },
   zh: {
+    book0Lead: "三重县茶业会议所",
+    book0Name: "三重县茶业史",
     book1Lead: "让茶走进日常",
     book1Name: "伊势茶历史与茶的趣味知识",
     book2Lead: "传统香气与历史",
@@ -70,6 +80,7 @@ export default function FloatingBooksBanner() {
   const pathname = usePathname() || "/";
   const locale = detectLocaleFromPath(pathname);
   const t = BANNER_TEXTS[locale];
+  const href0 = "/mie_chagyo_shi/";
   const href1 = buildLocalizedHref(locale, "/isecha_no_rekishi");
   const href2 = buildLocalizedHref(locale, "/kabatadani_no_ocha");
 
@@ -138,6 +149,33 @@ export default function FloatingBooksBanner() {
             </p>
 
             <div className="flex flex-row items-stretch gap-2 min-[640px]:items-end min-[640px]:gap-4 md:gap-6">
+              <div className="hidden min-w-0 flex-1 border-r border-border/70 pr-2 min-[640px]:block min-[640px]:border-tea-deep/15 min-[640px]:pr-4 md:pr-6">
+                <div className="flex flex-col items-end gap-1">
+                  <Link
+                    href={href0}
+                    target="_self"
+                    className="flex w-full flex-col items-end gap-0.5 no-underline hover:opacity-90"
+                  >
+                    <span className={bookLeadClass}>{t.book0Lead}</span>
+                    <span className={bookNameRowClass}>
+                      <Image
+                        src="/images/books/leef.jpg"
+                        alt=""
+                        width={194}
+                        height={192}
+                        className={bookNameBulletClass}
+                        aria-hidden
+                      />
+                      <span className={bookNameClass}>{t.book0Name}</span>
+                    </span>
+                  </Link>
+                  <p className="m-0 w-full text-right leading-tight">
+                    <Link href={href0} target="_self" className={moreLinkClass}>
+                      {t.more}
+                    </Link>
+                  </p>
+                </div>
+              </div>
               <div className="min-w-0 flex-1 border-r border-border/70 pr-2 min-[640px]:border-tea-deep/15 min-[640px]:pr-4 md:pr-6">
                 <div className="flex flex-col items-end gap-1">
                   <Link
