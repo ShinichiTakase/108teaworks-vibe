@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { MAIN_CLASS, INNER_CLASS } from "@/components/Layout";
+import { MAIN_CLASS as SHARED_MAIN_CLASS, INNER_CLASS as SHARED_INNER_CLASS } from "@/components/Layout";
 import PageEndProductList from "@/components/PageEndProductList";
 import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import { buildAlternatesForLocales } from "@/lib/seo";
@@ -10,6 +10,10 @@ import {
   getAdjacentChapters,
   getAllChapterSlugs,
 } from "@/lib/mie_chagyo_shi";
+
+// スマホでの読了体験を優先し、本文表示幅をサイト共通レイアウトより広く取る
+const MAIN_CLASS = SHARED_MAIN_CLASS.replace("px-4", "px-2 sm:px-4");
+const INNER_CLASS = SHARED_INNER_CLASS.replace("w-[90%]", "w-full sm:w-[90%]");
 
 type Props = { params: { slug: string } };
 
@@ -43,7 +47,7 @@ export default async function MieChaGyoShiChapterPage({ params }: Props) {
       <div className={INNER_CLASS}>
         <article aria-labelledby="chapter-heading" className="mb-12">
           {/* パンくず */}
-          <nav aria-label="パンくず" className="mb-6 text-[0.8125rem] text-ink-muted">
+          <nav aria-label="パンくず" className="mb-6 hidden text-[0.8125rem] text-ink-muted sm:block">
             <Link
               href="/mie_chagyo_shi/toc/"
               className="hover:text-tea-deep hover:underline"
@@ -68,7 +72,7 @@ export default async function MieChaGyoShiChapterPage({ params }: Props) {
                   <span className="text-[0.75rem] text-ink-muted group-hover:text-tea-deep">
                     ◀ 前の章
                   </span>
-                  <span className="truncate text-[0.875rem] text-ink group-hover:text-tea-deep">
+                  <span className="hidden truncate text-[0.875rem] text-ink group-hover:text-tea-deep sm:block">
                     {prev.shortTitle}
                   </span>
                 </Link>
@@ -93,7 +97,7 @@ export default async function MieChaGyoShiChapterPage({ params }: Props) {
                   <span className="text-[0.75rem] text-ink-muted group-hover:text-tea-deep">
                     次の章 ▶
                   </span>
-                  <span className="truncate text-[0.875rem] text-ink group-hover:text-tea-deep">
+                  <span className="hidden truncate text-[0.875rem] text-ink group-hover:text-tea-deep sm:block">
                     {next.shortTitle}
                   </span>
                 </Link>
@@ -140,7 +144,7 @@ export default async function MieChaGyoShiChapterPage({ params }: Props) {
                   <span className="text-[0.75rem] text-ink-muted group-hover:text-tea-deep">
                     ◀ 前の章
                   </span>
-                  <span className="truncate text-[0.875rem] text-ink group-hover:text-tea-deep">
+                  <span className="hidden truncate text-[0.875rem] text-ink group-hover:text-tea-deep sm:block">
                     {prev.shortTitle}
                   </span>
                 </Link>
@@ -165,7 +169,7 @@ export default async function MieChaGyoShiChapterPage({ params }: Props) {
                   <span className="text-[0.75rem] text-ink-muted group-hover:text-tea-deep">
                     次の章 ▶
                   </span>
-                  <span className="truncate text-[0.875rem] text-ink group-hover:text-tea-deep">
+                  <span className="hidden truncate text-[0.875rem] text-ink group-hover:text-tea-deep sm:block">
                     {next.shortTitle}
                   </span>
                 </Link>
