@@ -55,11 +55,11 @@ export type ProductItem = {
   RELATED_URL04?: string;
   /** 配送ランク（送料計算用。数値） */
   SHIP_RANK?: number;
-  /** SEO: microCMS 側で持つ（言語別） */
+  /** SEO: microCMS 側で持つ（言語別。日本語のフィールドIDは JP） */
   SEO_TITLE?: string;
   SEO_DESC?: string;
-  SEO_TITLE_JA?: string;
-  SEO_DESC_JA?: string;
+  SEO_TITLE_JP?: string;
+  SEO_DESC_JP?: string;
   SEO_TITLE_EN?: string;
   SEO_DESC_EN?: string;
   SEO_TITLE_KO?: string;
@@ -218,8 +218,8 @@ function mapRawToProduct(c: Record<string, unknown>): ProductItem {
       num(c, "SHIPRANK"),
     SEO_TITLE: str(c, "SEO_TITLE"),
     SEO_DESC: str(c, "SEO_DESC") ?? str(c, "SEO_DESCRIPTION"),
-    SEO_TITLE_JA: str(c, "SEO_TITLE_JA"),
-    SEO_DESC_JA: str(c, "SEO_DESC_JA"),
+    SEO_TITLE_JP: str(c, "SEO_TITLE_JP"),
+    SEO_DESC_JP: str(c, "SEO_DESC_JP"),
     SEO_TITLE_EN: str(c, "SEO_TITLE_EN"),
     SEO_DESC_EN: str(c, "SEO_DESC_EN"),
     SEO_TITLE_KO: str(c, "SEO_TITLE_KO"),

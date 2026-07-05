@@ -12,7 +12,7 @@ type Props = {
 function getProductSeo(product: any, locale: Locale): { title?: string; description?: string } {
   const seoTitle =
     locale === "ja"
-      ? product.SEO_TITLE_JA ?? product.SEO_TITLE ?? null
+      ? product.SEO_TITLE_JP ?? product.SEO_TITLE ?? null
       : locale === "en"
         ? product.SEO_TITLE_EN ?? null
         : locale === "ko"
@@ -20,7 +20,7 @@ function getProductSeo(product: any, locale: Locale): { title?: string; descript
           : product.SEO_TITLE_ZH ?? null;
   const seoDesc =
     locale === "ja"
-      ? product.SEO_DESC_JA ?? product.SEO_DESC ?? null
+      ? product.SEO_DESC_JP ?? product.SEO_DESC ?? null
       : locale === "en"
         ? product.SEO_DESC_EN ?? null
         : locale === "ko"

@@ -39,16 +39,16 @@
     },
     "/ise-cha/": {
       "title": {
-        "ja": "伊勢茶とは？特徴・歴史・おすすめ通販 - 川俣谷が育む濃厚な旨味と香りの秘密 | 伊勢茶の藤八茶寮",
-        "en": "What is Ise Tea? Features, History, and Recommended Online Shop — Secrets of the Rich Umami and Aroma Cultivated in Kabatadani. | 伊勢茶の藤八茶寮",
-        "ko": "이세차(이세차)란? 특징·역사·추천 온라인 쇼핑몰 - 가바타다니가 키워낸 깊은 감칠맛과 향기의 비밀 | 伊勢茶の藤八茶寮",
-        "zh": "么是伊势茶？特点、历史、推荐网购指南 —— 探寻川俣谷孕育出的浓郁鲜味与香气的秘密 | 伊勢茶の藤八茶寮"
+        "ja": "伊勢茶とは？特徴・歴史と深蒸し茶の魅力｜藤八茶寮",
+        "en": "What Is Ise Tea? Features, History & Fukamushi Charm | 伊勢茶の藤八茶寮",
+        "ko": "이세차란? 특징·역사와 후카무시차의 매력｜伊勢茶の藤八茶寮",
+        "zh": "什么是伊势茶？特点、历史与深蒸茶的魅力｜伊勢茶の藤八茶寮"
       },
       "description": {
-        "ja": "伊勢茶の濃厚な旨味と爽やかな香りのルーツを辿る。鎌倉時代から続く茶の聖地「川俣谷」は、午後の陽光が遮られる地形により「天然のかぶせ茶」に近い深い味わいを産出します。このページでは、伊勢茶の歩んできた歴史と、その類まれなる特徴を詳しくご紹介。",
-        "en": "Explore the roots of Ise Tea's rich umami and refreshing aroma. The sacred tea region of Kawamatadani, with a history dating back to the Kamakura period, produces a deep flavor similar to 'natural Kabuse-cha' due to its unique terrain that shades the afternoon sun. This page provides a detailed look into the history and exceptional characteristics of Ise Tea.",
-        "ko": "이세차의 진한 감칠맛과 상쾌한 향기의 뿌리를 찾아갑니다. 가마쿠라 시대부터 이어진 차의 성지 '카와마타다니'는 오후의 햇살이 차단되는 지형 덕분에 '천연 카부세차'에 가까운 깊은 맛을 자아냅니다. 이 페이지에서는 이세차가 걸어온 역사와 그 독보적인 특징을 자세히 소개해 드립니다.",
-        "zh": "探尋伊勢茶濃厚鮮味與清爽香氣的根源。自鎌倉時代起便是茶之聖地的「川俣谷」，因其午後陽光被遮擋的獨特地形，孕育出接近「天然冠茶（かぶせ茶）」的深邃口感。本頁面將詳細介紹伊勢茶的歷史發展及其與眾不同的特色。"
+        "ja": "伊勢茶は三重県が全国第3位の生産量を誇る日本茶。松阪市飯南町の深蒸し茶ならではの濃厚な旨みと、平安時代から続く歴史・特徴をわかりやすく解説します。",
+        "en": "Ise tea is grown in Mie, Japan's 3rd-largest tea region. Discover the rich umami of Fukamushi (deep-steamed) tea from Iinan, Matsusaka, and a history dating back to the Heian period.",
+        "ko": "이세차는 전국 3위의 생산량을 자랑하는 미에현의 일본차입니다. 마쓰사카시 이이난초 후카무시차만의 진한 감칠맛과, 헤이안 시대부터 이어진 역사·특징을 알기 쉽게 소개합니다.",
+        "zh": "伊势茶产自日本茶叶产量全国第3的三重县。为您详解松阪市饭南町深蒸茶特有的浓郁鲜味，以及自平安时代延续至今的历史与特色。"
       }
     },
     "/ise-cha/books/": {
@@ -109,16 +109,16 @@
     },
     "/how2brew/": {
       "title": {
-        "ja": "プロが教える伊勢茶の美味しい淹れ方。コツと温度 | 伊勢茶の藤八茶寮",
-        "en": "How to Brew the Perfect Cup of Ise Tea: Tips & Steps | 伊勢茶の藤八茶寮",
-        "ko": "전문가가 전하는 이세차 맛있게 우리는 법. 온도와 비결 | 伊勢茶の藤八茶寮",
-        "zh": "職人傳授：伊勢茶的最佳沖泡方式。秘訣與水溫控制 | 伊勢茶の藤八茶寮"
+        "ja": "伊勢茶の淹れ方｜湯温70〜80℃・浸出90秒の目安",
+        "en": "How to Brew Ise Tea | 70–80°C, Steep 90 Seconds | 伊勢茶の藤八茶寮",
+        "ko": "이세차 우리는 법｜70~80℃・침출 90초 기준｜伊勢茶の藤八茶寮",
+        "zh": "伊势茶冲泡法｜水温70～80℃・浸泡90秒基准｜伊勢茶の藤八茶寮"
       },
       "description": {
-        "ja": "伊勢茶の旨みを最大限に引き出す、正しい淹れ方を分かりやすく解説。和紅茶、ほうじ茶、かぶせ茶など、種類ごとの最適な温度や抽出時間のコツをご紹介します。ひと手間でいつものお茶がプロの味わいに。シングルオリジン茶葉の豊かな香りを、ぜひご自宅で。",
-        "en": "Learn the secrets to brewing delicious Ise Tea at home. We share expert tips on water temperature and steeping times for Hojicha, Wakocha, and more. Elevate your tea ritual and enjoy the full aroma and umami of our single-origin Japanese tea. Master the art of the perfect pour.",
-        "ko": "이세차의 감칠맛을 극대화하는 올바른 추출 방법을 알기 쉽게 설명해 드립니다. 와코차, 호지차, 카부세차 등 종류별 최적의 온도와 시간 등 전문가의 팁을 확인해 보세요. 약간의 정성으로 집에서도 카페 같은 깊은 맛과 싱글 오리진 찻잎의 풍부한 향을 즐길 수 있습니다.",
-        "zh": "教您如何在家沖泡出最完美的伊勢茶。針對和紅茶、焙茶及冠茶等不同茶種，詳細解說最合適的水溫與浸泡時間。只需掌握小小秘訣，就能讓單一農園茶葉的香氣與甘甜更加出眾。輕鬆上手，讓您的日常茶時光升級為極致享受。"
+        "ja": "深蒸し茶は茶葉3gに湯160cc、70〜80℃で90〜120秒が黄金比。伊勢茶の旨みを引き出す淹れ方を、ティーバッグ・急須・水出しまで解説します。",
+        "en": "The golden ratio: 3g of leaves (or a tea bag) to 160cc water at 70–80°C, steeped for 90–120 seconds. Covers tea bags, loose leaf, and cold brew.",
+        "ko": "황금비는 찻잎 3g에 물 160cc, 70~80℃에서 90~120초. 이세차의 감칠맛을 살리는 우리는 법을 티백·주전자·냉침까지 소개합니다.",
+        "zh": "黄金比例为茶叶3g配热水160cc，70～80℃冲泡90～120秒。为您讲解茶包、茶壶冲泡及冷泡等伊势茶美味泡法。"
       }
     },
     "/user-guide/": {
