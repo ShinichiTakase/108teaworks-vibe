@@ -6,7 +6,6 @@ import Footer from "./Footer";
 import LanguageSwitcher from "./LanguageSwitcher";
 import FloatingCartBar from "./FloatingCartBar";
 import CartAddedPopup from "./CartAddedPopup";
-import FloatingChachamaruBar from "./FloatingChachamaruBar";
 import FloatingProductListBar from "./FloatingProductListBar";
 import FloatingBooksBanner from "./FloatingBooksBanner";
 
@@ -36,7 +35,6 @@ export default function Layout({ children, withInner = true }: LayoutProps) {
       <LanguageSwitcher />
       <FloatingBooksBanner />
       <FloatingProductListBar />
-      <FloatingChachamaruBar />
       <FloatingCartBar />
       <CartAddedPopup />
     </>
