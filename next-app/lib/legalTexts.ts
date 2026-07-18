@@ -45,7 +45,7 @@ export const LEGAL_TEXTS: Record<
     advisorValue:
       "高瀬孝二（日本茶インストラクター協会認定 日本茶インストラクターリーダー / 日本茶アドバイザー養成講座専任講師 / 元三重県農業技術センター主席研究員兼茶業センター場長）",
     address: "住所",
-    addressValue: "〒224-0007 横浜市都筑区荏田南一丁目１１番２３号",
+    addressValue: "〒220-0072 横浜市西区浅間町1丁目4番3号ウィザードビル402",
     contact: "連絡先",
     contactAnd: "および",
     hours: "営業時間",
@@ -80,7 +80,7 @@ export const LEGAL_TEXTS: Record<
     advisorValue:
       "Koji Takase (Japan Tea Instructor Association–certified Japanese Tea Instructor Leader; dedicated lecturer for the Japanese Tea Advisor training course; former Chief Researcher and Director of the Tea Industry Center, Mie Prefectural Agricultural Technology Center)",
     address: "Address",
-    addressValue: "11-23-1 Enta-Minami, Tsuzuki-ku, Yokohama, Kanagawa 224-0007, Japan",
+    addressValue: "〒220-0072 横浜市西区浅間町1丁目4番3号ウィザードビル402",
     contact: "Contact",
     contactAnd: " and ",
     hours: "Business hours",
@@ -116,7 +116,7 @@ export const LEGAL_TEXTS: Record<
     advisorValue:
       "다카세 코지（高瀬 孝二）（일본차 인스트럭터 협회 인증 일본차 인스트럭터 리더 / 일본차 어드바이저 양성 과정 전임 강사 / 전 미에현 농업기술센터 수석 연구원 겸 차업 센터 소장）",
     address: "주소",
-    addressValue: "〒224-0007 일본 가나가와현 요코하마시 쓰즈키구 엔타미나미 1초메 11-23",
+    addressValue: "〒220-0072 横浜市西区浅間町1丁目4番3号ウィザードビル402",
     contact: "연락처",
     contactAnd: " 및 ",
     hours: "영업 시간",
@@ -151,7 +151,7 @@ export const LEGAL_TEXTS: Record<
     advisorValue:
       "高濑孝二（日本茶讲师协会认定日本茶讲师领袖／日本茶顾问培训课程专任讲师／原三重县农业技术中心首席研究员兼茶业中心主任）",
     address: "地址",
-    addressValue: "日本神奈川县横滨市都筑区荏田南一丁目11番23号 邮编224-0007",
+    addressValue: "〒220-0072 横浜市西区浅間町1丁目4番3号ウィザードビル402",
     contact: "联系方式",
     contactAnd: "及",
     hours: "营业时间",

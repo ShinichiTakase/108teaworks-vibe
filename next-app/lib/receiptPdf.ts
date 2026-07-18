@@ -155,7 +155,7 @@ export function buildReceiptPdf(data: ReceiptData): Promise<Buffer> {
     doc.fontSize(12).text("藤八茶寮", MARGIN, y, { width: CONTENT_WIDTH, align: "right" });
     y += smallLine;
     doc.fontSize(10);
-    ["〒224-0007", "神奈川県横浜市都筑区荏田南一丁目１１番２３号", "info@108teaworks.com / 050-6860-7347"].forEach(
+    ["〒220-0072", "横浜市西区浅間町1丁目4番3号ウィザードビル402", "info@108teaworks.com / 050-6860-7347"].forEach(
       (line) => {
         doc.text(line, MARGIN, y, { width: CONTENT_WIDTH, align: "right" });
         y += smallLine;
