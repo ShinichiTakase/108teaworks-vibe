@@ -134,9 +134,9 @@ export default async function WakochaLpPage() {
         <img src="/images/wakoucha/hero.webp" alt="焼き菓子と紅茶のアフタヌーンティー" />
         <div className={styles["hero-content"]}>
           <h1>
-            アフタヌーンティーで人気の和紅茶を、
+            お菓子にも、お食事にも。
             <br />
-            ご自宅で。
+            毎日の食卓に寄り添う、国産和紅茶。
             <em>シングルオリジンの伊勢茶、完全発酵させた国産紅茶</em>
           </h1>
           <p className={styles.sub}>
@@ -195,12 +195,8 @@ export default async function WakochaLpPage() {
         <div className={styles.wrap}>
           <div className={styles["section-head"]}>
             <span className={styles.eyebrow}>なぜ、選ばれるのか</span>
-            <h2>ヌン活好きが夢中になる、4つの理由</h2>
-            <p>
-              渋くないから、お菓子にも和食にも寄り添う。
-              <br />
-              ホテルのアフタヌーンティーで感じたあの心地よさには、理由があります。
-            </p>
+            <h2>毎日飲みたくなる、4つの理由</h2>
+            <p>渋みを抑えたやさしい味わいだから、お菓子にも、お食事にも自然に寄り添います。</p>
           </div>
         </div>
         <div className={styles["why-grid"]}>
@@ -251,7 +247,7 @@ export default async function WakochaLpPage() {
         <div className={styles.wrap}>
           <div className={styles["section-head"]}>
             <span className={styles.eyebrow}>How to Enjoy</span>
-            <h2>3段スタンドのように、愉しみ方も三段仕立て</h2>
+            <h2>気分に合わせて楽しむ、3つの飲み方</h2>
             <p>まずはストレートで、香りと旨味・コクを。アフタヌーンティースタンドの一段一段のように、気分や時間帯で愉しみ方を変えられます。</p>
           </div>
           <div className={styles.tier}>
@@ -336,9 +332,9 @@ export default async function WakochaLpPage() {
       <div className={styles["quote-strip"]}>
         <div className={styles.wrap}>
           <blockquote>
-            「渋くないから、お菓子の甘さと喧嘩しない。休日の午後が、ちょっとしたホテルのラウンジみたいになりました。」
+            「渋くないから、お菓子の甘さを邪魔しません。気づけば、おやつの時間に欠かせない一杯になっています。」
           </blockquote>
-          <cite>— 和紅茶をおうちのヌン活に取り入れたお客様の声より</cite>
+          <cite>和紅茶のある暮らしを楽しむお客様の声より</cite>
         </div>
       </div>
 

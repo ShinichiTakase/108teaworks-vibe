@@ -381,7 +381,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 28px;
-  align-items: end;
+  align-items: start;
   max-width: 920px;
   margin: 0 auto;
 }
