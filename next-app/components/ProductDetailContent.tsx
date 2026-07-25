@@ -276,13 +276,13 @@ function AdditionalProductSectionsJa({ slug }: { slug: string }) {
               <tbody>
                 <tr>
                   <td className="border border-border px-3 py-2">価格（税込）</td>
-                  <td className="border border-border px-3 py-2 text-right">1,380円</td>
-                  <td className="border border-border px-3 py-2 text-right">6,450円</td>
+                  <td className="border border-border px-3 py-2 text-right">1,680円</td>
+                  <td className="border border-border px-3 py-2 text-right">7,980円</td>
                 </tr>
                 <tr>
                   <td className="border border-border px-3 py-2">g単価</td>
-                  <td className="border border-border px-3 py-2 text-right">13.8円/g</td>
-                  <td className="border border-border px-3 py-2 text-right">12.9円/g</td>
+                  <td className="border border-border px-3 py-2 text-right">16.8円/g</td>
+                  <td className="border border-border px-3 py-2 text-right">15.9円/g</td>
                 </tr>
                 <tr>
                   <td className="border border-border px-3 py-2">使用量目安（ラテ1杯）</td>
@@ -291,20 +291,20 @@ function AdditionalProductSectionsJa({ slug }: { slug: string }) {
                 </tr>
                 <tr>
                   <td className="border border-border px-3 py-2">1杯コスト（3g換算）</td>
-                  <td className="border border-border px-3 py-2 text-right">約41.4円</td>
-                  <td className="border border-border px-3 py-2 text-right">約38.7円</td>
+                  <td className="border border-border px-3 py-2 text-right">50.4円</td>
+                  <td className="border border-border px-3 py-2 text-right">約47.9円</td>
                 </tr>
               </tbody>
             </table>
           </div>
           <p className="mt-3 mb-0 text-[0.8125rem] leading-relaxed text-ink-muted">
-            算出根拠: 100gは1,380円÷100g=13.8円/g、500gは6,450円÷500g=12.9円/g。
-            1杯コストは各g単価に3gを掛けて算出（100g: 41.4円、500g: 38.7円）。
+            算出根拠: 100gは1,680円÷100g=16.8円/g、500gは7,980円÷500g=15.9円/g。
+            1杯コストは各g単価に3gを掛けて算出（100g: 50.4円、500g: 47.9円）。
           </p>
         </section>
 
         <section>
-          <h2 className="m-0 mb-3 text-base font-semibold text-tea-deep">用途別レシピ導線</h2>
+          <h2 className="m-0 mb-3 text-base font-semibold text-tea-deep">用途別レシピ</h2>
           <h3 className="m-0 mb-2 text-[0.95rem] font-semibold text-tea-deep">ラテで使う</h3>
           <p className="m-0 mb-3 text-[0.9375rem] leading-relaxed text-ink-muted">
             ラテの配合目安は、緑茶パウダー3g、お湯25〜30ml、牛乳160ccです。まず少量のお湯でよく溶かしてから
