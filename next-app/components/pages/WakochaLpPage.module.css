@@ -1,0 +1,867 @@
+/*
+ * D:\藤八茶寮\和紅茶LP\wakoucha_landing_page.html の <style> を機械的に移植したもの。
+ * 元CSSの `*`, `html`, `body`, `a`, `img`, `section` などの裸のタグセレクタは
+ * サイト全体に漏れないよう `.page` 配下に閉じ込めている（値は一切変更していない）。
+ * それ以外のセレクタ（クラス付き）は元CSSのプロパティ値をそのまま転記している。
+ */
+
+.page {
+  --cream: #f5efe2;
+  --cream-deep: #eee5d1;
+  --ink: #2c2419;
+  --ink-soft: #4a4136;
+  --forest: #33473a;
+  --amber: #a5551f;
+  --amber-deep: #7c3d16;
+  --burgundy: #6e2a2a;
+  --gold: #b9903f;
+  --gold-soft: #d9c496;
+  --paper: #fffaf0;
+  --line: rgba(44, 36, 25, 0.14);
+  --shadow: 0 30px 60px -30px rgba(44, 24, 10, 0.35);
+
+  background: var(--cream);
+  color: var(--ink);
+  font-family: "Zen Kaku Gothic New", "Hiragino Kaku Gothic ProN", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.85;
+}
+.page * {
+  box-sizing: border-box;
+}
+.page h1,
+.page h2,
+.page h3,
+.page .serif {
+  font-family: "Shippori Mincho", serif;
+  letter-spacing: 0.02em;
+}
+/* :where() で詳細度を0にし、.btn-primary 等の単一クラスの color 指定が
+   確実に上書きできるようにする（そうしないと `.page a` の詳細度が勝ってしまう） */
+.page :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.page img {
+  max-width: 100%;
+  display: block;
+}
+.wrap {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12.5px;
+  letter-spacing: 0.22em;
+  color: var(--gold);
+  font-weight: 500;
+  text-transform: uppercase;
+}
+.eyebrow::before {
+  content: "";
+  width: 26px;
+  height: 1px;
+  background: var(--gold);
+}
+
+/* ---------- Header ---------- */
+.topbar {
+  background: var(--forest);
+  color: #f2ead6;
+  font-size: 12.5px;
+  letter-spacing: 0.05em;
+}
+.topbar .wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 9px;
+  padding-bottom: 9px;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.topbar a {
+  opacity: 0.9;
+}
+
+.brand {
+  background: var(--cream);
+  border-bottom: 1px solid var(--line);
+  padding: 18px 0;
+}
+.brand .wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+.logo .en {
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  color: var(--gold);
+  font-weight: 500;
+}
+.logo .jp {
+  font-family: "Shippori Mincho", serif;
+  font-size: 22px;
+  font-weight: 700;
+  margin-top: 4px;
+}
+.brand-cta {
+  border: 1px solid var(--forest);
+  color: var(--forest);
+  padding: 9px 22px;
+  border-radius: 999px;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  transition: 0.25s;
+}
+.brand-cta:hover {
+  background: var(--forest);
+  color: #fff;
+}
+
+/* ---------- Hero ----------
+ * .hero-content は画像（.hero）に背景なし（完全透過）でオーバーレイする。
+ * padding-bottom の値で「ボタン下端が画像下端の4行上」になる位置を調整する。
+ */
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+/* `.page section{padding:96px 0}` は `.page` クラス+`section`タグでセレクタ詳細度が高く、
+   単純な `.hero{padding:0}` では上書きできないため、詳細度を上げて明示的に0にする */
+.page .hero {
+  padding: 0;
+}
+.hero img {
+  width: 100%;
+  height: 78vh;
+  min-height: 520px;
+  max-height: 760px;
+  object-fit: cover;
+}
+.hero-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: center;
+  padding: 32px 24px 96px;
+  background: transparent;
+}
+.hero-tag {
+  display: inline-block;
+  padding: 9px 24px;
+  border: 1.5px solid var(--gold);
+  border-radius: 999px;
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  margin-bottom: 22px;
+  color: var(--forest);
+  background: rgba(214, 231, 240, 0.85);
+}
+/* 写真に重なっても読めるよう、白抜き+アンバーの縁取り（袋文字）にする */
+.hero-content h1 {
+  font-size: clamp(28px, 4.6vw, 52px);
+  font-weight: 700;
+  line-height: 1.5;
+  margin: 0 0 18px;
+  color: #ffffff;
+  -webkit-text-stroke: 1.5px #a5551f;
+  paint-order: stroke fill;
+}
+.hero-content h1 em {
+  font-style: normal;
+  color: #ffffff;
+  -webkit-text-stroke: 1px #a5551f;
+  paint-order: stroke fill;
+  display: block;
+  font-size: clamp(15px, 1.9vw, 20px);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  margin-top: 14px;
+}
+.hero-content p.sub {
+  max-width: 560px;
+  font-size: 15px;
+  color: #ffffff;
+  -webkit-text-stroke: 1px #a5551f;
+  paint-order: stroke fill;
+  margin: 0 auto 30px;
+}
+.hero-ctas {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+/* 「和紅茶について知る」（アウトラインボタン）は写真に重なると読みにくいため、
+   枠内のみ半透明の白を敷く（スポットライト内の同じ .btn-outline には影響させない） */
+.hero-ctas .btn-outline {
+  background: rgba(214, 231, 240, 0.85);
+}
+.hero-ctas .btn-outline:hover {
+  background: var(--forest);
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 15px 34px;
+  border-radius: 999px;
+  font-size: 14.5px;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+  transition: 0.25s ease;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+.btn-primary {
+  background: var(--amber);
+  color: #fff;
+  box-shadow: 0 14px 30px -12px rgba(165, 85, 31, 0.7);
+}
+.btn-primary:hover {
+  background: var(--amber-deep);
+  transform: translateY(-2px);
+}
+.btn-ghost {
+  border-color: rgba(255, 255, 255, 0.65);
+  color: #fff;
+}
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+/* ---------- Section shells ---------- */
+.page section {
+  padding: 96px 0;
+}
+.page section.tight {
+  padding: 72px 0;
+}
+.section-head {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 56px;
+}
+.section-head h2 {
+  font-size: clamp(24px, 3vw, 34px);
+  margin: 16px 0 18px;
+  font-weight: 700;
+}
+.section-head p {
+  color: var(--ink-soft);
+  font-size: 15px;
+}
+.divider {
+  width: 1px;
+  height: 52px;
+  background: linear-gradient(var(--gold), transparent);
+  margin: 0 auto;
+}
+
+/* ---------- Intro / brand story ---------- */
+.intro {
+  background: var(--paper);
+}
+.intro-grid {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 64px;
+  align-items: center;
+}
+.intro-copy p {
+  color: var(--ink-soft);
+  font-size: 15px;
+  margin: 0 0 16px;
+}
+.intro-copy .lead {
+  font-family: "Shippori Mincho", serif;
+  font-size: 21px;
+  color: var(--ink);
+  line-height: 1.95;
+  margin-bottom: 26px;
+}
+.intro-photo {
+  position: relative;
+}
+.intro-photo img {
+  border-radius: 6px;
+  box-shadow: var(--shadow);
+}
+.intro-photo .cap {
+  background: var(--forest);
+  color: #f4ead2;
+  padding: 12px 18px;
+  border-radius: 4px;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.intro-photo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.intro-photo-name {
+  margin: 10px 0 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  text-align: center;
+}
+
+/* ---------- Why popular / benefits ---------- */
+.why {
+  background: var(--cream-deep);
+}
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border-top: 1px solid var(--line);
+}
+.why-card {
+  padding: 38px 26px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  text-align: center;
+}
+.why-card:last-child {
+  border-right: none;
+}
+.why-card .ico {
+  width: 46px;
+  height: 46px;
+  margin: 0 auto 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--gold-soft);
+  border-radius: 50%;
+  color: var(--amber);
+}
+.why-card h3 {
+  font-size: 16px;
+  margin: 0 0 10px;
+  font-weight: 600;
+}
+.why-card p {
+  font-size: 13.3px;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+/* ---------- Stand section (signature element) ---------- */
+.stand {
+  background: radial-gradient(120% 100% at 50% 0%, #3c5346 0%, var(--forest) 55%, #2a3a30 100%);
+  color: #f4ead2;
+  text-align: center;
+  position: relative;
+}
+.stand .section-head p {
+  color: #d8cfb4;
+}
+.stand .eyebrow {
+  color: var(--gold-soft);
+}
+.stand-illustration {
+  max-width: 640px;
+  margin: 0 auto 64px;
+}
+.tier {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  align-items: end;
+  max-width: 920px;
+  margin: 0 auto;
+}
+.tier-plate {
+  background: rgba(245, 239, 226, 0.06);
+  border: 1px solid rgba(244, 234, 210, 0.28);
+  border-radius: 50% / 18px;
+  padding: 26px 18px 30px;
+  position: relative;
+}
+.tier-plate.top {
+  transform: translateY(0);
+}
+.tier-plate.mid {
+  transform: translateY(14px);
+}
+.tier-plate.base {
+  transform: translateY(28px);
+}
+.tier-num {
+  font-family: "Shippori Mincho", serif;
+  font-size: 12px;
+  letter-spacing: 0.28em;
+  color: var(--gold-soft);
+  display: block;
+  margin-bottom: 10px;
+}
+.tier-plate h3 {
+  font-size: 17px;
+  margin: 0 0 10px;
+  font-weight: 700;
+}
+.tier-plate .temp {
+  font-size: 12px;
+  color: var(--gold-soft);
+  letter-spacing: 0.05em;
+  margin-bottom: 12px;
+}
+.tier-plate p {
+  font-size: 12.8px;
+  color: #e6ddc6;
+  margin: 0;
+}
+
+/* ---------- Product spotlight ---------- */
+.spotlight {
+  background: var(--paper);
+}
+.spot-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 70px;
+  align-items: center;
+}
+.spot-photo {
+  position: relative;
+}
+.spot-photo img {
+  border-radius: 6px;
+  box-shadow: var(--shadow);
+}
+.spot-text {
+  background: var(--cream);
+  border-radius: 6px;
+  /* 右上に重なる .spot-price-tag（最大96px+top:-14pxのはみ出し分）を避けるため上部を広めに確保 */
+  padding: 96px 28px 32px;
+  box-shadow: var(--shadow);
+  font-size: 14.5px;
+  line-height: 1.85;
+  color: var(--ink-soft);
+}
+.spot-text p {
+  margin: 0 0 14px;
+}
+.spot-text p:last-child {
+  margin-bottom: 0;
+}
+.spot-text b,
+.spot-text strong {
+  color: var(--ink);
+}
+.spot-price-tag {
+  position: absolute;
+  top: -14px;
+  right: -14px;
+  background: var(--amber);
+  color: #fff;
+  border-radius: 50%;
+  width: 96px;
+  height: 96px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: "Shippori Mincho", serif;
+  box-shadow: var(--shadow);
+  transform: rotate(6deg);
+}
+.spot-price-tag small {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  opacity: 0.85;
+}
+.spot-price-tag strong {
+  font-size: 20px;
+  margin-top: 2px;
+}
+.spec-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 28px 0 32px;
+}
+.spec-table tr {
+  border-bottom: 1px solid var(--line);
+}
+.spec-table th {
+  text-align: left;
+  padding: 14px 18px 14px 0;
+  width: 120px;
+  color: var(--gold);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  vertical-align: top;
+}
+.spec-table td {
+  padding: 14px 0;
+  font-size: 14.5px;
+  color: var(--ink-soft);
+}
+.spot-ctas {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+/* ---------- 購入UI（数量+購入するボタン） ---------- */
+/* .purchase-row を display:contents にし、.purchase-list 側の1つのグリッドへ
+   label/stepper/button を直接の子として並べることで、行ごとの列開始位置を必ず揃える */
+.purchase-list {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  justify-content: center;
+  align-items: center;
+  column-gap: 18px;
+  row-gap: 14px;
+  padding: 22px 20px;
+  /* 背景は敷かず、置かれたセクションの背景色をそのまま透過で見せる */
+  background: transparent;
+}
+.purchase-row {
+  display: contents;
+}
+.purchase-divider {
+  grid-column: 1 / -1;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.18);
+}
+.purchase-label {
+  /* .final-cta 等の text-align:center を継承すると、セル幅は揃っていても短い文字列だけ
+     中央に寄って見えるため、明示的に左揃えにする */
+  text-align: left;
+  font-family: "Shippori Mincho", serif;
+  font-size: 14.5px;
+  color: #fff;
+  white-space: nowrap;
+}
+.purchase-label strong {
+  font-size: 17px;
+  color: #fff;
+  margin: 0 2px;
+}
+.qty-stepper {
+  display: flex;
+  align-items: stretch;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.qty-btn {
+  width: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: inherit;
+  border: none;
+  cursor: pointer;
+}
+.qty-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.qty-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.22);
+}
+.qty-value {
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.16);
+  font-size: 14px;
+  color: #fff;
+  border-left: 1px solid rgba(255, 255, 255, 0.35);
+  border-right: 1px solid rgba(255, 255, 255, 0.35);
+}
+.purchase-btn {
+  padding: 10px 22px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  letter-spacing: 0.05em;
+  background: #fff;
+  color: #3e210d;
+  border: 1px solid #fff;
+  cursor: pointer;
+  transition: 0.25s;
+}
+.purchase-btn:hover {
+  background: var(--gold-soft);
+  border-color: var(--gold-soft);
+}
+/* 明るい背景（spotlightセクション）に置く場合の文字色バリエーション */
+.purchase-list--onLight .purchase-divider {
+  background: var(--line);
+}
+.purchase-list--onLight .purchase-label,
+.purchase-list--onLight .purchase-label strong {
+  color: var(--ink);
+}
+.purchase-list--onLight .qty-stepper {
+  border-color: var(--line);
+}
+.purchase-list--onLight .qty-btn {
+  background: var(--cream-deep);
+  color: var(--ink);
+}
+.purchase-list--onLight .qty-btn:hover:not(:disabled) {
+  background: var(--gold-soft);
+}
+.purchase-list--onLight .qty-value {
+  background: #fff;
+  color: var(--ink);
+  border-left-color: var(--line);
+  border-right-color: var(--line);
+}
+.purchase-list--onLight .purchase-btn {
+  background: var(--forest);
+  color: #fff;
+  border-color: var(--forest);
+}
+.purchase-list--onLight .purchase-btn:hover {
+  background: #25332a;
+  border-color: #25332a;
+}
+@media (max-width: 560px) {
+  .purchase-list {
+    grid-template-columns: auto auto;
+  }
+  .purchase-label {
+    grid-column: 1 / -1;
+    text-align: center;
+    white-space: normal;
+  }
+}
+.btn-dark {
+  background: var(--forest);
+  color: #fff;
+}
+.btn-dark:hover {
+  background: #25332a;
+}
+.btn-outline {
+  border: 1px solid var(--forest);
+  color: var(--forest);
+}
+.btn-outline:hover {
+  background: var(--forest);
+  color: #fff;
+}
+
+/* ---------- Testimonial strip ---------- */
+.quote-strip {
+  background: var(--burgundy);
+  color: #f6e9df;
+  text-align: center;
+  padding: 64px 0;
+}
+.quote-strip blockquote {
+  font-family: "Shippori Mincho", serif;
+  font-size: clamp(19px, 2.4vw, 26px);
+  max-width: 720px;
+  margin: 0 auto 18px;
+  line-height: 1.85;
+  font-weight: 500;
+}
+.quote-strip cite {
+  font-style: normal;
+  font-size: 12.5px;
+  letter-spacing: 0.1em;
+  color: #e3c9bb;
+}
+
+/* ---------- FAQ ---------- */
+.faq {
+  background: var(--cream);
+}
+.faq-list {
+  max-width: 760px;
+  margin: 0 auto;
+}
+.faq-item {
+  border-bottom: 1px solid var(--line);
+}
+.faq-q {
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 22px 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: "Shippori Mincho", serif;
+  font-size: 16px;
+  color: var(--ink);
+  gap: 20px;
+}
+.faq-q .plus {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  position: relative;
+  transition: 0.3s;
+}
+.faq-q .plus::before,
+.faq-q .plus::after {
+  content: "";
+  position: absolute;
+  background: var(--gold);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.faq-q .plus::before {
+  width: 10px;
+  height: 1px;
+}
+.faq-q .plus::after {
+  width: 1px;
+  height: 10px;
+  transition: 0.3s;
+}
+.faq-item.open .plus::after {
+  transform: translate(-50%, -50%) rotate(90deg);
+  opacity: 0;
+}
+.faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+.faq-a p {
+  font-size: 14px;
+  color: var(--ink-soft);
+  padding: 0 4px 24px;
+  margin: 0;
+}
+
+/* ---------- Final CTA ---------- */
+.final-cta {
+  background: linear-gradient(180deg, rgba(20, 14, 8, 0.55), rgba(20, 14, 8, 0.72)), var(--amber-deep);
+  color: #fff;
+  text-align: center;
+}
+.final-cta h2 {
+  font-size: clamp(24px, 3.2vw, 36px);
+  margin: 16px 0 16px;
+}
+.final-cta p {
+  color: #f0dfc7;
+  max-width: 480px;
+  margin: 0 auto 34px;
+  font-size: 14.5px;
+}
+.final-price {
+  font-family: "Shippori Mincho", serif;
+  font-size: 15px;
+  margin-bottom: 28px;
+  color: #f7e6c8;
+}
+.final-price strong {
+  font-size: 30px;
+  margin: 0 6px;
+}
+
+.footer {
+  background: var(--forest);
+  color: #cdc3a9;
+  padding: 56px 0 26px;
+  font-size: 12.5px;
+}
+.footer .wrap {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+.footer .fnav {
+  display: flex;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+.footer .fbottom {
+  border-top: 1px solid rgba(205, 195, 169, 0.2);
+  margin-top: 36px;
+  padding-top: 20px;
+  text-align: center;
+  opacity: 0.75;
+}
+
+@media (max-width: 900px) {
+  /* .page section{padding:96px 0} より詳細度を上げて上書き */
+  .page .intro {
+    padding-top: 20px;
+  }
+  .intro-grid,
+  .spot-grid {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .intro-photo,
+  .spot-photo {
+    order: -1;
+  }
+  .why-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .tier {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .tier-plate.mid,
+  .tier-plate.base {
+    transform: none;
+  }
+  .spot-price-tag {
+    width: 78px;
+    height: 78px;
+    right: 8px;
+  }
+}
+@media (max-width: 560px) {
+  .why-grid {
+    grid-template-columns: 1fr;
+  }
+  .why-card {
+    border-right: none;
+  }
+  .page section {
+    padding: 64px 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page * {
+    transition: none !important;
+  }
+}

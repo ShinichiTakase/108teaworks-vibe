@@ -47,3 +47,10 @@ export function isJaOnlyBookPath(pathname: string): boolean {
   return JA_ONLY_BOOK_PATH_RE.test(pathname);
 }
 
+/** 通常のヘッダー/グローバルナビ/フッターを持たない、独立デザインのLPページ */
+const BARE_LP_PATH_RE = /^\/(?:(?:en|ko|zh)\/)?ise-cha\/wakocha-lp(\/|$)/;
+
+export function isBareLpPath(pathname: string): boolean {
+  return BARE_LP_PATH_RE.test(pathname);
+}
+

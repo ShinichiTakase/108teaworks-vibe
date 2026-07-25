@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 import Script from "next/script";
 import "./globals.css";
-import Layout from "@/components/Layout";
+import LayoutGate from "@/components/LayoutGate";
 import Providers from "@/components/Providers";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import MetaPixel from "@/components/MetaPixel";
@@ -84,7 +84,7 @@ export default function RootLayout({
         <MetaPixel />
         <MicrosoftClarity />
         <Providers>
-          <Layout>{children}</Layout>
+          <LayoutGate>{children}</LayoutGate>
         </Providers>
         <ChachamaruDeferredStylesheet />
         {/* 茶々丸: アイコンURLを渡してからスクリプト読み込み */}

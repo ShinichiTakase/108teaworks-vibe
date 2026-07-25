@@ -1,15 +1,29 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import { buildLocalizedHref, detectLocaleFromPath } from "@/lib/urlPath";
 
+const CHECKOUT_PATH_RE = /^\/(?:(?:en|ko|zh)\/)?checkout(\/|$)/;
+
 export default function CartAddedPopup() {
   const pathname = usePathname() || "/";
+  const router = useRouter();
   const locale = detectLocaleFromPath(pathname);
   const { lastAdded, clearLastAdded } = useCart();
   const checkoutHref = buildLocalizedHref(locale, "/checkout");
+  /** 「今すぐ買う」系ボタンでカート追加と同時にcheckoutへ遷移した直後は、
+   * このポップアップがcheckoutページ上に出る。checkout自体は「買い物を続ける」先として
+   * 意味を持たないため、その場合だけ遷移元へ戻る */
+  const isOnCheckout = CHECKOUT_PATH_RE.test(pathname);
+
+  const handleContinueShopping = () => {
+    clearLastAdded();
+    if (isOnCheckout) {
+      router.back();
+    }
+  };
 
   if (!lastAdded) return null;
 
@@ -18,7 +32,7 @@ export default function CartAddedPopup() {
       {/* backdrop */}
       <div
         className="absolute inset-0 bg-black/25"
-        onClick={clearLastAdded}
+        onClick={handleContinueShopping}
         aria-hidden="true"
       />
 
@@ -70,7 +84,7 @@ export default function CartAddedPopup() {
         >
           <button
             type="button"
-            onClick={clearLastAdded}
+            onClick={handleContinueShopping}
             className="flex-1 py-3 rounded-xl text-sm font-semibold transition-colors hover:bg-green-50"
             style={{
               border: "2px solid rgba(45, 80, 22, 0.55)",
