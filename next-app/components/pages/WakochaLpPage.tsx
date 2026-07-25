@@ -27,7 +27,7 @@ const FAQS = [
   },
   {
     q: "ミルクティーにできますか？",
-    a: "はい、おすすめです。濃いめに抽出してから温めた牛乳を加えることで、渋みが少ないぶん牛乳本来の風味を活かしたミルクティーになります。",
+    a: "渋みが少なく繊細な風味のため、実はミルクとの相性はひかえめです。まずはストレートでお試しいただくのが一番のおすすめ。ミルクティーにする場合は、いつもより濃いめに抽出してから温めた牛乳を加えると、香りと旨味が負けにくくなります。",
   },
   {
     q: "カフェインは含まれますか？",
@@ -54,7 +54,7 @@ function normalizePlaceNames(text: string): string {
 export default async function WakochaLpPage() {
   const canonicalUrl = `${SITE_BASE_URL}/ise-cha/wakocha-lp/`;
   const leadDescription =
-    "渋みが少なく、やさしい甘みと花のような香り。ホテルのアフタヌーンティーで出会うあの一杯を、ティーバッグひとつで、いつもの午後に。";
+    "ふわっと紅茶の香りが鼻に抜けたあと、緑茶ゆずりの旨味とコクが広がる和紅茶。渋みが少なく繊細なので、まずはストレートで。ティータイムはもちろん、和食にもよく合います。";
 
   const [product8, product3] = await Promise.all([
     getProductBySlug("wakocha-isecha"),
@@ -104,7 +104,7 @@ export default async function WakochaLpPage() {
       <ArticleJsonLd
         headline="和紅茶 ティーバッグ｜アフタヌーンティーで人気の和紅茶を、ご自宅で。"
         description={leadDescription}
-        imageUrl={`${SITE_BASE_URL}/images/wakoucha/hero.jpg`}
+        imageUrl={`${SITE_BASE_URL}/images/wakoucha/hero.webp`}
         canonicalUrl={canonicalUrl}
         inLanguage="ja"
       />
@@ -131,7 +131,7 @@ export default async function WakochaLpPage() {
 
       {/* ---------- HERO（画像 + オーバーレイのテキスト/ボタン） ---------- */}
       <section className={styles.hero}>
-        <img src="/images/wakoucha/hero.jpg" alt="焼き菓子と紅茶のアフタヌーンティー" />
+        <img src="/images/wakoucha/hero.webp" alt="焼き菓子と紅茶のアフタヌーンティー" />
         <div className={styles["hero-content"]}>
           <h1>
             アフタヌーンティーで人気の和紅茶を、
@@ -140,7 +140,7 @@ export default async function WakochaLpPage() {
             <em>シングルオリジンの伊勢茶、完全発酵させた国産紅茶</em>
           </h1>
           <p className={styles.sub}>
-            渋みが少なく、やさしい甘みと花のような香り。ホテルのアフタヌーンティーで出会うあの一杯を、ティーバッグひとつで、いつもの午後に。
+            ふわっと紅茶の香りが鼻に抜けたあと、緑茶ゆずりの旨味とコクが広がる和紅茶。渋みが少なく繊細な味わいなので、まずはストレートでどうぞ。
           </p>
           <div className={styles["hero-ctas"]}>
             <a href="#story" className={`${styles.btn} ${styles["btn-primary"]}`}>
@@ -167,7 +167,10 @@ export default async function WakochaLpPage() {
               紅茶といえばインドやスリランカを思い浮かべる方が多いかもしれません。けれど和紅茶は、日本の緑茶品種の茶葉を完全発酵させてつくる、れっきとした国産紅茶。松阪市飯南町の自家茶園で丁寧に育てたシングルオリジン伊勢茶を使い、藤八茶寮ならではの繊細な一杯に仕上げました。
             </p>
             <p>
-              インドやスリランカのセイロン種に比べ、日本の緑茶品種はタンニンが少ないため、完全発酵させても渋みが出にくいのが特徴。やさしい甘みと、花や果実を思わせる繊細な香りが際立ちます。ミルクを加えても茶葉本来の風味が消えにくく、ミルクティーとの相性も抜群です。
+              インドやスリランカのセイロン種に比べ、日本の緑茶品種はタンニンが少なく、完全発酵させても渋みが出にくいのが特徴。口に含むとまずふわっと紅茶らしい香りが鼻に抜け、そのあとから緑茶ゆずりの旨味とコクがじんわりと広がります。この繊細な味わいはミルクに負けやすいため、まずはストレートでお楽しみいただくのが一番のおすすめです。
+            </p>
+            <p>
+              洋菓子とのアフタヌーンティーはもちろん、緑茶に通じる旨味とコクがあるからこそ、焼き魚や煮物といった和食とも好相性。ティータイムだけでなく、食中茶としても愉しんでいただけます。
             </p>
             <p>明治時代から160年続く飯南町の茶畑。山に囲まれた谷地形と清らかな水が育む茶葉は、この土地でしか生まれない個性を持っています。</p>
           </div>
@@ -194,7 +197,7 @@ export default async function WakochaLpPage() {
             <span className={styles.eyebrow}>なぜ、選ばれるのか</span>
             <h2>ヌン活好きが夢中になる、4つの理由</h2>
             <p>
-              渋くない。だから、お菓子と合わせても邪魔をしない。
+              渋くないから、お菓子にも和食にも寄り添う。
               <br />
               ホテルのアフタヌーンティーで感じたあの心地よさには、理由があります。
             </p>
@@ -218,8 +221,8 @@ export default async function WakochaLpPage() {
                 <path d="M12 3c-3 3-3 6 0 9s3 6 0 9M8 6c-2 2-2 4 0 6M16 12c2 2 2 4 0 6" />
               </svg>
             </div>
-            <h3>花のような繊細な香り</h3>
-            <p>アミノ酸が豊富な茶葉が発酵する過程で、花や果実を思わせる香り成分が引き立ちます。</p>
+            <h3>香りの奥に、緑茶の旨味とコク</h3>
+            <p>アミノ酸が豊富な茶葉が発酵する過程で華やかな香りが引き立ち、そのあとに緑茶ゆずりの旨味とコクがじんわり広がります。</p>
           </div>
           <div className={styles["why-card"]}>
             <div className={styles.ico}>
@@ -237,8 +240,8 @@ export default async function WakochaLpPage() {
                 <path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6c-2.5 4.5-9.5 9-9.5 9Z" />
               </svg>
             </div>
-            <h3>焼き菓子との相性が抜群</h3>
-            <p>渋みが少ないぶん、スコーンやクッキーなど甘いお菓子の風味を引き立てます。</p>
+            <h3>洋菓子にも和食にも合う懐の深さ</h3>
+            <p>渋みが少なく旨味とコクがあるからこそ、スコーンなどの洋菓子はもちろん、焼き魚や煮物といった和食の味わいも引き立てます。</p>
           </div>
         </div>
       </section>
@@ -249,20 +252,20 @@ export default async function WakochaLpPage() {
           <div className={styles["section-head"]}>
             <span className={styles.eyebrow}>How to Enjoy</span>
             <h2>3段スタンドのように、愉しみ方も三段仕立て</h2>
-            <p>ストレート・ミルクティー・アイス。アフタヌーンティースタンドの一段一段のように、気分や時間帯で愉しみ方を変えられます。</p>
+            <p>まずはストレートで、香りと旨味・コクを。アフタヌーンティースタンドの一段一段のように、気分や時間帯で愉しみ方を変えられます。</p>
           </div>
           <div className={styles.tier}>
             <div className={`${styles["tier-plate"]} ${styles.top}`}>
-              <span className={styles["tier-num"]}>TOP · ストレートティー</span>
+              <span className={styles["tier-num"]}>TOP · ストレートティー（一番のおすすめ）</span>
               <h3>茶葉そのものを味わう</h3>
               <div className={styles.temp}>お湯 90〜95℃／2〜3分</div>
-              <p>緑茶より長めに蒸らして、甘みと香りをそのまま楽しみます。</p>
+              <p>緑茶より長めに蒸らして、ふわっと香る紅茶の余韻のあとに広がる、緑茶ゆずりの旨味とコクをそのまま楽しみます。</p>
             </div>
             <div className={`${styles["tier-plate"]} ${styles.mid}`}>
               <span className={styles["tier-num"]}>MIDDLE · ミルクティー</span>
-              <h3>濃いめに淹れてミルクと</h3>
+              <h3>試すなら、いつもより濃いめに</h3>
               <div className={styles.temp}>蒸らし3〜4分／温めた牛乳を加える</div>
-              <p>渋みが少ないため牛乳との相性が良く、砂糖なしでも自然な甘みが感じられます。</p>
+              <p>渋みが少なく繊細な風味の分、ミルクにはやや負けやすいのが和紅茶。試す場合はしっかり濃いめに淹れると、香りと旨味が引き立ちます。</p>
             </div>
             <div className={`${styles["tier-plate"]} ${styles.base}`}>
               <span className={styles["tier-num"]}>BASE · アイスティー</span>
@@ -283,7 +286,7 @@ export default async function WakochaLpPage() {
             ) : (
               <div className={styles["spot-text"]}>
                 <p>
-                  三重県の山間で丁寧に育てられた伊勢茶を100%使用した国産和紅茶のティーバッグです。海外紅茶とは異なる、日本在来の茶葉ならではのやさしい味わいが特徴です。
+                  三重県の山間で丁寧に育てられた伊勢茶を100%使用した国産和紅茶のティーバッグです。ふわっと香る紅茶の余韻のあとに緑茶ゆずりの旨味とコクが広がり、ストレートはもちろん、洋菓子にも和食にも合わせやすい一杯です。
                 </p>
               </div>
             )}
