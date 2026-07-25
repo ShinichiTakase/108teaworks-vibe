@@ -133,7 +133,6 @@ export default async function WakochaLpPage() {
       <section className={styles.hero}>
         <img src="/images/wakoucha/hero.jpg" alt="焼き菓子と紅茶のアフタヌーンティー" />
         <div className={styles["hero-content"]}>
-          <span className={styles["hero-tag"]}>ヌン活、おうちで。</span>
           <h1>
             アフタヌーンティーで人気の和紅茶を、
             <br />
@@ -173,7 +172,7 @@ export default async function WakochaLpPage() {
             <p>明治時代から160年続く飯南町の茶畑。山に囲まれた谷地形と清らかな水が育む茶葉は、この土地でしか生まれない個性を持っています。</p>
           </div>
           <div className={styles["intro-photo"]}>
-            <div className={styles.cap}>明治から続く飯南町の茶園から、シングルオリジンでお届け</div>
+            <div className={styles.cap}>幕末から続く松阪市飯南町の茶園から、シングルオリジンでお届け</div>
             <div className={styles["intro-photo-grid"]}>
               <div>
                 <img src="/images/products/wakocha-isecha/1000.webp" alt={title8} />
