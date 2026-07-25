@@ -376,11 +376,33 @@ export default async function WakochaLpPage() {
             </div>
           </div>
           <nav className={styles.fnav}>
-            <a href="#story">伊勢茶とは</a>
-            <a href="#order">商品一覧</a>
-            <a href="#">お茶の淹れ方</a>
-            <a href="#">ご注文の流れ</a>
-            <a href="#">お問い合わせ</a>
+            <a href="/privacy-policy/" target="_blank" rel="noopener noreferrer">
+              プライバシーポリシー
+            </a>
+            <a href="/legal/" target="_blank" rel="noopener noreferrer">
+              特定商取引法に基づく表記
+            </a>
+            <a
+              href="mailto:info@108teaworks.com"
+              className={styles["fnav-icon"]}
+              aria-label="メールでお問い合わせ"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+                <rect x="3" y="5" width="18" height="14" rx="2" />
+                <path d="M4 7l8 6 8-6" />
+              </svg>
+            </a>
+            <a
+              href="https://ig.me/m/108teaworks/"
+              className={styles["fnav-icon"]}
+              aria-label="Instagram"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="5" />
+                <circle cx="12" cy="12" r="4" />
+                <circle cx="17.3" cy="6.7" r="0.6" fill="currentColor" stroke="none" />
+              </svg>
+            </a>
           </nav>
         </div>
         <div className={`${styles.wrap} ${styles.fbottom}`}>
