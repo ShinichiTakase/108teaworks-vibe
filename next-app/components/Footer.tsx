@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
-import { buildLocalizedHref, detectLocaleFromPath } from "@/lib/urlPath";
+import { buildLocalizedHref, detectLocaleFromPath, isProductDetailPath } from "@/lib/urlPath";
 
 export default function Footer() {
   const pathname = usePathname() || "/";
@@ -11,6 +11,8 @@ export default function Footer() {
   const t = COMMON_TEXTS[locale];
   const privacyHref = buildLocalizedHref(locale, "/privacy-policy");
   const legalHref = buildLocalizedHref(locale, "/legal");
+  /** 商品詳細ページは購入固定バーが常時表示されるため、コピーライトがその下に隠れないよう余白を確保 */
+  const copyrightPaddingClass = isProductDetailPath(pathname) ? "pt-4 pb-[84px]" : "py-4";
 
   return (
     <footer
@@ -56,7 +58,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="w-full">
-        <div className="w-[90%] max-w-wide mx-auto py-4">
+        <div className={`w-[90%] max-w-wide mx-auto ${copyrightPaddingClass}`}>
           <p className="m-0 text-center text-[0.8125rem] text-ink-muted leading-relaxed">
             {t.footer.copyright}
           </p>

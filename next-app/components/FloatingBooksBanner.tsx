@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import type { Locale } from "@/lib/i18n";
-import { buildLocalizedHref, detectLocaleFromPath } from "@/lib/urlPath";
+import { buildLocalizedHref, detectLocaleFromPath, isProductDetailPath } from "@/lib/urlPath";
 
 type BannerTextEntry = {
   book0Lead: string;
@@ -100,6 +100,8 @@ export default function FloatingBooksBanner() {
     observer.observe(footer);
     return () => observer.disconnect();
   }, []);
+
+  if (isProductDetailPath(pathname)) return null;
 
   const bookLeadClass =
     "block w-full text-right text-[0.65rem] font-normal leading-tight text-ink max-[639px]:text-[0.62rem] min-[640px]:text-[0.75rem] md:text-[0.8125rem]";

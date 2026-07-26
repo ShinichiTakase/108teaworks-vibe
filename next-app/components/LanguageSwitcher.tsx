@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { detectLocaleFromPath, isJaOnlyBookPath } from "@/lib/urlPath";
+import { detectLocaleFromPath, isJaOnlyBookPath, isProductDetailPath } from "@/lib/urlPath";
 
 const locales = [
   { code: "zh", label: "Chinese", flag: "🇨🇳" },
@@ -30,8 +30,10 @@ export default function LanguageSwitcher() {
     return basePath === "/" ? `/${code}` : `/${code}${basePath}`;
   };
 
+  const bottomClass = isProductDetailPath(pathname) ? "bottom-[84px]" : "bottom-4";
+
   return (
-    <div className="fixed bottom-4 right-4 z-50 text-left">
+    <div className={`fixed ${bottomClass} right-4 z-50 text-left`}>
       <details className="group inline-block">
         <summary className="list-none cursor-pointer rounded-full bg-cream/90 shadow px-3 py-1.5 text-sm font-semibold flex items-center gap-1 select-none text-ink">
           <span className="inline-block h-2 w-2 rounded-full bg-[#d9002b]" />

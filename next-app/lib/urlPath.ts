@@ -54,3 +54,29 @@ export function isBareLpPath(pathname: string): boolean {
   return BARE_LP_PATH_RE.test(pathname);
 }
 
+/** /ise-cha/ 配下の静的ページ（カテゴリ・LP等）。商品詳細（[slug]）ではないもの一覧 */
+const ISE_CHA_STATIC_SLUGS = [
+  "america",
+  "books",
+  "caffeine",
+  "catechin",
+  "decaf",
+  "fukamushi",
+  "houjicha",
+  "how-to-brew",
+  "maccha",
+  "wakocha",
+  "wakocha-lp",
+  "decafe-lp",
+  "roasted-powder-lp",
+];
+
+/** 商品詳細ページ（/ise-cha/[slug]/ および旧URL /products/[slug]/）のみに一致。一覧・静的カテゴリページ・/reviews/ 等は除外 */
+const PRODUCT_DETAIL_PATH_RE = new RegExp(
+  `^/(?:(?:en|ko|zh)/)?(?:ise-cha|products)/(?!(?:${ISE_CHA_STATIC_SLUGS.join("|")})(?:/|$))([^/]+)/?$`
+);
+
+export function isProductDetailPath(pathname: string): boolean {
+  return PRODUCT_DETAIL_PATH_RE.test(pathname);
+}
+

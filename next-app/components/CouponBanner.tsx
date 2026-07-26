@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { isProductDetailPath } from "@/lib/urlPath";
 
 const ITEMS = [
   { text: "【特集】緑茶とコレステロールの健やかな関係", href: "/ise-cha/catechin/" },
@@ -10,6 +12,9 @@ const ITEMS = [
 ];
 
 export default function CouponBanner() {
+  const pathname = usePathname() || "/";
+  if (isProductDetailPath(pathname)) return null;
+
   return (
     <div
       className="overflow-hidden border-b border-tea-light/30 bg-tea-deep/[0.06] py-2.5"

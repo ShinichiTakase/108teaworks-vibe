@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
-import { buildLocalizedHref, detectLocaleFromPath, isJaOnlyBookPath } from "@/lib/urlPath";
+import { buildLocalizedHref, detectLocaleFromPath, isJaOnlyBookPath, isProductDetailPath } from "@/lib/urlPath";
 
 export default function FloatingCartBar() {
   const pathname = usePathname() || "/";
@@ -26,10 +26,11 @@ export default function FloatingCartBar() {
   if (isCartOrCheckout || isJaOnlyBookPath(pathname) || cartItemCount === 0) return null;
 
   const activeItems = items.filter((item) => item.quantity > 0);
+  const mobileBottomClass = isProductDetailPath(pathname) ? "bottom-[84px]" : "bottom-[60px]";
 
   return (
     <div
-      className="fixed right-0 z-50 flex flex-col w-52 rounded-l-xl overflow-hidden shadow-xl bottom-[60px] sm:bottom-[max(calc(35%_+_4em),294px)] cursor-pointer"
+      className={`fixed right-0 z-50 flex flex-col w-52 rounded-l-xl overflow-hidden shadow-xl ${mobileBottomClass} sm:bottom-[max(calc(35%_+_4em),294px)] cursor-pointer`}
       onClick={() => router.push(checkoutHref)}
       role="link"
       tabIndex={0}

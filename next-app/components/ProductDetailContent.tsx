@@ -3,7 +3,8 @@ import { getProductBySlug, decodeHtmlEntities } from "@/lib/microcms";
 import { getProductImagePaths, getProductTasteImagePaths } from "@/lib/productImage";
 import ProductTasteImages from "@/components/ProductTasteImages";
 import ProductImageGallery from "@/components/ProductImageGallery";
-import ProductAddToCart from "@/components/ProductAddToCart";
+import ProductBuyBar from "@/components/ProductBuyBar";
+import ShipRankInfo from "@/components/ShipRankInfo";
 import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import styles from "@/components/ProductDetailContent.module.css";
 import { getBreadcrumbItems } from "@/lib/breadcrumb";
@@ -203,41 +204,46 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
         suppressHydrationWarning
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
       />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-        <div>
-          <ProductImageGallery imagePaths={imagePaths} alt={displayTitle || ""} />
-        </div>
-        <div>
-          <h1 className="m-0 mb-2 font-heading text-lg md:text-xl font-semibold text-tea-deep text-right">
-            {displayTitle || "—"}
-          </h1>
-          <p className="m-0 mb-4 text-[1.125rem] font-bold text-tea-deep text-right">
-            {formatPriceYen(product.PRICE)} <span className="text-base font-normal text-ink-muted">{t.taxIncluded}</span>
-          </p>
-          {safeDisplayDesc01 && !tasteWithDesc01Only && (
-            <div
-              className="product-description mb-4 text-[0.9375rem] leading-relaxed text-ink [&_a]:text-tea [&_a]:underline [&_img]:max-w-full [&_p]:mb-2 [&_p:last-child]:mb-0"
-              dangerouslySetInnerHTML={{ __html: safeDisplayDesc01 }}
-            />
-          )}
-          {safeDisplayDesc01 && tasteWithDesc01Only && (
-            <div className="mb-4 grid w-full min-w-0 grid-cols-1 gap-4 md:grid-cols-[minmax(0,3fr)_minmax(0,1fr)] md:items-start md:gap-5">
+      <div className="mb-8">
+        <h1 className="m-0 mb-2 font-heading text-lg md:text-xl font-semibold text-tea-deep">
+          {displayTitle || "—"}
+        </h1>
+        <p className="m-0 text-right text-2xl font-bold text-tea-deep">
+          {formatPriceYen(product.PRICE)} <span className="text-base font-normal text-ink-muted">{t.taxIncluded}</span>
+        </p>
+        <ProductBuyBar
+          slug={slug}
+          price={product.PRICE}
+          title={displayTitle}
+          imagePath={imagePaths[0]}
+          locale={locale}
+          shipRank={product.SHIP_RANK}
+        />
+        {/* 商品画像とDESCRIPTION01：スマホは画像の下、タブレット・PCは画像の右に説明文を配置 */}
+        <div className={safeDisplayDesc01 ? "mt-5 grid grid-cols-1 gap-6 md:grid-cols-2 md:items-start md:gap-8" : "mt-5"}>
+          <div className={safeDisplayDesc01 ? undefined : "mx-auto max-w-xl md:mx-0 md:max-w-none"}>
+            <ProductImageGallery imagePaths={imagePaths} alt={displayTitle || ""} />
+          </div>
+          {safeDisplayDesc01 && (
+            <div className="min-w-0">
               <div
-                className="product-description min-w-0 text-[0.9375rem] leading-relaxed text-ink [&_a]:text-tea [&_a]:underline [&_img]:max-w-full [&_p]:mb-2 [&_p:last-child]:mb-0"
+                className="product-description text-[0.9375rem] leading-relaxed text-ink [&_a]:text-tea [&_a]:underline [&_img]:max-w-full [&_p]:mb-2 [&_p:last-child]:mb-0"
                 dangerouslySetInnerHTML={{ __html: safeDisplayDesc01 }}
               />
-              <ProductTasteImages paths={tasteImagePaths} altBase={displayTitle || titleJa} className="min-w-0" />
+              {product.SHIP_RANK !== undefined && (
+                <ShipRankInfo shipRank={product.SHIP_RANK} locale={locale} className="mt-4" />
+              )}
             </div>
           )}
-          <ProductAddToCart
-            slug={slug}
-            price={product.PRICE}
-            title={displayTitle}
-            imagePath={imagePaths[0]}
-            locale={locale}
-            shipRank={product.SHIP_RANK}
-          />
         </div>
+        {!safeDisplayDesc01 && product.SHIP_RANK !== undefined && (
+          <ShipRankInfo shipRank={product.SHIP_RANK} locale={locale} className="mt-4 ml-auto w-full md:max-w-sm" />
+        )}
+        {safeDisplayDesc01 && tasteWithDesc01Only && (
+          <div className="mt-6 flex justify-center md:justify-end">
+            <ProductTasteImages paths={tasteImagePaths} altBase={displayTitle || titleJa} />
+          </div>
+        )}
       </div>
       {(safeDisplayDesc02 || tasteStandalone) && (
         <div
