@@ -384,6 +384,7 @@
   border-radius: 24px;
   padding: 32px;
   box-shadow: var(--shadow);
+  overflow-x: auto;
 }
 table.compare-table {
   width: 100%;
@@ -414,6 +415,7 @@ table.compare-table tr.highlight td {
   overflow: hidden;
   height: 10px;
   width: 140px;
+  max-width: 100%;
 }
 .bar {
   height: 100%;
@@ -642,6 +644,35 @@ table.spec-table td {
   }
 }
 @media (max-width: 640px) {
+  /* スマホではHERO写真がテキストカードでほぼ隠れてしまうため、カードの背景を完全に透過する */
+  .hero-copy-card {
+    background: transparent;
+    backdrop-filter: none;
+    box-shadow: none;
+  }
+  /* バッジ・購入ボタンも同じ理由で半透明に（文字はそのまま読めるよう背景色のみ透過） */
+  .badge {
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(2px);
+  }
+  .hero .hero-buy {
+    background: linear-gradient(120deg, rgba(224, 143, 161, 0.55), rgba(79, 157, 128, 0.55));
+    backdrop-filter: blur(2px);
+  }
+  /* カフェイン比較表がiPhoneで見切れないよう、余白を詰めてバーを狭くする */
+  .compare-table-wrap {
+    padding: 16px 12px;
+  }
+  table.compare-table {
+    font-size: 11.5px;
+  }
+  table.compare-table th,
+  table.compare-table td {
+    padding: 8px 6px;
+  }
+  .bar-wrap {
+    width: 46px;
+  }
   .worry-cards {
     gap: 10px;
   }
