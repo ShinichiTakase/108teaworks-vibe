@@ -48,7 +48,7 @@ export function isJaOnlyBookPath(pathname: string): boolean {
 }
 
 /** 通常のヘッダー/グローバルナビ/フッターを持たない、独立デザインのLPページ */
-const BARE_LP_PATH_RE = /^\/(?:(?:en|ko|zh)\/)?ise-cha\/wakocha-lp(\/|$)/;
+const BARE_LP_PATH_RE = /^\/(?:(?:en|ko|zh)\/)?ise-cha\/(?:wakocha-lp|decafe-lp)(\/|$)/;
 
 export function isBareLpPath(pathname: string): boolean {
   return BARE_LP_PATH_RE.test(pathname);

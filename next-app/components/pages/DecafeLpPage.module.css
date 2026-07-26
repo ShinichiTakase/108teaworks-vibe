@@ -1,0 +1,679 @@
+/*
+ * D:\藤八茶寮\カフェインカットLP\decaf_green_tea_lp.html の <style> を機械的に移植したもの。
+ * デザイン・レイアウトの値は一切変更していない。以下のみ技術的な理由で調整している：
+ * ・`:root` の変数は `.page` に付け替え（サイト全体に漏れないよう this ページ配下に閉じ込める）
+ * ・`*`, `body`, `a`, `img`, `section` などの裸のタグセレクタは、同じ理由で `.page` 配下に限定
+ * ・`.page a` を `.page :where(a)` にして詳細度を0にし、`.cta-button` 等の単一クラスの
+ *   color指定を確実に上書きできるようにする
+ * ・`.page section{padding:64px 0}` は `.page`+`section` で詳細度が上がるため、
+ *   `.final-cta` 側も `.page .final-cta` にして元の見た目（`padding:64px 24px`）を保つ
+ */
+
+.page {
+  --emerald: #4f9d80;
+  --emerald-deep: #3a7d64;
+  --emerald-pale: #e6f3ec;
+  --mint: #cfe9dd;
+  --pink: #f3b8c4;
+  --pink-deep: #e08fa1;
+  --pink-pale: #fbe9ed;
+  --cream: #fbf9f4;
+  --ink: #3f4a45;
+  --ink-soft: #6b7570;
+  --white: #ffffff;
+  --shadow: 0 10px 30px rgba(79, 157, 128, 0.12);
+
+  margin: 0;
+  font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", sans-serif;
+  color: var(--ink);
+  background: var(--cream);
+  line-height: 1.85;
+  -webkit-font-smoothing: antialiased;
+}
+.page * {
+  box-sizing: border-box;
+}
+.page :where(a) {
+  color: inherit;
+  text-decoration: none;
+}
+.page img {
+  max-width: 100%;
+  display: block;
+}
+.wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ===== HEADER (108teaworks共通構成を踏襲) ===== */
+.site-header {
+  background: linear-gradient(135deg, var(--mint) 0%, var(--emerald-pale) 100%);
+  border-bottom: 1px solid #cfe4d8;
+}
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 14px 24px;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.brand img {
+  height: 40px;
+  width: auto;
+}
+.brand-text {
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+/* ===== HERO（全面画像＋オーバーレイ） ===== */
+.hero {
+  position: relative;
+  min-height: 640px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 30%;
+}
+.hero-overlay {
+  position: relative;
+  z-index: 1;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 80px 24px;
+  width: 100%;
+  color: var(--ink);
+}
+.hero-copy-card {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(3px);
+  border-radius: 28px;
+  padding: 40px 44px;
+  max-width: 580px;
+  box-shadow: 0 20px 48px rgba(58, 125, 100, 0.18);
+}
+.hero-overlay .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--pink-pale);
+  color: var(--pink-deep);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 20px;
+  margin-bottom: 18px;
+  letter-spacing: 0.05em;
+}
+.hero-overlay h1 {
+  font-size: clamp(26px, 3.8vw, 40px);
+  line-height: 1.45;
+  margin: 0 0 18px;
+  color: var(--ink);
+  max-width: 100%;
+  text-shadow: 0 1px 12px rgba(255, 255, 255, 0.7);
+}
+.hero-overlay h1 .accent {
+  color: var(--emerald-deep);
+  background: linear-gradient(180deg, transparent 62%, var(--mint) 62%);
+}
+.hero-overlay p.lead {
+  font-size: 15px;
+  color: var(--ink-soft);
+  margin: 0 0 28px;
+  max-width: 100%;
+  text-shadow: 0 1px 10px rgba(255, 255, 255, 0.6);
+}
+.hero-badges {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+.badge {
+  background: var(--white);
+  border: 1px solid var(--mint);
+  border-radius: 14px;
+  padding: 10px 14px;
+  font-size: 12.5px;
+  color: var(--emerald-deep);
+  font-weight: 600;
+  box-shadow: var(--shadow);
+}
+.badge b {
+  font-size: 18px;
+  display: block;
+  color: var(--pink-deep);
+}
+/* 購入ピル（数量+/-とCTAを一体化）。ヒーロー・商品情報・最終CTAで共通使用 */
+.hero-buy {
+  display: inline-flex;
+  align-items: stretch;
+  background: linear-gradient(120deg, var(--pink-deep), var(--emerald));
+  border-radius: 32px;
+  box-shadow: 0 12px 24px rgba(224, 143, 161, 0.35);
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+.hero-buy:hover {
+  transform: translateY(-2px);
+}
+.hero-buy-qtybtn {
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.14);
+  color: var(--white);
+  font-size: 19px;
+  font-weight: 700;
+  font-family: inherit;
+  border: none;
+  cursor: pointer;
+}
+.hero-buy-qtybtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.hero-buy-qtybtn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.26);
+}
+.hero-buy-qty {
+  width: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.06);
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+  border-right: 1px solid rgba(255, 255, 255, 0.3);
+}
+.hero-buy-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 30px;
+  color: var(--white);
+  font-weight: 700;
+  font-size: 16px;
+  font-family: inherit;
+  white-space: nowrap;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+.cta-sub {
+  display: block;
+  font-size: 12px;
+  color: var(--ink-soft);
+  margin-top: 10px;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* section common */
+.page section {
+  padding: 64px 0;
+}
+.section-head {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 44px;
+}
+.section-head .tag {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--pink-deep);
+  letter-spacing: 0.1em;
+  margin-bottom: 10px;
+  display: block;
+}
+.section-head h2 {
+  font-size: clamp(22px, 3vw, 30px);
+  margin: 0 0 12px;
+  color: var(--ink);
+}
+.section-head p {
+  color: var(--ink-soft);
+  font-size: 14.5px;
+  margin: 0;
+}
+
+/* お悩み共感 */
+.worry-band {
+  background: var(--white);
+}
+.worry-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.worry-card {
+  background: var(--pink-pale);
+  border-radius: 20px;
+  padding: 28px 22px;
+  text-align: center;
+}
+.worry-card .emoji {
+  font-size: 34px;
+  margin-bottom: 14px;
+}
+.worry-card p {
+  font-size: 16px;
+  color: var(--ink);
+  margin: 0;
+  font-weight: 600;
+}
+.worry-arrow {
+  text-align: center;
+  margin: 36px 0 0;
+  font-size: 18px;
+  color: var(--emerald-deep);
+  font-weight: 700;
+}
+
+/* 製法 / 3ポイント */
+.method {
+  background: linear-gradient(180deg, var(--emerald-pale), var(--cream));
+}
+.method-flow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 50px;
+}
+.method-step {
+  background: var(--white);
+  border-radius: 18px;
+  padding: 24px 20px;
+  box-shadow: var(--shadow);
+  position: relative;
+}
+.method-step .num {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--emerald);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.method-step h3 {
+  font-size: 14.5px;
+  margin: 0 0 8px;
+  color: var(--ink);
+}
+.method-step p {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.point-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.point-card {
+  background: var(--white);
+  border-radius: 22px;
+  padding: 32px 26px;
+  box-shadow: var(--shadow);
+  border-top: 4px solid var(--pink);
+}
+.point-card:nth-child(2) {
+  border-top-color: var(--emerald);
+}
+.point-card:nth-child(3) {
+  border-top-color: var(--pink-deep);
+}
+.point-card .icon-circle {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--mint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  margin-bottom: 16px;
+}
+.point-card h3 {
+  font-size: 16px;
+  margin: 0 0 10px;
+  color: var(--ink);
+}
+.point-card p {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+/* カフェイン比較 */
+.compare {
+  background: var(--white);
+}
+.compare-table-wrap {
+  background: var(--cream);
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: var(--shadow);
+}
+table.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+table.compare-table th {
+  text-align: left;
+  padding: 12px 10px;
+  color: var(--ink-soft);
+  font-weight: 600;
+  border-bottom: 2px solid var(--mint);
+  font-size: 12.5px;
+}
+table.compare-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #ece7da;
+}
+table.compare-table tr.highlight td {
+  background: var(--pink-pale);
+  font-weight: 700;
+  color: var(--pink-deep);
+  border-radius: 10px;
+}
+.bar-wrap {
+  background: #eee;
+  border-radius: 8px;
+  overflow: hidden;
+  height: 10px;
+  width: 140px;
+}
+.bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--emerald), var(--pink-deep));
+}
+.compare-note {
+  font-size: 12px;
+  color: var(--ink-soft);
+  margin-top: 16px;
+}
+
+/* おすすめシーン */
+.scenes {
+  background: linear-gradient(180deg, var(--cream), var(--pink-pale) 120%);
+}
+.scene-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+.scene-card {
+  background: var(--white);
+  border-radius: 18px;
+  padding: 24px 16px;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+.scene-card .emoji {
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+.scene-card p {
+  font-size: 16px;
+  margin: 0;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* 商品情報 */
+.product {
+  background: var(--white);
+}
+.product-grid {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 48px;
+  align-items: start;
+}
+.product-gallery img {
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  margin-bottom: 16px;
+}
+.product-detail h2 {
+  font-size: 22px;
+  margin: 0 0 6px;
+  color: var(--ink);
+}
+.price-tag {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--pink-deep);
+  margin: 8px 0 20px;
+}
+.price-tag span {
+  font-size: 13px;
+  color: var(--ink-soft);
+  font-weight: 500;
+}
+table.spec-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0 28px;
+  font-size: 13.5px;
+}
+table.spec-table th {
+  text-align: left;
+  width: 110px;
+  padding: 10px 0;
+  color: var(--ink-soft);
+  font-weight: 600;
+  vertical-align: top;
+  border-bottom: 1px solid #ece7da;
+}
+table.spec-table td {
+  padding: 10px 0;
+  border-bottom: 1px solid #ece7da;
+}
+.shipping-box {
+  background: var(--emerald-pale);
+  border-radius: 16px;
+  padding: 16px 20px;
+  font-size: 12.5px;
+  color: var(--emerald-deep);
+  margin-bottom: 28px;
+}
+/* FAQ */
+.faq {
+  background: var(--cream);
+}
+.faq-item {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 20px 24px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow);
+}
+.faq-item .q {
+  font-weight: 700;
+  color: var(--emerald-deep);
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+.faq-item .a {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+/* 最終CTA */
+.page .final-cta {
+  background: linear-gradient(120deg, var(--emerald-deep), var(--pink-deep));
+  color: var(--white);
+  text-align: center;
+  padding: 64px 24px;
+}
+.final-cta h2 {
+  font-size: clamp(22px, 3vw, 30px);
+  margin: 0 0 14px;
+}
+.final-cta p {
+  font-size: 14px;
+  opacity: 0.92;
+  margin: 0 0 30px;
+}
+.final-cta .hero-buy {
+  background: var(--white);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
+}
+.final-cta .hero-buy-qtybtn {
+  background: var(--pink-pale);
+  color: var(--pink-deep);
+}
+.final-cta .hero-buy-qtybtn:hover:not(:disabled) {
+  background: var(--mint);
+}
+.final-cta .hero-buy-qty {
+  color: var(--pink-deep);
+  background: var(--pink-pale);
+  border-left-color: var(--pink);
+  border-right-color: var(--pink);
+}
+.final-cta .hero-buy-cta {
+  color: var(--pink-deep);
+}
+
+/* ===== FOOTER (108teaworks共通構成) ===== */
+.site-footer {
+  background: linear-gradient(135deg, var(--emerald-deep), #2c6350);
+  color: #eef7f1;
+  padding: 40px 0 28px;
+  font-size: 12.5px;
+}
+.footer-links {
+  text-align: center;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.footer-links a {
+  margin: 0 6px;
+  opacity: 0.9;
+}
+.footer-icons {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-left: 16px;
+}
+.footer-icons a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  color: #eef7f1;
+  transition: background 0.2s ease;
+}
+.footer-icons a:hover {
+  background: rgba(255, 255, 255, 0.24);
+}
+.footer-note {
+  text-align: center;
+  opacity: 0.85;
+  margin-bottom: 10px;
+}
+.footer-copy {
+  text-align: center;
+  opacity: 0.8;
+}
+
+@media (max-width: 860px) {
+  .hero {
+    min-height: 520px;
+  }
+  .hero-overlay {
+    padding: 40px 20px;
+  }
+  .hero-copy-card {
+    padding: 28px 24px;
+    max-width: 100%;
+  }
+  .point-cards {
+    grid-template-columns: 1fr;
+  }
+  .scene-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 640px) {
+  .worry-cards {
+    gap: 10px;
+  }
+  .worry-card {
+    padding: 16px 8px;
+    border-radius: 14px;
+  }
+  .worry-card .emoji {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+  .worry-card p {
+    font-size: 13.5px;
+  }
+  .method-flow {
+    gap: 10px;
+  }
+  .method-step {
+    padding: 16px 10px;
+    border-radius: 14px;
+  }
+  .method-step .num {
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+    margin-bottom: 8px;
+  }
+  .method-step h3 {
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+  .method-step p {
+    font-size: 11px;
+  }
+}
