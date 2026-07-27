@@ -227,7 +227,7 @@ export default async function FukamushiPowderLpPage() {
               <div className={styles["cmp-row"]}>
                 <div className={styles["cmp-label"]}>冷めても</div>
                 <div className={styles["cmp-cell"]}>繊細な甘みが弱まりやすい</div>
-                <div className={styles["cmp-cell"]}>渋み・苦みが芯として残り、コクが持続</div>
+                <div className={styles["cmp-cell"]}>香りと飲みごたえが芯として残り、コクが持続</div>
               </div>
               <div className={styles["cmp-row"]}>
                 <div className={styles["cmp-label"]}>向いてる場面</div>
@@ -272,7 +272,7 @@ export default async function FukamushiPowderLpPage() {
                   <span className={styles["usage-tag"]}>DESSERT</span>
                   <h3>バニラアイス・スイーツのトッピングに</h3>
                   <p>
-                    抹茶は温度が下がると甘みの魅力が薄れがちですが、深蒸し茶パウダーは渋み・苦みが「芯」として残るため、冷たいアイスにかけても味の輪郭がぼやけません。アイスの甘さに負けない、豊かなコクと香りが広がります。
+                    抹茶は温度が下がると甘みの魅力が薄れがちですが、深蒸し茶パウダーは香りと飲みごたえが「芯」として残るため、冷たいアイスにかけても味の輪郭がぼやけません。アイスの甘さに負けない、豊かなコクと香りが広がります。
                   </p>
                 </div>
               </div>
