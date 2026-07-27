@@ -22,6 +22,7 @@
   --ink-soft: #6b7570;
   --white: #ffffff;
   --shadow: 0 10px 30px rgba(79, 157, 128, 0.12);
+  --bar-h: 132px;
 
   margin: 0;
   font-family: "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", sans-serif;
@@ -29,6 +30,7 @@
   background: var(--cream);
   line-height: 1.85;
   -webkit-font-smoothing: antialiased;
+  padding-bottom: var(--bar-h);
 }
 .page * {
   box-sizing: border-box;
@@ -707,4 +709,47 @@ table.spec-table td {
   .method-step p {
     font-size: 11px;
   }
+}
+
+/* ---------- Sticky bottom purchase bar ---------- */
+.sticky-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 40;
+  background: var(--white);
+  border-top: 1px solid var(--mint);
+  padding: 12px 0 calc(12px + env(safe-area-inset-bottom));
+  box-shadow: 0 -10px 28px rgba(58, 125, 100, 0.18);
+}
+.sticky-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 10px 2em;
+}
+.sticky-label {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  line-height: 1.25;
+}
+.sticky-label span {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+.sticky-label strong {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--pink-deep);
+}
+.sticky-label strong small {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  margin-left: 3px;
 }

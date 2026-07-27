@@ -6,6 +6,7 @@ import { formatPriceYen } from "@/lib/formatters";
 import { getProductBySlug } from "@/lib/microcms";
 import { SITE_BASE_URL } from "@/lib/siteConstants";
 import DecafeLpBuy from "./DecafeLpBuy";
+import DecafeLpStickyBar from "./DecafeLpStickyBar";
 import styles from "./DecafeLpPage.module.css";
 
 /**
@@ -442,6 +443,9 @@ export default async function DecafeLpPage() {
         <div className={styles["footer-note"]}>配送は日本国内のみです</div>
         <div className={styles["footer-copy"]}>©︎ 藤八茶寮 / シングルオリジン伊勢茶 108teaworks</div>
       </footer>
+
+      {/* Sticky bottom purchase bar */}
+      <DecafeLpStickyBar product={purchaseProduct} />
     </div>
   );
 }

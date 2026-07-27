@@ -7,7 +7,7 @@ import { decodeHtmlEntities, getProductBySlug } from "@/lib/microcms";
 import { sanitizeRichHtml } from "@/lib/sanitizeHtml";
 import { SITE_BASE_URL } from "@/lib/siteConstants";
 import WakochaLpFaq from "./WakochaLpFaq";
-import WakochaLpPurchase from "./WakochaLpPurchase";
+import WakochaLpStickyBar from "./WakochaLpStickyBar";
 import styles from "./WakochaLpPage.module.css";
 
 /**
@@ -87,7 +87,7 @@ export default async function WakochaLpPage() {
       price: price8,
       imagePath: "/images/products/wakocha-isecha/1000.webp",
       shipRank: product8?.SHIP_RANK,
-      bagLabel: "8個入り",
+      bagLabel: "お得な8個入り",
     },
   ] as const;
 
@@ -323,7 +323,6 @@ export default async function WakochaLpPage() {
                 </tr>
               </tbody>
             </table>
-            <WakochaLpPurchase products={purchaseProducts} onLight />
           </div>
         </div>
       </section>
@@ -357,7 +356,6 @@ export default async function WakochaLpPage() {
           </span>
           <h2>今日の午後を、ちょっと特別に。</h2>
           <p>お気に入りの焼き菓子と一緒に。まずは3個入りのお試しサイズから、和紅茶のある暮らしを始めてみませんか。</p>
-          <WakochaLpPurchase products={purchaseProducts} />
         </div>
       </section>
 
@@ -405,6 +403,9 @@ export default async function WakochaLpPage() {
           © 藤八茶寮 / シングルオリジン伊勢茶 108teaworks　配送は日本国内のみです
         </div>
       </footer>
+
+      {/* Sticky bottom purchase bar */}
+      <WakochaLpStickyBar products={purchaseProducts} />
     </div>
   );
 }
