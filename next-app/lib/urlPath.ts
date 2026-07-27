@@ -48,7 +48,7 @@ export function isJaOnlyBookPath(pathname: string): boolean {
 }
 
 /** 通常のヘッダー/グローバルナビ/フッターを持たない、独立デザインのLPページ */
-const BARE_LP_PATH_RE = /^\/(?:(?:en|ko|zh)\/)?ise-cha\/(?:wakocha-lp|decafe-lp|roasted-powder-lp|fukamushi-lp)(\/|$)/;
+const BARE_LP_PATH_RE = /^\/(?:(?:en|ko|zh)\/)?ise-cha\/(?:wakocha-lp|decafe-lp|roasted-powder-lp|fukamushi-lp|fukamushi-powder-lp)(\/|$)/;
 
 export function isBareLpPath(pathname: string): boolean {
   return BARE_LP_PATH_RE.test(pathname);
@@ -70,6 +70,7 @@ const ISE_CHA_STATIC_SLUGS = [
   "decafe-lp",
   "roasted-powder-lp",
   "fukamushi-lp",
+  "fukamushi-powder-lp",
 ];
 
 /** 商品詳細ページ（/ise-cha/[slug]/ および旧URL /products/[slug]/）のみに一致。一覧・静的カテゴリページ・/reviews/ 等は除外 */
