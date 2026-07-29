@@ -79,14 +79,11 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const receiptEmail = billingAddress?.email?.trim();
-
     const paymentIntent = await stripe.paymentIntents.create({
       amount: yenAmount,
       currency: "jpy",
       automatic_payment_methods: { enabled: true },
       description: "藤八茶寮 オンラインショップご注文",
-      ...(receiptEmail ? { receipt_email: receiptEmail } : {}),
     });
 
     return NextResponse.json({
