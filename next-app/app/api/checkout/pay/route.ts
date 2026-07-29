@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
+import { isBillingAddressComplete, type BillingAddressInput } from "@/lib/orderValidation";
 
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 
@@ -22,15 +23,22 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const {
       amount,
-      billing,
+      billingAddress,
       cancelPreviousId,
       turnstileToken,
     } = body as {
       amount?: number;
-      billing?: { name?: string; email?: string };
+      billingAddress?: BillingAddressInput;
       cancelPreviousId?: string;
       turnstileToken?: string;
     };
+
+    if (!isBillingAddressComplete(billingAddress)) {
+      return NextResponse.json(
+        { ok: false, error: "missing_order_fields" },
+        { status: 400 }
+      );
+    }
 
     const turnstileSecret = process.env.TURNSTILE_SECRET_KEY;
     if (turnstileSecret) {
@@ -71,7 +79,7 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const receiptEmail = billing?.email?.trim();
+    const receiptEmail = billingAddress?.email?.trim();
 
     const paymentIntent = await stripe.paymentIntents.create({
       amount: yenAmount,

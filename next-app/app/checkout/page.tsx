@@ -10,6 +10,7 @@ import { Turnstile } from "@marsidev/react-turnstile";
 import { CHECKOUT_TEXTS } from "@/lib/checkoutTexts";
 import { formatPriceYen } from "@/lib/formatters";
 import { detectLocaleFromPath } from "@/lib/urlPath";
+import { buildEnhancedConversionUserData } from "@/lib/googleEnhancedConversions";
 
 const FREE_SHIPPING_THRESHOLD = 10000;
 const ZIPCLOUD_API = "https://zipcloud.ibsnet.co.jp/api/search";
@@ -100,6 +101,7 @@ export default function CheckoutPage() {
   const cardReadyFallbackIdRef = useRef<number | ReturnType<typeof setTimeout> | null>(null);
   const cardContainerRef = useRef<HTMLDivElement | null>(null);
   const expressContainerRef = useRef<HTMLDivElement | null>(null);
+  const formRef = useRef<HTMLFormElement | null>(null);
   const [cardReady, setCardReady] = useState(false);
   const [selectedPaymentType, setSelectedPaymentType] = useState<string | null>(null);
 
@@ -518,6 +520,12 @@ export default function CheckoutPage() {
       return;
     }
 
+    // 0. 購入者情報（氏名・email・電話・住所）の必須チェック。
+    //    未入力の場合はブラウザ標準のUIでフォーカスを促し、Stripeへの課金確定処理には進ませない。
+    if (formRef.current && !formRef.current.reportValidity()) {
+      return;
+    }
+
     try {
       setPaying(true);
       setPaymentInitError(null);
@@ -543,6 +551,15 @@ export default function CheckoutPage() {
           amount: Math.round(amountForIntent),
           cancelPreviousId: paymentIntentIdRef.current ?? undefined,
           turnstileToken: turnstileToken || undefined,
+          billingAddress: {
+            name,
+            email,
+            phone,
+            postalCode,
+            prefecture,
+            city,
+            addressLine,
+          },
         }),
       });
       const text = await res.text();
@@ -677,11 +694,29 @@ export default function CheckoutPage() {
             "lastOrderSummary",
             JSON.stringify(completeData.summary)
           );
+          const enhancedConversionUserData = buildEnhancedConversionUserData({
+            email,
+            phone,
+            name,
+            postalCode,
+            prefecture,
+            city,
+            addressLine,
+          });
+          if (enhancedConversionUserData) {
+            sessionStorage.setItem(
+              "lastOrderUserData",
+              JSON.stringify(enhancedConversionUserData)
+            );
+          } else {
+            sessionStorage.removeItem("lastOrderUserData");
+          }
         } else {
           sessionStorage.removeItem("lastOrderSummary");
+          sessionStorage.removeItem("lastOrderUserData");
         }
-      } catch {
-        // sessionStorage が使えない場合もあるので、失敗しても無視する
+      } catch (e) {
+        console.error("[debug] sessionStorage.setItem failed", e);
       }
 
       clearCart();
@@ -835,7 +870,7 @@ export default function CheckoutPage() {
           {t.continueShopping}
         </Link>
       </div>
-      <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+      <form ref={formRef} onSubmit={handleSubmit} className="grid grid-cols-1 gap-8 lg:grid-cols-2">
         {/* 1. 注文内容（スマホ1番目・デスクトップ左列上） */}
         <div className="order-1 lg:col-start-1 lg:row-start-1">
           <h2 className="m-0 mb-4 text-base font-semibold text-tea-deep">{t.orderSummary}</h2>
@@ -1038,6 +1073,8 @@ export default function CheckoutPage() {
                 id="checkout-phone"
                 name="tel"
                 type="tel"
+                inputMode="tel"
+                pattern="[0-9+\-\s]{8,20}"
                 required
                 autoComplete="tel"
                 value={phone}
@@ -1195,6 +1232,8 @@ export default function CheckoutPage() {
                       id="checkout-ship-phone"
                       name="ship-tel"
                       type="tel"
+                      inputMode="tel"
+                      pattern="[0-9+\-\s]{8,20}"
                       required={shipToDifferent}
                       autoComplete="section-shipping tel"
                       value={shipPhone}

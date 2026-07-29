@@ -1,10 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import type { Locale } from "@/lib/i18n";
 import { CHECKOUT_COMPLETE_TEXTS } from "@/lib/checkoutCompleteTexts";
 import { fbTrack } from "@/lib/metaPixel";
+import {
+  setEnhancedConversionUserData,
+  type EnhancedConversionUserData,
+} from "@/lib/googleEnhancedConversions";
 
 type CompleteSummary = {
   items: {
@@ -28,36 +32,98 @@ function detectLocaleFromPath(pathname: string | null): Locale {
   return "ja";
 }
 
+type PendingGtagWork = {
+  data: CompleteSummary;
+  storedUserData: string | null;
+  fired: boolean;
+};
+
 export default function CheckoutCompletePage() {
   const [summary, setSummary] = useState<CompleteSummary | null>(null);
   const pathname = usePathname();
   const locale = detectLocaleFromPath(pathname);
   const t = CHECKOUT_COMPLETE_TEXTS[locale];
 
+  // sessionStorage の読み取り・削除と、gtagの発火要否（fired）は ref に持たせ、
+  // React 18 Strict Mode の開発時二重マウント（mount→cleanup→再mount）を跨いで保持する。
+  // setInterval はこの二重マウントの1回目のcleanupで確実に破棄されるため、
+  // 通常の state/クロージャ変数だけで管理すると、2回目のmount時にはsessionStorageが
+  // 既に空になっていて再試行できず、ポーリングが二度と発火しなくなる。
+  const consumedSessionStorageRef = useRef(false);
+  const pendingGtagRef = useRef<PendingGtagWork | null>(null);
+
   useEffect(() => {
+    let pollIntervalId: number | undefined;
+
     try {
-      const stored = sessionStorage.getItem("lastOrderSummary");
-      if (stored) {
-        const data = JSON.parse(stored) as CompleteSummary;
-        setSummary(data);
-        const getCookie = (name: string) =>
-          document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`))?.[2] ?? "";
-        fbTrack(
-          "Purchase",
-          {
-            value: data.total,
-            currency: "JPY",
-            content_ids: data.items.map((i) => i.slug),
-            content_type: "product",
-          },
-          {
-            event_source_url: window.location.href,
-            fbc: getCookie("_fbc"),
-            fbp: getCookie("_fbp"),
-          },
-        );
-        if (typeof window !== "undefined" && typeof (window as any).gtag === "function") {
-          (window as any).gtag("event", "purchase", {
+      if (!consumedSessionStorageRef.current) {
+        consumedSessionStorageRef.current = true;
+        const stored = sessionStorage.getItem("lastOrderSummary");
+        const storedUserData = sessionStorage.getItem("lastOrderUserData");
+        sessionStorage.removeItem("lastOrderSummary");
+        sessionStorage.removeItem("lastOrderUserData");
+
+        if (stored) {
+          const data = JSON.parse(stored) as CompleteSummary;
+          setSummary(data);
+          const getCookie = (name: string) =>
+            document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`))?.[2] ?? "";
+          try {
+            fbTrack(
+              "Purchase",
+              {
+                value: data.total,
+                currency: "JPY",
+                content_ids: data.items.map((i) => i.slug),
+                content_type: "product",
+              },
+              {
+                event_source_url: window.location.href,
+                fbc: getCookie("_fbc"),
+                fbp: getCookie("_fbp"),
+              },
+            );
+          } catch (e) {
+            console.error("[debug] fbTrack failed, continuing to gtag", e);
+          }
+
+          if (typeof window !== "undefined" && typeof (window as any).clarity === "function") {
+            (window as any).clarity("set", "purchase", "true");
+          }
+
+          pendingGtagRef.current = { data, storedUserData, fired: false };
+        }
+      }
+
+      const pending = pendingGtagRef.current;
+      if (pending && !pending.fired) {
+        // gtag.js は strategy="lazyOnload" で読み込まれるため、このuseEffect実行時点では
+        // window.gtag がまだ未定義のことがある。二重発火防止フラグ（pending.fired）を立てた上で、
+        // 100ms間隔・最大2秒（20回）だけポーリングしてから実行する。
+        const runGtagTracking = (gtagFn: (...args: unknown[]) => void) => {
+          if (pending.fired) return;
+          pending.fired = true;
+          const { data, storedUserData } = pending;
+
+          // 拡張コンバージョン用の user_data は、購入コンバージョンイベントの直前に set する
+          // （Google 広告の手動設定の要件：conversion イベントより先に gtag('set','user_data',...) を呼ぶ）
+          if (storedUserData) {
+            try {
+              const userData = JSON.parse(storedUserData) as EnhancedConversionUserData;
+              setEnhancedConversionUserData(userData);
+            } catch {
+              console.log("[debug] enhanced conversion skipped", {
+                reason: "lastOrderUserData の JSON.parse に失敗",
+              });
+            }
+          } else {
+            console.log("[debug] enhanced conversion skipped", {
+              reason:
+                "sessionStorage に lastOrderUserData が無い（buildEnhancedConversionUserData が null を返した、またはチェックアウト時に保存されなかった可能性）",
+            });
+          }
+
+          const purchaseEventParams = {
             transaction_id: data.orderNo,
             value: data.total,
             currency: "JPY",
@@ -67,16 +133,48 @@ export default function CheckoutCompletePage() {
               price: i.unitPrice,
               quantity: i.quantity,
             })),
-          });
-        }
-        if (typeof window !== "undefined" && typeof (window as any).clarity === "function") {
-          (window as any).clarity("set", "purchase", "true");
+          };
+          try {
+            gtagFn("event", "purchase", purchaseEventParams);
+          } catch (e) {
+            console.error("[debug] gtag purchase call THREW", e);
+          }
+        };
+
+        const gtagNow = typeof window !== "undefined" ? window.gtag : undefined;
+        if (typeof gtagNow === "function") {
+          runGtagTracking(gtagNow);
+        } else if (typeof window !== "undefined") {
+          let attempts = 0;
+          const maxAttempts = 20; // 100ms × 20 = 最大2秒待つ
+          pollIntervalId = window.setInterval(() => {
+            attempts += 1;
+            const gtagPolled = window.gtag;
+            if (typeof gtagPolled === "function") {
+              window.clearInterval(pollIntervalId);
+              pollIntervalId = undefined;
+              runGtagTracking(gtagPolled);
+            } else if (attempts >= maxAttempts) {
+              window.clearInterval(pollIntervalId);
+              pollIntervalId = undefined;
+              console.log("[debug] enhanced conversion skipped", {
+                reason: "window.gtag が2秒待ってもロードされなかった（gtag.js 未ロード等）",
+                hasGtagFn: typeof window.gtag,
+              });
+            }
+          }, 100);
         }
       }
-      sessionStorage.removeItem("lastOrderSummary");
-    } catch {
+    } catch (e) {
+      console.error("[debug] checkout/complete useEffect error", e);
       setSummary(null);
     }
+
+    return () => {
+      if (pollIntervalId !== undefined) {
+        window.clearInterval(pollIntervalId);
+      }
+    };
   }, []);
 
   const formatPrice = (n: number) => `¥${Math.round(n).toLocaleString()}`;

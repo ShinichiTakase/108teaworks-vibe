@@ -277,6 +277,14 @@ export async function POST(req: NextRequest) {
     const billingAddr = order.billingAddress;
     const shipAddr = order.shippingAddress;
     if (!billingAddr || !shipAddr || !billingAddr.email) {
+      // 決済（Stripe課金）は既に成功済みの状態でここに到達し得るため、
+      // 突合・手動フォロー用に PaymentIntent ID と欠落状況（値そのものは出さない）を残す。
+      console.error("[api/checkout/complete] missing_order_fields after successful charge", {
+        paymentIntentId: pi.id,
+        hasBillingAddress: Boolean(billingAddr),
+        hasShippingAddress: Boolean(shipAddr),
+        hasBillingEmail: Boolean(billingAddr?.email),
+      });
       return NextResponse.json({ ok: false, error: "missing_order_fields" }, { status: 400 });
     }
 
