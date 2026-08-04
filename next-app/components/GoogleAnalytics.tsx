@@ -29,14 +29,44 @@ export default function GoogleAnalytics() {
         src={`https://www.googletagmanager.com/gtag/js?id=${loaderId}`}
         strategy="lazyOnload"
       />
-      <Script id="google-gtag-config" strategy="lazyOnload">
-        {`
+      {/*
+        next/script の strategy="lazyOnload"/"afterInteractive" は実際には <body> 末尾に
+        動的挿入されるため、<head> に literal に置く必要があるこの設定スクリプトは
+        素の <script> タグで出力する（このコンポーネント自体は layout.tsx の <head> 内から呼ばれている）。
+      */}
+      <script
+        id="google-gtag-config"
+        dangerouslySetInnerHTML={{
+          __html: `
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
           ${configLines.join("\n")}
-        `}
-      </Script>
+        `,
+        }}
+      />
+      {/* user_dataイベントスニペット */}
+      <script
+        id="google-user-data-event"
+        dangerouslySetInnerHTML={{
+          __html: `
+          document.addEventListener('DOMContentLoaded', function () {
+          if (window.location.pathname === "/checkout/") {
+          var submitButton = document.querySelector('[type="button"]');
+          submitButton.onclick = function () {
+          var formPhone = document.querySelector('[name="tel"]').value.replace(/[^0-9]/g,'').replace('0','+81');
+          var formEmail = document.querySelector('[name="email"]').value;
+          gtag('set', 'user_data', {
+          "email": formEmail,
+          "phone_number": formPhone
+          });
+          gtag('event', 'form_submit', {'send_to': '${GOOGLE_ADS_ID}'});
+          };
+          }
+          });
+        `,
+        }}
+      />
     </>
   );
 }
