@@ -13,11 +13,6 @@ const MENU = [
     description: "注文番号を指定して発送完了メールを送信する",
   },
   {
-    href: "/admin/b2b/",
-    label: "B2B 取引一覧",
-    description: "法人・卸取引の申請・受注一覧を管理する",
-  },
-  {
     href: "/admin/cart/",
     label: "カート商品一覧",
     description: "利用者がカートに追加した商品のログを確認する",
