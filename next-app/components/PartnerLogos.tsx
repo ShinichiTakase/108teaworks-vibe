@@ -1,5 +1,6 @@
 const PARTNERS = [
   { name: "GOOD COFFEE", url: "https://goodcoffee.me/", img: "/images/partners/GOOD-COFFEE-150x150.jpg" },
+  { name: "hand", url: "https://www.instagram.com/___.hand.___/?hl=ja", img: "/images/partners/hand-logo-150x150.jpg" },
   { name: "Lattest Omotesando", url: "https://lattest.jp/", img: "/images/partners/lattest-150x150.jpg" },
   { name: "サンドイッチとコーヒー amper", url: "https://wat-inc.jp/shop/amperecoffee/", img: "/images/partners/ampere-150x150.jpg" },
   { name: "FIKA-FABRIKEN", url: "https://fikafabriken.theshop.jp/", img: "/images/partners/FIKA-FABRIKEN-300x300.jpg" },
