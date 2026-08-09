@@ -8,9 +8,9 @@ export const metadata: Metadata = {
 
 const MENU = [
   {
-    href: "/admin/send-shipping/",
-    label: "発送完了メール送信",
-    description: "注文番号を指定して発送完了メールを送信する",
+    href: "/admin/orders/",
+    label: "注文一覧",
+    description: "microCMSの注文データを日付が新しい順に一覧表示する",
   },
   {
     href: "/admin/cart/",
