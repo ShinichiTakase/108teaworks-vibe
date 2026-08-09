@@ -1,4 +1,3 @@
-import Hero from "@/components/Hero";
 import ProductList from "@/components/ProductList";
 import NewsList from "@/components/NewsList";
 import WholesaleSection from "@/components/WholesaleSection";
@@ -11,8 +10,6 @@ type Props = {
 export default function HomePage({ locale }: Props) {
   return (
     <>
-      {/* Hero だけ先に多言語対応。順次ほかのセクションにも展開予定。 */}
-      <Hero locale={locale} />
       <ProductList locale={locale} />
       <NewsList locale={locale} />
       <WholesaleSection locale={locale} />

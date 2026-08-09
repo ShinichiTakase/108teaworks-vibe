@@ -1,13 +1,11 @@
 import { ReactNode } from "react";
 import Header from "./Header";
 import GlobalNav from "./GlobalNav";
-import CouponBanner from "./CouponBanner";
 import Footer from "./Footer";
 import LanguageSwitcher from "./LanguageSwitcher";
 import FloatingCartBar from "./FloatingCartBar";
 import CartAddedPopup from "./CartAddedPopup";
 import FloatingProductListBar from "./FloatingProductListBar";
-import FloatingBooksBanner from "./FloatingBooksBanner";
 
 const MAIN_CLASS = "pt-10 pb-28 px-4 md:pt-16 md:pb-36";
 const INNER_CLASS = "w-[90%] max-w-wide mx-auto";
@@ -23,7 +21,6 @@ export default function Layout({ children, withInner = true }: LayoutProps) {
     <>
       <Header />
       <GlobalNav />
-      <CouponBanner />
       <main className={MAIN_CLASS} id="main-content" role="main">
         {withInner ? (
           <div className={INNER_CLASS}>{children}</div>
@@ -33,7 +30,6 @@ export default function Layout({ children, withInner = true }: LayoutProps) {
       </main>
       <Footer />
       <LanguageSwitcher />
-      <FloatingBooksBanner />
       <FloatingProductListBar />
       <FloatingCartBar />
       <CartAddedPopup />
