@@ -38,8 +38,14 @@ type PendingGtagWork = {
   fired: boolean;
 };
 
+type HiddenContactFields = {
+  email: string;
+  phone: string;
+};
+
 export default function CheckoutCompletePage() {
   const [summary, setSummary] = useState<CompleteSummary | null>(null);
+  const [hiddenContact, setHiddenContact] = useState<HiddenContactFields | null>(null);
   const pathname = usePathname();
   const locale = detectLocaleFromPath(pathname);
   const t = CHECKOUT_COMPLETE_TEXTS[locale];
@@ -62,6 +68,18 @@ export default function CheckoutCompletePage() {
         const storedUserData = sessionStorage.getItem("lastOrderUserData");
         sessionStorage.removeItem("lastOrderSummary");
         sessionStorage.removeItem("lastOrderUserData");
+
+        if (storedUserData) {
+          try {
+            const userData = JSON.parse(storedUserData) as EnhancedConversionUserData;
+            setHiddenContact({
+              email: userData.email ?? "",
+              phone: userData.phone_number ?? "",
+            });
+          } catch {
+            // JSON.parse失敗時は hidden フィールドを出力しない
+          }
+        }
 
         if (stored) {
           const data = JSON.parse(stored) as CompleteSummary;
@@ -182,6 +200,12 @@ export default function CheckoutCompletePage() {
   return (
     <article className="mb-10 flex justify-center">
       <div className="w-[90%] max-w-[800px]">
+        {hiddenContact && (
+          <>
+            <input type="hidden" name="phone" id="phone" value={hiddenContact.phone} />
+            <input type="hidden" name="email" id="email" value={hiddenContact.email} />
+          </>
+        )}
         <h1 className="m-0 mb-4 font-heading text-xl font-semibold text-tea-deep">
           {t.title}
         </h1>

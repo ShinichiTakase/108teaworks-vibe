@@ -75,6 +75,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/kabatadani_no_ocha", changeFrequency: "monthly", priority: 0.7 },
     { path: "/isecha_no_rekishi", changeFrequency: "monthly", priority: 0.7 },
     { path: "/mie_chagyo_shi/toc", changeFrequency: "monthly", priority: 0.7 },
+    { path: "/ise-cha/decafe-lp", changeFrequency: "monthly", priority: 0.75 },
+    { path: "/ise-cha/roasted-powder-lp", changeFrequency: "monthly", priority: 0.75 },
+    { path: "/ise-cha/fukamushi-lp", changeFrequency: "monthly", priority: 0.75 },
+    { path: "/ise-cha/fukamushi-powder-lp", changeFrequency: "monthly", priority: 0.75 },
+    { path: "/ise-cha/wakocha-lp", changeFrequency: "monthly", priority: 0.75 },
   ];
 
   for (const { path, changeFrequency, priority } of jaOnlyStaticPaths) {

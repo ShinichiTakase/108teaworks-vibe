@@ -45,28 +45,6 @@ export default function GoogleAnalytics() {
         `,
         }}
       />
-      {/* user_dataイベントスニペット */}
-      <script
-        id="google-user-data-event"
-        dangerouslySetInnerHTML={{
-          __html: `
-          document.addEventListener('DOMContentLoaded', function () {
-          if (window.location.pathname === "/checkout/") {
-          var submitButton = document.querySelector('[type="button"]');
-          submitButton.onclick = function () {
-          var formPhone = document.querySelector('[name="tel"]').value.replace(/[^0-9]/g,'').replace('0','+81');
-          var formEmail = document.querySelector('[name="email"]').value;
-          gtag('set', 'user_data', {
-          "email": formEmail,
-          "phone_number": formPhone
-          });
-          gtag('event', 'form_submit', {'send_to': '${GOOGLE_ADS_ID}'});
-          };
-          }
-          });
-        `,
-        }}
-      />
     </>
   );
 }

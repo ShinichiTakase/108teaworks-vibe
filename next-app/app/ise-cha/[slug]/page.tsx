@@ -9,12 +9,12 @@ type Props = {
 
 const JA_SEO_OVERRIDES: Record<string, { title: string; description: string }> = {
   "roasted-isecha-powder-unsweetened": {
-    title: "ほうじ茶パウダー(無糖)｜ラテにも使える伊勢茶｜藤八茶寮",
+    title: "ほうじ茶パウダー(無糖)｜ラテにも使える伊勢茶 三重県松阪市飯南町産100% | 藤八茶寮",
     description:
       "砂糖不使用のほうじ茶パウダーです。お湯や牛乳に溶かすだけでほうじ茶ラテに。お菓子作りにも使える香ばしい伊勢茶を、国産・無添加にこだわってお届けします。",
   },
   "isecha-powder-unsweetened": {
-    title: "緑茶パウダー(無糖)｜料理・お菓子にも｜伊勢茶の藤八茶寮",
+    title: "緑茶パウダー(無糖)｜料理・お菓子にも 三重県松阪市飯南町産100% | 藤八茶寮",
     description:
       "砂糖不使用の伊勢茶100%緑茶パウダーです。お茶として飲むだけでなく、料理やスイーツ作りにも使える万能パウダー。国産茶葉・無添加にこだわっています。",
   },
@@ -52,7 +52,7 @@ export async function generateMetadata({ params }: Props) {
   const override = JA_SEO_OVERRIDES[slug];
   const seo = getProductSeo(product, "ja");
   return {
-    title: override?.title ?? seo.title ?? `${product.TITLE ?? "商品"}｜伊勢茶の藤八茶寮`,
+    title: override?.title ?? seo.title ?? `${product.TITLE ?? "商品"} 三重県松阪市飯南町産100% | 藤八茶寮`,
     description:
       override?.description ??
       seo.description ??

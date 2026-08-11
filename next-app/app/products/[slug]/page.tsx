@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: Props) {
   }
   const seo = getProductSeo(product, "ja");
   return {
-    title: seo.title ?? `${product.TITLE ?? "商品"}｜伊勢茶の藤八茶寮`,
+    title: seo.title ?? `${product.TITLE ?? "商品"} 三重県松阪市飯南町産100% | 藤八茶寮`,
     description:
       seo.description ?? product.DESCRIPTION01?.replace(/<[^>]+>/g, "").slice(0, 160),
     alternates: buildAlternatesForLocales(`/ise-cha/${slug}`, { jpRegionHreflang: true }),
