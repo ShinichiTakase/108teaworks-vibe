@@ -1,6 +1,6 @@
-import ArticleJsonLd from "@/components/ArticleJsonLd";
 import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import FaqJsonLd from "@/components/FaqJsonLd";
+import ProductJsonLd from "@/components/ProductJsonLd";
 import { getBreadcrumbItems } from "@/lib/breadcrumb";
 import { getProductBySlug } from "@/lib/microcms";
 import { SITE_BASE_URL } from "@/lib/siteConstants";
@@ -83,11 +83,12 @@ export default async function RoastedPowderLpPage() {
 
   return (
     <div className={styles.page}>
-      <ArticleJsonLd
-        headline="伊勢茶 ほうじ茶パウダー（無糖）｜藤八茶寮"
+      <ProductJsonLd
+        name={purchaseProduct.title}
         description="三重・川俣谷産（松阪市飯南町）の一番茶を丸ごと焙じて微粉末に。お湯にも牛乳にもすっと溶けて、伊勢のほうじ茶ラテが自宅で仕上がります。"
-        imageUrl="/images/roasted-powder-lp/hero.webp"
+        imageUrl={PRODUCT_IMAGE}
         canonicalUrl={canonicalUrl}
+        price={purchaseProduct.price}
         inLanguage="ja"
       />
       <FaqJsonLd questions={FAQS.map(({ q, a }) => ({ q, a }))} />

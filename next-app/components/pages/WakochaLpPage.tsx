@@ -1,6 +1,6 @@
-import ArticleJsonLd from "@/components/ArticleJsonLd";
 import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import FaqJsonLd from "@/components/FaqJsonLd";
+import ProductJsonLd from "@/components/ProductJsonLd";
 import { getBreadcrumbItems } from "@/lib/breadcrumb";
 import { formatPriceYen } from "@/lib/formatters";
 import { decodeHtmlEntities, getProductBySlug } from "@/lib/microcms";
@@ -65,8 +65,8 @@ export default async function WakochaLpPage() {
   const title3 = product3?.TITLE ?? "和紅茶 ティーバッグ 3個";
   const price8 = product8?.PRICE;
   const price3 = product3?.PRICE;
-  const minPrice =
-    price3 != null && price8 != null ? Math.min(price3, price8) : (price3 ?? price8);
+  const defaultVisibleProduct = product8 ?? product3;
+  const defaultVisiblePrice = defaultVisibleProduct?.PRICE ?? 1380;
 
   const spotDescriptionHtml = product8?.DESCRIPTION01
     ? normalizePlaceNames(sanitizeRichHtml(decodeHtmlEntities(product8.DESCRIPTION01)))
@@ -101,11 +101,12 @@ export default async function WakochaLpPage() {
         rel="stylesheet"
       />
 
-      <ArticleJsonLd
-        headline="和紅茶 ティーバッグ｜アフタヌーンティーで人気の和紅茶を、ご自宅で。"
+      <ProductJsonLd
+        name={title8}
         description={leadDescription}
-        imageUrl={`${SITE_BASE_URL}/images/wakoucha/hero.webp`}
+        imageUrl="/images/products/wakocha-isecha/1000.webp"
         canonicalUrl={canonicalUrl}
+        price={defaultVisiblePrice}
         inLanguage="ja"
       />
       <FaqJsonLd questions={FAQS.map(({ q, a }) => ({ q, a }))} />

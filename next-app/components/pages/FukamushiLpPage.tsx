@@ -1,6 +1,6 @@
-import ArticleJsonLd from "@/components/ArticleJsonLd";
 import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import FaqJsonLd from "@/components/FaqJsonLd";
+import ProductJsonLd from "@/components/ProductJsonLd";
 import { getBreadcrumbItems } from "@/lib/breadcrumb";
 import { formatPriceYen } from "@/lib/formatters";
 import { getProductBySlug } from "@/lib/microcms";
@@ -99,11 +99,12 @@ export default async function FukamushiLpPage() {
 
   return (
     <div className={styles.page}>
-      <ArticleJsonLd
-        headline="伊勢の深蒸し茶｜冷やしても濃厚。夏に効く一杯 - 藤八茶寮"
+      <ProductJsonLd
+        name={standard.title}
         description={leadDescription}
-        imageUrl="/images/fukamushi-lp/hero.webp"
+        imageUrl={standard.imagePath}
         canonicalUrl={canonicalUrl}
+        price={standard.price}
         inLanguage="ja"
       />
       <FaqJsonLd questions={FAQS.map(({ q, a }) => ({ q, a }))} />

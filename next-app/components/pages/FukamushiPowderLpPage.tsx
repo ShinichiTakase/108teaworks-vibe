@@ -1,6 +1,6 @@
-import ArticleJsonLd from "@/components/ArticleJsonLd";
 import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import FaqJsonLd from "@/components/FaqJsonLd";
+import ProductJsonLd from "@/components/ProductJsonLd";
 import { getBreadcrumbItems } from "@/lib/breadcrumb";
 import { formatPriceYen } from "@/lib/formatters";
 import { getProductBySlug } from "@/lib/microcms";
@@ -91,14 +91,16 @@ export default async function FukamushiPowderLpPage() {
   };
 
   const purchaseProducts = [small, bulk] as const;
+  const defaultVisibleProduct = small;
 
   return (
     <div className={styles.page}>
-      <ArticleJsonLd
-        headline="伊勢茶 深蒸し茶パウダー｜三重県産 一番茶100% 無糖・無添加｜藤八茶寮"
+      <ProductJsonLd
+        name={defaultVisibleProduct.title}
         description={leadDescription}
-        imageUrl="/images/fukamushi-powder-lp/hero.webp"
+        imageUrl={defaultVisibleProduct.imagePath}
         canonicalUrl={canonicalUrl}
+        price={defaultVisibleProduct.price}
         inLanguage="ja"
       />
       <FaqJsonLd questions={FAQS.map(({ q, a }) => ({ q, a }))} />

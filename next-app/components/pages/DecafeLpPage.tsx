@@ -1,6 +1,6 @@
-import ArticleJsonLd from "@/components/ArticleJsonLd";
 import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import FaqJsonLd from "@/components/FaqJsonLd";
+import ProductJsonLd from "@/components/ProductJsonLd";
 import { getBreadcrumbItems } from "@/lib/breadcrumb";
 import { formatPriceYen } from "@/lib/formatters";
 import { getProductBySlug } from "@/lib/microcms";
@@ -58,11 +58,12 @@ export default async function DecafeLpPage() {
 
   return (
     <div className={styles.page}>
-      <ArticleJsonLd
-        headline="デカフェ緑茶ティーバッグ8個 カフェイン70%カット｜藤八茶寮"
+      <ProductJsonLd
+        name={purchaseProduct.title}
         description={leadDescription}
-        imageUrl={`${SITE_BASE_URL}/images/decafe-lp/hero.webp`}
+        imageUrl={purchaseProduct.imagePath}
         canonicalUrl={canonicalUrl}
+        price={purchaseProduct.price}
         inLanguage="ja"
       />
       <FaqJsonLd questions={FAQS.map(({ q, a }) => ({ q, a }))} />
