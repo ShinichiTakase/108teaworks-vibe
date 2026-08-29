@@ -100,7 +100,26 @@ export default async function FukamushiPowderLpPage() {
         description={leadDescription}
         imageUrl={defaultVisibleProduct.imagePath}
         canonicalUrl={canonicalUrl}
-        price={defaultVisibleProduct.price}
+        offers={[
+          {
+            "@type": "Offer",
+            url: canonicalUrl,
+            priceCurrency: "JPY",
+            price: small.price,
+            availability: "https://schema.org/InStock",
+            itemCondition: "https://schema.org/NewCondition",
+            name: "100g",
+          },
+          {
+            "@type": "Offer",
+            url: canonicalUrl,
+            priceCurrency: "JPY",
+            price: bulk.price,
+            availability: "https://schema.org/InStock",
+            itemCondition: "https://schema.org/NewCondition",
+            name: "500g",
+          },
+        ]}
         inLanguage="ja"
       />
       <FaqJsonLd questions={FAQS.map(({ q, a }) => ({ q, a }))} />

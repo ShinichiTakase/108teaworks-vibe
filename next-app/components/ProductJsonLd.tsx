@@ -1,13 +1,33 @@
 import { ORGANIZATION_NAME_JA, SITE_BASE_URL } from "@/lib/siteConstants";
 
+type OfferPrice =
+  | {
+      "@type": "Offer";
+      url: string;
+      price: number;
+      priceCurrency?: string;
+      availability?: string;
+      itemCondition?: string;
+      name?: string;
+    }
+  | {
+      "@type": "AggregateOffer";
+      priceCurrency?: string;
+      lowPrice: number;
+      highPrice: number;
+      offerCount: number;
+      availability?: string;
+    };
+
 type Props = {
   name: string;
   description: string;
   imageUrl: string;
   canonicalUrl: string;
-  price: number;
+  price?: number;
   inLanguage?: string;
   sku?: string;
+  offers?: OfferPrice | OfferPrice[];
 };
 
 export default function ProductJsonLd({
@@ -18,8 +38,18 @@ export default function ProductJsonLd({
   price,
   inLanguage = "ja",
   sku,
+  offers,
 }: Props) {
   const absImageUrl = imageUrl.startsWith("http") ? imageUrl : `${SITE_BASE_URL}${imageUrl}`;
+
+  const defaultOffer = {
+    "@type": "Offer",
+    url: canonicalUrl,
+    priceCurrency: "JPY",
+    price: Number(price ?? 0),
+    availability: "https://schema.org/InStock",
+    itemCondition: "https://schema.org/NewCondition",
+  } as const;
 
   const json = {
     "@context": "https://schema.org",
@@ -33,14 +63,7 @@ export default function ProductJsonLd({
       name: ORGANIZATION_NAME_JA,
     },
     ...(sku ? { sku } : {}),
-    offers: {
-      "@type": "Offer",
-      url: canonicalUrl,
-      priceCurrency: "JPY",
-      price: Number(price),
-      availability: "https://schema.org/InStock",
-      itemCondition: "https://schema.org/NewCondition",
-    },
+    offers: offers ?? defaultOffer,
   };
 
   return (

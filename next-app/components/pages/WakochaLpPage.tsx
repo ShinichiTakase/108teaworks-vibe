@@ -65,8 +65,13 @@ export default async function WakochaLpPage() {
   const title3 = product3?.TITLE ?? "和紅茶 ティーバッグ 3個";
   const price8 = product8?.PRICE;
   const price3 = product3?.PRICE;
+  const productPrices = [price3, price8].filter((price): price is number => typeof price === "number");
   const defaultVisibleProduct = product8 ?? product3;
   const defaultVisiblePrice = defaultVisibleProduct?.PRICE ?? 1380;
+  const minPrice = productPrices.length > 0 ? Math.min(...productPrices) : defaultVisiblePrice;
+  const maxPrice = productPrices.length > 0 ? Math.max(...productPrices) : defaultVisiblePrice;
+  const lowPrice = price3 ?? price8 ?? defaultVisiblePrice;
+  const highPrice = price8 ?? price3 ?? defaultVisiblePrice;
 
   const spotDescriptionHtml = product8?.DESCRIPTION01
     ? normalizePlaceNames(sanitizeRichHtml(decodeHtmlEntities(product8.DESCRIPTION01)))
@@ -106,7 +111,14 @@ export default async function WakochaLpPage() {
         description={leadDescription}
         imageUrl="/images/products/wakocha-isecha/1000.webp"
         canonicalUrl={canonicalUrl}
-        price={defaultVisiblePrice}
+        offers={{
+          "@type": "AggregateOffer",
+          priceCurrency: "JPY",
+          lowPrice,
+          highPrice,
+          offerCount: 2,
+          availability: "https://schema.org/InStock",
+        }}
         inLanguage="ja"
       />
       <FaqJsonLd questions={FAQS.map(({ q, a }) => ({ q, a }))} />
