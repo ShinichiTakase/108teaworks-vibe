@@ -20,6 +20,7 @@ const PRODUCT_SLUGS = [
   "roasted-isecha",
   "roasted-isecha-powder-unsweetened",
   "roasted-isecha-teabag-bulkpack",
+  "roasted-isecha-powder-unsweetened-bulkpack",
 ] as const;
 
 type HoujichaTexts = {
@@ -35,7 +36,7 @@ type HoujichaTexts = {
   sec2P2: string;
   sec2LinkText: string;
   sec3Title: string;
-  productNames: readonly [string, string, string, string];
+  productNames: readonly [string, string, string, string, string];
   viewDetails: string;
   sec4Title: string;
   sec4P1: string;
@@ -81,6 +82,7 @@ const TEXTS: Record<Locale, HoujichaTexts> = {
       "伊勢茶 ほうじ茶 茶葉 30g",
       "伊勢茶 ほうじ茶パウダー 80g",
       "お得用 伊勢茶 ほうじ茶 ティーバッグ 50個",
+      "お得用 伊勢茶 ほうじ茶パウダー 500g",
     ],
     viewDetails: "詳しく見る >>",
     sec4Title: "ほうじ茶パウダーの使い方",
@@ -161,6 +163,7 @@ const TEXTS: Record<Locale, HoujichaTexts> = {
       "Ise Tea Houjicha Loose Leaf 30 g",
       "Ise Tea Houjicha Powder 80 g",
       "Ise Tea Houjicha Teabags × 50 (Value Pack)",
+      "Ise Tea Houjicha Powder 500 g (Value Pack)",
     ],
     viewDetails: "View details >>",
     sec4Title: "Ways to use houjicha powder",
@@ -241,6 +244,7 @@ const TEXTS: Record<Locale, HoujichaTexts> = {
       "이세차 호지차 찻잎 30g",
       "이세차 호지차 파우더 80g",
       "대용량 이세차 호지차 티백 50개",
+      "대용량 이세차 호지차 파우더 500g",
     ],
     viewDetails: "자세히 보기 >>",
     sec4Title: "호지차 파우더 활용법",
@@ -321,6 +325,7 @@ const TEXTS: Record<Locale, HoujichaTexts> = {
       "伊势茶焙茶茶叶 30g",
       "伊势茶焙茶粉末 80g",
       "大容量伊势茶焙茶茶包 50个",
+      "大容量伊势茶焙茶粉末 500g",
     ],
     viewDetails: "查看详情 >>",
     sec4Title: "焙茶粉末的使用方法",

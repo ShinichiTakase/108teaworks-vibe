@@ -32,7 +32,7 @@
   --shell-max: 1240px;
   --col: 560px;
   --pad: 20px;
-  --bar-h: 76px;
+  --bar-h: 114px;
 
   margin: 0;
   background: var(--bg-dark);
@@ -201,30 +201,50 @@
   margin-top: 2px;
 }
 
-.purchase-row {
+.buy-block {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.size-toggle {
+  display: flex;
+  gap: 5px;
+}
+.size-btn {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: var(--cream);
+  color: var(--ink-soft);
+  border-radius: 9px;
+  padding: 6px 8px;
+  font-family: "Zen Kaku Gothic New", sans-serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.size-btn-tax {
+  font-size: 8.5px;
+  font-weight: 500;
+  margin-left: 1px;
+}
+.size-btn.is-active {
+  background: var(--tea-green);
+  border-color: var(--tea-green);
+  color: #fbf5e8;
+}
+.size-btn.is-active .size-btn-tax {
+  color: rgba(251, 245, 232, 0.75);
+}
+
+.purchase-row {
+  display: flex;
+  align-items: center;
   gap: 6px;
   flex-wrap: nowrap;
-}
-.price-row {
-  display: flex;
-  align-items: baseline;
-  gap: 3px;
-  flex: 0 0 auto;
-  white-space: nowrap;
-}
-.price {
-  font-family: "Shippori Mincho", serif;
-  font-size: 18px;
-  font-weight: 800;
-  color: var(--copper-deep);
-}
-.price-tax {
-  font-size: 9.5px;
-  color: var(--ink-faint);
-  font-weight: 500;
 }
 
 .qty-stepper {
@@ -804,13 +824,10 @@ p.body-copy:last-child {
   padding: 12px 0 calc(12px + env(safe-area-inset-bottom));
   box-shadow: 0 -8px 24px rgba(42, 31, 22, 0.14);
 }
-.sticky-bar .price {
-  font-size: 17px;
-}
-
 @media (max-width: 359px) {
-  .price {
-    font-size: 16px;
+  .size-btn {
+    font-size: 10.5px;
+    padding: 6px 8px;
   }
   .buy-btn {
     font-size: 12px;
@@ -823,7 +840,7 @@ p.body-copy:last-child {
   .page {
     --col: 640px;
     --pad: 32px;
-    --bar-h: 84px;
+    --bar-h: 118px;
   }
   .topbar {
     padding: 20px 0;
@@ -879,8 +896,9 @@ p.body-copy:last-child {
   .buybox {
     padding: 15px 18px;
   }
-  .price {
-    font-size: 20px;
+  .size-btn {
+    font-size: 12.5px;
+    padding: 7px 12px;
   }
   .buy-btn {
     height: 38px;
@@ -913,7 +931,7 @@ p.body-copy:last-child {
   .page {
     --col: 820px;
     --pad: 0px;
-    --bar-h: 88px;
+    --bar-h: 122px;
   }
   .shell {
     border-radius: 0;

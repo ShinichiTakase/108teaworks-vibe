@@ -22,11 +22,18 @@ import styles from "./RoastedPowderLpPage.module.css";
  * ・数量表示は上記のReact化に伴い readonly な <input> から <span role="spinbutton"> に変更
  * ・元HTMLはJSで全ステッパーの数量を同期していたが、Next.js化に伴い他のLPページ（decafe-lp等）と
  *   同様、ヒーロー・最終CTA・スティッキーバーの各ブロックは独立した数量状態を持つ
+ * ・実際は80g（¥1,380）と500g業務用（¥7,980）の2商品構成だが、80gのみの単一商品として実装されていた
+ *   誤りをユーザー指示により修正。microCMS側も2商品が同一SLUGを共有しておりカートで別商品として
+ *   区別できなかったため、500g側のSLUGを roasted-isecha-powder-unsweetened-bulkpack に変更してもらった
+ *   上で、購入ブロックを80g/500gのトグル選択式（FukamushiPowderLpBuy等と同様の構成）に変更
  */
 
-const PRODUCT_SLUG = "roasted-isecha-powder-unsweetened";
-const FALLBACK_TITLE = "伊勢茶 ほうじ茶パウダー 80g（無糖）";
-const FALLBACK_PRICE = 1380;
+const SMALL_SLUG = "roasted-isecha-powder-unsweetened";
+const BULK_SLUG = "roasted-isecha-powder-unsweetened-bulkpack";
+const FALLBACKS = {
+  [SMALL_SLUG]: { title: "伊勢茶 ほうじ茶パウダー 80g（無糖）", price: 1380 },
+  [BULK_SLUG]: { title: "伊勢茶 ほうじ茶パウダー 500g（業務用・製菓用・無糖）", price: 7980 },
+} as const;
 const PRODUCT_IMAGE = "/images/products/roasted-isecha-powder-unsweetened/1500.webp";
 
 const FAQS = [
@@ -70,25 +77,57 @@ const WAVE_DIVIDER = (
 export default async function RoastedPowderLpPage() {
   const canonicalUrl = `${SITE_BASE_URL}/ise-cha/roasted-powder-lp/`;
 
-  const product = await getProductBySlug(PRODUCT_SLUG);
-  const price = product?.PRICE ?? FALLBACK_PRICE;
-  const title = product?.TITLE ?? FALLBACK_TITLE;
-  const purchaseProduct = {
-    slug: PRODUCT_SLUG,
-    title,
-    price,
+  const [smallProduct, bulkProduct] = await Promise.all([
+    getProductBySlug(SMALL_SLUG),
+    getProductBySlug(BULK_SLUG),
+  ]);
+
+  const small = {
+    slug: SMALL_SLUG,
+    title: smallProduct?.TITLE ?? FALLBACKS[SMALL_SLUG].title,
+    price: smallProduct?.PRICE ?? FALLBACKS[SMALL_SLUG].price,
     imagePath: PRODUCT_IMAGE,
-    shipRank: product?.SHIP_RANK,
+    shipRank: smallProduct?.SHIP_RANK,
+    sizeLabel: "80g",
   };
+  const bulk = {
+    slug: BULK_SLUG,
+    title: bulkProduct?.TITLE ?? FALLBACKS[BULK_SLUG].title,
+    price: bulkProduct?.PRICE ?? FALLBACKS[BULK_SLUG].price,
+    imagePath: PRODUCT_IMAGE,
+    shipRank: bulkProduct?.SHIP_RANK,
+    sizeLabel: "500g",
+  };
+
+  const purchaseProducts = [small, bulk] as const;
 
   return (
     <div className={styles.page}>
       <ProductJsonLd
-        name={purchaseProduct.title}
+        name="伊勢茶 ほうじ茶パウダー（無糖）"
         description="三重・川俣谷産（松阪市飯南町）の一番茶を丸ごと焙じて微粉末に。お湯にも牛乳にもすっと溶けて、伊勢のほうじ茶ラテが自宅で仕上がります。"
         imageUrl={PRODUCT_IMAGE}
         canonicalUrl={canonicalUrl}
-        price={purchaseProduct.price}
+        offers={[
+          {
+            "@type": "Offer",
+            url: canonicalUrl,
+            priceCurrency: "JPY",
+            price: small.price,
+            availability: "https://schema.org/InStock",
+            itemCondition: "https://schema.org/NewCondition",
+            name: "80g",
+          },
+          {
+            "@type": "Offer",
+            url: canonicalUrl,
+            priceCurrency: "JPY",
+            price: bulk.price,
+            availability: "https://schema.org/InStock",
+            itemCondition: "https://schema.org/NewCondition",
+            name: "500g",
+          },
+        ]}
         inLanguage="ja"
       />
       <FaqJsonLd questions={FAQS.map(({ q, a }) => ({ q, a }))} />
@@ -133,10 +172,10 @@ export default async function RoastedPowderLpPage() {
           <div className={`${styles.constrain} ${styles["buybox-flex"]}`}>
             <div className={styles.buybox}>
               <div className={styles["buybox-name"]}>
-                伊勢茶 ほうじ茶パウダー 80g（無糖）
+                伊勢茶 ほうじ茶パウダー（無糖）
                 <span className={styles["buybox-sub"]}>三重県松阪市飯南町産 伊勢茶100%使用</span>
               </div>
-              <RoastedPowderLpBuy product={purchaseProduct} />
+              <RoastedPowderLpBuy products={purchaseProducts} />
               <p className={styles["buybox-note"]}>お買い上げ¥10,000以上で送料無料。配送は日本国内のみです。</p>
             </div>
           </div>
@@ -157,7 +196,7 @@ export default async function RoastedPowderLpPage() {
                 </p>
               </div>
               <div className={styles["intro-image"]}>
-                <img src={PRODUCT_IMAGE} alt="伊勢茶 ほうじ茶パウダー 80g パッケージ" />
+                <img src={PRODUCT_IMAGE} alt="伊勢茶 ほうじ茶パウダー パッケージ" />
               </div>
             </div>
           </div>
@@ -384,7 +423,7 @@ export default async function RoastedPowderLpPage() {
                 </tr>
                 <tr>
                   <th>内容量</th>
-                  <td>パウダー 80g（無糖）</td>
+                  <td>パウダー 80g／500g業務用（無糖）</td>
                 </tr>
                 <tr>
                   <th>フレーバー</th>
@@ -441,10 +480,10 @@ export default async function RoastedPowderLpPage() {
             <div className={styles["buybox-flex"]}>
               <div className={styles.buybox}>
                 <div className={styles["buybox-name"]}>
-                  伊勢茶 ほうじ茶パウダー 80g（無糖）
+                  伊勢茶 ほうじ茶パウダー（無糖）
                   <span className={styles["buybox-sub"]}>三重県松阪市飯南町産 伊勢茶100%使用</span>
                 </div>
-                <RoastedPowderLpBuy product={purchaseProduct} />
+                <RoastedPowderLpBuy products={purchaseProducts} />
                 <p className={styles["buybox-note"]}>お買い上げ¥10,000以上で送料無料。配送は日本国内のみです。</p>
               </div>
             </div>
@@ -483,7 +522,7 @@ export default async function RoastedPowderLpPage() {
       {/* Sticky bottom purchase bar */}
       <div className={styles["sticky-bar"]}>
         <div className={styles.constrain}>
-          <RoastedPowderLpBuy product={purchaseProduct} />
+          <RoastedPowderLpBuy products={purchaseProducts} />
         </div>
       </div>
     </div>
