@@ -43,6 +43,9 @@ const FAQS = [
   },
 ] as const;
 
+const FALLBACK_PRICE_3 = 756;
+const FALLBACK_PRICE_8 = 1296;
+
 /** 「川俣谷」表記をユーザー指示に沿って「飯南町」表記へ統一する */
 function normalizePlaceNames(text: string): string {
   return text
@@ -70,8 +73,6 @@ export default async function WakochaLpPage() {
   const defaultVisiblePrice = defaultVisibleProduct?.PRICE ?? 1380;
   const minPrice = productPrices.length > 0 ? Math.min(...productPrices) : defaultVisiblePrice;
   const maxPrice = productPrices.length > 0 ? Math.max(...productPrices) : defaultVisiblePrice;
-  const lowPrice = price3 ?? price8 ?? defaultVisiblePrice;
-  const highPrice = price8 ?? price3 ?? defaultVisiblePrice;
 
   const spotDescriptionHtml = product8?.DESCRIPTION01
     ? normalizePlaceNames(sanitizeRichHtml(decodeHtmlEntities(product8.DESCRIPTION01)))
@@ -111,14 +112,26 @@ export default async function WakochaLpPage() {
         description={leadDescription}
         imageUrl="/images/products/wakocha-isecha/1000.webp"
         canonicalUrl={canonicalUrl}
-        offers={{
-          "@type": "AggregateOffer",
-          priceCurrency: "JPY",
-          lowPrice,
-          highPrice,
-          offerCount: 2,
-          availability: "https://schema.org/InStock",
-        }}
+        offers={[
+          {
+            "@type": "Offer",
+            url: canonicalUrl,
+            priceCurrency: "JPY",
+            price: price3 ?? FALLBACK_PRICE_3,
+            availability: "https://schema.org/InStock",
+            itemCondition: "https://schema.org/NewCondition",
+            name: "3個入り",
+          },
+          {
+            "@type": "Offer",
+            url: canonicalUrl,
+            priceCurrency: "JPY",
+            price: price8 ?? FALLBACK_PRICE_8,
+            availability: "https://schema.org/InStock",
+            itemCondition: "https://schema.org/NewCondition",
+            name: "8個入り",
+          },
+        ]}
         inLanguage="ja"
       />
       <FaqJsonLd questions={FAQS.map(({ q, a }) => ({ q, a }))} />
