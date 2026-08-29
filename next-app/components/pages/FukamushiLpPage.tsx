@@ -104,7 +104,35 @@ export default async function FukamushiLpPage() {
         description={leadDescription}
         imageUrl={standard.imagePath}
         canonicalUrl={canonicalUrl}
-        price={standard.price}
+        offers={[
+          {
+            "@type": "Offer",
+            url: canonicalUrl,
+            priceCurrency: "JPY",
+            price: trial.price,
+            availability: "https://schema.org/InStock",
+            itemCondition: "https://schema.org/NewCondition",
+            name: "3個入り",
+          },
+          {
+            "@type": "Offer",
+            url: canonicalUrl,
+            priceCurrency: "JPY",
+            price: standard.price,
+            availability: "https://schema.org/InStock",
+            itemCondition: "https://schema.org/NewCondition",
+            name: "10個入り",
+          },
+          {
+            "@type": "Offer",
+            url: canonicalUrl,
+            priceCurrency: "JPY",
+            price: bulk.price,
+            availability: "https://schema.org/InStock",
+            itemCondition: "https://schema.org/NewCondition",
+            name: "50個入り",
+          },
+        ]}
         inLanguage="ja"
       />
       <FaqJsonLd questions={FAQS.map(({ q, a }) => ({ q, a }))} />
