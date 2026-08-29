@@ -6,18 +6,22 @@
 #
 # 要: bash, sed, mktemp, docker compose（Linux / Git Bash / WSL 想定）
 #
-# 使い方（リポジトリルート = 本スクリプトの親の親）:
+# 使い方（リポジトリルート = 本スクリプトの親の親。本番サーバーでは /opt/project/108teaworks を想定）:
 #   bash scripts/switch-env-restart-shop.sh
 #
 # 任意の上書き:
-#   COMPOSE_FILE=docker-compose.shop.yml SHOP_SERVICE=shop-next bash scripts/switch-env-restart-shop.sh
+#   COMPOSE_FILE=/path/to/docker-compose.yml SHOP_SERVICE=shop-next bash scripts/switch-env-restart-shop.sh
 #
+# 注意: 本番の実体は本リポジトリの docker-compose.shop.yml ではなく、
+# サーバー上の別ディレクトリ /opt/project/deploy/xserver-vps/docker-compose.yml
+# （コンテナ名 xsvps-shop-next、ビルドコンテキストは ../../108teaworks/next-app）。
+# COMPOSE_FILE のデフォルトはこの本番構成に合わせている。
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 ENV_DIR="${ROOT}/next-app"
 COMMON_TEXTS="${ENV_DIR}/lib/commonTexts.ts"
-COMPOSE_FILE="${COMPOSE_FILE:-docker-compose.shop.yml}"
+COMPOSE_FILE="${COMPOSE_FILE:-/opt/project/deploy/xserver-vps/docker-compose.yml}"
 SHOP_SERVICE="${SHOP_SERVICE:-shop-next}"
 
 cd "$ROOT"
@@ -32,8 +36,15 @@ if [[ ! -f "$COMMON_TEXTS" ]]; then
   exit 1
 fi
 
-if [[ ! -f "${ROOT}/${COMPOSE_FILE}" ]]; then
-  echo "error: Compose ファイルがありません: ${ROOT}/${COMPOSE_FILE}" >&2
+# COMPOSE_FILE は絶対パス（本番デフォルト）・相対パスのどちらでも指定可能
+if [[ "$COMPOSE_FILE" = /* ]]; then
+  COMPOSE_FILE_PATH="$COMPOSE_FILE"
+else
+  COMPOSE_FILE_PATH="${ROOT}/${COMPOSE_FILE}"
+fi
+
+if [[ ! -f "$COMPOSE_FILE_PATH" ]]; then
+  echo "error: Compose ファイルがありません: ${COMPOSE_FILE_PATH}" >&2
   exit 1
 fi
 
@@ -61,7 +72,7 @@ mv "$tmp" "$COMMON_TEXTS"
 echo "③ クーポンバナーを空にしました: $COMMON_TEXTS"
 
 # ④ イメージ再ビルド＋再作成（.env.local と commonTexts.ts はイメージ内のビルド成果物に含まれるため）
-echo "④ docker compose -f ${COMPOSE_FILE} up -d --build --force-recreate ${SHOP_SERVICE}"
-docker compose -f "${COMPOSE_FILE}" up -d --build --force-recreate "${SHOP_SERVICE}"
+echo "④ docker compose -f ${COMPOSE_FILE_PATH} up -d --build --force-recreate ${SHOP_SERVICE}"
+docker compose -f "${COMPOSE_FILE_PATH}" up -d --build --force-recreate "${SHOP_SERVICE}"
 
 echo "完了しました。"
