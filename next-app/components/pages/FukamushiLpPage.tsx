@@ -2,7 +2,7 @@ import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import FaqJsonLd from "@/components/FaqJsonLd";
 import ProductJsonLd from "@/components/ProductJsonLd";
 import { getBreadcrumbItems } from "@/lib/breadcrumb";
-import { formatPriceYen } from "@/lib/formatters";
+import { formatPriceYen, stripVariantSizeFromProductName } from "@/lib/formatters";
 import { getProductBySlug } from "@/lib/microcms";
 import { SITE_BASE_URL } from "@/lib/siteConstants";
 import FukamushiLpBuy from "./FukamushiLpBuy";
@@ -100,7 +100,7 @@ export default async function FukamushiLpPage() {
   return (
     <div className={styles.page}>
       <ProductJsonLd
-        name={standard.title}
+        name={stripVariantSizeFromProductName(standard.title)}
         description={leadDescription}
         imageUrl={standard.imagePath}
         canonicalUrl={canonicalUrl}
