@@ -4,6 +4,7 @@ import { getNotices } from "@/lib/microcms";
 import { getAllChapterSlugs } from "@/lib/kabatadani";
 import { getAllChapterSlugs as getIsechaChapterSlugs } from "@/lib/isecha_rekishi";
 import { getAllChapterSlugs as getMieChagyoShiChapterSlugs } from "@/lib/mie_chagyo_shi";
+import { loadReviewsForSlug, summarizeReviews } from "@/lib/reviewsStorage";
 
 const LOCALES = ["ja", "en", "ko", "zh"] as const;
 type Locale = (typeof LOCALES)[number];
@@ -137,6 +138,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           changeFrequency: "weekly",
           priority: 0.8,
         });
+      }
+
+      // レビュー一覧ページ（日本語のみ実装）。0件の商品は空ページになるため除外
+      try {
+        const reviews = await loadReviewsForSlug(slug);
+        const { reviewCount } = summarizeReviews(reviews);
+        if (reviewCount > 0) {
+          entries.push({
+            url: localizedUrl(baseUrl, "ja", `${path}/reviews`),
+            lastModified: new Date(),
+            changeFrequency: "weekly",
+            priority: 0.5,
+          });
+        }
+      } catch (e) {
+        console.error("[sitemap] loadReviewsForSlug error", slug, e);
       }
     }
   } catch (e) {

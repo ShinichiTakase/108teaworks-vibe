@@ -209,6 +209,30 @@ export async function appendReviewsForSlug(slug: string, reviews: StoredReview[]
   await writeJsonFile(filePath, merged);
 }
 
+export type ReviewSummary = {
+  /** rating が 1〜5 の有効な数値であるレビューのみ */
+  validReviews: StoredReview[];
+  reviewCount: number;
+  avgRating: number | null;
+};
+
+const REVIEW_RATING_BEST = 5;
+const REVIEW_RATING_WORST = 1;
+
+/**
+ * JSON-LD（aggregateRating/review）と商品詳細ページの★サマリー表示の両方から
+ * 参照する共通ロジック。集計方法がずれないよう、この関数を唯一の参照元とする。
+ */
+export function summarizeReviews(reviews: StoredReview[]): ReviewSummary {
+  const validReviews = reviews.filter(
+    (r) => typeof r.rating === "number" && r.rating >= REVIEW_RATING_WORST && r.rating <= REVIEW_RATING_BEST
+  );
+  const reviewCount = validReviews.length;
+  const avgRating =
+    reviewCount > 0 ? validReviews.reduce((sum, r) => sum + r.rating, 0) / reviewCount : null;
+  return { validReviews, reviewCount, avgRating };
+}
+
 export async function loadReviewsForSlug(slug: string): Promise<StoredReview[]> {
   await ensureDirs();
   const filePath = path.join(reviewsDir(), `${slug}.json`);

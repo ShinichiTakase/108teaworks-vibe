@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getProductBySlug, decodeHtmlEntities } from "@/lib/microcms";
 import { getProductImagePaths, getProductTasteImagePaths } from "@/lib/productImage";
@@ -12,7 +13,7 @@ import { getBreadcrumbItems } from "@/lib/breadcrumb";
 import type { Locale } from "@/lib/i18n";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
 import { translateForLocale } from "@/lib/translateForLocale";
-import { loadReviewsForSlug } from "@/lib/reviewsStorage";
+import { loadReviewsForSlug, summarizeReviews } from "@/lib/reviewsStorage";
 import { formatPriceYen } from "@/lib/formatters";
 import { sanitizeRichHtml } from "@/lib/sanitizeHtml";
 import { buildLocalizedPath } from "@/lib/urlPath";
@@ -114,17 +115,8 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
     typeof safeDisplayDesc01 === "string"
       ? safeDisplayDesc01.replace(/<[^>]+>/g, "").slice(0, 300)
       : "";
-  const reviewsForSchema = reviews.filter(
-    (r) =>
-      typeof r.rating === "number" &&
-      r.rating >= SCHEMA_RATING_WORST &&
-      r.rating <= SCHEMA_RATING_BEST
-  );
-  const reviewCount = reviewsForSchema.length;
-  const avgRating =
-    reviewCount > 0
-      ? reviewsForSchema.reduce((sum, r) => sum + r.rating, 0) / reviewCount
-      : null;
+  /** JSON-LDと画面表示の★サマリー(reviewsPageLink)の両方がここを唯一のデータソースとして参照する */
+  const { validReviews: reviewsForSchema, reviewCount, avgRating } = summarizeReviews(reviews);
   const schemaReviews =
     reviewCount > 0
       ? reviewsForSchema.slice(0, 50).map((r) => ({
@@ -211,6 +203,19 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
         <p className="m-0 text-right text-2xl font-bold text-tea-deep">
           {formatPriceYen(product.PRICE)} <span className="text-base font-normal text-ink-muted">{t.taxIncluded}</span>
         </p>
+        {/* レビュー一覧ページ（/ise-cha/{slug}/reviews）は日本語のみ実装のため、日本語ページかつ1件以上ある場合のみ表示 */}
+        {locale === "ja" && reviewCount > 0 && avgRating !== null && (
+          <Link
+            href={`/ise-cha/${slug}/reviews`}
+            className="mb-3 flex items-center justify-end gap-1.5 text-[0.8125rem] text-ink-muted no-underline transition-colors hover:text-tea-deep"
+          >
+            <span className="text-[0.9375rem] leading-none text-amber-500" aria-hidden="true">
+              {"★".repeat(Math.round(avgRating)) + "☆".repeat(5 - Math.round(avgRating))}
+            </span>
+            <span className="font-semibold text-ink">{avgRating.toFixed(2)}</span>
+            <span className="underline underline-offset-2">{reviewCount}件のレビューを見る</span>
+          </Link>
+        )}
         <ProductBuyBar
           slug={slug}
           price={product.PRICE}
