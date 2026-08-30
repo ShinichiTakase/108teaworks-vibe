@@ -233,6 +233,12 @@ export function summarizeReviews(reviews: StoredReview[]): ReviewSummary {
   return { validReviews, reviewCount, avgRating };
 }
 
+/** ルートの `?page=` クエリ文字列から、商品詳細ページ埋め込みレビュー一覧のページ番号を安全にパースする */
+export function parseReviewsPage(page: string | undefined): number | undefined {
+  const n = Number(page);
+  return Number.isFinite(n) && n > 0 ? Math.floor(n) : undefined;
+}
+
 export async function loadReviewsForSlug(slug: string): Promise<StoredReview[]> {
   await ensureDirs();
   const filePath = path.join(reviewsDir(), `${slug}.json`);

@@ -2,9 +2,11 @@ import { getProductBySlug } from "@/lib/microcms";
 import ProductDetailContent from "@/components/ProductDetailContent";
 import type { Locale } from "@/lib/i18n";
 import { buildAlternatesForLocales } from "@/lib/seo";
+import { parseReviewsPage } from "@/lib/reviewsStorage";
 
 type Props = {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ page?: string }>;
 };
 
 const JA_SEO_OVERRIDES: Record<string, { title: string; description: string }> = {
@@ -61,8 +63,9 @@ export async function generateMetadata({ params }: Props) {
   };
 }
 
-export default async function IseChaProductDetailPage({ params }: Props) {
+export default async function IseChaProductDetailPage({ params, searchParams }: Props) {
   const { slug } = await params;
-  return <ProductDetailContent locale="ja" slug={slug} />;
+  const { page } = await searchParams;
+  return <ProductDetailContent locale="ja" slug={slug} reviewsPage={parseReviewsPage(page)} />;
 }
 

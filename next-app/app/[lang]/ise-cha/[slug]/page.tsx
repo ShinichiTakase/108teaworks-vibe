@@ -2,11 +2,13 @@ import { getProductBySlug } from "@/lib/microcms";
 import ProductDetailContent from "@/components/ProductDetailContent";
 import type { Locale } from "@/lib/i18n";
 import { buildAlternatesForLocales } from "@/lib/seo";
+import { parseReviewsPage } from "@/lib/reviewsStorage";
 
 const SUPPORTED: Locale[] = ["ja", "en", "ko", "zh"];
 
 type Props = {
   params: Promise<{ lang: string; slug: string }>;
+  searchParams: Promise<{ page?: string }>;
 };
 
 function getProductSeo(product: any, locale: Locale): { title?: string; description?: string } {
@@ -43,9 +45,10 @@ export async function generateMetadata({ params }: Props) {
   };
 }
 
-export default async function LocalizedIseChaProductDetailPage({ params }: Props) {
+export default async function LocalizedIseChaProductDetailPage({ params, searchParams }: Props) {
   const { lang, slug } = await params;
+  const { page } = await searchParams;
   const locale: Locale = SUPPORTED.includes(lang as Locale) ? (lang as Locale) : "ja";
-  return <ProductDetailContent locale={locale} slug={slug} />;
+  return <ProductDetailContent locale={locale} slug={slug} reviewsPage={parseReviewsPage(page)} />;
 }
 

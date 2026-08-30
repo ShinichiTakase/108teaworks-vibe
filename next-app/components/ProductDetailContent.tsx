@@ -14,6 +14,7 @@ import type { Locale } from "@/lib/i18n";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
 import { translateForLocale } from "@/lib/translateForLocale";
 import { loadReviewsForSlug, summarizeReviews } from "@/lib/reviewsStorage";
+import { formatReviewDate } from "@/lib/reviewDisplay";
 import { formatPriceYen } from "@/lib/formatters";
 import { sanitizeRichHtml } from "@/lib/sanitizeHtml";
 import { buildLocalizedPath } from "@/lib/urlPath";
@@ -69,12 +70,17 @@ const SCHEMA_PRODUCT_CATEGORY: Record<Locale, string> = {
   zh: "茶(无酒精)",
 };
 
+/** レビュー一覧（商品説明下部に埋め込み）1ページあたりの件数 */
+const REVIEWS_PER_PAGE = 10;
+
 type Props = {
   locale: Locale;
   slug: string;
+  /** 商品説明下部のレビュー一覧のページ番号（1始まり）。省略時は1ページ目 */
+  reviewsPage?: number;
 };
 
-export default async function ProductDetailContent({ locale, slug }: Props) {
+export default async function ProductDetailContent({ locale, slug, reviewsPage }: Props) {
   const product = await getProductBySlug(slug);
   if (!product) notFound();
 
@@ -115,8 +121,12 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
     typeof safeDisplayDesc01 === "string"
       ? safeDisplayDesc01.replace(/<[^>]+>/g, "").slice(0, 300)
       : "";
-  /** JSON-LDと画面表示の★サマリー(reviewsPageLink)の両方がここを唯一のデータソースとして参照する */
+  /** JSON-LD・価格下の★サマリー・商品説明下部のレビュー一覧、いずれもここを唯一のデータソースとして参照する */
   const { validReviews: reviewsForSchema, reviewCount, avgRating } = summarizeReviews(reviews);
+  const totalReviewPages = Math.max(1, Math.ceil(reviewCount / REVIEWS_PER_PAGE));
+  const currentReviewPage = Math.min(Math.max(1, reviewsPage ?? 1), totalReviewPages);
+  const reviewPageStart = (currentReviewPage - 1) * REVIEWS_PER_PAGE;
+  const pageReviews = reviewsForSchema.slice(reviewPageStart, reviewPageStart + REVIEWS_PER_PAGE);
   const schemaReviews =
     reviewCount > 0
       ? reviewsForSchema.slice(0, 50).map((r) => ({
@@ -203,10 +213,10 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
         <p className="m-0 text-right text-2xl font-bold text-tea-deep">
           {formatPriceYen(product.PRICE)} <span className="text-base font-normal text-ink-muted">{t.taxIncluded}</span>
         </p>
-        {/* レビュー一覧ページ（/ise-cha/{slug}/reviews）は日本語のみ実装のため、日本語ページかつ1件以上ある場合のみ表示 */}
+        {/* レビューは本ページ下部(#reviews)に埋め込み表示。翻訳未対応のため日本語かつ1件以上の場合のみ表示 */}
         {locale === "ja" && reviewCount > 0 && avgRating !== null && (
-          <Link
-            href={`/ise-cha/${slug}/reviews`}
+          <a
+            href="#reviews"
             className="mb-3 flex items-center justify-end gap-1.5 text-[0.8125rem] text-ink-muted no-underline transition-colors hover:text-tea-deep"
           >
             <span className="text-[0.9375rem] leading-none text-amber-500" aria-hidden="true">
@@ -214,7 +224,7 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
             </span>
             <span className="font-semibold text-ink">{avgRating.toFixed(2)}</span>
             <span className="underline underline-offset-2">{reviewCount}件のレビューを見る</span>
-          </Link>
+          </a>
         )}
         <ProductBuyBar
           slug={slug}
@@ -273,6 +283,65 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
           )}
           {tasteStandalone && (
             <ProductTasteImages paths={tasteImagePaths} altBase={displayTitle || titleJa} />
+          )}
+        </div>
+      )}
+      {/* レビュー一覧を商品説明の下部に直接埋め込み表示（翻訳未対応のため日本語かつ1件以上の場合のみ） */}
+      {locale === "ja" && reviewCount > 0 && avgRating !== null && (
+        <div id="reviews" className="mt-10 border-t border-border pt-8">
+          <h2 className="m-0 mb-3 text-base font-semibold text-tea-deep">レビュー</h2>
+          <div className="mb-5 flex items-center gap-1.5">
+            <span className="text-base leading-none text-amber-500" aria-hidden="true">
+              {"★".repeat(Math.round(avgRating)) + "☆".repeat(5 - Math.round(avgRating))}
+            </span>
+            <span className="text-[0.9375rem] font-semibold text-ink">{avgRating.toFixed(2)}</span>
+            <span className="text-[0.8125rem] text-ink-muted">（{reviewCount}件）</span>
+          </div>
+          <ul className="m-0 list-none space-y-4 p-0">
+            {pageReviews.map((r, idx) => (
+              <li key={reviewPageStart + idx} className="rounded-xl border border-border bg-washi p-4">
+                <div className="mb-1 flex items-center justify-between gap-3">
+                  <span className="flex items-center gap-2 text-[0.875rem] font-semibold text-tea-deep">
+                    <span className="h-5 w-5 shrink-0 text-ink-muted" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="currentColor" className="h-full w-full">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                      </svg>
+                    </span>
+                    {r.nickname}
+                  </span>
+                  <span className="text-[0.875rem] text-amber-500" aria-label={`評価 ${r.rating} / 5`}>
+                    {"★".repeat(r.rating) + "☆".repeat(5 - r.rating)}
+                  </span>
+                </div>
+                <p className="m-0 mb-1 whitespace-pre-wrap text-[0.875rem] leading-relaxed text-ink">
+                  {r.review}
+                </p>
+                <p className="m-0 text-[0.75rem] text-ink-muted">{formatReviewDate(r.createdAt)}</p>
+              </li>
+            ))}
+          </ul>
+          {totalReviewPages > 1 && (
+            <nav className="mt-6 flex items-center justify-center gap-3 text-[0.875rem]" aria-label="レビューのページ">
+              {currentReviewPage > 1 && (
+                <Link
+                  href={`?page=${currentReviewPage - 1}#reviews`}
+                  className="rounded border border-border px-3 py-1 text-ink no-underline hover:bg-cream"
+                >
+                  前へ
+                </Link>
+              )}
+              <span className="text-ink-muted">
+                {currentReviewPage} / {totalReviewPages}
+              </span>
+              {currentReviewPage < totalReviewPages && (
+                <Link
+                  href={`?page=${currentReviewPage + 1}#reviews`}
+                  className="rounded border border-border px-3 py-1 text-ink no-underline hover:bg-cream"
+                >
+                  次へ
+                </Link>
+              )}
+            </nav>
           )}
         </div>
       )}
