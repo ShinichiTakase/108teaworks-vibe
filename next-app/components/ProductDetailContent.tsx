@@ -71,7 +71,7 @@ const SCHEMA_PRODUCT_CATEGORY: Record<Locale, string> = {
 };
 
 /** レビュー一覧（商品説明下部に埋め込み）1ページあたりの件数 */
-const REVIEWS_PER_PAGE = 10;
+const REVIEWS_PER_PAGE = 5;
 
 type Props = {
   locale: Locale;
