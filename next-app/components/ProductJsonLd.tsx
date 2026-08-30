@@ -97,7 +97,7 @@ export default function ProductJsonLd({
     image: [absImageUrl],
     inLanguage,
     brand: {
-      "@type": "Organization",
+      "@type": "Brand",
       name: ORGANIZATION_NAME_JA,
     },
     ...(sku ? { sku } : {}),

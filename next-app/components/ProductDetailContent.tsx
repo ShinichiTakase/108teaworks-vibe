@@ -6,6 +6,7 @@ import ProductImageGallery from "@/components/ProductImageGallery";
 import ProductBuyBar from "@/components/ProductBuyBar";
 import ShipRankInfo from "@/components/ShipRankInfo";
 import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
+import FaqJsonLd from "@/components/FaqJsonLd";
 import styles from "@/components/ProductDetailContent.module.css";
 import { getBreadcrumbItems } from "@/lib/breadcrumb";
 import type { Locale } from "@/lib/i18n";
@@ -16,6 +17,7 @@ import { formatPriceYen } from "@/lib/formatters";
 import { sanitizeRichHtml } from "@/lib/sanitizeHtml";
 import { buildLocalizedPath } from "@/lib/urlPath";
 import { ORGANIZATION_NAME_JA } from "@/lib/siteConstants";
+import { getProductFaqs } from "@/lib/productFaqs";
 
 /** Product/Offer 用。Google リッチリザルトで推奨される価格の有効期限 */
 const OFFER_PRICE_VALID_UNTIL = "2027-12-31";
@@ -104,7 +106,6 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
     locale === "ja"
       ? `${baseUrl}/ise-cha/${slug}/`
       : `${baseUrl}/${locale}/ise-cha/${slug}/`;
-  const legalUrl = `${baseUrl}/legal/`;
   const schemaAvailability =
     typeof product.STOCK === "number" && product.STOCK <= 0
       ? "https://schema.org/OutOfStock"
@@ -162,15 +163,11 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
             priceValidUntil: OFFER_PRICE_VALID_UNTIL,
             eligibleRegion: OFFER_ELIGIBLE_REGION_JP,
             shippingDetails: OFFER_SHIPPING_DETAILS_JP,
+            /** 食品のためお客様都合の返品不可（瑕疵・誤配送時の法定対応は別枠）。LP側と同一の値に統一 */
             hasMerchantReturnPolicy: {
               "@type": "MerchantReturnPolicy",
               applicableCountry: "JP",
-              merchantReturnLink: legalUrl,
-              returnPolicyCategory:
-                "https://schema.org/MerchantReturnFiniteReturnWindow",
-              merchantReturnDays: 7,
-              returnMethod: "https://schema.org/ReturnByMail",
-              returnFees: "https://schema.org/FreeReturn",
+              returnPolicyCategory: "https://schema.org/MerchantReturnNotPermitted",
             },
           }
         : undefined,
@@ -188,6 +185,8 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
 
   const pathname = buildLocalizedPath(locale, `/ise-cha/${slug}`);
   const breadcrumbItems = getBreadcrumbItems(pathname, locale, { productName: displayTitle || titleJa });
+  /** GEO対策のFAQPage。文言未翻訳のため日本語ページのみに表示 */
+  const faqs = locale === "ja" ? getProductFaqs(slug) : undefined;
 
   const hasTaste = tasteImagePaths.length > 0;
   /** DESCRIPTION02 が無い商品は淹れ方などが DESCRIPTION01 に入ることが多い → その右に味わい画像 */
@@ -198,6 +197,7 @@ export default async function ProductDetailContent({ locale, slug }: Props) {
   return (
     <>
     <BreadcrumbListSchema items={breadcrumbItems} />
+    {faqs && faqs.length > 0 && <FaqJsonLd questions={faqs} />}
     <article className={["mb-10", styles.scope].join(" ")}>
       <script
         type="application/ld+json"
