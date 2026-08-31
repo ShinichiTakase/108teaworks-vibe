@@ -1,6 +1,7 @@
 import { getProducts } from "@/lib/microcms";
 import { getProductImagePath } from "@/lib/productImage";
 import ProductListWithFilter, { type ProductWithImage } from "./ProductListWithFilter";
+import ProductItemListJsonLd from "./ProductItemListJsonLd";
 import type { Locale } from "@/lib/i18n";
 import { translateManyForLocale } from "@/lib/translateForLocale";
 
@@ -18,5 +19,12 @@ export default async function ProductList({ locale = "ja" }: Props) {
     return { ...p, TITLE: t, imagePath: getProductImagePath(slug) };
   });
 
-  return <ProductListWithFilter products={productsWithImage} />;
+  return (
+    <>
+      <ProductItemListJsonLd
+        slugs={productsWithImage.map((p) => p.SLUG ?? p.id)}
+      />
+      <ProductListWithFilter products={productsWithImage} />
+    </>
+  );
 }

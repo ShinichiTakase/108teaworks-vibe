@@ -52,7 +52,11 @@ const websiteSchema = {
   name: ORGANIZATION_NAME_JA,
   alternateName: ORGANIZATION_NAME_EN,
   url: ORGANIZATION_URL,
-  publisher: { "@type": "Organization", name: ORGANIZATION_NAME_JA, logo: ORGANIZATION_LOGO_URL },
+  publisher: {
+    "@type": "Organization",
+    name: ORGANIZATION_NAME_JA,
+    logo: { "@type": "ImageObject", url: ORGANIZATION_LOGO_URL },
+  },
 };
 
 export default function RootLayout({
