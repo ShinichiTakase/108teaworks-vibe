@@ -4,7 +4,7 @@ import { getFixedSeo, buildAlternatesForLocales } from "@/lib/seo";
 import { getBreadcrumbItems } from "@/lib/breadcrumb";
 
 export async function generateMetadata() {
-  const seo = getFixedSeo("/privacy-policy", "ja");
+  const seo = getFixedSeo("/privacy-policy");
   return {
     title: seo?.title ?? "プライバシーポリシー｜伊勢茶の藤八茶寮",
     description: seo?.description ?? "個人情報の取扱いについて",
@@ -15,8 +15,8 @@ export async function generateMetadata() {
 export default function PrivacyPolicyPage() {
   return (
     <>
-      <BreadcrumbListSchema items={getBreadcrumbItems("/privacy-policy", "ja")} />
-      <PrivacyPolicyContent locale="ja" />
+      <BreadcrumbListSchema items={getBreadcrumbItems("/privacy-policy")} />
+      <PrivacyPolicyContent />
     </>
   );
 }

@@ -1,23 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { usePathname } from "next/navigation";
 import { CHACHAMARU_TEXTS } from "@/lib/chachamaruTexts";
-import type { Locale } from "@/lib/i18n";
 
 /**
  * AIコンシェルジュ茶々丸のフローティングバー。
  * useReactBar: true のとき表示。クリックで window.openChachamaru() を呼ぶ。
  */
 const useCustomIcon = true;
-
-function getLocaleFromPath(pathname: string | null): Locale {
-  if (!pathname) return "ja";
-  if (pathname.startsWith("/en")) return "en";
-  if (pathname.startsWith("/ko")) return "ko";
-  if (pathname.startsWith("/zh")) return "zh";
-  return "ja";
-}
 
 const BAR_COMMON =
   "fixed z-[999999] flex items-center gap-2 border-2 text-[0.875rem] font-semibold shadow-lg transition-colors cursor-pointer h-12 w-12 p-0";
@@ -60,9 +50,7 @@ function openChachamaru() {
 }
 
 export default function FloatingChachamaruBar() {
-  const pathname = usePathname();
-  const locale = getLocaleFromPath(pathname);
-  const t = CHACHAMARU_TEXTS[locale];
+  const t = CHACHAMARU_TEXTS.ja;
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();

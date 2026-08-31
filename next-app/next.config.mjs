@@ -65,6 +65,21 @@ const nextConfig = {
   // remotePatterns は許可ホストのみに限定（GHSA-9g9p-9gw9-jx7f 対策）
   async redirects() {
     return [
+      // 旧スラッグ「伊勢のほうじ茶 ティーバッグ 30g」は現行商品と1:1対応しない
+      // （現行はティーバッグ8個/50個/3個 or 茶葉30g の別商品）ため商品一覧へ。
+      // 汎用の /products/:slug ルールより先に評価させるため配列の先頭に置く。
+      {
+        source:
+          "/products/%E4%BC%8A%E5%8B%A2%E3%81%AE%E3%81%BB%E3%81%86%E3%81%98%E8%8C%B6-%E3%83%86%E3%82%A3%E3%83%BC%E3%83%90%E3%83%83%E3%82%B0-30g",
+        destination: "/ise-cha/",
+        statusCode: 301,
+      },
+      {
+        source:
+          "/products/%E4%BC%8A%E5%8B%A2%E3%81%AE%E3%81%BB%E3%81%86%E3%81%98%E8%8C%B6-%E3%83%86%E3%82%A3%E3%83%BC%E3%83%90%E3%83%83%E3%82%B0-30g/",
+        destination: "/ise-cha/",
+        statusCode: 301,
+      },
       // /products/* -> /ise-cha/* (301)
       {
         source: "/products/:slug",
@@ -106,6 +121,45 @@ const nextConfig = {
         destination: "/:lang/ise-cha/:slug/reviews/",
         statusCode: 301,
       },
+      // 旧 WooCommerce /products/* のうち上記の既知パターン以外（深い階層・アーカイブ等）はトップページへ
+      { source: "/products", destination: "/", statusCode: 301 },
+      { source: "/products/", destination: "/", statusCode: 301 },
+      { source: "/products/:path*", destination: "/", statusCode: 301 },
+      // 廃止済み多言語ルート配下の /products/* も、単数形 /product と同様にトップページへ
+      { source: "/:lang(en|ko|zh)/products", destination: "/", statusCode: 301 },
+      { source: "/:lang(en|ko|zh)/products/", destination: "/", statusCode: 301 },
+      { source: "/:lang(en|ko|zh)/products/:path*", destination: "/", statusCode: 301 },
+      // fr ロケールは本サイトに存在したことがないため、配下は一律トップページへ
+      { source: "/fr", destination: "/", statusCode: 301 },
+      { source: "/fr/", destination: "/", statusCode: 301 },
+      { source: "/fr/:path*", destination: "/", statusCode: 301 },
+      // 旧スラッグ・季節キャンペーンページの残骸 → 商品一覧ページへ
+      { source: "/ise-cha/houjicha-powder-80g", destination: "/ise-cha/", statusCode: 301 },
+      { source: "/ise-cha/houjicha-powder-80g/", destination: "/ise-cha/", statusCode: 301 },
+      { source: "/ise-cha/deep-steamed-isecha-mothersday", destination: "/ise-cha/", statusCode: 301 },
+      { source: "/ise-cha/deep-steamed-isecha-mothersday/", destination: "/ise-cha/", statusCode: 301 },
+      { source: "/ise-cha/roasted-isecha-teabag-mothersday", destination: "/ise-cha/", statusCode: 301 },
+      { source: "/ise-cha/roasted-isecha-teabag-mothersday/", destination: "/ise-cha/", statusCode: 301 },
+      { source: "/ise-cha/roasted-isecha-teabag-motherday", destination: "/ise-cha/", statusCode: 301 },
+      { source: "/ise-cha/roasted-isecha-teabag-motherday/", destination: "/ise-cha/", statusCode: 301 },
+      // 旧 WordPress ブログの日付別アーカイブ URL（/YYYY/, /YYYY/MM/, /YYYY/MM/DD/, /YYYY/MM/DD/slug/）は
+      // /notice/:slug の単一セグメントルーティングとは衝突しないため、そのまま /notice/ へ集約する
+      { source: "/:year(\\d{4})", destination: "/notice/", statusCode: 301 },
+      { source: "/:year(\\d{4})/", destination: "/notice/", statusCode: 301 },
+      { source: "/:year(\\d{4})/:month(\\d{2})", destination: "/notice/", statusCode: 301 },
+      { source: "/:year(\\d{4})/:month(\\d{2})/", destination: "/notice/", statusCode: 301 },
+      { source: "/:year(\\d{4})/:month(\\d{2})/:day(\\d{2})", destination: "/notice/", statusCode: 301 },
+      { source: "/:year(\\d{4})/:month(\\d{2})/:day(\\d{2})/", destination: "/notice/", statusCode: 301 },
+      { source: "/:year(\\d{4})/:month(\\d{2})/:day(\\d{2})/:slug*", destination: "/notice/", statusCode: 301 },
+      // 旧 WordPress システムパス。/wp-content/uploads/* は今も画像配信に使っている実ファイルなので除外する
+      { source: "/wp-admin", destination: "/", statusCode: 301 },
+      { source: "/wp-admin/:path*", destination: "/", statusCode: 301 },
+      { source: "/wp-content", destination: "/", statusCode: 301 },
+      { source: "/wp-content/:type((?!uploads).*)", destination: "/", statusCode: 301 },
+      { source: "/wp-includes", destination: "/", statusCode: 301 },
+      { source: "/wp-includes/:path*", destination: "/", statusCode: 301 },
+      { source: "/wp-json", destination: "/", statusCode: 301 },
+      { source: "/wp-json/:path*", destination: "/", statusCode: 301 },
       {
         source: "/notice/20260331-1616",
         destination: "/notice/20260325-1616/",
@@ -124,8 +178,8 @@ const nextConfig = {
       { source: "/ko/isecha/", destination: "/ko/ise-cha", permanent: true },
       { source: "/zh/isecha", destination: "/zh/ise-cha", permanent: true },
       { source: "/zh/isecha/", destination: "/zh/ise-cha", permanent: true },
-      { source: "/isecha_no_rekushi", destination: "/isecha_no_rekishi", permanent: true },
-      { source: "/isecha_no_rekushi/", destination: "/isecha_no_rekishi", permanent: true },
+      { source: "/isecha_no_rekushi", destination: "/isecha_no_rekishi/", statusCode: 301 },
+      { source: "/isecha_no_rekushi/", destination: "/isecha_no_rekishi/", statusCode: 301 },
       { source: "/en/isecha_no_rekushi", destination: "/en/isecha_no_rekishi", permanent: true },
       { source: "/en/isecha_no_rekushi/", destination: "/en/isecha_no_rekishi", permanent: true },
       { source: "/ko/isecha_no_rekushi", destination: "/ko/isecha_no_rekishi", permanent: true },

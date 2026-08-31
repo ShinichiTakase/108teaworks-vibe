@@ -1,22 +1,15 @@
+import { Suspense } from "react";
 import { getProducts } from "@/lib/microcms";
 import { getProductImagePath } from "@/lib/productImage";
 import ProductListWithFilter, { type ProductWithImage } from "./ProductListWithFilter";
 import ProductItemListJsonLd from "./ProductItemListJsonLd";
-import type { Locale } from "@/lib/i18n";
-import { translateManyForLocale } from "@/lib/translateForLocale";
 
-type Props = { locale?: Locale };
-
-export default async function ProductList({ locale = "ja" }: Props) {
+export default async function ProductList() {
   const { contents: products } = await getProducts();
-  const titlesJa = products.map((p) => p.TITLE ?? "");
-  const titles =
-    locale === "ja" ? titlesJa : await translateManyForLocale(titlesJa, locale);
 
-  const productsWithImage: ProductWithImage[] = products.map((p, i) => {
+  const productsWithImage: ProductWithImage[] = products.map((p) => {
     const slug = p.SLUG ?? p.id;
-    const t = titles[i] ?? p.TITLE;
-    return { ...p, TITLE: t, imagePath: getProductImagePath(slug) };
+    return { ...p, imagePath: getProductImagePath(slug) };
   });
 
   return (
@@ -24,7 +17,9 @@ export default async function ProductList({ locale = "ja" }: Props) {
       <ProductItemListJsonLd
         slugs={productsWithImage.map((p) => p.SLUG ?? p.id)}
       />
-      <ProductListWithFilter products={productsWithImage} />
+      <Suspense fallback={null}>
+        <ProductListWithFilter products={productsWithImage} />
+      </Suspense>
     </>
   );
 }

@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useCart } from "@/context/CartContext";
-import type { Locale } from "@/lib/i18n";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
 import { fbTrack } from "@/lib/metaPixel";
 
@@ -11,7 +10,6 @@ type Props = {
   price: number | undefined;
   title: string;
   imagePath?: string;
-  locale?: Locale;
   /** ボタンの表示テキスト（省略時は COMMON_TEXTS の addToCart を使用） */
   label?: string;
   className?: string;
@@ -23,13 +21,11 @@ export default function AddToCartButton({
   price,
   title,
   imagePath,
-  locale: localeProp,
   label,
   className,
   disabled,
 }: Props) {
-  const locale = localeProp ?? "ja";
-  const t = COMMON_TEXTS[locale];
+  const t = COMMON_TEXTS;
   const [added, setAdded] = useState(false);
   const { addToCart } = useCart();
 
@@ -39,14 +35,7 @@ export default function AddToCartButton({
     return () => clearTimeout(timer);
   }, [added]);
 
-  const addedMessage =
-    locale === "ja"
-      ? "カートに追加しました ✓"
-      : locale === "en"
-        ? "Added to cart ✓"
-        : locale === "ko"
-          ? "담았습니다 ✓"
-          : "已加入购物车 ✓";
+  const addedMessage = "カートに追加しました ✓";
 
   const handleClick = () => {
     addToCart(slug, title, price ?? 0, 1, imagePath);

@@ -11,5 +11,5 @@ export async function generateMetadata() {
 }
 
 export default function IseChaCaffeinePageJa() {
-  return <CaffeinePage locale="ja" />;
+  return <CaffeinePage />;
 }

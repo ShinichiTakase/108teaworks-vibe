@@ -3,13 +3,11 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import { loadStripe } from "@stripe/stripe-js";
 import { Turnstile } from "@marsidev/react-turnstile";
 import { CHECKOUT_TEXTS } from "@/lib/checkoutTexts";
 import { formatPriceYen } from "@/lib/formatters";
-import { detectLocaleFromPath } from "@/lib/urlPath";
 import { buildEnhancedConversionUserData } from "@/lib/googleEnhancedConversions";
 
 const FREE_SHIPPING_THRESHOLD = 10000;
@@ -56,10 +54,8 @@ function normalizePostalCode(value: string): string {
 }
 
 export default function CheckoutPage() {
-  const pathname = usePathname();
-  const locale = detectLocaleFromPath(pathname);
-  const t = CHECKOUT_TEXTS[locale];
-  const homeHref = locale === "ja" ? "/" : `/${locale}`;
+  const t = CHECKOUT_TEXTS;
+  const homeHref = "/";
   const { items, updateQuantity, removeFromCart, clearCart } = useCart();
   const [resolvedImagePaths, setResolvedImagePaths] = useState<Record<string, string>>({});
   const [name, setName] = useState("");
@@ -587,7 +583,7 @@ export default function CheckoutPage() {
         elements,
         clientSecret,
         confirmParams: {
-          return_url: `${window.location.origin}${locale === "ja" ? "/checkout" : `/${locale}/checkout`}`,
+          return_url: `${window.location.origin}/checkout`,
           payment_method_data: {
             billing_details: {
               name,
@@ -630,7 +626,6 @@ export default function CheckoutPage() {
         body: JSON.stringify({
           paymentIntentId: pi.id,
           order: effectiveOrder,
-          locale,
           couponCode: appliedCouponCodeRef.current,
           customer: {
             email,
@@ -720,7 +715,7 @@ export default function CheckoutPage() {
       }
 
       clearCart();
-      window.location.href = locale === "ja" ? "/checkout/complete/" : `/${locale}/checkout/complete/`;
+      window.location.href = "/checkout/complete/";
     } catch (e) {
       console.error("[checkout handlePay]", e);
       const detail = e instanceof Error ? e.message : String(e);
@@ -741,7 +736,6 @@ export default function CheckoutPage() {
     city,
     addressLine,
     clearCart,
-    locale,
     approval,
     turnstileToken,
     t.shippingRequiredToPay,
@@ -776,10 +770,7 @@ export default function CheckoutPage() {
       : isApplePaySelected
         ? "Apple Payで支払う"
         : t.payNow;
-  const walletSectionTitle =
-    locale === "ja"
-      ? "クレジットカード / Apple Pay / Google Pay"
-      : "Card / Apple Pay / Google Pay";
+  const walletSectionTitle = "クレジットカード / Apple Pay / Google Pay";
 
   // 保存済みプロファイルの有無を確認し、あればマウント時にオートフィル
   useEffect(() => {
@@ -900,7 +891,7 @@ export default function CheckoutPage() {
                     <p className="m-0 text-[0.9375rem] font-medium text-ink break-words">{item.title}</p>
                     <p className="m-0 text-[0.8125rem] text-ink-muted">
                       {formatPriceYen(item.price)}
-                      {locale === "ja" ? "（税込）" : " (tax incl.)"} × {item.quantity} ={" "}
+                      （税込） × {item.quantity} ={" "}
                       {formatPriceYen(item.price * item.quantity)}
                     </p>
                   </div>

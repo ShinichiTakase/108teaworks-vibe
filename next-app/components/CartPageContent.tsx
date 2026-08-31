@@ -3,11 +3,10 @@
 import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
 import { formatPriceYen } from "@/lib/formatters";
-import { buildLocalizedHref, detectLocaleFromPath } from "@/lib/urlPath";
+import { buildHref } from "@/lib/urlPath";
 
 const FREE_SHIPPING_THRESHOLD = 10000;
 
@@ -16,33 +15,13 @@ function taxIncluded(amount: number): number {
 }
 
 export default function CartPageContent() {
-  const pathname = usePathname() || "/";
-  const locale = detectLocaleFromPath(pathname);
-  const t = COMMON_TEXTS[locale].cart;
+  const t = COMMON_TEXTS.cart;
   const { items, updateQuantity, removeFromCart } = useCart();
-  const [translatedTitles, setTranslatedTitles] = useState<Record<string, string>>({});
   const [resolvedImagePaths, setResolvedImagePaths] = useState<Record<string, string>>({});
-
-  const slugsToFetch = useMemo(() => {
-    if (locale === "ja" || items.length === 0) return [];
-    return Array.from(new Set(items.map((i) => i.slug)));
-  }, [locale, items]);
 
   const missingImageSlugs = useMemo(() => {
     return Array.from(new Set(items.filter((i) => !i.imagePath).map((i) => i.slug)));
   }, [items]);
-
-  useEffect(() => {
-    if (slugsToFetch.length === 0) {
-      setTranslatedTitles({});
-      return;
-    }
-    const params = new URLSearchParams({ slugs: slugsToFetch.join(","), locale });
-    fetch(`/api/product-titles?${params}`)
-      .then((res) => (res.ok ? res.json() : {}))
-      .then((data: Record<string, string>) => setTranslatedTitles(data ?? {}))
-      .catch(() => setTranslatedTitles({}));
-  }, [locale, slugsToFetch]);
 
   useEffect(() => {
     if (missingImageSlugs.length === 0) {
@@ -56,16 +35,13 @@ export default function CartPageContent() {
       .catch(() => setResolvedImagePaths({}));
   }, [missingImageSlugs]);
 
-  const getDisplayTitle = (slug: string, fallback: string) =>
-    locale === "ja" ? fallback : (translatedTitles[slug] ?? fallback);
-
   const subtotal = items.reduce((sum, x) => sum + x.price * x.quantity, 0);
   const shippingKnown = false;
   const shipping = 0;
   const total = subtotal + shipping;
   const taxAmount = taxIncluded(total);
-  const homeHref = buildLocalizedHref(locale, "/");
-  const checkoutHref = buildLocalizedHref(locale, "/checkout");
+  const homeHref = buildHref("/");
+  const checkoutHref = buildHref("/checkout");
 
   return (
     <article className="mb-10">
@@ -84,7 +60,7 @@ export default function CartPageContent() {
           </div>
           <ul className="list-none m-0 p-0 flex flex-col gap-4 mb-6">
             {items.map((item) => {
-              const displayTitle = getDisplayTitle(item.slug, item.title);
+              const displayTitle = item.title;
               const imageSrc = item.imagePath ?? resolvedImagePaths[item.slug] ?? "";
               return (
               <li
@@ -93,7 +69,7 @@ export default function CartPageContent() {
               >
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 min-w-0 w-full sm:w-auto">
                   <Link
-                    href={buildLocalizedHref(locale, `/ise-cha/${item.slug}`)}
+                    href={buildHref(`/ise-cha/${item.slug}`)}
                     className="shrink-0 w-20 h-20 rounded overflow-hidden bg-cream self-start"
                   >
                     {imageSrc ? (
@@ -110,7 +86,7 @@ export default function CartPageContent() {
                   </Link>
                   <div className="min-w-0 flex-1 w-full sm:min-w-[8rem]">
                     <Link
-                      href={buildLocalizedHref(locale, `/ise-cha/${item.slug}`)}
+                      href={buildHref(`/ise-cha/${item.slug}`)}
                       className="font-medium text-tea-deep no-underline hover:underline block break-words text-[0.9375rem]"
                     >
                       {displayTitle}

@@ -4,17 +4,11 @@ import { useState } from "react";
 import Image from "next/image";
 import PartnerLogos from "@/components/PartnerLogos";
 import WholesaleForm, { type WholesaleFormStep } from "@/components/WholesaleForm";
-import type { Locale } from "@/lib/i18n";
 import { WHOLESALE_TEXTS } from "@/lib/wholesaleTexts";
 
-type Props = {
-  locale?: Locale;
-};
-
-export default function WholesalePageContent({ locale: localeProp }: Props) {
-  const locale = localeProp ?? "ja";
+export default function WholesalePageContent() {
   const [formStep, setFormStep] = useState<WholesaleFormStep>("form");
-  const t = WHOLESALE_TEXTS[locale];
+  const t = WHOLESALE_TEXTS;
 
   return (
     <>
@@ -56,7 +50,7 @@ export default function WholesalePageContent({ locale: localeProp }: Props) {
       )}
 
       <section className={formStep === "done" ? "mb-12 max-w-3xl" : "max-w-3xl"}>
-        <WholesaleForm onStepChange={setFormStep} locale={locale} />
+        <WholesaleForm onStepChange={setFormStep} />
       </section>
     </>
   );

@@ -3,26 +3,22 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
-import { buildLocalizedHref, detectLocaleFromPath, isJaOnlyBookPath, isProductDetailPath } from "@/lib/urlPath";
+import { buildHref, isJaOnlyBookPath, isProductDetailPath } from "@/lib/urlPath";
 
 export default function FloatingCartBar() {
   const pathname = usePathname() || "/";
   const router = useRouter();
-  const locale = detectLocaleFromPath(pathname);
   const { items } = useCart();
   const cartItemCount = items.reduce((sum, item) => sum + Math.max(0, item.quantity), 0);
-  const t = COMMON_TEXTS[locale];
+  const t = COMMON_TEXTS;
 
   const FREE_SHIPPING_THRESHOLD = 10000;
   const subtotal = items.reduce((sum, i) => sum + i.price * i.quantity, 0);
   const rankSum = items.reduce((sum, i) => sum + (i.shipRank ?? 0) * i.quantity, 0);
   const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : rankSum <= 6.0 ? 380 : 880;
   const shippingLabel = shipping === 0 ? t.cart.shippingFreeShort : `¥${shipping.toLocaleString()}`;
-  const checkoutHref = buildLocalizedHref(locale, "/checkout");
-  const isCartOrCheckout =
-    /^\/cart(\/|$)/.test(pathname) ||
-    /^\/checkout(\/|$)/.test(pathname) ||
-    /^\/(en|ko|zh)\/(cart|checkout)(\/|$)/.test(pathname);
+  const checkoutHref = buildHref("/checkout");
+  const isCartOrCheckout = /^\/(cart|checkout)(\/|$)/.test(pathname);
   if (isCartOrCheckout || isJaOnlyBookPath(pathname) || cartItemCount === 0) return null;
 
   const activeItems = items.filter((item) => item.quantity > 0);

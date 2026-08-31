@@ -1,10 +1,9 @@
-import type { Locale } from "@/lib/i18n";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
 import { SITE_BASE_URL } from "@/lib/siteConstants";
 
 export type BreadcrumbItem = { name: string; url: string };
 
-/** pathKey（ロケールなし）→ ラベルキー（commonTexts のドット区切り） */
+/** pathKey → ラベルキー（commonTexts のドット区切り） */
 const PATH_LABEL_KEYS: Record<string, string> = {
   "/": "nav.top",
   "/about": "nav.about",
@@ -20,111 +19,98 @@ const PATH_LABEL_KEYS: Record<string, string> = {
   "/privacy-policy": "footer.privacyPolicy",
 };
 
-/** パスごとの固定ラベル（多言語） */
-const PATH_LITERALS: Record<string, Record<Locale, string>> = {
-  "/kabatadani_no_ocha": {
-    ja: "かぶただにの茶",
-    en: "Kabatadani no Ocha",
-    ko: "카바타다니의 차",
-    zh: "蕪谷之茶",
-  },
-  "/isecha_no_rekishi": {
-    ja: "伊勢茶の歴史 お茶のおもしろ知識",
-    en: "History of Ise Tea — Fun Facts",
-    ko: "이세차의 역사·차의 재미있는 지식",
-    zh: "伊勢茶歷史與茶的趣味知識",
-  },
+/** パスごとの固定ラベル */
+const PATH_LITERALS: Record<string, string> = {
+  "/kabatadani_no_ocha": "かぶただにの茶",
+  "/isecha_no_rekishi": "伊勢茶の歴史 お茶のおもしろ知識",
 };
 
-function getLabelFromKey(key: string, locale: Locale): string {
+function getLabelFromKey(key: string): string {
   const [section, sub] = key.split(".");
-  const obj = COMMON_TEXTS[locale] as Record<string, unknown>;
+  const obj = COMMON_TEXTS as Record<string, unknown>;
   const subObj = obj?.[section] as Record<string, string> | undefined;
   return (subObj?.[sub] as string) ?? key;
 }
 
-function makeUrl(path: string, locale: Locale): string {
+function makeUrl(path: string): string {
   const normalized = path === "/" ? "" : path;
-  if (locale === "ja") return `${SITE_BASE_URL}${normalized || "/"}`;
-  return `${SITE_BASE_URL}/${locale}${normalized || ""}`;
+  return `${SITE_BASE_URL}${normalized || "/"}`;
 }
 
 /**
- * pathname（例: /about または /en/about）と locale から BreadcrumbList 用の項目を生成する。
+ * pathname（例: /about）から BreadcrumbList 用の項目を生成する。
  * options.productName: 商品ページの最終段の名前
  * options.noticeTitle: お知らせ記事の最終段の名前
  */
 export function getBreadcrumbItems(
   pathname: string,
-  locale: Locale,
   options?: { productName?: string; noticeTitle?: string }
 ): BreadcrumbItem[] {
-  const pathKey = pathname.replace(/^\/(en|ko|zh)(\/|$)/, "$2") || "/";
-  const pathKeyNorm = pathKey.replace(/\/$/, "") || "/";
+  const pathKeyNorm = (pathname.replace(/\/$/, "") || "/") as string;
 
   const items: BreadcrumbItem[] = [];
-  const homeUrl = makeUrl("/", locale);
-  const homeLabel = getLabelFromKey("nav.top", locale);
+  const homeUrl = makeUrl("/");
+  const homeLabel = getLabelFromKey("nav.top");
   items.push({ name: homeLabel, url: homeUrl });
 
   if (pathKeyNorm === "/") return items;
 
   if (pathKeyNorm === "/ise-cha/catechin") {
     items.push({
-      name: getLabelFromKey("nav.isecha", locale),
-      url: makeUrl("/ise-cha", locale),
+      name: getLabelFromKey("nav.isecha"),
+      url: makeUrl("/ise-cha"),
     });
     items.push({
-      name: getLabelFromKey("nav.isechaCatechin", locale),
-      url: makeUrl("/ise-cha/catechin", locale),
+      name: getLabelFromKey("nav.isechaCatechin"),
+      url: makeUrl("/ise-cha/catechin"),
     });
     return items;
   }
 
   if (pathKeyNorm === "/ise-cha/books") {
     items.push({
-      name: getLabelFromKey("nav.isecha", locale),
-      url: makeUrl("/ise-cha", locale),
+      name: getLabelFromKey("nav.isecha"),
+      url: makeUrl("/ise-cha"),
     });
     items.push({
-      name: getLabelFromKey("nav.isechaBooks", locale),
-      url: makeUrl("/ise-cha/books", locale),
+      name: getLabelFromKey("nav.isechaBooks"),
+      url: makeUrl("/ise-cha/books"),
     });
     return items;
   }
 
   if (pathKeyNorm === "/ise-cha/america") {
     items.push({
-      name: getLabelFromKey("nav.isecha", locale),
-      url: makeUrl("/ise-cha", locale),
+      name: getLabelFromKey("nav.isecha"),
+      url: makeUrl("/ise-cha"),
     });
     items.push({
-      name: getLabelFromKey("nav.isechaAmerica", locale),
-      url: makeUrl("/ise-cha/america", locale),
+      name: getLabelFromKey("nav.isechaAmerica"),
+      url: makeUrl("/ise-cha/america"),
     });
     return items;
   }
 
   if (pathKeyNorm === "/ise-cha/how-to-brew") {
     items.push({
-      name: getLabelFromKey("nav.isecha", locale),
-      url: makeUrl("/ise-cha", locale),
+      name: getLabelFromKey("nav.isecha"),
+      url: makeUrl("/ise-cha"),
     });
     items.push({
-      name: getLabelFromKey("nav.isechaHowToBrew", locale),
-      url: makeUrl("/ise-cha/how-to-brew", locale),
+      name: getLabelFromKey("nav.isechaHowToBrew"),
+      url: makeUrl("/ise-cha/how-to-brew"),
     });
     return items;
   }
 
   if (pathKeyNorm === "/ise-cha/maccha") {
     items.push({
-      name: getLabelFromKey("nav.isecha", locale),
-      url: makeUrl("/ise-cha", locale),
+      name: getLabelFromKey("nav.isecha"),
+      url: makeUrl("/ise-cha"),
     });
     items.push({
-      name: getLabelFromKey("nav.isechaMaccha", locale),
-      url: makeUrl("/ise-cha/maccha", locale),
+      name: getLabelFromKey("nav.isechaMaccha"),
+      url: makeUrl("/ise-cha/maccha"),
     });
     return items;
   }
@@ -132,12 +118,12 @@ export function getBreadcrumbItems(
   const kabatadaniChapterMatch = pathKeyNorm.match(/^\/kabatadani_no_ocha\/(.+)$/);
   if (kabatadaniChapterMatch) {
     items.push({
-      name: PATH_LITERALS["/kabatadani_no_ocha"][locale] ?? PATH_LITERALS["/kabatadani_no_ocha"].ja,
-      url: makeUrl("/kabatadani_no_ocha", locale),
+      name: PATH_LITERALS["/kabatadani_no_ocha"],
+      url: makeUrl("/kabatadani_no_ocha"),
     });
     items.push({
       name: options?.productName ?? kabatadaniChapterMatch[1],
-      url: makeUrl(pathKeyNorm, locale),
+      url: makeUrl(pathKeyNorm),
     });
     return items;
   }
@@ -145,12 +131,12 @@ export function getBreadcrumbItems(
   const isechaChapterMatch = pathKeyNorm.match(/^\/isecha_no_rekishi\/(.+)$/);
   if (isechaChapterMatch) {
     items.push({
-      name: PATH_LITERALS["/isecha_no_rekishi"][locale] ?? PATH_LITERALS["/isecha_no_rekishi"].ja,
-      url: makeUrl("/isecha_no_rekishi", locale),
+      name: PATH_LITERALS["/isecha_no_rekishi"],
+      url: makeUrl("/isecha_no_rekishi"),
     });
     items.push({
       name: options?.productName ?? isechaChapterMatch[1],
-      url: makeUrl(pathKeyNorm, locale),
+      url: makeUrl(pathKeyNorm),
     });
     return items;
   }
@@ -158,12 +144,12 @@ export function getBreadcrumbItems(
   const productMatch = pathKeyNorm.match(/^\/ise-cha\/(.+)$/);
   if (productMatch) {
     items.push({
-      name: getLabelFromKey("nav.isecha", locale),
-      url: makeUrl("/ise-cha", locale),
+      name: getLabelFromKey("nav.isecha"),
+      url: makeUrl("/ise-cha"),
     });
     items.push({
-      name: options?.productName ?? (locale === "ja" ? "商品" : "Product"),
-      url: makeUrl(pathKeyNorm, locale),
+      name: options?.productName ?? "商品",
+      url: makeUrl(pathKeyNorm),
     });
     return items;
   }
@@ -171,27 +157,27 @@ export function getBreadcrumbItems(
   const noticeMatch = pathKeyNorm.match(/^\/notice\/(.+)$/);
   if (noticeMatch) {
     items.push({
-      name: getLabelFromKey("nav.notice", locale),
-      url: makeUrl("/notice", locale),
+      name: getLabelFromKey("nav.notice"),
+      url: makeUrl("/notice"),
     });
     items.push({
-      name: options?.noticeTitle ?? (locale === "ja" ? "お知らせ" : "News"),
-      url: makeUrl(pathKeyNorm, locale),
+      name: options?.noticeTitle ?? "お知らせ",
+      url: makeUrl(pathKeyNorm),
     });
     return items;
   }
 
   const literal = PATH_LITERALS[pathKeyNorm];
   if (literal) {
-    items.push({ name: literal[locale] ?? literal.ja, url: makeUrl(pathKeyNorm, locale) });
+    items.push({ name: literal, url: makeUrl(pathKeyNorm) });
     return items;
   }
 
   const labelKey = PATH_LABEL_KEYS[pathKeyNorm];
   if (labelKey) {
     items.push({
-      name: getLabelFromKey(labelKey, locale),
-      url: makeUrl(pathKeyNorm, locale),
+      name: getLabelFromKey(labelKey),
+      url: makeUrl(pathKeyNorm),
     });
     return items;
   }

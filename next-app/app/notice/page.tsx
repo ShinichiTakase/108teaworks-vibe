@@ -5,7 +5,7 @@ import { getFixedSeo, buildAlternatesForLocales } from "@/lib/seo";
 import { getBreadcrumbItems } from "@/lib/breadcrumb";
 
 export async function generateMetadata() {
-  const seo = getFixedSeo("/notice", "ja");
+  const seo = getFixedSeo("/notice");
   return {
     title: seo?.title ?? "お知らせ｜伊勢茶の藤八茶寮",
     description: seo?.description ?? "藤八茶寮からのお知らせ一覧です。",
@@ -22,9 +22,9 @@ export default async function NoticeListPage({ searchParams }: Props) {
   const page = Math.max(1, parseInt(params?.page ?? "1", 10) || 1);
   return (
     <>
-      <BreadcrumbListSchema items={getBreadcrumbItems("/notice", "ja")} />
-      <NoticeListContent locale="ja" page={page} />
-      <PageEndProductList locale="ja" />
+      <BreadcrumbListSchema items={getBreadcrumbItems("/notice")} />
+      <NoticeListContent page={page} />
+      <PageEndProductList />
     </>
   );
 }

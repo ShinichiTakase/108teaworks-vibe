@@ -42,7 +42,7 @@ export default async function MieChaGyoShiChapterPage({ params }: Props) {
   return (
     <main className={MAIN_CLASS} id="main-content" role="main">
       <BreadcrumbListSchema
-        items={getBreadcrumbItems(breadcrumbPath, "ja", { productName: chapter.shortTitle })}
+        items={getBreadcrumbItems(breadcrumbPath, { productName: chapter.shortTitle })}
       />
       <div className={INNER_CLASS}>
         <article aria-labelledby="chapter-heading" className="mb-12">
@@ -179,7 +179,7 @@ export default async function MieChaGyoShiChapterPage({ params }: Props) {
             </div>
           </nav>
         </article>
-        <PageEndProductList locale="ja" />
+        <PageEndProductList />
       </div>
     </main>
   );

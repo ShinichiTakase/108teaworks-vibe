@@ -1,13 +1,8 @@
 import { MAIN_CLASS, INNER_CLASS } from "@/components/Layout";
-import type { Locale } from "@/lib/i18n";
 import { LEGAL_TEXTS } from "@/lib/legalTexts";
 
-type Props = {
-  locale: Locale;
-};
-
-export default function LegalPageContent({ locale }: Props) {
-  const t = LEGAL_TEXTS[locale];
+export default function LegalPageContent() {
+  const t = LEGAL_TEXTS;
 
   return (
     <main className={MAIN_CLASS} id="main-content" role="main">

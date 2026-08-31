@@ -132,7 +132,7 @@ export default async function RoastedPowderLpPage() {
       />
       <FaqJsonLd questions={FAQS.map(({ q, a }) => ({ q, a }))} />
       <BreadcrumbListSchema
-        items={getBreadcrumbItems("/ise-cha/roasted-powder-lp", "ja", { productName: "ほうじ茶パウダー" })}
+        items={getBreadcrumbItems("/ise-cha/roasted-powder-lp", { productName: "ほうじ茶パウダー" })}
       />
 
       <div className={styles.shell}>

@@ -1,8 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
-import type { Locale } from "@/lib/i18n";
 import { CHECKOUT_COMPLETE_TEXTS } from "@/lib/checkoutCompleteTexts";
 import { fbTrack } from "@/lib/metaPixel";
 import {
@@ -24,14 +22,6 @@ type CompleteSummary = {
   orderNo: string;
 };
 
-function detectLocaleFromPath(pathname: string | null): Locale {
-  if (!pathname) return "ja";
-  if (pathname.startsWith("/en")) return "en";
-  if (pathname.startsWith("/ko")) return "ko";
-  if (pathname.startsWith("/zh")) return "zh";
-  return "ja";
-}
-
 type PendingGtagWork = {
   data: CompleteSummary;
   storedUserData: string | null;
@@ -46,9 +36,7 @@ type HiddenContactFields = {
 export default function CheckoutCompletePage() {
   const [summary, setSummary] = useState<CompleteSummary | null>(null);
   const [hiddenContact, setHiddenContact] = useState<HiddenContactFields | null>(null);
-  const pathname = usePathname();
-  const locale = detectLocaleFromPath(pathname);
-  const t = CHECKOUT_COMPLETE_TEXTS[locale];
+  const t = CHECKOUT_COMPLETE_TEXTS;
 
   // sessionStorage の読み取り・削除と、gtagの発火要否（fired）は ref に持たせ、
   // React 18 Strict Mode の開発時二重マウント（mount→cleanup→再mount）を跨いで保持する。

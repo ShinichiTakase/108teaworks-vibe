@@ -1,10 +1,7 @@
 import Image from "next/image";
 import { MAIN_CLASS, INNER_CLASS } from "@/components/Layout";
-import type { Locale } from "@/lib/i18n";
 
-const ABOUT_TEXTS: Record<
-  Locale,
-  {
+const ABOUT_TEXTS: {
     h1: string;
     lead1: React.ReactNode;
     lead2: string;
@@ -27,9 +24,7 @@ const ABOUT_TEXTS: Record<
     sec5P2: string;
     sec5P3: string;
     sec5P4: string;
-  }
-> = {
-  ja: {
+} = {
     h1: "藤八茶寮について",
     lead1: (
       <>
@@ -72,114 +67,10 @@ const ABOUT_TEXTS: Record<
     sec5P2: "川俣谷は伊勢茶発祥の地とされる歴史ある産地で、山に囲まれた地形が午後の日照を遮ることで、茶葉が自然にかぶせ茶に近い深い旨みを蓄えます。この土地固有の条件が、他産地では再現できない濃厚なコクと香りを生み出しています。",
     sec5P3: "収穫した茶葉は、川俣谷をよく知る地元の製茶所で丁寧に仕上げられます。産地・製茶・販売が一本につながっているからこそ、茶葉の個性を損なわずそのままお届けできます。",
     sec5P4: "高瀬藤八が明治に切り拓いた輸出航路も、令和の私たちが届けるお茶も、出発点は同じ川俣谷の茶畑です。",
-  },
-  en: {
-    h1: "About Fujihachiya",
-    lead1:
-      "At Fujihachiya we offer single-origin Ise tea made only from leaves grown in Mie Prefecture. Rich, sweet fukamushi sencha and aromatic hojicha—teas you’ll want to keep at home every day. We aim to be a tea that, like coffee or black tea, makes you reach for a favourite cup and a snack and enjoy a moment of calm.",
-    lead2:
-      "You can enjoy our teas at home, and we also supply cafés and restaurants, including coffee stands.",
-    sec2Title: "The story behind our name: why “Fujihachi”",
-    sec2P1:
-      "The name “Fujihachiya” was chosen to carry on the path of my ancestor, Takase Tohachi. A modern tea merchant who crossed the seas in the Meiji era.",
-    sec2P2:
-      "In the Meiji period, Tohachi set out for the port of Kobe with Ise tea grown with care on the family estate in Matsusaka, Mie. Kobe was then a city buzzing with the spirit of opening to the world. Tohachi traded confidently with American firms such as Smith, Baker & Co., spent half the year in Kobe, and in his silk hat opened a huge export route to the American West. For his time, he was a strikingly forward-looking, passionate merchant.",
-    sec3Title: "Reviving Tohachi’s spirit in Reiwa",
-    sec3P1:
-      "We want to bring back the vision Tohachi once had: Ise tea captivating the world. Not just selling tea, but reviving in a modern form his sensibility and his commitment to delivering quality across the seas. The name Fujihachiya reflects our resolve to connect the appeal of Ise tea to the world again, across more than a hundred years.",
-    sec4Title: "A little about me",
-    sec4P1:
-      "I worked at a coffee stand in Aoyama, Tokyo for six years. The pandemic made me pause and think about my future and how I wanted to work.",
-    sec4P2:
-      "A casual remark from a friend reminded me of the tea I drank at my grandmother’s house as a child. “What if we could share this tea with everyone again today?” That thought was the start of everything.",
-    sec4P3:
-      "I want to use what I learned from coffee and the work I love to bring back, in the Reiwa era, the stylish, pioneering spirit of Tohachi’s Meiji-era trade.",
-    sec4P4:
-      "With the founder’s name “Fujihachi” as our own, from Meiji to Reiwa we’ve taken up the baton. From Mie to Tokyo and the world—we deliver Ise tea. We hope you’ll try a cup.",
-    altImage1: "Ise tea from Fujihachiya",
-    altImage2: "Takase",
-    altImage3: "Ise tea",
-    altImage4: "First flush",
-    sec5Title: "From Our Tea Fields in Kawamatatani to Your Cup",
-    sec5P1: "The Ise tea we sell at Fujihachi Saryo is grown in our family's own tea fields in Kawamatatani, Iinandcho, Matsusaka City, Mie Prefecture.",
-    sec5P2: "Kawamatatani is a historic tea-growing region considered the birthplace of Ise tea. Surrounded by mountains, the terrain naturally blocks afternoon sunlight, allowing the tea leaves to develop a deep umami similar to shaded-grown kabuse-cha. These unique local conditions produce a richness and aroma that cannot be replicated elsewhere.",
-    sec5P3: "After harvesting, the tea leaves are carefully processed by a local tea producer who knows Kawamatatani well. Because growing, processing, and selling are all connected in one chain, we can deliver the full character of the tea leaves directly to you.",
-    sec5P4: "The tea fields that Fujihachi Takase set out from in the Meiji era, and the tea we deliver today in the Reiwa era, share the same origin: the fields of Kawamatatani.",
-  },
-  ko: {
-    h1: "후지하치야 소개",
-    lead1:
-      "후지하치야는 미에현에서 난 찻잎만 사용한 싱글 오리진 이세차를 취급합니다. 진한 단맛의 후카무시 녹차, 고소한 향이 기분 좋은 호지차. 집에 두고 싶은 일상의 차를 준비했습니다. 우리가 목표로 하는 것은 커피나 홍차처럼 좋아하는 컵과 간식을 준비하고 좋은 시간을 갖고 싶게 만드는 차입니다.",
-    lead2:
-      "집에서 즐기실 수 있을 뿐 아니라, 커피 스탠드를 비롯한 음식점을 위한 도매도 하고 있습니다.",
-    sec2Title: "상호에 담긴 마음: 왜 「후지하치」인가",
-    sec2P1:
-      "「후지하치야」라는 이름은 선조 다카세 도하치가 걸어온 발자취를 이어가기 위해 지었습니다. 메이지 시대, 바다를 넘은 하이카라 차 상인.",
-    sec2P2:
-      "메이지 시대. 미에현 마쓰사카의 자사茶园에서 정성껏 키운 이세차를 들고 도하치는 고베 항으로 향했습니다. 당시 고베는 개항으로 뜨거운 이국 정서의 거리였습니다. 도하치는 스미스·베이커 상회를 비롯한 미국 상관과 당당히 거래했습니다. 1년의 절반을 고베에서 보내며 실크햇을 멋지게 쓰고 미국 서부로 이어지는 거대한 수출 항로를 열었습니다. 그 모습은 당시로서는 놀라울 만큼 선구적이고 열정에 찬 「하이카라 상인」 그 자체였습니다.",
-    sec3Title: "레이와에 되살리는, 도하치의 뜻",
-    sec3P1:
-      "한때 도하치가 바라보던, 이세차가 세계를 휩쓸던 그 빛나는 광경을 레이와 시대에 다시 살리고 싶습니다. 단지 차를 파는 것이 아니라, 시대를 앞서가는 감성과 바다를 넘어 좋은 것을 전하려 했던 그의 진지한 일솜씨를 우리는 현대적인 형태로 만들어가고자 합니다. 「후지하치야」라는 이름에는 100년 이상의 시간을 넘어 다시 이세차의 매력을 세계로 잇겠다는 우리의 흔들림 없는 결의가 담겨 있습니다.",
-    sec4Title: "조금, 저에 대해",
-    sec4P1:
-      "도쿄 아오야마의 커피 스탠드에서 6년간 일했고, 코로나를 계기로 자신의 미래와 일하는 방식에 대해 멈추고 생각하게 되었습니다.",
-    sec4P2:
-      "그때 친구의 무심한 한마디로 떠올린 것이 어린 시절 할머니 댁에서 마신 그 한 잔의 차였습니다. 「이 차를 지금 시대에 다시 모두에게 마시게 할 수 있을까」 그 생각이 모든 시작이었습니다.",
-    sec4P3:
-      "상경해 커피를 배우고 좋아하는 일을 통해 쌓아온 경험을 살려, 메이지에 도하치가 세운 조금 하이카라하고 멋진 그 일을 레이와 시대에 다시 살려보자.",
-    sec4P4:
-      "창업자의 이름 「도하치」를 상호로, 메이지에서 레이와로. 스스로만의 생각으로, 마음의 배턴을 받았습니다. 미에에서 도쿄, 그리고 세계로. 이세차를 전 세계에 보내드립니다. 한 번 드셔 보세요.",
-    altImage1: "후지하치야의 이세차",
-    altImage2: "다카세",
-    altImage3: "이세차",
-    altImage4: "봄 수확",
-    sec5Title: "가와마타다니 찻밭에서, 당신의 손으로",
-    sec5P1: "후지하치야가 판매하는 이세차는 미에현 마쓰사카시 이이난초·가와마타다니에 있는 자가 찻밭에서 재배된 차입니다.",
-    sec5P2: "가와마타다니는 이세차 발상지로 알려진 유서 깊은 산지로, 산으로 둘러싸인 지형이 오후 햇빛을 자연스럽게 차단함으로써 찻잎이 피복 차에 가까운 깊은 감칠맛을 쌓습니다. 이 지역 고유의 조건이 다른 산지에서는 재현할 수 없는 진한 감칠맛과 향을 만들어냅니다.",
-    sec5P3: "수확한 찻잎은 가와마타다니를 잘 아는 지역 제다소에서 정성스럽게 마무리됩니다. 산지·제다·판매가 하나로 이어져 있기에, 찻잎의 개성을 그대로 살려 배달할 수 있습니다.",
-    sec5P4: "다카세 도하치가 메이지에 개척한 수출 항로도, 레이와의 우리가 보내는 차도, 출발점은 같은 가와마타다니의 찻밭입니다.",
-  },
-  zh: {
-    h1: "关于藤八茶寮",
-    lead1:
-      "藤八茶寮只使用三重县产的茶叶，经营单一产地伊势茶。醇厚甘甜深蒸绿茶、香气怡人焙茶，我们备齐了让人想常备家中的日常茶品。我们追求的是像咖啡与红茶那样，让人想准备好心爱的杯子和茶点、享受美好时光的茶。",
-    lead2:
-      "除在家享用外，我们也面向咖啡站等餐饮店开展批发业务。",
-    sec2Title: "屋号中寄托的心意：为何取名「藤八」",
-    sec2P1:
-      "「藤八茶寮」之名，是为继承先祖高瀬藤八走过的轨迹而取。跨越明治之海、走在时代前列的茶商。",
-    sec2P2:
-      "时值明治。藤八带着在三重县松阪市自家茶园精心培育的伊势茶前往神户港。当时的神户是开国热潮下的异国风情之街。藤八与史密斯-贝克商会等美国商馆从容往来，一年中有半年在神户度过，头戴丝礼帽，开拓通往美国西海岸的巨大出口航线。其姿态在当时堪称先驱，是充满热情的「摩登商人」本人。",
-    sec3Title: "在令和唤醒藤八之志",
-    sec3P1:
-      "我们想再次唤醒藤八曾凝视的、伊势茶风靡世界的那幅景象。不仅是卖茶，我们愿以现代形式重现他那领先时代的感性以及跨海传递优质茶品的诚挚态度。「藤八茶寮」之名，寄托着我们跨越百余年再次将伊势茶魅力传向世界的坚定决心。",
-    sec4Title: "略谈我自己",
-    sec4P1:
-      "我在东京青山的一家咖啡站工作了六年。疫情让我停下脚步，思考自己的未来与工作方式。",
-    sec4P2:
-      "朋友无意间的一句话，让我想起小时候在奶奶家喝过的那杯茶。「能不能让更多人再次喝到这样的茶？」这个念头成了一切的起点。",
-    sec4P3:
-      "我想用上京学咖啡、做喜爱工作所积累的经验，在令和时代再次唤醒藤八在明治时代开创的那份摩登与雅致。",
-    sec4P4:
-      "以创业者之名「藤八」为屋号，从明治到令和。我们接过了这份心意。从三重到东京，再到世界。我们将伊势茶送往全球。敬请品尝。",
-    altImage1: "藤八茶寮的伊势茶",
-    altImage2: "高瀬",
-    altImage3: "伊势茶",
-    altImage4: "春摘",
-    sec5Title: "从川俣谷的茶园，到您的手边",
-    sec5P1: "藤八茶寮销售的伊势茶，是在三重县松阪市饭南町·川俣谷的自家茶园中栽培的茶叶。",
-    sec5P2: "川俣谷是被誉为伊势茶发祥地的历史悠久产区。四周环山的地形自然遮挡了午后的日照，使茶叶积蓄了接近遮阴茶的深沉鲜甜。这片土地独有的条件，孕育出了其他产地无法复现的醇厚口感与香气。",
-    sec5P3: "采收后的茶叶，由熟悉川俣谷的当地制茶厂精心加工。正因为产地、制茶、销售一脉相承，才能在不损伤茶叶个性的前提下，将原汁原味直接送到您手中。",
-    sec5P4: "高瀬藤八在明治时代开辟的出口航路，以及令和时代的我们所送达的茶，起点皆是同一片川俣谷的茶园。",
-  },
 };
 
-type Props = {
-  locale: Locale;
-};
-
-export default function AboutPage({ locale }: Props) {
-  const t = ABOUT_TEXTS[locale];
+export default function AboutPage() {
+  const t = ABOUT_TEXTS;
   // About ページ専用画像。next-app/public/images/about/ 直下に配置する。
   const IMG_BASE = "/images/about";
 

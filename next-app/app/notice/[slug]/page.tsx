@@ -51,7 +51,7 @@ export default async function NoticeDetailPage({ params }: Props) {
   const displayDate = notice.date ?? notice.publishedAt;
   return (
     <main className={MAIN_CLASS} id="main-content" role="main">
-      <BreadcrumbListSchema items={getBreadcrumbItems(`/notice/${notice.slug ?? notice.id}`, "ja", { noticeTitle })} />
+      <BreadcrumbListSchema items={getBreadcrumbItems(`/notice/${notice.slug ?? notice.id}`, { noticeTitle })} />
       <div className={INNER_CLASS}>
         <article className="mb-10">
           <header className="mb-6">

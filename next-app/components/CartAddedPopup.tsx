@@ -3,16 +3,15 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
-import { buildLocalizedHref, detectLocaleFromPath } from "@/lib/urlPath";
+import { buildHref } from "@/lib/urlPath";
 
-const CHECKOUT_PATH_RE = /^\/(?:(?:en|ko|zh)\/)?checkout(\/|$)/;
+const CHECKOUT_PATH_RE = /^\/checkout(\/|$)/;
 
 export default function CartAddedPopup() {
   const pathname = usePathname() || "/";
   const router = useRouter();
-  const locale = detectLocaleFromPath(pathname);
   const { lastAdded, clearLastAdded } = useCart();
-  const checkoutHref = buildLocalizedHref(locale, "/checkout");
+  const checkoutHref = buildHref("/checkout");
   /** 「今すぐ買う」系ボタンでカート追加と同時にcheckoutへ遷移した直後は、
    * このポップアップがcheckoutページ上に出る。checkout自体は「買い物を続ける」先として
    * 意味を持たないため、その場合だけ遷移元へ戻る */

@@ -1,23 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import HeaderCartAccountLinks from "./HeaderCartAccountLinks";
-import type { Locale } from "@/lib/i18n";
-import { buildLocalizedHref, detectLocaleFromPath } from "@/lib/urlPath";
+import { buildHref } from "@/lib/urlPath";
 
-const TAGLINES: Record<Locale, string> = {
-  ja: "シングルオリジン伊勢茶・お茶の魅力を三重から世界へ",
-  en: "Single-origin Ise tea – sharing the charm of Japanese tea from Mie to the world",
-  ko: "싱글 오리진 이세차, 미에에서 세계로 전하는 일본 차의 매력",
-  zh: "单一产地伊势茶——将日本茶的魅力从三重传向世界",
-};
+const TAGLINE = "シングルオリジン伊勢茶・お茶の魅力を三重から世界へ";
 
 export default function Header() {
-  const pathname = usePathname() || "/";
-  const locale = detectLocaleFromPath(pathname);
-  const tagline = TAGLINES[locale];
-  const homeHref = buildLocalizedHref(locale, "/");
+  const tagline = TAGLINE;
+  const homeHref = buildHref("/");
 
   return (
     <header

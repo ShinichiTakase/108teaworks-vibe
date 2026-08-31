@@ -3,27 +3,18 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import type { ProductItem } from "@/lib/microcms";
-import type { Locale } from "@/lib/i18n";
 import { HOME_PRODUCTS_TEXTS } from "@/lib/homeSectionTexts";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
 import { formatPriceYen } from "@/lib/formatters";
-import { buildLocalizedPath } from "@/lib/urlPath";
+import { buildHref } from "@/lib/urlPath";
 
-function getLocaleFromPath(pathname: string | null): Locale {
-  if (!pathname) return "ja";
-  if (pathname.startsWith("/en")) return "en";
-  if (pathname.startsWith("/ko")) return "ko";
-  if (pathname.startsWith("/zh")) return "zh";
-  return "ja";
+function productHref(slug: string): string {
+  return buildHref(`/ise-cha/${slug}`);
 }
 
-function productHref(locale: Locale, slug: string): string {
-  return buildLocalizedPath(locale, `/ise-cha/${slug}`);
-}
-
-const FILTER_OPTIONS: { value: string; labelKey: keyof Omit<typeof HOME_PRODUCTS_TEXTS.ja, "sectionAria" | "filterLabel" | "filterAria" | "noProducts" | "outOfStock"> }[] = [
+const FILTER_OPTIONS: { value: string; labelKey: keyof Omit<typeof HOME_PRODUCTS_TEXTS, "sectionAria" | "filterLabel" | "filterAria" | "noProducts" | "outOfStock"> }[] = [
   { value: "", labelKey: "filterAll" },
   { value: "深蒸し茶", labelKey: "filterFukamushi" },
   { value: "ほうじ茶", labelKey: "filterHoujicha" },
@@ -49,11 +40,9 @@ type Props = {
 };
 
 export default function ProductListWithFilter({ products }: Props) {
-  const pathname = usePathname();
   const searchParams = useSearchParams();
-  const locale = getLocaleFromPath(pathname);
-  const t = HOME_PRODUCTS_TEXTS[locale];
-  const taxLabel = COMMON_TEXTS[locale].product.taxIncluded;
+  const t = HOME_PRODUCTS_TEXTS;
+  const taxLabel = COMMON_TEXTS.product.taxIncluded;
   const initialFilter = searchParams.get("filter") ?? "";
   const [filter, setFilter] = useState(initialFilter);
   useEffect(() => {
@@ -94,7 +83,7 @@ export default function ProductListWithFilter({ products }: Props) {
             return (
               <li key={product.id} className="m-0">
                 <Link
-                  href={productHref(locale, slug)}
+                  href={productHref(slug)}
                   className="flex flex-col h-full p-3 bg-washi border border-border rounded transition-colors hover:border-tea-light hover:bg-white text-ink no-underline"
                 >
                   <span className="relative block mb-3">

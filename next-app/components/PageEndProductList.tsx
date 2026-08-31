@@ -2,41 +2,33 @@ import Link from "next/link";
 import Image from "next/image";
 import { getProducts } from "@/lib/microcms";
 import { getProductImagePath } from "@/lib/productImage";
-import { translateManyForLocale } from "@/lib/translateForLocale";
-import type { Locale } from "@/lib/i18n";
 import { HOME_PRODUCTS_TEXTS } from "@/lib/homeSectionTexts";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
 import { formatPriceYen } from "@/lib/formatters";
-import { buildLocalizedPath } from "@/lib/urlPath";
+import { buildHref } from "@/lib/urlPath";
 
-type Props = { locale: Locale };
-
-function productHref(locale: Locale, slug: string): string {
-  return buildLocalizedPath(locale, `/ise-cha/${slug}`);
+function productHref(slug: string): string {
+  return buildHref(`/ise-cha/${slug}`);
 }
 
 /**
  * ページ末尾用の商品一覧。ORDER 順・1行6商品で表示（トップより軽い雰囲気）。
  * microCMS products を取得して表示する。
  */
-export default async function PageEndProductList({ locale }: Props) {
+export default async function PageEndProductList() {
   const { contents: products } = await getProducts();
-  const titlesJa = products.map((p) => p.TITLE ?? "");
-  const titles =
-    locale === "ja" ? titlesJa : await translateManyForLocale(titlesJa, locale);
 
-  const productsWithImage = products.map((p, i) => {
+  const productsWithImage = products.map((p) => {
     const slug = p.SLUG ?? p.id;
     return {
       ...p,
-      TITLE: titles[i] ?? p.TITLE,
       imagePath: getProductImagePath(slug),
       slug,
     };
   });
 
-  const t = HOME_PRODUCTS_TEXTS[locale];
-  const taxLabel = COMMON_TEXTS[locale].product.taxIncluded;
+  const t = HOME_PRODUCTS_TEXTS;
+  const taxLabel = COMMON_TEXTS.product.taxIncluded;
 
   if (productsWithImage.length === 0) {
     return null;
@@ -57,7 +49,7 @@ export default async function PageEndProductList({ locale }: Props) {
           return (
             <li key={product.id} className="m-0">
               <Link
-                href={productHref(locale, product.slug)}
+                href={productHref(product.slug)}
                 className="flex flex-col h-full p-2 bg-washi border border-border rounded transition-colors hover:border-tea-light hover:bg-white text-ink no-underline"
               >
                 <span className="relative block mb-2 aspect-square">

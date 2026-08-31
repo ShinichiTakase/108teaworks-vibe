@@ -1,12 +1,9 @@
 import Image from "next/image";
 import { MAIN_CLASS, INNER_CLASS } from "@/components/Layout";
-import type { Locale } from "@/lib/i18n";
 
 const IMG_BASE = "https://108teaworks.com/wp-content/uploads";
 
-const GUIDE_TEXTS: Record<
-  Locale,
-  {
+const GUIDE_TEXTS: {
     h1: string;
     intro: string;
     sec1Title: string;
@@ -30,9 +27,7 @@ const GUIDE_TEXTS: Record<
     contactP1: string;
     contactP2: string;
     altImage: string;
-  }
-> = {
-  ja: {
+} = {
     h1: "ご利用案内",
     intro:
       "ご注文の流れ、お支払い方法、配送・送料、返品・交換など、オンラインショップのご利用案内です。",
@@ -62,108 +57,10 @@ const GUIDE_TEXTS: Record<
       "商品選びやご利用方法についてご不明な点がございましたら、お気軽にお問い合わせください。卸売りのご相談やギフトのご提案なども承っております。",
     contactP2: "お問い合わせフォームは、メインメニューの「お問い合わせ」からご利用いただけます。",
     altImage: "オンラインショップのイメージ",
-  },
-  en: {
-    h1: "Guide",
-    intro:
-      "How to order, payment methods, delivery and shipping, returns and exchanges—your guide to using our online shop.",
-    sec1Title: "How to order",
-    sec1Step1: "Choose your products and click “Add to cart”.",
-    sec1Step2: "Review your cart and click “Proceed to checkout”.",
-    sec1Step3: "Enter delivery address, payment method, and other required details.",
-    sec1Step4:
-      "After confirming your order, click “Place order”. An automatic confirmation email will be sent to your registered address.",
-    sec1Note:
-      "If you have any questions about your order, please contact us via the inquiry form.",
-    payTitle: "Payment",
-    payLine1: "Credit card",
-    payLine2: "Digital wallets (see the cart page for supported brands)",
-    payLine3: "Other payment methods may be added in the future.",
-    shipTitle: "Delivery & shipping",
-    shipLine1: "We usually ship within 2–5 business days after your order is confirmed.",
-    shipLine2: "Shipping costs depend on destination and order. See the cart page for details.",
-    shipLine3: "We may run free-shipping campaigns for orders above a certain amount.",
-    returnTitle: "Returns & exchanges",
-    returnP1:
-      "We take every care with quality. If your order arrives damaged or incorrect, please contact us within 7 days. We will confirm and arrange an exchange or refund.",
-    returnP2:
-      "Returns or exchanges requested for the customer’s convenience cannot be accepted, as our products are food items. If an item arrives defective or the wrong item was sent, please contact us within 7 days of arrival and we will resolve it at our own expense (we cover the shipping cost).",
-    contactTitle: "Contact",
-    contactP1:
-      "If you have any questions about products or how to use the shop, please get in touch. We also handle wholesale enquiries and gift ideas.",
-    contactP2: "The contact form is available from “Contact” in the main menu.",
-    altImage: "Online shop",
-  },
-  ko: {
-    h1: "이용 안내",
-    intro:
-      "주문 절차, 결제 방법, 배송·배송료, 반품·교환 등 온라인 숍 이용 안내입니다.",
-    sec1Title: "주문 절차",
-    sec1Step1: "원하는 상품을 고르고 「장바구니에 담기」 버튼을 누릅니다.",
-    sec1Step2: "장바구니 화면에서 내용을 확인한 뒤 「결제하기」를 클릭합니다.",
-    sec1Step3: "배송지 정보·결제 방법 등 필수 항목을 입력합니다.",
-    sec1Step4:
-      "내용 확인 후 「주문 확정」 버튼을 누르면 등록된 이메일로 자동 확인 메일이 도착합니다.",
-    sec1Note:
-      "주문 내용에 대해 궁금한 점이 있으시면 문의 양식을 통해 편하게 연락 주세요.",
-    payTitle: "결제 방법",
-    payLine1: "신용카드 결제",
-    payLine2: "각종 월렛 결제(지원 브랜드는 장바구니 화면에서 확인하실 수 있습니다)",
-    payLine3: "기타 결제 방법은 추후 순차 추가 예정입니다.",
-    shipTitle: "배송·배송료",
-    shipLine1: "주문 확정 후 보통 2~5 영업일 이내에 발송합니다.",
-    shipLine2: "배송료는 배송 지역·주문 내용에 따라 다릅니다. 자세한 내용은 장바구니 화면에서 확인해 주세요.",
-    shipLine3: "일정 금액 이상 주문 시 무료 배송 캠페인을 진행할 수 있습니다.",
-    returnTitle: "반품·교환",
-    returnP1:
-      "상품 품질에는 만전을 기하지만, 배송 내용에 하자나 파손이 있을 경우 상품 도착 후 7일 이내에 연락 주세요. 상황 확인 후 교환 또는 환불로 대응하겠습니다.",
-    returnP2:
-      "고객 사유에 의한 반품·교환은 식품이라는 상품의 특성상 받아드릴 수 없습니다. 상품의 하자나 오배송의 경우에만, 상품 도착 후 7일 이내에 연락 주시면 대응해 드립니다(배송료는 당사가 부담합니다).",
-    contactTitle: "문의",
-    contactP1:
-      "상품 선택이나 이용 방법에 대해 궁금한 점이 있으시면 편하게 문의해 주세요. 도매 상담이나 선물 제안도 받고 있습니다.",
-    contactP2: "문의 양식은 메인 메뉴의 「문의」에서 이용하실 수 있습니다.",
-    altImage: "온라인 숍 이미지",
-  },
-  zh: {
-    h1: "使用说明",
-    intro:
-      "订购流程、支付方式、配送与运费、退换货等在线商店使用说明。",
-    sec1Title: "订购流程",
-    sec1Step1: "选择商品，点击「加入购物车」。",
-    sec1Step2: "在购物车页面确认内容后，点击「去结账」。",
-    sec1Step3: "请填写收货信息、支付方式等必填项。",
-    sec1Step4:
-      "确认内容后点击「确认下单」，系统将向您登记的邮箱发送自动确认邮件。",
-    sec1Note:
-      "对订单内容如有疑问，请通过咨询表单与我们联系。",
-    payTitle: "支付方式",
-    payLine1: "信用卡支付",
-    payLine2: "各类电子钱包（支持品牌请于购物车页面确认）",
-    payLine3: "其他支付方式将陆续追加。",
-    shipTitle: "配送与运费",
-    shipLine1: "订单确认后，通常于2～5个工作日内发货。",
-    shipLine2: "运费因配送地区与订单内容而异。详情请于购物车页面确认。",
-    shipLine3: "订单满一定金额时可能开展免运费活动。",
-    returnTitle: "退换货",
-    returnP1:
-      "我们力求保证商品品质。如收到的商品有瑕疵或破损，请于到货后7日内联系。确认情况后将安排换货或退款。",
-    returnP2:
-      "因客户原因申请的退换货，由于商品为食品性质，恕不接受。仅当商品存在瑕疵或配送错误时，请于到货后7日内联系我们，我们将负责处理（运费由本店承担）。",
-    contactTitle: "咨询",
-    contactP1:
-      "对商品选择或使用方法如有疑问，欢迎咨询。我们也接受批发咨询与礼品方案。",
-    contactP2: "咨询表单可从主导航的「咨询」进入使用。",
-    altImage: "在线商店",
-  },
 };
 
-type Props = {
-  locale: Locale;
-};
-
-export default function GuidePage({ locale }: Props) {
-  const t = GUIDE_TEXTS[locale];
+export default function GuidePage() {
+  const t = GUIDE_TEXTS;
 
   return (
     <main className={MAIN_CLASS} id="main-content" role="main">

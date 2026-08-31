@@ -99,10 +99,10 @@ export default function IseChaGreenTeaCatechinPage() {
         imageUrl={`${SITE_BASE_URL}${CATECHIN_IMG}`}
         canonicalUrl="https://108teaworks.com/ise-cha/catechin/"
       />
-      <BreadcrumbListSchema items={getBreadcrumbItems("/ise-cha/catechin", "ja")} />
+      <BreadcrumbListSchema items={getBreadcrumbItems("/ise-cha/catechin")} />
       <div className={INNER_CLASS}>
         <article className="mb-12">
-          <IsechaSubNav locale="ja" current="catechin" />
+          <IsechaSubNav current="catechin" />
           <h1 className="m-0 mb-6 font-heading text-xl font-semibold text-tea-deep md:text-2xl">
             「1日一杯」で変わる、緑茶とコレステロールの健やかな関係
           </h1>

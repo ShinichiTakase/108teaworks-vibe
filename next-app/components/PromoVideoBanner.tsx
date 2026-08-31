@@ -3,27 +3,15 @@
 import { useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { PROMO_VIDEO_TEXTS } from "@/lib/promoVideoTexts";
-import type { Locale } from "@/lib/i18n";
 
 const THUMB_SRC = "/images/thumbnail/green-tea-latte.jpg";
 const VIDEO_SRC = "/mp4/houjicha_latte.mp4";
 
 const linkClass = "text-tea underline underline-offset-2 decoration-tea/60 hover:text-tea-deep hover:decoration-tea-deep focus:outline-none";
 
-function getLocaleFromPath(pathname: string | null): Locale {
-  if (!pathname) return "ja";
-  if (pathname.startsWith("/en")) return "en";
-  if (pathname.startsWith("/ko")) return "ko";
-  if (pathname.startsWith("/zh")) return "zh";
-  return "ja";
-}
-
 export default function PromoVideoBanner() {
-  const pathname = usePathname();
-  const locale = getLocaleFromPath(pathname);
-  const t = PROMO_VIDEO_TEXTS[locale];
+  const t = PROMO_VIDEO_TEXTS;
 
   const [popupOpen, setPopupOpen] = useState(false);
 

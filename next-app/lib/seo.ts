@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
-import type { Locale } from "@/lib/i18n";
 import fixed from "@/lib/seoFixedPages.json";
 import { ORGANIZATION_NAME_JA, SITE_BASE_URL } from "@/lib/siteConstants";
 
 type FixedSeoEntry = {
-  title?: Partial<Record<Locale, string>>;
-  description?: Partial<Record<Locale, string>>;
+  title?: string;
+  description?: string;
 };
 
 type FixedSeoJson = {
@@ -42,8 +41,7 @@ const ALIASES: Record<string, string[]> = {
 };
 
 export function getFixedSeo(
-  pathname: string,
-  locale: Locale
+  pathname: string
 ): { title?: string; description?: string } | null {
   const pages = FIXED.pages ?? {};
   const key0 = normalizePathKey(pathname);
@@ -57,63 +55,26 @@ export function getFixedSeo(
   for (const key of candidates) {
     const entry = pages[key];
     if (!entry) continue;
-    const title = entry.title?.[locale] ?? entry.title?.ja;
-    const description = entry.description?.[locale] ?? entry.description?.ja;
+    const { title, description } = entry;
     if (title || description) return { title, description };
   }
   return null;
 }
 
-export type BuildAlternatesOptions = {
-  /** 現在表示しているページの言語（canonical を決めるために使用）。未指定は "ja" 扱い。 */
-  currentLocale?: Locale;
-  /** @deprecated 全ページ language-country 形式に統一済みのため不要。後方互換のため残す。 */
-  jpRegionHreflang?: boolean;
-};
-
-export function buildAlternatesForLocales(pathname: string, options?: BuildAlternatesOptions) {
-  const loc0: Locale = options?.currentLocale ?? "ja";
+export function buildAlternatesForLocales(pathname: string) {
   const base = process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/$/, "") ?? "https://108teaworks.com";
-  const path0 = normalizePathKey(pathname);
-  const path = withTrailingSlash(path0);
-
-  const make = (loc: Locale) => {
-    if (loc === "ja") return `${base}${path}`;
-    return `${base}/${loc}${path}`;
-  };
-  const urls = {
-    ja: make("ja"),
-    en: make("en"),
-    ko: make("ko"),
-    zh: make("zh"),
-  };
-  // 全ページ統一: language-country 形式 + x-default（/ = 日本語トップ）
-  const languages = {
-    "ja-JP": urls.ja,
-    "en-JP": urls.en,
-    "ko-JP": urls.ko,
-    "zh-Hans-JP": urls.zh,
-    "x-default": urls.ja,
-  };
+  const path = withTrailingSlash(normalizePathKey(pathname));
   return {
-    canonical: urls[loc0],
-    languages,
+    canonical: `${base}${path}`,
   };
 }
 
-const OG_LOCALE: Record<Locale, string> = {
-  ja: "ja_JP",
-  en: "en_US",
-  ko: "ko_KR",
-  zh: "zh_CN",
-};
-
 /** /ise-cha/america/ 用: OGP・Twitter・robots（本文は Article JSON-LD を別コンポーネントで） */
-export function buildIseChaAmericaMetadata(locale: Locale): Metadata {
-  const seo = getFixedSeo("/ise-cha/america", locale);
+export function buildIseChaAmericaMetadata(): Metadata {
+  const seo = getFixedSeo("/ise-cha/america");
   const title = seo?.title;
   const description = seo?.description;
-  const alternates = buildAlternatesForLocales("/ise-cha/america", { currentLocale: locale });
+  const alternates = buildAlternatesForLocales("/ise-cha/america");
   const ogImageUrl = `${SITE_BASE_URL}/images/tea_garden.jpg`;
 
   return {
@@ -126,21 +87,14 @@ export function buildIseChaAmericaMetadata(locale: Locale): Metadata {
       description: description ?? undefined,
       url: alternates.canonical,
       siteName: ORGANIZATION_NAME_JA,
-      locale: OG_LOCALE[locale],
+      locale: "ja_JP",
       type: "article",
       images: [
         {
           url: ogImageUrl,
           width: 1000,
           height: 712,
-          alt:
-            locale === "ja"
-              ? "19世紀末から20世紀初頭の日本風茶庭と茶屋"
-              : locale === "en"
-                ? "Japanese-style tea garden and pavilion, late 19th century"
-                : locale === "ko"
-                  ? "19세기 말~20세기 초 일본식 찻집과 정원"
-                  : "十九世纪末至二十世纪初的日本式茶庭与茶屋",
+          alt: "19世紀末から20世紀初頭の日本風茶庭と茶屋",
         },
       ],
     },
@@ -152,4 +106,3 @@ export function buildIseChaAmericaMetadata(locale: Locale): Metadata {
     },
   };
 }
-

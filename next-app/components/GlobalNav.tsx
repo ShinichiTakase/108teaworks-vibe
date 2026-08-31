@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
-import { buildLocalizedHref, detectLocaleFromPath } from "@/lib/urlPath";
+import { buildHref } from "@/lib/urlPath";
 
 const NAV_KEYS = [
   { key: "top" as const, href: "/" },
@@ -20,8 +20,7 @@ export default function GlobalNav() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
-  const locale = detectLocaleFromPath(pathname || "/");
-  const t = COMMON_TEXTS[locale];
+  const t = COMMON_TEXTS;
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (pathname === href) {
@@ -41,7 +40,7 @@ export default function GlobalNav() {
       >
         <ul className="flex flex-wrap justify-center gap-4">
           {NAV_KEYS.map((item) => {
-            const localized = buildLocalizedHref(locale, item.href);
+            const localized = buildHref(item.href);
             const label = t.nav[item.key];
             return (
               <li key={item.key}>
@@ -87,7 +86,7 @@ export default function GlobalNav() {
               style={{ backgroundColor: "#F1EEE7", borderColor: "#E7E2D6" }}
             >
               {NAV_KEYS.map((item) => {
-                const localized = buildLocalizedHref(locale, item.href);
+                const localized = buildHref(item.href);
                 const label = t.nav[item.key];
                 return (
                   <Link

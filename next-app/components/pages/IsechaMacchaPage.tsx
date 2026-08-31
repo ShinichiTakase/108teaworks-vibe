@@ -1,17 +1,12 @@
 import Image from "next/image";
 import IsechaSubNav from "@/components/IsechaSubNav";
 import { MAIN_CLASS, INNER_CLASS } from "@/components/Layout";
-import type { Locale } from "@/lib/i18n";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
 import { ISECHA_MACCHA_SECTIONS } from "@/lib/isechaMacchaContent";
 import {
   ISECHA_MACCHA_IMAGE_GROUPS,
   type IsechaMacchaFigure,
 } from "@/lib/isechaMacchaImages";
-
-type Props = {
-  locale: Locale;
-};
 
 function MacchaFigureBlock({
   fig,
@@ -53,8 +48,8 @@ const MACCHA_MOBILE_INSERT: Array<{
   { sectionIndex: 3, layout: "center", groupIndex: 2 },
 ];
 
-export default function IsechaMacchaPage({ locale }: Props) {
-  const h1 = COMMON_TEXTS[locale].nav.isechaMaccha;
+export default function IsechaMacchaPage() {
+  const h1 = COMMON_TEXTS.nav.isechaMaccha;
 
   function renderMobileInsert(sectionIndex: number) {
     const rule = MACCHA_MOBILE_INSERT.find((r) => r.sectionIndex === sectionIndex);
@@ -96,7 +91,7 @@ export default function IsechaMacchaPage({ locale }: Props) {
     <main className={MAIN_CLASS} id="main-content" role="main">
       <div className={INNER_CLASS}>
         <article className="mb-12">
-          <IsechaSubNav locale={locale} current="maccha" />
+          <IsechaSubNav current="maccha" />
           <h1 className="m-0 mb-8 font-heading text-xl font-semibold text-tea-deep">
             {h1}
           </h1>

@@ -137,7 +137,7 @@ export default async function FukamushiLpPage() {
       />
       <FaqJsonLd questions={FAQS.map(({ q, a }) => ({ q, a }))} />
       <BreadcrumbListSchema
-        items={getBreadcrumbItems("/ise-cha/fukamushi-lp", "ja", { productName: "深蒸し茶ティーバッグ" })}
+        items={getBreadcrumbItems("/ise-cha/fukamushi-lp", { productName: "深蒸し茶ティーバッグ" })}
       />
 
       {/* ---------- Top bar ---------- */}

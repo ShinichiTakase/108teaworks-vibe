@@ -11,5 +11,5 @@ export async function generateMetadata() {
 }
 
 export default function IseChaFukamushiPageJa() {
-  return <FukamushiPage locale="ja" />;
+  return <FukamushiPage />;
 }

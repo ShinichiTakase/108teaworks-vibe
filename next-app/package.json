@@ -32,7 +32,6 @@
     "build": "next build",
     "start": "next start",
     "start:prod": "next start",
-    "i18n:translate": "ts-node ./scripts/translate-with-deepl.ts",
     "lint": "next lint",
     "images:amerika": "node scripts/optimize-amerika-images.mjs",
     "images:products-webp": "node scripts/optimize-product-webp.mjs",

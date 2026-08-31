@@ -3,7 +3,6 @@ import nodemailer from "nodemailer";
 import { WHOLESALE_EMAIL_CLIENT } from "@/lib/emailClientTexts";
 import { getMailFrom } from "@/lib/mailFrom";
 import { checkRateLimit, getClientIp } from "@/lib/rateLimit";
-import type { Locale } from "@/lib/i18n";
 
 const REQUIRED = [
   "company",
@@ -22,7 +21,6 @@ type WholesaleBody = {
   phone?: string;
   email?: string;
   message?: string;
-  locale?: string;
   website?: string;
   formStartedAt?: number;
 };
@@ -40,13 +38,11 @@ export async function POST(req: NextRequest) {
       phone,
       email,
       message,
-      locale: localeParam,
       website,
       formStartedAt,
     } = body;
     const ip = getClientIp(req.headers.get("x-forwarded-for"));
     const now = Date.now();
-    const locale: Locale = ["ja", "en", "ko", "zh"].includes(localeParam ?? "") ? (localeParam as Locale) : "ja";
 
     if (typeof website === "string" && website.trim()) {
       return NextResponse.json({ ok: true });
@@ -124,9 +120,8 @@ export async function POST(req: NextRequest) {
       replyTo: email ?? undefined,
     });
 
-    const clientTpl = WHOLESALE_EMAIL_CLIENT[locale];
-    const clientSubject = clientTpl.subject;
-    const clientText = clientTpl.body(
+    const clientSubject = WHOLESALE_EMAIL_CLIENT.subject;
+    const clientText = WHOLESALE_EMAIL_CLIENT.body(
       company ?? "",
       department ?? "",
       lastName ?? "",

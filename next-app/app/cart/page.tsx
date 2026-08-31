@@ -6,9 +6,9 @@ import { getBreadcrumbItems } from "@/lib/breadcrumb";
 export default function CartPage() {
   return (
     <>
-      <BreadcrumbListSchema items={getBreadcrumbItems("/cart", "ja")} />
+      <BreadcrumbListSchema items={getBreadcrumbItems("/cart")} />
       <CartPageContent />
-      <PageEndProductList locale="ja" />
+      <PageEndProductList />
     </>
   );
 }

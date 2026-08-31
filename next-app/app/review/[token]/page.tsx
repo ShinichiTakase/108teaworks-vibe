@@ -1,6 +1,5 @@
 import { notFound } from "next/navigation";
 import { findActiveToken } from "@/lib/reviewsStorage";
-import type { Locale } from "@/lib/i18n";
 
 type Props = {
   params: { token: string };
@@ -8,46 +7,14 @@ type Props = {
 
 export const dynamic = "force-dynamic";
 
-const LOCALE_LABELS: Record<
-  Locale,
-  { title: string; nickname: string; nicknameOptional: string; rating: string; review: string; reviewOptional: string; submit: string }
-> = {
-  ja: {
-    title: "商品レビューのご協力をお願いします",
-    nickname: "ニックネーム",
-    nicknameOptional: "（任意）",
-    rating: "評価（5点満点）",
-    review: "レビュー",
-    reviewOptional: "（任意）",
-    submit: "レビューを送信する",
-  },
-  en: {
-    title: "Please review your purchase",
-    nickname: "Nickname",
-    nicknameOptional: "(optional)",
-    rating: "Rating (out of 5)",
-    review: "Review",
-    reviewOptional: "(optional)",
-    submit: "Submit review",
-  },
-  ko: {
-    title: "구매하신 상품을 평가해 주세요",
-    nickname: "닉네임",
-    nicknameOptional: "(선택)",
-    rating: "평점 (5점 만점)",
-    review: "리뷰",
-    reviewOptional: "(선택)",
-    submit: "리뷰 제출",
-  },
-  zh: {
-    title: "请为本次购买留下评价",
-    nickname: "昵称",
-    nicknameOptional: "（选填）",
-    rating: "评分（满分5分）",
-    review: "评价",
-    reviewOptional: "（选填）",
-    submit: "提交评价",
-  },
+const LABELS = {
+  title: "商品レビューのご協力をお願いします",
+  nickname: "ニックネーム",
+  nicknameOptional: "（任意）",
+  rating: "評価（5点満点）",
+  review: "レビュー",
+  reviewOptional: "（任意）",
+  submit: "レビューを送信する",
 };
 
 export default async function ReviewPage({ params }: Props) {
@@ -57,8 +24,7 @@ export default async function ReviewPage({ params }: Props) {
     notFound();
   }
 
-  const locale: Locale = ["ja", "en", "ko", "zh"].includes(record.locale) ? record.locale : "ja";
-  const labels = LOCALE_LABELS[locale];
+  const labels = LABELS;
 
   return (
     <main className="max-w-3xl mx-auto px-4 py-10">

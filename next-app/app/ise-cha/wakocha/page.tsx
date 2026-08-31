@@ -11,5 +11,5 @@ export async function generateMetadata() {
 }
 
 export default function IseChaWakochaPageJa() {
-  return <WakochaPage locale="ja" />;
+  return <WakochaPage />;
 }

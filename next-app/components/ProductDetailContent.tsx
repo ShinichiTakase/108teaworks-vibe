@@ -10,14 +10,12 @@ import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import FaqJsonLd from "@/components/FaqJsonLd";
 import styles from "@/components/ProductDetailContent.module.css";
 import { getBreadcrumbItems } from "@/lib/breadcrumb";
-import type { Locale } from "@/lib/i18n";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
-import { translateForLocale } from "@/lib/translateForLocale";
 import { loadReviewsForSlug, summarizeReviews } from "@/lib/reviewsStorage";
 import { formatReviewDate } from "@/lib/reviewDisplay";
 import { formatPriceYen } from "@/lib/formatters";
 import { sanitizeRichHtml } from "@/lib/sanitizeHtml";
-import { buildLocalizedPath } from "@/lib/urlPath";
+import { buildHref } from "@/lib/urlPath";
 import { ORGANIZATION_NAME_JA } from "@/lib/siteConstants";
 import { getProductFaqs } from "@/lib/productFaqs";
 
@@ -63,28 +61,22 @@ const OFFER_SHIPPING_DETAILS_JP = [
 
 /** Google 等が飲料をアルコール類と誤認しにくいよう、茶・非アルコールを明示 */
 const SCHEMA_ADDITIONAL_TYPE_TEA = "https://schema.org/Tea";
-const SCHEMA_PRODUCT_CATEGORY: Record<Locale, string> = {
-  ja: "お茶(アルコール非含有)",
-  en: "Tea (non-alcoholic)",
-  ko: "차(茶) · 무알코올 음료",
-  zh: "茶(无酒精)",
-};
+const SCHEMA_PRODUCT_CATEGORY = "お茶(アルコール非含有)";
 
 /** レビュー一覧（商品説明下部に埋め込み）1ページあたりの件数 */
 const REVIEWS_PER_PAGE = 5;
 
 type Props = {
-  locale: Locale;
   slug: string;
   /** 商品説明下部のレビュー一覧のページ番号（1始まり）。省略時は1ページ目 */
   reviewsPage?: number;
 };
 
-export default async function ProductDetailContent({ locale, slug, reviewsPage }: Props) {
+export default async function ProductDetailContent({ slug, reviewsPage }: Props) {
   const product = await getProductBySlug(slug);
   if (!product) notFound();
 
-  const t = COMMON_TEXTS[locale].product;
+  const t = COMMON_TEXTS.product;
   const imagePaths = getProductImagePaths(slug);
   const tasteImagePaths = getProductTasteImagePaths(slug);
 
@@ -92,27 +84,13 @@ export default async function ProductDetailContent({ locale, slug, reviewsPage }
   const desc01Ja = product.DESCRIPTION01 ? decodeHtmlEntities(product.DESCRIPTION01) : "";
   const desc02Ja = product.DESCRIPTION02 ? decodeHtmlEntities(product.DESCRIPTION02) : "";
 
-  const localizedContent: [string, string, string] =
-    locale === "ja"
-      ? [titleJa, desc01Ja, desc02Ja]
-      : await Promise.all([
-          translateForLocale(titleJa, locale),
-          desc01Ja ? translateForLocale(desc01Ja, locale, { tagHandling: "html" }) : Promise.resolve(""),
-          desc02Ja ? translateForLocale(desc02Ja, locale, { tagHandling: "html" }) : Promise.resolve(""),
-        ]);
-
-  const [displayTitleRaw, displayDesc01, displayDesc02] = localizedContent;
-
-  const displayTitle = displayTitleRaw;
-  const safeDisplayDesc01 = sanitizeRichHtml(displayDesc01);
-  const safeDisplayDesc02 = sanitizeRichHtml(displayDesc02);
+  const displayTitle = titleJa;
+  const safeDisplayDesc01 = sanitizeRichHtml(desc01Ja);
+  const safeDisplayDesc02 = sanitizeRichHtml(desc02Ja);
 
   const reviews = await loadReviewsForSlug(slug);
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://108teaworks.com";
-  const productUrl =
-    locale === "ja"
-      ? `${baseUrl}/ise-cha/${slug}/`
-      : `${baseUrl}/${locale}/ise-cha/${slug}/`;
+  const productUrl = `${baseUrl}/ise-cha/${slug}/`;
   const schemaAvailability =
     typeof product.STOCK === "number" && product.STOCK <= 0
       ? "https://schema.org/OutOfStock"
@@ -146,7 +124,7 @@ export default async function ProductDetailContent({ locale, slug, reviewsPage }
     "@context": "https://schema.org",
     "@type": "Product",
     additionalType: SCHEMA_ADDITIONAL_TYPE_TEA,
-    category: SCHEMA_PRODUCT_CATEGORY[locale],
+    category: SCHEMA_PRODUCT_CATEGORY,
     name: displayTitle || titleJa,
     image: imagePaths.length > 0 ? imagePaths.map((p) => `${baseUrl}${p}`) : undefined,
     description: descriptionForSchema || undefined,
@@ -185,16 +163,15 @@ export default async function ProductDetailContent({ locale, slug, reviewsPage }
     productSchema.review = schemaReviews;
   }
 
-  const pathname = buildLocalizedPath(locale, `/ise-cha/${slug}`);
-  const breadcrumbItems = getBreadcrumbItems(pathname, locale, { productName: displayTitle || titleJa });
-  /** GEO対策のFAQPage。文言未翻訳のため日本語ページのみに表示 */
-  const faqs = locale === "ja" ? getProductFaqs(slug) : undefined;
+  const pathname = buildHref(`/ise-cha/${slug}`);
+  const breadcrumbItems = getBreadcrumbItems(pathname, { productName: displayTitle || titleJa });
+  const faqs = getProductFaqs(slug);
 
   const hasTaste = tasteImagePaths.length > 0;
   /** DESCRIPTION02 が無い商品は淹れ方などが DESCRIPTION01 に入ることが多い → その右に味わい画像 */
-  const tasteWithDesc01Only = hasTaste && !!displayDesc01 && !displayDesc02;
-  const tasteWithDesc02 = hasTaste && !!displayDesc02;
-  const tasteStandalone = hasTaste && !displayDesc01 && !displayDesc02;
+  const tasteWithDesc01Only = hasTaste && !!desc01Ja && !desc02Ja;
+  const tasteWithDesc02 = hasTaste && !!desc02Ja;
+  const tasteStandalone = hasTaste && !desc01Ja && !desc02Ja;
 
   return (
     <>
@@ -214,7 +191,7 @@ export default async function ProductDetailContent({ locale, slug, reviewsPage }
           {formatPriceYen(product.PRICE)} <span className="text-base font-normal text-ink-muted">{t.taxIncluded}</span>
         </p>
         {/* レビューは本ページ下部(#reviews)に埋め込み表示。翻訳未対応のため日本語かつ1件以上の場合のみ表示 */}
-        {locale === "ja" && reviewCount > 0 && avgRating !== null && (
+        {reviewCount > 0 && avgRating !== null && (
           <a
             href="#reviews"
             className="mb-3 flex items-center justify-end gap-1.5 text-[0.8125rem] text-ink-muted no-underline transition-colors hover:text-tea-deep"
@@ -231,7 +208,6 @@ export default async function ProductDetailContent({ locale, slug, reviewsPage }
           price={product.PRICE}
           title={displayTitle}
           imagePath={imagePaths[0]}
-          locale={locale}
           shipRank={product.SHIP_RANK}
         />
         {/* 商品画像とDESCRIPTION01：スマホは画像の下、タブレット・PCは画像の右に説明文を配置 */}
@@ -246,13 +222,13 @@ export default async function ProductDetailContent({ locale, slug, reviewsPage }
                 dangerouslySetInnerHTML={{ __html: safeDisplayDesc01 }}
               />
               {product.SHIP_RANK !== undefined && (
-                <ShipRankInfo shipRank={product.SHIP_RANK} locale={locale} className="mt-4" />
+                <ShipRankInfo shipRank={product.SHIP_RANK} className="mt-4" />
               )}
             </div>
           )}
         </div>
         {!safeDisplayDesc01 && product.SHIP_RANK !== undefined && (
-          <ShipRankInfo shipRank={product.SHIP_RANK} locale={locale} className="mt-4 ml-auto w-full md:max-w-sm" />
+          <ShipRankInfo shipRank={product.SHIP_RANK} className="mt-4 ml-auto w-full md:max-w-sm" />
         )}
         {safeDisplayDesc01 && tasteWithDesc01Only && (
           <div className="mt-6 flex justify-center md:justify-end">
@@ -287,7 +263,7 @@ export default async function ProductDetailContent({ locale, slug, reviewsPage }
         </div>
       )}
       {/* レビュー一覧を商品説明の下部に直接埋め込み表示（翻訳未対応のため日本語かつ1件以上の場合のみ） */}
-      {locale === "ja" && reviewCount > 0 && avgRating !== null && (
+      {reviewCount > 0 && avgRating !== null && (
         <div id="reviews" className="mt-10 border-t border-border pt-8">
           <h2 className="m-0 mb-3 text-base font-semibold text-tea-deep">レビュー</h2>
           <div className="mb-5 flex items-center gap-1.5">

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import type { Locale } from "@/lib/i18n";
 import { WHOLESALE_FORM_TEXTS } from "@/lib/wholesaleTexts";
 
 type FormState = {
@@ -30,12 +29,10 @@ const INITIAL_STATE: FormState = {
 
 type WholesaleFormProps = {
   onStepChange?: (step: WholesaleFormStep) => void;
-  locale?: Locale;
 };
 
-export default function WholesaleForm({ onStepChange, locale: localeProp }: WholesaleFormProps) {
-  const locale = localeProp ?? "ja";
-  const ft = WHOLESALE_FORM_TEXTS[locale];
+export default function WholesaleForm({ onStepChange }: WholesaleFormProps) {
+  const ft = WHOLESALE_FORM_TEXTS;
   const [step, setStep] = useState<WholesaleFormStep>("form");
   const [form, setForm] = useState<FormState>(INITIAL_STATE);
   const [errors, setErrors] = useState<FormErrors>({});
@@ -87,7 +84,7 @@ export default function WholesaleForm({ onStepChange, locale: localeProp }: Whol
       const res = await fetch("/api/wholesale", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, locale, website, formStartedAt }),
+        body: JSON.stringify({ ...form, website, formStartedAt }),
       });
       if (!res.ok) throw new Error("Failed to send");
       setStep("done");
@@ -300,7 +297,7 @@ export default function WholesaleForm({ onStepChange, locale: localeProp }: Whol
             </div>
           )}
           <div>
-            <div className="text-[0.8125rem] font-semibold text-tea-deep">{locale === "ja" ? "名前" : locale === "en" ? "Name" : locale === "ko" ? "이름" : "姓名"}</div>
+            <div className="text-[0.8125rem] font-semibold text-tea-deep">名前</div>
             <p className="mt-1 mb-0">{form.lastName} {form.firstName}</p>
           </div>
           <div>

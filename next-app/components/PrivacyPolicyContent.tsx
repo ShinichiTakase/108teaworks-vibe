@@ -1,13 +1,8 @@
 import { MAIN_CLASS, INNER_CLASS } from "@/components/Layout";
-import type { Locale } from "@/lib/i18n";
 import { PRIVACY_TEXTS } from "@/lib/privacyTexts";
 
-type Props = {
-  locale: Locale;
-};
-
-export default function PrivacyPolicyContent({ locale }: Props) {
-  const t = PRIVACY_TEXTS[locale];
+export default function PrivacyPolicyContent() {
+  const t = PRIVACY_TEXTS;
 
   return (
     <main className={MAIN_CLASS} id="main-content" role="main">

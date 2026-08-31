@@ -8,7 +8,7 @@ import { getAllChapterMetas } from "@/lib/kabatadani";
 import KabatadaniCoverSlideshow from "@/components/KabatadaniCoverSlideshow";
 
 export async function generateMetadata() {
-  const seo = getFixedSeo("/kabatadani_no_ocha", "ja");
+  const seo = getFixedSeo("/kabatadani_no_ocha");
   return {
     title: seo?.title ?? "伊勢茶発祥の地 川俣谷のお茶｜伊勢茶の藤八茶寮",
     description:
@@ -23,7 +23,7 @@ export default function KabatadaniNoOchaPage() {
 
   return (
     <main className={MAIN_CLASS} id="main-content" role="main">
-      <BreadcrumbListSchema items={getBreadcrumbItems("/kabatadani_no_ocha", "ja")} />
+      <BreadcrumbListSchema items={getBreadcrumbItems("/kabatadani_no_ocha")} />
       <div className={INNER_CLASS}>
         <section aria-labelledby="kabatadani-heading" className="mb-12">
           <h1
@@ -100,7 +100,7 @@ export default function KabatadaniNoOchaPage() {
             </div>
           )}
         </section>
-        <PageEndProductList locale="ja" />
+        <PageEndProductList />
       </div>
     </main>
   );

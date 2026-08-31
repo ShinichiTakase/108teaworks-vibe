@@ -2,60 +2,33 @@ import Image from "next/image";
 import Link from "next/link";
 import IsechaSubNav from "@/components/IsechaSubNav";
 import { MAIN_CLASS, INNER_CLASS } from "@/components/Layout";
-import type { Locale } from "@/lib/i18n";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
-import { buildLocalizedPath } from "@/lib/urlPath";
+import { buildHref } from "@/lib/urlPath";
 import { ISECHA_TEXTS } from "./IsechaPage";
 
-function mieChagyoShiHref(): string {
-  return "/mie_chagyo_shi/";
-}
+const mie = "/mie_chagyo_shi/";
+const inquiry = buildHref("/inquiry");
+const kabatadani = buildHref("/kabatadani_no_ocha");
+const rekishi = buildHref("/isecha_no_rekishi");
 
-function inquiryHref(locale: Locale): string {
-  return buildLocalizedPath(locale, "/inquiry");
-}
+const BOOKS_REGION_LABEL = "高瀬孝二著の電子書籍";
 
-function kabatadaniHref(locale: Locale): string {
-  return buildLocalizedPath(locale, "/kabatadani_no_ocha");
-}
-
-function isechaNoRekishiHref(locale: Locale): string {
-  return buildLocalizedPath(locale, "/isecha_no_rekishi");
-}
-
-type Props = {
-  locale: Locale;
-};
-
-export default function IsechaBooksPage({ locale }: Props) {
-  const t = ISECHA_TEXTS[locale];
-  const mie = mieChagyoShiHref();
-  const inquiry = inquiryHref(locale);
-  const kabatadani = kabatadaniHref(locale);
-  const rekishi = isechaNoRekishiHref(locale);
-
-  const booksRegionLabel =
-    locale === "ja"
-      ? "高瀬孝二著の電子書籍"
-      : locale === "en"
-        ? "E-books by Koji Takase"
-        : locale === "ko"
-          ? "다카세 고지 저 전자책"
-          : "高瀬孝二著作电子书";
+export default function IsechaBooksPage() {
+  const t = ISECHA_TEXTS;
 
   return (
     <main className={MAIN_CLASS} id="main-content" role="main">
       <div className={INNER_CLASS}>
         <section aria-labelledby="isecha-books-heading" className="mb-12">
-          <IsechaSubNav locale={locale} current="books" />
+          <IsechaSubNav current="books" />
           <h1
             id="isecha-books-heading"
             className="m-0 mb-8 font-heading text-xl font-semibold text-tea-deep"
           >
-            {COMMON_TEXTS[locale].nav.isechaBooks}
+            {COMMON_TEXTS.nav.isechaBooks}
           </h1>
 
-          <div className="mb-12" role="region" aria-label={booksRegionLabel}>
+          <div className="mb-12" role="region" aria-label={BOOKS_REGION_LABEL}>
             <div className="mb-8 flex flex-col gap-8">
               <article className="flex flex-row items-start gap-4 text-left sm:gap-6">
                 <figure className="w-24 shrink-0 overflow-hidden rounded-md sm:w-32 md:w-36">

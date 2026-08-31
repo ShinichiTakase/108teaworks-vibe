@@ -1,13 +1,10 @@
 import Link from "next/link";
 import PartnerLogos from "@/components/PartnerLogos";
-import type { Locale } from "@/lib/i18n";
 import { HOME_WHOLESALE_TEXTS } from "@/lib/homeSectionTexts";
 
-type Props = { locale?: Locale };
-
-export default function WholesaleSection({ locale = "ja" }: Props) {
-  const t = HOME_WHOLESALE_TEXTS[locale];
-  const wholesaleHref = locale === "ja" ? "/wholesale/" : `/${locale}/wholesale`;
+export default function WholesaleSection() {
+  const t = HOME_WHOLESALE_TEXTS;
+  const wholesaleHref = "/wholesale/";
   return (
     <section
       className="mb-12"

@@ -3,9 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
-import { buildLocalizedHref, detectLocaleFromPath } from "@/lib/urlPath";
+import { buildHref } from "@/lib/urlPath";
 
 /**
  * 左端から突き出る「商品一覧」フローティングバー。
@@ -13,7 +12,6 @@ import { buildLocalizedHref, detectLocaleFromPath } from "@/lib/urlPath";
  * スマホでは非表示。タブレット・デスクトップで表示。
  */
 export default function FloatingProductListBar() {
-  const pathname = usePathname() || "/";
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -32,9 +30,8 @@ export default function FloatingProductListBar() {
 
   if (isMobile) return null;
 
-  const locale = detectLocaleFromPath(pathname);
-  const t = COMMON_TEXTS[locale];
-  const href = buildLocalizedHref(locale, "/");
+  const t = COMMON_TEXTS;
+  const href = buildHref("/");
 
   return (
     <Link

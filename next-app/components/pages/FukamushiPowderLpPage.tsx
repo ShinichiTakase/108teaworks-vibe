@@ -124,7 +124,7 @@ export default async function FukamushiPowderLpPage() {
       />
       <FaqJsonLd questions={FAQS.map(({ q, a }) => ({ q, a }))} />
       <BreadcrumbListSchema
-        items={getBreadcrumbItems("/ise-cha/fukamushi-powder-lp", "ja", { productName: "深蒸し茶パウダー" })}
+        items={getBreadcrumbItems("/ise-cha/fukamushi-powder-lp", { productName: "深蒸し茶パウダー" })}
       />
 
       <header className={styles["site-header"]}>

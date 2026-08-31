@@ -6,31 +6,17 @@ import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import IsechaSubNav from "@/components/IsechaSubNav";
 import PromoVideoBanner from "@/components/PromoVideoBanner";
 import { getBreadcrumbItems } from "@/lib/breadcrumb";
-import type { Locale } from "@/lib/i18n";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
 import { HOW_TO_BREW_TEXTS } from "@/lib/howToBrewTexts";
 import { getFixedSeo, buildAlternatesForLocales } from "@/lib/seo";
 
 /** トップページの商品一覧を指定フィルターで絞り込んだURL */
-function productsFilterHref(locale: Locale, filterValue: string): string {
-  const path = locale === "ja" ? "/" : `/${locale}`;
-  return `${path}?filter=${encodeURIComponent(filterValue)}`;
+function productsFilterHref(filterValue: string): string {
+  return `/?filter=${encodeURIComponent(filterValue)}`;
 }
 
-type Props = {
-  params?: { lang?: string };
-};
-
-function detectLocaleFromParams(params?: { lang?: string }): Locale {
-  const raw = params?.lang;
-  const supported: Locale[] = ["ja", "en", "ko", "zh"];
-  if (raw && supported.includes(raw as Locale)) return raw as Locale;
-  return "ja";
-}
-
-export async function generateMetadata({ params }: Props = {}) {
-  const locale = detectLocaleFromParams(params);
-  const seo = getFixedSeo("/how-to-brew", locale);
+export async function generateMetadata() {
+  const seo = getFixedSeo("/how-to-brew");
   return {
     title: seo?.title,
     description: seo?.description,
@@ -38,16 +24,15 @@ export async function generateMetadata({ params }: Props = {}) {
   };
 }
 
-export default function HowToBrewPage({ params }: Props = {}) {
-  const locale = detectLocaleFromParams(params);
-  const t = HOW_TO_BREW_TEXTS[locale];
+export default function HowToBrewPage() {
+  const t = HOW_TO_BREW_TEXTS;
 
   return (
     <main className={MAIN_CLASS} id="main-content" role="main">
-      <BreadcrumbListSchema items={getBreadcrumbItems(locale === "ja" ? "/how-to-brew" : `/${locale}/how-to-brew`, locale)} />
+      <BreadcrumbListSchema items={getBreadcrumbItems("/how-to-brew")} />
       <div className={INNER_CLASS}>
         <section aria-labelledby="howto-heading" className="mb-12">
-          <IsechaSubNav locale={locale} current="howToBrew" />
+          <IsechaSubNav current="howToBrew" />
           <div className="mb-10 grid grid-cols-1 items-start gap-6 md:grid-cols-2 md:gap-8">
             <figure className="order-2 overflow-hidden rounded-md md:order-1">
               <Image
@@ -106,12 +91,12 @@ export default function HowToBrewPage({ params }: Props = {}) {
               </p>
               <div className="flex justify-end mt-3">
                 <Link
-                  href={productsFilterHref(locale, "ティーバッグ")}
+                  href={productsFilterHref("ティーバッグ")}
                   className="inline-flex items-center justify-between gap-2 py-2.5 px-3 rounded-lg border border-tea-light bg-washi text-tea-deep no-underline transition-colors hover:border-tea-deep hover:bg-cream hover:shadow-sm"
                 >
                   <span className="text-base font-bold">{t.productLinkTeabag}</span>
                   <span className="shrink-0 text-[0.8125rem] font-normal text-tea" aria-hidden="true">
-                    {COMMON_TEXTS[locale].product.viewDetails}
+                    {COMMON_TEXTS.product.viewDetails}
                   </span>
                 </Link>
               </div>
@@ -147,12 +132,12 @@ export default function HowToBrewPage({ params }: Props = {}) {
               </p>
               <div className="flex justify-end mt-3">
                 <Link
-                  href={productsFilterHref(locale, "リーフ（茶葉）")}
+                  href={productsFilterHref("リーフ（茶葉）")}
                   className="inline-flex items-center justify-between gap-2 py-2.5 px-3 rounded-lg border border-tea-light bg-washi text-tea-deep no-underline transition-colors hover:border-tea-deep hover:bg-cream hover:shadow-sm"
                 >
                   <span className="text-base font-bold">{t.productLinkLeaf}</span>
                   <span className="shrink-0 text-[0.8125rem] font-normal text-tea" aria-hidden="true">
-                    {COMMON_TEXTS[locale].product.viewDetails}
+                    {COMMON_TEXTS.product.viewDetails}
                   </span>
                 </Link>
               </div>
@@ -181,12 +166,12 @@ export default function HowToBrewPage({ params }: Props = {}) {
             </ul>
             <div className="flex justify-end mt-3">
               <Link
-                href={productsFilterHref(locale, "深蒸し茶")}
+                href={productsFilterHref("深蒸し茶")}
                 className="inline-flex items-center justify-between gap-2 py-2.5 px-3 rounded-lg border border-tea-light bg-washi text-tea-deep no-underline transition-colors hover:border-tea-deep hover:bg-cream hover:shadow-sm"
               >
                 <span className="text-base font-bold">{t.productLinkFukamushi}</span>
                 <span className="shrink-0 text-[0.8125rem] font-normal text-tea" aria-hidden="true">
-                  {COMMON_TEXTS[locale].product.viewDetails}
+                  {COMMON_TEXTS.product.viewDetails}
                 </span>
               </Link>
             </div>
@@ -221,12 +206,12 @@ export default function HowToBrewPage({ params }: Props = {}) {
               </p>
               <div className="flex justify-end mt-3">
                 <Link
-                  href={productsFilterHref(locale, "ティーバッグ")}
+                  href={productsFilterHref("ティーバッグ")}
                   className="inline-flex items-center justify-between gap-2 py-2.5 px-3 rounded-lg border border-tea-light bg-washi text-tea-deep no-underline transition-colors hover:border-tea-deep hover:bg-cream hover:shadow-sm"
                 >
                   <span className="text-base font-bold">{t.productLinkMizudashiTeabag}</span>
                   <span className="shrink-0 text-[0.8125rem] font-normal text-tea" aria-hidden="true">
-                    {COMMON_TEXTS[locale].product.viewDetails}
+                    {COMMON_TEXTS.product.viewDetails}
                   </span>
                 </Link>
               </div>
@@ -301,12 +286,12 @@ export default function HowToBrewPage({ params }: Props = {}) {
           </div>
           <div className="flex justify-end mb-6">
             <Link
-              href={productsFilterHref(locale, "パウダー")}
+              href={productsFilterHref("パウダー")}
               className="inline-flex items-center justify-between gap-2 py-2.5 px-3 rounded-lg border border-tea-light bg-washi text-tea-deep no-underline transition-colors hover:border-tea-deep hover:bg-cream hover:shadow-sm"
             >
               <span className="text-base font-bold">{t.productLinkLattePowder}</span>
               <span className="shrink-0 text-[0.8125rem] font-normal text-tea" aria-hidden="true">
-                {COMMON_TEXTS[locale].product.viewDetails}
+                {COMMON_TEXTS.product.viewDetails}
               </span>
             </Link>
           </div>
@@ -352,9 +337,8 @@ export default function HowToBrewPage({ params }: Props = {}) {
             {t.storageOutro}
           </p>
         </section>
-        <PageEndProductList locale={locale} />
+        <PageEndProductList />
       </div>
     </main>
   );
 }
-

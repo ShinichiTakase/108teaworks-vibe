@@ -1,328 +1,57 @@
-import type { Locale } from "./i18n";
-
 /** 共通UI文言（ナビ・カート・お問い合わせ・フッター・ページネーション等） */
-export const COMMON_TEXTS: Record<
-  Locale,
-  {
-    nav: {
-      top: string;
-      products: string;
-      about: string;
-      isecha: string;
-      /** /ise-cha/ から /ise-cha/books/ へのサブナビ（伊勢茶関連の本） */
-      isechaBooks: string;
-      /** /ise-cha/ から /ise-cha/america/ へのサブナビ */
-      isechaAmerica: string;
-      /** /ise-cha/how-to-brew/（伊勢茶セクション内の淹れ方） */
-      isechaHowToBrew: string;
-      /** /ise-cha/maccha/（抹茶とパウダー緑茶） */
-      isechaMaccha: string;
-      /** /ise-cha/caffeine/（お茶とカフェイン） */
-      isechaCaffeine: string;
-      /** /ise-cha/catechin/（お茶とコレステロール） */
-      isechaCatechin: string;
-      /** /ise-cha/fukamushi/（深蒸し茶 通販ランディングページ） */
-      isechaFukamushi: string;
-      /** /ise-cha/decaf/（カフェインカット緑茶 通販ランディングページ） */
-      isechaDecaf: string;
-      /** /ise-cha/houjicha/（ほうじ茶 通販ランディングページ） */
-      isechaHoujicha: string;
-      /** /ise-cha/wakocha/（和紅茶 通販ランディングページ） */
-      isechaWakocha: string;
-      howToBrew: string;
-      userGuide: string;
-      notice: string;
-      wholesale: string;
-    };
-    header: {
-      /** ヘッダーの購入フロー導線（/checkout） */
-      checkout: string;
-      inquiry: string;
-    };
-    /** フローティング導線（/checkout） */
-    floatingCheckout: string;
-    footer: {
-      privacyPolicy: string;
-      legal: string;
-      domesticShippingNote: string;
-      address: string;
-      copyright: string;
-    };
-    pagination: {
-      prev: string;
-      next: string;
-      noticeAria: string;
-    };
-    notice: {
-      title: string;
-      empty: string;
-      backToList: string;
-    };
-    product: {
-      taxIncluded: string;
-      productCode: string;
-      janCode: string;
-      relatedProducts: string;
-      viewDetails: string;
-      quantity: string;
-      addToCart: string;
-      buyNow: string;
-      shipRankPre: string;
-      shipRankLink: string;
-      shipRankMid: string;
-      shipRankSuffix: string;
-      shipRankDetail: string;
-      shipRankFree: string;
-      shipRankTooltip: string;
-    };
-    aria: { mainMenu: string; menuButton: string };
-    /** ヘッダー下のクーポン告知（空なら非表示） */
-    couponBanner: string;
-    cart: {
-      title: string;
-      empty: string;
-      continueShopping: string;
-      taxIncluded: string;
-      subtotal: string;
-      shipping: string;
-      shippingCalculating: string;
-      total: string;
-      taxNote: string;
-      taxNoteSuffix: string;
-      proceedToCheckout: string;
-      freeShipping: string;
-      freeShippingRemainPrefix: string;
-      freeShippingRemain: string;
-      shippingFreeShort: string;
-      decreaseQty: string;
-      increaseQty: string;
-      remove: string;
-    };
-  }
-> = {
-  ja: {
-    nav: {
-      top: "トップページ",
-      products: "商品一覧",
-      about: "藤八茶寮について",
-      isecha: "伊勢茶とは",
-      isechaBooks: "伊勢茶の本",
-      isechaAmerica: "伊勢茶とアメリカ",
-      isechaHowToBrew: "おいしいお茶の淹れ方",
-      isechaMaccha: "抹茶とパウダー緑茶",
-      isechaCaffeine: "お茶とカフェイン",
-      isechaCatechin: "お茶とコレステロール",
-      isechaFukamushi: "深蒸し茶について",
-      isechaDecaf: "カフェインカット緑茶",
-      isechaHoujicha: "ほうじ茶について",
-      isechaWakocha: "和紅茶について",
-      howToBrew: "お茶の淹れ方",
-      userGuide: "ご注文の流れ",
-      notice: "お知らせ",
-      wholesale: "パートナー募集",
-    },
-    header: { checkout: "購入手続きへ", inquiry: "お問い合わせ" },
-    floatingCheckout: "購入手続きへ",
-    footer: {
-      privacyPolicy: "プライバシーポリシー",
-      legal: "特定商取引法に基づく表記",
-      domesticShippingNote: "配送は日本国内のみです",
-      address: "〒220-0072 横浜市西区浅間町1丁目4番3号ウィザードビル402",
-      copyright: "©︎ 藤八茶寮 / シングルオリジン伊勢茶 108teaworks",
-    },
-    pagination: { prev: "前へ", next: "次へ", noticeAria: "お知らせのページネーション" },
-    notice: { title: "お知らせ", empty: "現在、お知らせはありません。", backToList: "← お知らせ一覧へ" },
-    product: { taxIncluded: "(税込)", productCode: "商品コード", janCode: "JANコード", relatedProducts: "関連商品", viewDetails: "詳しく見る >>", quantity: "数量", addToCart: "カートに追加", buyNow: "今すぐ買う", shipRankPre: "この商品の", shipRankLink: "配送ポイント", shipRankMid: "は", shipRankSuffix: "です", shipRankDetail: "ポイントの合計が6.0以下の場合は、クリックポスト ¥380 で、6.0を超える場合は、60サイズ ¥880 でお送りします", shipRankFree: "お買い上げ¥10,000以上で送料無料となります", shipRankTooltip: "商品ごとに設定された配送サイズの目安です。カート内の合計が6.0以下なら小型便（¥380）、6.0を超えると宅配便（¥880）でお届けします。" },
-    aria: { mainMenu: "メインメニュー", menuButton: "メニュー" },
-    couponBanner: "",
-    cart: {
-      title: "ショッピングカート",
-      empty: "カートに商品はありません。",
-      continueShopping: "買い物を続ける",
-      taxIncluded: "（税込）",
-      subtotal: "小計",
-      shipping: "送料",
-      shippingCalculating: "計算中",
-      total: "合計（税込）",
-      taxNote: "（消費税",
-      taxNoteSuffix: "を含む）",
-      proceedToCheckout: "購入手続きに進む",
-      freeShipping: "送料無料です",
-      freeShippingRemainPrefix: "あと ",
-      freeShippingRemain: " のお買い上げで送料無料です",
-      shippingFreeShort: "無料",
-      decreaseQty: "数量を減らす",
-      increaseQty: "数量を増やす",
-      remove: "削除",
-    },
+export const COMMON_TEXTS = {
+  nav: {
+    top: "トップページ",
+    products: "商品一覧",
+    about: "藤八茶寮について",
+    isecha: "伊勢茶とは",
+    isechaBooks: "伊勢茶の本",
+    isechaAmerica: "伊勢茶とアメリカ",
+    isechaHowToBrew: "おいしいお茶の淹れ方",
+    isechaMaccha: "抹茶とパウダー緑茶",
+    isechaCaffeine: "お茶とカフェイン",
+    isechaCatechin: "お茶とコレステロール",
+    isechaFukamushi: "深蒸し茶について",
+    isechaDecaf: "カフェインカット緑茶",
+    isechaHoujicha: "ほうじ茶について",
+    isechaWakocha: "和紅茶について",
+    howToBrew: "お茶の淹れ方",
+    userGuide: "ご注文の流れ",
+    notice: "お知らせ",
+    wholesale: "パートナー募集",
   },
-  en: {
-    nav: {
-      top: "Home",
-      products: "Products",
-      about: "About Us",
-      isecha: "What is Ise Tea",
-      isechaBooks: "Books on Ise Tea",
-      isechaAmerica: "Ise Tea and America",
-      isechaHowToBrew: "How to Brew Delicious Tea",
-      isechaMaccha: "Matcha vs. powdered green tea",
-      isechaCaffeine: "Tea and Caffeine",
-      isechaCatechin: "Tea and Cholesterol",
-      isechaFukamushi: "About Fukamushi Sencha",
-      isechaDecaf: "Low-Caffeine Green Tea",
-      isechaHoujicha: "Houjicha",
-      isechaWakocha: "Japanese Black Tea",
-      howToBrew: "How to Brew",
-      userGuide: "Order Guide",
-      notice: "News",
-      wholesale: "Wholesale",
-    },
-    header: { checkout: "Proceed to checkout", inquiry: "Contact" },
-    floatingCheckout: "Proceed to checkout",
-    footer: {
-      privacyPolicy: "Privacy Policy",
-      legal: "Legal Notice",
-      domesticShippingNote: "Shipping within Japan only",
-      address: "〒220-0072 横浜市西区浅間町1丁目4番3号ウィザードビル402",
-      copyright: "© Fujihachiya / Single Origin Ise Tea 108teaworks",
-    },
-    pagination: { prev: "Previous", next: "Next", noticeAria: "News pagination" },
-    notice: { title: "News", empty: "There are no news items at the moment.", backToList: "← Back to news" },
-    product: { taxIncluded: "(tax incl.)", productCode: "Product code", janCode: "JAN", relatedProducts: "Related products", viewDetails: "View details >>", quantity: "Quantity", addToCart: "Add to cart", buyNow: "Buy now", shipRankPre: "", shipRankLink: "Shipping rank", shipRankMid: "for this product:", shipRankSuffix: "", shipRankDetail: "Total rank ≤ 6.0: Click Post ¥380 / Over 6.0: 60-size parcel ¥880", shipRankFree: "Free shipping on orders of ¥10,000 or more.", shipRankTooltip: "A shipping size estimate for this product. Total rank ≤ 6.0 → small parcel (¥380); over 6.0 → courier (¥880)." },
-    aria: { mainMenu: "Main menu", menuButton: "Menu" },
-    couponBanner: "",
-    cart: {
-      title: "Shopping Cart",
-      empty: "Your cart is empty.",
-      continueShopping: "Continue shopping",
-      taxIncluded: "(tax incl.)",
-      subtotal: "Subtotal",
-      shipping: "Shipping",
-      shippingCalculating: "Calculating",
-      total: "Total (tax incl.)",
-      taxNote: "(incl. consumption tax ",
-      taxNoteSuffix: ")",
-      proceedToCheckout: "Proceed to checkout",
-      freeShipping: "Free shipping",
-      freeShippingRemainPrefix: "",
-      freeShippingRemain: " away from free shipping",
-      shippingFreeShort: "Free",
-      decreaseQty: "Decrease quantity",
-      increaseQty: "Increase quantity",
-      remove: "Remove",
-    },
+  header: { checkout: "購入手続きへ", inquiry: "お問い合わせ" },
+  floatingCheckout: "購入手続きへ",
+  footer: {
+    privacyPolicy: "プライバシーポリシー",
+    legal: "特定商取引法に基づく表記",
+    domesticShippingNote: "配送は日本国内のみです",
+    address: "〒220-0072 横浜市西区浅間町1丁目4番3号ウィザードビル402",
+    copyright: "©︎ 藤八茶寮 / シングルオリジン伊勢茶 108teaworks",
   },
-  ko: {
-    nav: {
-      top: "홈",
-      products: "상품 목록",
-      about: "후지하치야 소개",
-      isecha: "이세차란",
-      isechaBooks: "이세차의 책",
-      isechaAmerica: "이세차와 미국",
-      isechaHowToBrew: "맛있게 우리는 법",
-      isechaMaccha: "말차와 분말 녹차",
-      isechaCaffeine: "차와 카페인",
-      isechaCatechin: "차와 콜레스테롤",
-      isechaFukamushi: "후카무시 녹차란",
-      isechaDecaf: "저카페인 녹차",
-      isechaHoujicha: "호지차",
-      isechaWakocha: "와코차（일본홍차）",
-      howToBrew: "우려내기",
-      userGuide: "주문 안내",
-      notice: "소식",
-      wholesale: "도매 문의",
-    },
-    header: { checkout: "결제하기", inquiry: "문의" },
-    floatingCheckout: "결제하기",
-    footer: {
-      privacyPolicy: "개인정보처리방침",
-      legal: "거래 조건",
-      domesticShippingNote: "일본 국내만 배송합니다",
-      address: "〒220-0072 横浜市西区浅間町1丁目4番3号ウィザードビル402",
-      copyright: "© 후지하치야 / 싱글 오리진 이세차 108teaworks",
-    },
-    pagination: { prev: "이전", next: "다음", noticeAria: "소식 페이지네이션" },
-    notice: { title: "소식", empty: "현재 소식이 없습니다.", backToList: "← 소식 목록으로" },
-    product: { taxIncluded: "(세금 포함)", productCode: "상품 코드", janCode: "JAN 코드", relatedProducts: "관련 상품", viewDetails: "자세히 보기 >>", quantity: "수량", addToCart: "장바구니에 담기", buyNow: "지금 구매", shipRankPre: "이 상품의", shipRankLink: "배송 포인트", shipRankMid: ":", shipRankSuffix: "", shipRankDetail: "합계 6.0 이하: 클릭포스트 ¥380 / 6.0 초과: 60사이즈 ¥880", shipRankFree: "¥10,000 이상 구매 시 배송비 무료", shipRankTooltip: "상품별 배송 크기 기준입니다. 카트 내 합계가 6.0 이하면 소형 택배（¥380）, 6.0 초과면 택배（¥880）로 배송합니다." },
-    aria: { mainMenu: "메인 메뉴", menuButton: "메뉴" },
-    couponBanner: "",
-    cart: {
-      title: "쇼핑 카트",
-      empty: "장바구니에 상품이 없습니다.",
-      continueShopping: "쇼핑 계속하기",
-      taxIncluded: "(세금 포함)",
-      subtotal: "소계",
-      shipping: "배송료",
-      shippingCalculating: "계산 중",
-      total: "합계 (세금 포함)",
-      taxNote: "(부가세 ",
-      taxNoteSuffix: " 포함)",
-      proceedToCheckout: "결제하기",
-      freeShipping: "무료 배송",
-      freeShippingRemainPrefix: "",
-      freeShippingRemain: " 추가 구매 시 무료 배송",
-      shippingFreeShort: "무료",
-      decreaseQty: "수량 줄이기",
-      increaseQty: "수량 늘리기",
-      remove: "삭제",
-    },
-  },
-  zh: {
-    nav: {
-      top: "首页",
-      products: "商品一览",
-      about: "关于藤八茶寮",
-      isecha: "什么是伊势茶",
-      isechaBooks: "伊势茶之书",
-      isechaAmerica: "伊势茶与美国",
-      isechaHowToBrew: "美味冲泡要诀",
-      isechaMaccha: "抹茶与粉末绿茶",
-      isechaCaffeine: "茶与咖啡因",
-      isechaCatechin: "茶与胆固醇",
-      isechaFukamushi: "关于深蒸绿茶",
-      isechaDecaf: "低咖啡因绿茶",
-      isechaHoujicha: "焙茶",
-      isechaWakocha: "和红茶",
-      howToBrew: "冲泡方法",
-      userGuide: "订购流程",
-      notice: "公告",
-      wholesale: "批发合作",
-    },
-    header: { checkout: "去结账", inquiry: "咨询" },
-    floatingCheckout: "去结账",
-    footer: {
-      privacyPolicy: "隐私政策",
-      legal: "特定商交易法表记",
-      domesticShippingNote: "仅日本国内配送",
-      address: "〒220-0072 横浜市西区浅間町1丁目4番3号ウィザードビル402",
-      copyright: "© 藤八茶寮 / 单一产地伊势茶 108teaworks",
-    },
-    pagination: { prev: "上一页", next: "下一页", noticeAria: "公告分页" },
-    notice: { title: "公告", empty: "暂无公告。", backToList: "← 返回公告列表" },
-    product: { taxIncluded: "（含税）", productCode: "商品代码", janCode: "JAN码", relatedProducts: "相关商品", viewDetails: "查看详情 >>", quantity: "数量", addToCart: "加入购物车", buyNow: "立即购买", shipRankPre: "本商品", shipRankLink: "配送积分", shipRankMid: "：", shipRankSuffix: "", shipRankDetail: "合计6.0以下：Click Post ¥380 / 超过6.0：60尺寸 ¥880", shipRankFree: "满¥10,000免运费", shipRankTooltip: "各商品设定的配送尺寸参考值。购物车合计6.0以下发小件（¥380），超过6.0发快递（¥880）。" },
-    aria: { mainMenu: "主导航", menuButton: "菜单" },
-    couponBanner: "",
-    cart: {
-      title: "购物车",
-      empty: "购物车为空。",
-      continueShopping: "继续购物",
-      taxIncluded: "（含税）",
-      subtotal: "小计",
-      shipping: "运费",
-      shippingCalculating: "计算中",
-      total: "合计（含税）",
-      taxNote: "（含消费税",
-      taxNoteSuffix: "）",
-      proceedToCheckout: "去结账",
-      freeShipping: "免运费",
-      freeShippingRemainPrefix: "再买 ",
-      freeShippingRemain: " 即免运费",
-      shippingFreeShort: "免费",
-      decreaseQty: "减少数量",
-      increaseQty: "增加数量",
-      remove: "删除",
-    },
+  pagination: { prev: "前へ", next: "次へ", noticeAria: "お知らせのページネーション" },
+  notice: { title: "お知らせ", empty: "現在、お知らせはありません。", backToList: "← お知らせ一覧へ" },
+  product: { taxIncluded: "(税込)", productCode: "商品コード", janCode: "JANコード", relatedProducts: "関連商品", viewDetails: "詳しく見る >>", quantity: "数量", addToCart: "カートに追加", buyNow: "今すぐ買う", shipRankPre: "この商品の", shipRankLink: "配送ポイント", shipRankMid: "は", shipRankSuffix: "です", shipRankDetail: "ポイントの合計が6.0以下の場合は、クリックポスト ¥380 で、6.0を超える場合は、60サイズ ¥880 でお送りします", shipRankFree: "お買い上げ¥10,000以上で送料無料となります", shipRankTooltip: "商品ごとに設定された配送サイズの目安です。カート内の合計が6.0以下なら小型便（¥380）、6.0を超えると宅配便（¥880）でお届けします。" },
+  aria: { mainMenu: "メインメニュー", menuButton: "メニュー" },
+  couponBanner: "",
+  cart: {
+    title: "ショッピングカート",
+    empty: "カートに商品はありません。",
+    continueShopping: "買い物を続ける",
+    taxIncluded: "（税込）",
+    subtotal: "小計",
+    shipping: "送料",
+    shippingCalculating: "計算中",
+    total: "合計（税込）",
+    taxNote: "（消費税",
+    taxNoteSuffix: "を含む）",
+    proceedToCheckout: "購入手続きに進む",
+    freeShipping: "送料無料です",
+    freeShippingRemainPrefix: "あと ",
+    freeShippingRemain: " のお買い上げで送料無料です",
+    shippingFreeShort: "無料",
+    decreaseQty: "数量を減らす",
+    increaseQty: "数量を増やす",
+    remove: "削除",
   },
 };
-

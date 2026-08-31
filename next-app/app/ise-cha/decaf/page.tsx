@@ -11,5 +11,5 @@ export async function generateMetadata() {
 }
 
 export default function IseChaDecafPageJa() {
-  return <DecafPage locale="ja" />;
+  return <DecafPage />;
 }

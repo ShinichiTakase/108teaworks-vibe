@@ -1,9 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
-import { buildLocalizedHref, detectLocaleFromPath } from "@/lib/urlPath";
+import { buildHref } from "@/lib/urlPath";
 
 const CartIcon = ({ className }: { className?: string }) => (
   <span className={`inline-block w-[1.1em] h-[1.1em] ${className ?? ""}`} aria-hidden="true">
@@ -33,11 +32,9 @@ const MailIcon = ({ className }: { className?: string }) => (
 );
 
 export default function HeaderCartAccountLinks() {
-  const pathname = usePathname() || "/";
-  const locale = detectLocaleFromPath(pathname);
-  const t = COMMON_TEXTS[locale];
-  const checkoutHref = buildLocalizedHref(locale, "/checkout");
-  const inquiryHref = buildLocalizedHref(locale, "/inquiry");
+  const t = COMMON_TEXTS;
+  const checkoutHref = buildHref("/checkout");
+  const inquiryHref = buildHref("/inquiry");
 
   return (
     <div className="flex items-center gap-3 md:gap-4">

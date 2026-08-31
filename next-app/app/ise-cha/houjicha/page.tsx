@@ -11,5 +11,5 @@ export async function generateMetadata() {
 }
 
 export default function IseChaHoujichaPageJa() {
-  return <HoujichaPage locale="ja" />;
+  return <HoujichaPage />;
 }

@@ -2,7 +2,6 @@ import { promises as fs } from "fs";
 import { existsSync } from "fs";
 import path from "path";
 import crypto from "crypto";
-import type { Locale } from "@/lib/i18n";
 
 /**
  * 運用環境により Next.js の起動 cwd が異なるため、
@@ -59,7 +58,6 @@ export type ReviewQueueItem = {
   createdAt: string; // ISO
   email: string;
   name: string;
-  locale: Locale;
   items: { slug: string; title: string }[];
 };
 
@@ -102,7 +100,6 @@ async function writeJsonFile<T>(filePath: string, data: T): Promise<void> {
 export async function enqueueReviewRequest(params: {
   email: string;
   name: string;
-  locale: Locale;
   items: { slug: string; title: string }[];
 }): Promise<string> {
   await ensureDirs();
@@ -114,7 +111,6 @@ export async function enqueueReviewRequest(params: {
     createdAt: now.toISOString(),
     email: params.email,
     name: params.name,
-    locale: params.locale,
     items: params.items,
   };
   queue.push(entry);

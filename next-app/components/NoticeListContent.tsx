@@ -1,42 +1,27 @@
 import Link from "next/link";
 import { MAIN_CLASS, INNER_CLASS } from "@/components/Layout";
 import { getNotices, bodyToExcerpt } from "@/lib/microcms";
-import type { Locale } from "@/lib/i18n";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
 import { formatDateByLocale } from "@/lib/formatters";
-import { translateManyForLocale } from "@/lib/translateForLocale";
-import { buildLocalizedPath, withTrailingSlashPath } from "@/lib/urlPath";
+import { buildHref, withTrailingSlashPath } from "@/lib/urlPath";
 
 const PER_PAGE = 10;
 
-function noticeBasePath(locale: Locale): string {
-  return buildLocalizedPath(locale, "/notice");
-}
-
-function noticeDetailHref(locale: Locale, slug: string): string {
-  return buildLocalizedPath(locale, `/notice/${slug}`);
+function noticeDetailHref(slug: string): string {
+  return buildHref(`/notice/${slug}`);
 }
 
 type Props = {
-  locale: Locale;
   page: number;
 };
 
-export default async function NoticeListContent({ locale, page }: Props) {
+export default async function NoticeListContent({ page }: Props) {
   const offset = (page - 1) * PER_PAGE;
   const { contents, totalCount } = await getNotices(PER_PAGE, offset);
   const totalPages = Math.max(1, Math.ceil(totalCount / PER_PAGE));
   const currentPage = Math.min(page, totalPages);
-  const t = COMMON_TEXTS[locale];
-  const base = noticeBasePath(locale);
-
-  const titles = contents.map((c) => c.title ?? "");
-  const excerpts = contents.map((c) => bodyToExcerpt(c.body, 120) ?? "");
-  const allTexts = [...titles, ...excerpts];
-  const translatedAll =
-    locale === "ja" ? allTexts : await translateManyForLocale(allTexts, locale);
-  const translatedTitles = translatedAll.slice(0, contents.length);
-  const translatedExcerpts = translatedAll.slice(contents.length);
+  const t = COMMON_TEXTS;
+  const base = buildHref("/notice");
 
   return (
     <main className={MAIN_CLASS} id="main-content" role="main">
@@ -53,11 +38,11 @@ export default async function NoticeListContent({ locale, page }: Props) {
             <p className="text-[0.9375rem] text-ink-muted">{t.notice.empty}</p>
           ) : (
             <ul className="list-none m-0 p-0 space-y-6">
-              {contents.map((item, idx) => {
+              {contents.map((item) => {
                 const slug = item.slug ?? item.id;
-                const href = noticeDetailHref(locale, slug);
-                const title = translatedTitles[idx] ?? item.title ?? "";
-                const excerpt = translatedExcerpts[idx];
+                const href = noticeDetailHref(slug);
+                const title = item.title ?? "";
+                const excerpt = bodyToExcerpt(item.body, 120) ?? "";
                 const displayDate = item.date ?? item.publishedAt;
                 return (
                   <li key={item.id} className="border-b border-border pb-6 last:border-b-0">
@@ -70,7 +55,7 @@ export default async function NoticeListContent({ locale, page }: Props) {
                       </Link>
                     </div>
                     <div className="mb-2 inline-block rounded border border-border bg-washi px-3 py-1 text-left text-[0.8125rem] text-ink-muted">
-                      {formatDateByLocale(displayDate, locale)}
+                      {formatDateByLocale(displayDate)}
                     </div>
                     {excerpt && (
                       <p className="m-0 text-[0.9375rem] leading-relaxed text-ink-muted">

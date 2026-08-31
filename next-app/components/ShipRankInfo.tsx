@@ -1,18 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import type { Locale } from "@/lib/i18n";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
 
 type Props = {
   shipRank: number;
-  locale?: Locale;
   className?: string;
 };
 
-export default function ShipRankInfo({ shipRank, locale: localeProp, className }: Props) {
-  const locale = localeProp ?? "ja";
-  const t = COMMON_TEXTS[locale].product;
+export default function ShipRankInfo({ shipRank, className }: Props) {
+  const t = COMMON_TEXTS.product;
   const [tooltipOpen, setTooltipOpen] = useState(false);
 
   return (

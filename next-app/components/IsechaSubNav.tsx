@@ -1,42 +1,16 @@
 import Link from "next/link";
-import type { Locale } from "@/lib/i18n";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
-import { buildLocalizedPath } from "@/lib/urlPath";
+import { buildHref } from "@/lib/urlPath";
 
 export type IsechaSubNavCurrent = "main" | "books" | "america" | "howToBrew" | "maccha" | "caffeine" | "catechin" | "fukamushi" | "decaf" | "houjicha" | "wakocha";
 
 type Props = {
-  locale: Locale;
   /** 現在地。`/ise-cha/` では `main` */
   current?: IsechaSubNavCurrent;
 };
 
-const navAriaLabel: Record<Locale, string> = {
-  ja: "伊勢茶関連のサブページ",
-  en: "Ise Tea section navigation",
-  ko: "이세차 관련 하위 페이지",
-  zh: "伊势茶相关子页面",
-};
-
-const mobileNavTexts: Record<
-  Locale,
-  {
-    menuButton: string;
-  }
-> = {
-  ja: {
-    menuButton: "トピックス一覧",
-  },
-  en: {
-    menuButton: "Browse pages",
-  },
-  ko: {
-    menuButton: "목록 보기",
-  },
-  zh: {
-    menuButton: "查看列表",
-  },
-};
+const NAV_ARIA_LABEL = "伊勢茶関連のサブページ";
+const MOBILE_MENU_BUTTON_TEXT = "トピックス一覧";
 
 const linkBase =
   "inline-flex items-center rounded-md border px-3 py-2 text-[0.9375rem] font-medium no-underline transition-colors";
@@ -46,25 +20,20 @@ const linkIdle = "border-tea-light bg-cream/80 text-tea-deep hover:border-tea-de
 const linkActive =
   "border-tea-light/50 bg-tea-deep/[0.09] text-tea-deep shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35)] ring-1 ring-tea-deep/15 pointer-events-none cursor-default";
 
-export default function IsechaSubNav({ locale, current }: Props) {
-  const t = COMMON_TEXTS[locale].nav;
-  const mobileText = mobileNavTexts[locale];
+export default function IsechaSubNav({ current }: Props) {
+  const t = COMMON_TEXTS.nav;
   const items: Array<{ key: IsechaSubNavCurrent; label: string; href: string }> = [
-    { key: "main", label: t.isecha, href: buildLocalizedPath(locale, "/ise-cha") },
-    { key: "fukamushi", label: t.isechaFukamushi, href: buildLocalizedPath(locale, "/ise-cha/fukamushi") },
-    { key: "catechin", label: t.isechaCatechin, href: buildLocalizedPath(locale, "/ise-cha/catechin") },
-    { key: "caffeine", label: t.isechaCaffeine, href: buildLocalizedPath(locale, "/ise-cha/caffeine") },
-    { key: "decaf", label: t.isechaDecaf, href: buildLocalizedPath(locale, "/ise-cha/decaf") },
-    { key: "houjicha", label: t.isechaHoujicha, href: buildLocalizedPath(locale, "/ise-cha/houjicha") },
-    { key: "wakocha", label: t.isechaWakocha, href: buildLocalizedPath(locale, "/ise-cha/wakocha") },
-    { key: "maccha", label: t.isechaMaccha, href: buildLocalizedPath(locale, "/ise-cha/maccha") },
-    { key: "america", label: t.isechaAmerica, href: buildLocalizedPath(locale, "/ise-cha/america") },
-    {
-      key: "howToBrew",
-      label: t.isechaHowToBrew,
-      href: locale === "ja" ? "/how-to-brew" : buildLocalizedPath(locale, "/ise-cha/how-to-brew"),
-    },
-    { key: "books", label: t.isechaBooks, href: buildLocalizedPath(locale, "/ise-cha/books") },
+    { key: "main", label: t.isecha, href: buildHref("/ise-cha") },
+    { key: "fukamushi", label: t.isechaFukamushi, href: buildHref("/ise-cha/fukamushi") },
+    { key: "catechin", label: t.isechaCatechin, href: buildHref("/ise-cha/catechin") },
+    { key: "caffeine", label: t.isechaCaffeine, href: buildHref("/ise-cha/caffeine") },
+    { key: "decaf", label: t.isechaDecaf, href: buildHref("/ise-cha/decaf") },
+    { key: "houjicha", label: t.isechaHoujicha, href: buildHref("/ise-cha/houjicha") },
+    { key: "wakocha", label: t.isechaWakocha, href: buildHref("/ise-cha/wakocha") },
+    { key: "maccha", label: t.isechaMaccha, href: buildHref("/ise-cha/maccha") },
+    { key: "america", label: t.isechaAmerica, href: buildHref("/ise-cha/america") },
+    { key: "howToBrew", label: t.isechaHowToBrew, href: "/how-to-brew" },
+    { key: "books", label: t.isechaBooks, href: buildHref("/ise-cha/books") },
   ];
   const currentKey = current ?? "main";
   const currentItem = items.find((item) => item.key === currentKey) ?? items[0];
@@ -114,7 +83,7 @@ export default function IsechaSubNav({ locale, current }: Props) {
   return (
     <nav
       className="mb-8 border-b border-tea-light/30 pb-6"
-      aria-label={navAriaLabel[locale]}
+      aria-label={NAV_ARIA_LABEL}
     >
       <details className="group rounded-2xl border border-tea-light/50 bg-white/80 shadow-sm md:hidden">
         <summary className="flex cursor-pointer list-none items-center justify-between gap-3 px-4 py-3 [&::-webkit-details-marker]:hidden">
@@ -124,7 +93,7 @@ export default function IsechaSubNav({ locale, current }: Props) {
             </p>
           </div>
           <span className="shrink-0 rounded-full border border-tea-light bg-cream px-3 py-1 text-xs font-medium text-tea-deep">
-            {mobileText.menuButton}
+            {MOBILE_MENU_BUTTON_TEXT}
           </span>
         </summary>
         <div className="border-t border-tea-light/40 px-3 pb-3 pt-3">

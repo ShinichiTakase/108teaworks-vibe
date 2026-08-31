@@ -3,14 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
-import { buildLocalizedHref, detectLocaleFromPath, isProductDetailPath } from "@/lib/urlPath";
+import { buildHref, isProductDetailPath } from "@/lib/urlPath";
 
 export default function Footer() {
   const pathname = usePathname() || "/";
-  const locale = detectLocaleFromPath(pathname);
-  const t = COMMON_TEXTS[locale];
-  const privacyHref = buildLocalizedHref(locale, "/privacy-policy");
-  const legalHref = buildLocalizedHref(locale, "/legal");
+  const t = COMMON_TEXTS;
+  const privacyHref = buildHref("/privacy-policy");
+  const legalHref = buildHref("/legal");
   /** 商品詳細ページは購入固定バーが常時表示されるため、コピーライトがその下に隠れないよう余白を確保 */
   const copyrightPaddingClass = isProductDetailPath(pathname) ? "pt-4 pb-[84px]" : "py-4";
 

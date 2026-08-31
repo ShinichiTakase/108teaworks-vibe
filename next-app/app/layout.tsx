@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 import Script from "next/script";
 import "./globals.css";
 import LayoutGate from "@/components/LayoutGate";
@@ -64,14 +63,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const h = headers();
-  const loc = h.get("x-locale") ?? "ja";
-  // Merchant Center / 地域ターゲティングの誤解を避けるため、言語 + JP 地域で明示
-  const htmlLang =
-    loc === "ja" ? "ja" : loc === "en" ? "en-JP" : loc === "ko" ? "ko-JP" : "zh-Hans-JP";
-
   return (
-    <html lang={htmlLang} suppressHydrationWarning>
+    <html lang="ja" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.ico" type="image/x-icon" />
         <script

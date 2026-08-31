@@ -2,16 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import nodemailer from "nodemailer";
 import { buildReceiptPdf } from "@/lib/receiptPdf";
-import { translateManyForLocale } from "@/lib/translateForLocale";
 import { ORDER_EMAIL_LABELS, ORDER_EMAIL_SUBJECT } from "@/lib/emailClientTexts";
 import { getMailFrom } from "@/lib/mailFrom";
-import type { Locale } from "@/lib/i18n";
 import { upsertCustomerOnce } from "@/lib/microcmsCustomers";
 import { orderExistsByOrderNo, postOrder } from "@/lib/microcmsOrders";
 import { saveOrderSnapshot } from "@/lib/orderSnapshotsStorage";
 import { enqueueReviewRequest } from "@/lib/reviewsStorage";
 
-type OrderEmailLabels = (typeof ORDER_EMAIL_LABELS)[Locale];
+type OrderEmailLabels = typeof ORDER_EMAIL_LABELS;
 
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 const stripe = stripeSecretKey ? new Stripe(stripeSecretKey) : null;
@@ -216,7 +214,6 @@ export async function POST(req: NextRequest) {
 
     const body = (await req.json()) as {
       paymentIntentId?: string;
-      locale?: string;
       couponCode?: string;
       customer?: {
         email?: string;
@@ -240,7 +237,6 @@ export async function POST(req: NextRequest) {
     };
 
     const paymentIntentId = body.paymentIntentId;
-    const locale: Locale = ["ja", "en", "ko", "zh"].includes(body.locale ?? "") ? (body.locale as Locale) : "ja";
     if (!paymentIntentId) {
       return NextResponse.json({ ok: false, error: "missing_payment_intent" }, { status: 400 });
     }
@@ -380,7 +376,6 @@ export async function POST(req: NextRequest) {
         await enqueueReviewRequest({
           email: billingAddr.email,
           name: billingAddr.name,
-          locale,
           items: reviewItems,
         });
       }
@@ -388,11 +383,10 @@ export async function POST(req: NextRequest) {
       console.error("[api/checkout/complete] enqueueReviewRequest failed", e);
     }
 
-    const itemNamesForSummary = locale === "ja" ? lines.map((l) => l.name) : await translateManyForLocale(lines.map((l) => l.name), locale);
-    const summaryLines = lines.map((l, i) => ({ ...l, name: itemNamesForSummary[i] ?? l.name }));
+    const summaryLines = lines;
 
-    const orderLabels = ORDER_EMAIL_LABELS[locale];
-    const clientSubject = ORDER_EMAIL_SUBJECT[locale](summaryLines[0]?.name ?? "", Math.max(0, summaryLines.length - 1));
+    const orderLabels = ORDER_EMAIL_LABELS;
+    const clientSubject = ORDER_EMAIL_SUBJECT(summaryLines[0]?.name ?? "", Math.max(0, summaryLines.length - 1));
 
     const clientHtmlBase = buildOrderHtml({
       intro: orderLabels.intro,

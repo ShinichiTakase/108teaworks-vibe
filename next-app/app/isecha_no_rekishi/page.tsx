@@ -7,7 +7,7 @@ import { getBreadcrumbItems } from "@/lib/breadcrumb";
 import { getAllChapterMetas } from "@/lib/isecha_rekishi";
 
 export async function generateMetadata() {
-  const seo = getFixedSeo("/isecha_no_rekishi", "ja");
+  const seo = getFixedSeo("/isecha_no_rekishi");
   return {
     title: seo?.title ?? "伊勢茶の歴史 お茶のおもしろ知識｜伊勢茶の藤八茶寮",
     description:
@@ -26,7 +26,7 @@ export default function IsechaNoRekishiPage() {
 
   return (
     <main className={MAIN_CLASS} id="main-content" role="main">
-      <BreadcrumbListSchema items={getBreadcrumbItems("/isecha_no_rekishi", "ja")} />
+      <BreadcrumbListSchema items={getBreadcrumbItems("/isecha_no_rekishi")} />
       <div className={INNER_CLASS}>
         <section aria-labelledby="isecha-rekishi-heading" className="mb-12">
           <h1
@@ -165,7 +165,7 @@ export default function IsechaNoRekishiPage() {
             </div>
           )}
         </section>
-        <PageEndProductList locale="ja" />
+        <PageEndProductList />
       </div>
     </main>
   );

@@ -1,10 +1,7 @@
 import Image from "next/image";
 import { MAIN_CLASS, INNER_CLASS } from "@/components/Layout";
-import type { Locale } from "@/lib/i18n";
 
-const USER_GUIDE_TEXTS: Record<
-  Locale,
-  {
+const USER_GUIDE_TEXTS: {
     h1: string;
     intro1: string;
     intro2: string;
@@ -31,9 +28,7 @@ const USER_GUIDE_TEXTS: Record<
     contactP1: string;
     contactP2: string;
     altImage: string;
-  }
-> = {
-  ja: {
+} = {
     h1: "ご注文の流れ",
     intro1: "創業1860年代、伝統ある伊勢茶を藤八茶寮から真心込めてお届けいたします。",
     intro2: "このページでは、オンラインショップでのご注文方法やお届け、お支払い、返品・交換などのご利用案内をまとめました。",
@@ -60,99 +55,10 @@ const USER_GUIDE_TEXTS: Record<
     contactP1: "商品選びやご利用方法についてご不明な点がございましたら、お気軽にお問い合わせください。卸売りのご相談やギフトのご提案なども承っております。",
     contactP2: "お問い合わせフォームは、メインメニューの「お問い合わせ」からご利用いただけます。",
     altImage: "ご注文の流れのイメージ",
-  },
-  en: {
-    h1: "Order guide",
-    intro1: "Since the 1860s we have been delivering traditional Ise tea from Fujihachiya with care.",
-    intro2: "This page summarises how to order, delivery, payment, returns and exchanges on our online shop.",
-    intro3: "Whether you're new or a regular, we hope you'll take a look so you can shop with confidence.",
-    sec1Title: "How to order",
-    sec1Step1: "Choose your products and click \"Add to cart\".",
-    sec1Step2: "Review your cart and click \"Proceed to checkout\".",
-    sec1Step3: "Enter delivery address, payment method, and other required details.",
-    sec1Step4: "After confirming your order, click \"Place order\". An automatic confirmation email will be sent to your registered address.",
-    sec1Note: "If you have any questions about your order, please contact us via the inquiry form.",
-    payTitle: "Payment",
-    payLine1: "Credit card",
-    payLine2: "Digital wallets (see the cart page for supported brands)",
-    payLine3: "Other payment methods may be added in the future.",
-    shipTitle: "Delivery & shipping",
-    shipLine1: "We usually ship within 2–5 business days after your order is confirmed.",
-    shipLine2: "Flat ¥380 via Click Post (Japan Post) for smaller orders; flat ¥880 via 60-size parcel (Japan Post) for larger orders.",
-    shipLine3: "Free shipping on orders of ¥10,000 or more.",
-    shipDomesticNote: "We ship within Japan only. We do not ship overseas.",
-    returnTitle: "Returns & exchanges",
-    returnP1: "We take every care with quality. If your order arrives damaged or incorrect, please contact us within 7 days. We will confirm and arrange an exchange or refund.",
-    returnP2: "Returns or exchanges requested for the customer's convenience cannot be accepted, as our products are food items. If an item arrives defective or the wrong item was sent, please contact us within 7 days of arrival and we will resolve it at our own expense (we cover the shipping cost).",
-    contactTitle: "Contact",
-    contactP1: "If you have any questions about products or how to use the shop, please get in touch. We also handle wholesale enquiries and gift ideas.",
-    contactP2: "The contact form is available from \"Contact\" in the main menu.",
-    altImage: "Order guide",
-  },
-  ko: {
-    h1: "주문 안내",
-    intro1: "1860년대 창업 이래 전통 있는 이세차를 후지하치야에서 정성을 다해 보내드립니다.",
-    intro2: "이 페이지에서는 온라인 숍에서의 주문 방법, 배송, 결제, 반품·교환 등의 이용 안내를 정리했습니다.",
-    intro3: "처음 이용하시는 분도, 늘 이용해 주시는 분도 안심하고 쇼핑을 즐기실 수 있도록 한 번 확인해 주세요.",
-    sec1Title: "주문 절차",
-    sec1Step1: "원하는 상품을 고르고 「장바구니에 담기」 버튼을 누릅니다.",
-    sec1Step2: "장바구니 화면에서 내용을 확인한 뒤 「결제하기」를 클릭합니다.",
-    sec1Step3: "배송지 정보·결제 방법 등 필수 항목을 입력합니다.",
-    sec1Step4: "내용 확인 후 「주문 확정」 버튼을 누르면 등록된 이메일로 자동 확인 메일이 도착합니다.",
-    sec1Note: "주문 내용에 대해 궁금한 점이 있으시면 문의 양식을 통해 편하게 연락 주세요.",
-    payTitle: "결제 방법",
-    payLine1: "신용카드 결제",
-    payLine2: "각종 월렛 결제(지원 브랜드는 장바구니 화면에서 확인하실 수 있습니다)",
-    payLine3: "기타 결제 방법은 추후 순차 추가 예정입니다.",
-    shipTitle: "배송·배송료",
-    shipLine1: "주문 확정 후 보통 2~5 영업일 이내에 발송합니다.",
-    shipLine2: "소량 주문은 클릭포스트（일본우편）전국 일률 380엔, 대량 주문은 60사이즈（일본우편）전국 일률 880엔입니다.",
-    shipLine3: "¥10,000 이상 구매 시 배송비 무료.",
-    shipDomesticNote: "배송은 일본 국내만 가능하며 해외로는 발송하지 않습니다.",
-    returnTitle: "반품·교환",
-    returnP1: "상품 품질에는 만전을 기하지만, 배송 내용에 하자나 파손이 있을 경우 상품 도착 후 7일 이내에 연락 주세요. 상황 확인 후 교환 또는 환불로 대응하겠습니다.",
-    returnP2: "고객 사유에 의한 반품·교환은 식품이라는 상품의 특성상 받아드릴 수 없습니다. 상품의 하자나 오배송의 경우에만, 상품 도착 후 7일 이내에 연락 주시면 대응해 드립니다(배송료는 당사가 부담합니다).",
-    contactTitle: "문의",
-    contactP1: "상품 선택이나 이용 방법에 대해 궁금한 점이 있으시면 편하게 문의해 주세요. 도매 상담이나 선물 제안도 받고 있습니다.",
-    contactP2: "문의 양식은 메인 메뉴의 「문의」에서 이용하실 수 있습니다.",
-    altImage: "주문 안내 이미지",
-  },
-  zh: {
-    h1: "订购流程",
-    intro1: "自1860年代创业以来，藤八茶寮用心奉上传统伊势茶。",
-    intro2: "本页汇总了在线商店的订购方式、配送、支付、退换货等使用说明。",
-    intro3: "无论初次光临还是常客，都请浏览以便安心购物。",
-    sec1Title: "订购流程",
-    sec1Step1: "选择商品，点击「加入购物车」。",
-    sec1Step2: "在购物车页面确认内容后，点击「去结账」。",
-    sec1Step3: "请填写收货信息、支付方式等必填项。",
-    sec1Step4: "确认内容后点击「确认下单」，系统将向您登记的邮箱发送自动确认邮件。",
-    sec1Note: "对订单内容如有疑问，请通过咨询表单与我们联系。",
-    payTitle: "支付方式",
-    payLine1: "信用卡支付",
-    payLine2: "各类电子钱包（支持品牌请于购物车页面确认）",
-    payLine3: "其他支付方式将陆续追加。",
-    shipTitle: "配送与运费",
-    shipLine1: "订单确认后，通常于2～5个工作日内发货。",
-    shipLine2: "小额订单通过Click Post（日本邮政）全国统一380日元；大额订单通过60尺寸（日本邮政）全国统一880日元。",
-    shipLine3: "订单满¥10,000免运费。",
-    shipDomesticNote: "仅向日本国内配送，不提供海外发货。",
-    returnTitle: "退换货",
-    returnP1: "我们力求保证商品品质。如收到的商品有瑕疵或破损，请于到货后7日内联系。确认情况后将安排换货或退款。",
-    returnP2: "因客户原因申请的退换货，由于商品为食品性质，恕不接受。仅当商品存在瑕疵或配送错误时，请于到货后7日内联系我们，我们将负责处理（运费由本店承担）。",
-    contactTitle: "咨询",
-    contactP1: "对商品选择或使用方法如有疑问，欢迎咨询。我们也接受批发咨询与礼品方案。",
-    contactP2: "咨询表单可从主导航的「咨询」进入使用。",
-    altImage: "订购流程",
-  },
 };
 
-type Props = {
-  locale: Locale;
-};
-
-export default function UserGuidePage({ locale }: Props) {
-  const t = USER_GUIDE_TEXTS[locale];
+export default function UserGuidePage() {
+  const t = USER_GUIDE_TEXTS;
 
   return (
     <main className={MAIN_CLASS} id="main-content" role="main">

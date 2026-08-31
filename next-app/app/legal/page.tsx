@@ -4,7 +4,7 @@ import { getFixedSeo, buildAlternatesForLocales } from "@/lib/seo";
 import { getBreadcrumbItems } from "@/lib/breadcrumb";
 
 export async function generateMetadata() {
-  const seo = getFixedSeo("/legal", "ja");
+  const seo = getFixedSeo("/legal");
   return {
     title: seo?.title ?? "特定商取引法に基づく表記｜伊勢茶の藤八茶寮",
     description: seo?.description ?? "特定商取引法に基づく表記",
@@ -15,8 +15,8 @@ export async function generateMetadata() {
 export default function LegalPage() {
   return (
     <>
-      <BreadcrumbListSchema items={getBreadcrumbItems("/legal", "ja")} />
-      <LegalPageContent locale="ja" />
+      <BreadcrumbListSchema items={getBreadcrumbItems("/legal")} />
+      <LegalPageContent />
     </>
   );
 }

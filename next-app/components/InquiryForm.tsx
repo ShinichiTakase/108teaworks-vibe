@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import type { Locale } from "@/lib/i18n";
 import { INQUIRY_TEXTS } from "@/lib/inquiryTexts";
 
 type FormState = {
@@ -24,13 +23,8 @@ const INITIAL_STATE: FormState = {
   message: "",
 };
 
-type Props = {
-  locale?: Locale;
-};
-
-export default function InquiryForm({ locale: localeProp }: Props) {
-  const locale = localeProp ?? "ja";
-  const t = INQUIRY_TEXTS[locale];
+export default function InquiryForm() {
+  const t = INQUIRY_TEXTS;
 
   const [step, setStep] = useState<Step>("form");
   const [form, setForm] = useState<FormState>(INITIAL_STATE);
@@ -76,7 +70,7 @@ export default function InquiryForm({ locale: localeProp }: Props) {
       const res = await fetch("/api/inquiry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, locale, website, formStartedAt }),
+        body: JSON.stringify({ ...form, website, formStartedAt }),
       });
       if (!res.ok) throw new Error("Failed to send");
       setStep("done");

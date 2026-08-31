@@ -37,7 +37,7 @@ export default async function KabatadaniChapterPage({ params }: Props) {
 
   return (
     <main className={MAIN_CLASS} id="main-content" role="main">
-      <BreadcrumbListSchema items={getBreadcrumbItems(breadcrumbPath, "ja", { productName: chapter.shortTitle })} />
+      <BreadcrumbListSchema items={getBreadcrumbItems(breadcrumbPath, { productName: chapter.shortTitle })} />
       <div className={INNER_CLASS}>
         <article aria-labelledby="chapter-heading" className="mb-12">
           {/* パンくず */}
@@ -181,7 +181,7 @@ export default async function KabatadaniChapterPage({ params }: Props) {
             </a>
           </div>
         </article>
-        <PageEndProductList locale="ja" />
+        <PageEndProductList />
       </div>
     </main>
   );

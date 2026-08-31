@@ -4,7 +4,7 @@ import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
 import { getBreadcrumbItems } from "@/lib/breadcrumb";
 
 export async function generateMetadata() {
-  const seo = getFixedSeo("/", "ja");
+  const seo = getFixedSeo("/");
   return {
     title: seo?.title,
     description: seo?.description,
@@ -13,11 +13,10 @@ export async function generateMetadata() {
 }
 
 export default function Home() {
-  // ルート（/）は日本語扱い
   return (
     <>
-      <BreadcrumbListSchema items={getBreadcrumbItems("/", "ja")} />
-      <HomePage locale="ja" />
+      <BreadcrumbListSchema items={getBreadcrumbItems("/")} />
+      <HomePage />
     </>
   );
 }

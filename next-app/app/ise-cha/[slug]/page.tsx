@@ -1,6 +1,5 @@
 import { getProductBySlug } from "@/lib/microcms";
 import ProductDetailContent from "@/components/ProductDetailContent";
-import type { Locale } from "@/lib/i18n";
 import { buildAlternatesForLocales } from "@/lib/seo";
 import { parseReviewsPage } from "@/lib/reviewsStorage";
 
@@ -22,23 +21,9 @@ const JA_SEO_OVERRIDES: Record<string, { title: string; description: string }> =
   },
 };
 
-function getProductSeo(product: any, locale: Locale): { title?: string; description?: string } {
-  const seoTitle =
-    locale === "ja"
-      ? product.SEO_TITLE_JP ?? product.SEO_TITLE ?? null
-      : locale === "en"
-        ? product.SEO_TITLE_EN ?? null
-        : locale === "ko"
-          ? product.SEO_TITLE_KO ?? null
-          : product.SEO_TITLE_ZH ?? null;
-  const seoDesc =
-    locale === "ja"
-      ? product.SEO_DESC_JP ?? product.SEO_DESC ?? null
-      : locale === "en"
-        ? product.SEO_DESC_EN ?? null
-        : locale === "ko"
-          ? product.SEO_DESC_KO ?? null
-          : product.SEO_DESC_ZH ?? null;
+function getProductSeo(product: any): { title?: string; description?: string } {
+  const seoTitle = product.SEO_TITLE_JP ?? product.SEO_TITLE ?? null;
+  const seoDesc = product.SEO_DESC_JP ?? product.SEO_DESC ?? null;
   return { title: seoTitle ?? undefined, description: seoDesc ?? undefined };
 }
 
@@ -48,24 +33,23 @@ export async function generateMetadata({ params }: Props) {
   if (!product) {
     return {
       title: "商品｜伊勢茶の藤八茶寮",
-      alternates: buildAlternatesForLocales(`/ise-cha/${slug}`, { jpRegionHreflang: true }),
+      alternates: buildAlternatesForLocales(`/ise-cha/${slug}`),
     };
   }
   const override = JA_SEO_OVERRIDES[slug];
-  const seo = getProductSeo(product, "ja");
+  const seo = getProductSeo(product);
   return {
     title: override?.title ?? seo.title ?? `${product.TITLE ?? "商品"} 三重県松阪市飯南町産100% | 藤八茶寮`,
     description:
       override?.description ??
       seo.description ??
       product.DESCRIPTION01?.replace(/<[^>]+>/g, "").slice(0, 160),
-    alternates: buildAlternatesForLocales(`/ise-cha/${slug}`, { jpRegionHreflang: true }),
+    alternates: buildAlternatesForLocales(`/ise-cha/${slug}`),
   };
 }
 
 export default async function IseChaProductDetailPage({ params, searchParams }: Props) {
   const { slug } = await params;
   const { page } = await searchParams;
-  return <ProductDetailContent locale="ja" slug={slug} reviewsPage={parseReviewsPage(page)} />;
+  return <ProductDetailContent slug={slug} reviewsPage={parseReviewsPage(page)} />;
 }
-

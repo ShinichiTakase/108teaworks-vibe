@@ -68,7 +68,7 @@ export default async function DecafeLpPage() {
       />
       <FaqJsonLd questions={FAQS.map(({ q, a }) => ({ q, a }))} />
       <BreadcrumbListSchema
-        items={getBreadcrumbItems("/ise-cha/decafe-lp", "ja", { productName: "デカフェ緑茶ティーバッグ" })}
+        items={getBreadcrumbItems("/ise-cha/decafe-lp", { productName: "デカフェ緑茶ティーバッグ" })}
       />
 
       <header className={styles["site-header"]}>

@@ -1,7 +1,6 @@
 import Image from "next/image";
 import IsechaSubNav from "@/components/IsechaSubNav";
 import { MAIN_CLASS, INNER_CLASS } from "@/components/Layout";
-import type { Locale } from "@/lib/i18n";
 import { ISECHA_HOW_TO_BREW, type HowToBrewBlock } from "@/lib/isechaHowToBrewContent";
 
 function renderBlock(block: HowToBrewBlock, i: number) {
@@ -69,18 +68,14 @@ function renderBlock(block: HowToBrewBlock, i: number) {
   }
 }
 
-type Props = {
-  locale: Locale;
-};
-
-export default function IsechaHowToBrewPage({ locale }: Props) {
-  const doc = ISECHA_HOW_TO_BREW[locale];
+export default function IsechaHowToBrewPage() {
+  const doc = ISECHA_HOW_TO_BREW;
 
   return (
     <main className={MAIN_CLASS} id="main-content" role="main">
       <div className={INNER_CLASS}>
         <article className="mb-12">
-          <IsechaSubNav locale={locale} current="howToBrew" />
+          <IsechaSubNav current="howToBrew" />
           <h1 className="m-0 mb-8 font-heading text-xl font-semibold text-tea-deep">
             {doc.h1}
           </h1>

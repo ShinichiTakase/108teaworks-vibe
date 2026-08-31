@@ -2,10 +2,40 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { LEGACY_PRODUCT_SLUG_SET } from "@/lib/legacyProductSlugs";
 
-function localeFromPathname(pathname: string): "ja" | "en" | "ko" | "zh" {
-  const m = pathname.match(/^\/(ja|en|ko|zh)(?=\/|$)/);
-  const loc = (m ? m[1] : "ja") as "ja" | "en" | "ko" | "zh";
-  return loc;
+/** 旧多言語ルート（/en, /ko, /zh）配下で、日本語版が同一パス構造で存在するトップレベルセグメント */
+const KNOWN_JA_TOP_SEGMENTS = new Set([
+  "about",
+  "cart",
+  "checkout",
+  "guide",
+  "how-to-brew",
+  "inquiry",
+  "ise-cha",
+  "isecha_no_rekishi",
+  "kabatadani_no_ocha",
+  "legal",
+  "mie_chagyo_shi",
+  "notice",
+  "privacy-policy",
+  "products",
+  "user-guide",
+  "wholesale",
+]);
+
+/**
+ * 廃止した多言語ルート（/en/*, /ko/*, /zh/*）への旧アクセス救済。
+ * 対応する日本語ページが存在する場合はそのページへ、存在しない場合はトップページへ。
+ */
+function legacyLocalePrefixDestPathname(pathname: string): string | null {
+  const m = pathname.match(/^\/(en|ko|zh)(\/.*)?$/);
+  if (!m) return null;
+  const rest = m[2] ?? "";
+  if (!rest || rest === "/") return "/";
+  const firstSegment = rest.split("/").filter(Boolean)[0];
+  if (firstSegment && KNOWN_JA_TOP_SEGMENTS.has(firstSegment)) {
+    return rest.endsWith("/") ? rest : `${rest}/`;
+  }
+  return "/";
 }
 
 function isAdminPath(pathname: string): boolean {
@@ -56,13 +86,13 @@ function checkBasicAuth(req: NextRequest): boolean {
   return diff === 0;
 }
 
-/** 旧 /product/{slug} → /ise-cha/{slug}/（trailingSlash: true 前提） */
+/** 旧 /product/{slug}（多言語プレフィックス付きも含む）→ 日本語版 /ise-cha/{slug}/（trailingSlash: true 前提） */
 function legacyProductDestPathname(pathname: string): string | null {
   const withLocale = pathname.match(/^\/(en|ko|zh)\/product\/([^/]+)\/?$/);
   if (withLocale) {
     const slug = withLocale[2];
     if (!LEGACY_PRODUCT_SLUG_SET.has(slug)) return null;
-    return `/${withLocale[1]}/ise-cha/${slug}/`;
+    return `/ise-cha/${slug}/`;
   }
   const jaPath = pathname.match(/^\/product\/([^/]+)\/?$/);
   if (jaPath) {
@@ -71,6 +101,13 @@ function legacyProductDestPathname(pathname: string): string | null {
     return `/ise-cha/${slug}/`;
   }
   return null;
+}
+
+/** 旧 WooCommerce 単数形 /product/...（多言語プレフィックス付きも含む）のうち、既知スラッグ以外はすべてトップページへ */
+const PRODUCT_SINGULAR_FALLBACK_RE = /^\/(?:(?:en|ko|zh)\/)?product(?:\/.*)?$/;
+
+function legacyProductFallbackHomePathname(pathname: string): string | null {
+  return PRODUCT_SINGULAR_FALLBACK_RE.test(pathname) ? "/" : null;
 }
 
 export function middleware(request: NextRequest) {
@@ -91,14 +128,23 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(url, 308);
   }
 
-  const locale = localeFromPathname(pathname);
-  const headers = new Headers(request.headers);
-  headers.set("x-locale", locale);
-  return NextResponse.next({
-    request: {
-      headers,
-    },
-  });
+  const fallbackHomePath = legacyProductFallbackHomePathname(pathname);
+  if (fallbackHomePath) {
+    const url = request.nextUrl.clone();
+    url.pathname = fallbackHomePath;
+    url.search = "";
+    return NextResponse.redirect(url, 301);
+  }
+
+  const localePrefixDest = legacyLocalePrefixDestPathname(pathname);
+  if (localePrefixDest) {
+    const url = request.nextUrl.clone();
+    url.pathname = localePrefixDest;
+    url.search = "";
+    return NextResponse.redirect(url, 301);
+  }
+
+  return NextResponse.next();
 }
 
 export const config = {

@@ -1,27 +1,18 @@
 import Link from "next/link";
 import { getNotices, bodyToExcerpt, stripHtml } from "@/lib/microcms";
-import type { Locale } from "@/lib/i18n";
 import { HOME_NEWS_TEXTS } from "@/lib/homeSectionTexts";
 import { formatDateByLocale } from "@/lib/formatters";
-import { translateManyForLocale } from "@/lib/translateForLocale";
-import { buildLocalizedPath } from "@/lib/urlPath";
+import { buildHref } from "@/lib/urlPath";
 
 const DISPLAY_LIMIT = 4;
 
-function noticeHref(locale: Locale, slug: string, id: string): string {
-  return buildLocalizedPath(locale, `/notice/${slug || id}`);
+function noticeHref(slug: string, id: string): string {
+  return buildHref(`/notice/${slug || id}`);
 }
 
-type Props = { locale?: Locale };
-
-export default async function NewsList({ locale = "ja" }: Props) {
+export default async function NewsList() {
   const { contents } = await getNotices(DISPLAY_LIMIT, 0);
-  const t = HOME_NEWS_TEXTS[locale];
-
-  const titlesJa = contents.map((x) => stripHtml(x.title));
-  const excerptsJa = contents.map((x) => bodyToExcerpt(x.body, 120));
-  const titles = locale === "ja" ? titlesJa : await translateManyForLocale(titlesJa, locale);
-  const excerpts = locale === "ja" ? excerptsJa : await translateManyForLocale(excerptsJa, locale);
+  const t = HOME_NEWS_TEXTS;
 
   return (
     <section
@@ -40,9 +31,9 @@ export default async function NewsList({ locale = "ja" }: Props) {
         <p className="text-[0.9375rem] text-ink-muted m-0">{t.empty}</p>
       ) : (
         <ul className="list-none m-0 p-0 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {contents.map((item, idx) => {
-            const href = noticeHref(locale, item.slug ?? "", item.id);
-            const excerpt = excerpts[idx] ?? excerptsJa[idx] ?? bodyToExcerpt(item.body, 120);
+          {contents.map((item) => {
+            const href = noticeHref(item.slug ?? "", item.id);
+            const excerpt = bodyToExcerpt(item.body, 120);
             const displayDate = item.date ?? item.publishedAt;
             return (
               <li key={item.id} className="m-0">
@@ -51,10 +42,10 @@ export default async function NewsList({ locale = "ja" }: Props) {
                   className="flex flex-col h-full p-4 rounded border border-border bg-washi no-underline text-ink transition-colors hover:text-tea-deep hover:border-tea"
                 >
                   <span className="order-1 block font-bold text-[0.9375rem] leading-snug mb-1">
-                    {titles[idx] ?? item.title}
+                    {stripHtml(item.title)}
                   </span>
                   <span className="order-2 block text-[0.8125rem] text-ink-muted text-right mb-2">
-                    {formatDateByLocale(displayDate, locale)}
+                    {formatDateByLocale(displayDate)}
                   </span>
                   <p className="order-3 flex-1 m-0 mb-1 text-sm text-ink-muted leading-relaxed line-clamp-5">
                     {excerpt || " "}

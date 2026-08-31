@@ -9,10 +9,9 @@ import FaqJsonLd from "@/components/FaqJsonLd";
 import IsechaSubNav from "@/components/IsechaSubNav";
 import { MAIN_CLASS, INNER_CLASS } from "@/components/Layout";
 import { getBreadcrumbItems } from "@/lib/breadcrumb";
-import type { Locale } from "@/lib/i18n";
 import { getProductImagePath } from "@/lib/productImage";
 import { SITE_BASE_URL } from "@/lib/siteConstants";
-import { buildLocalizedPath } from "@/lib/urlPath";
+import { buildHref } from "@/lib/urlPath";
 
 const STRUCTURE_IMAGE_SRC = "/images/ise-cha/caffeine/Caffeine_structure.webp";
 
@@ -53,8 +52,7 @@ type CaffeineTexts = {
   summaryP: string;
 };
 
-const TEXTS: Record<Locale, CaffeineTexts> = {
-  ja: {
+const TEXTS: CaffeineTexts = {
     h1: "カフェインカット緑茶の通販｜お茶とカフェインの知っておきたい関係",
     articleHeadline: "カフェインカット緑茶の通販｜お茶とカフェインの知っておきたい関係",
     articleDescription:
@@ -138,282 +136,17 @@ const TEXTS: Record<Locale, CaffeineTexts> = {
     summaryTitle: "まとめ：シーンに合わせて賢く選ぶ",
     summaryP:
       "カフェインは決して「避けるべきもの」ではありません。仕事中の集中力アップや、アクティブに動きたい時には強い味方になってくれます。大切なのは、時間帯や体調に合わせて飲み分けること。朝の目覚めには力強い深蒸し茶を。そしてリラックスしたい夜や、ご家族で囲む食卓には藤八茶寮のカフェインカット緑茶を。上手に使い分けて、心豊かなティータイムをお過ごしください。",
-  },
-
-  en: {
-    h1: "Low-Caffeine Green Tea | What You Should Know About Tea and Caffeine",
-    articleHeadline: "Low-Caffeine Green Tea | What You Should Know About Tea and Caffeine",
-    articleDescription:
-      "Caffeine reduced by 70% using supercritical CO2 extraction—no chemicals. Full umami of Kawamatatani Ise tea, ideal for evenings and those watching their caffeine intake.",
-    breadcrumbName: "Low-Caffeine Green Tea",
-    leadP1:
-      "Green tea contains over 150 components, but one of the most notable is caffeine.",
-    leadP2:
-      "Like the bitter compound in coffee, caffeine can help ward off sleepiness, sharpen focus and attention, and lift mood. Research also suggests it may support fat burning and exercise performance — giving us a natural boost in daily life.",
-    leadP3: "That said, timing and quantity do require a little care.",
-    decafLinkLabel: "Ise Tea Caffeine-Cut Green Tea",
-    decafProductAlt: "Ise Tea Caffeine-Cut (Decaf) Green Tea",
-    decafProductName: "Ise Tea Caffeine-Cut (Decaf) Green Tea",
-    chemFormula: "Formula: C8H10N4O2",
-    sec2Title: "Caffeine's \"half-life\" and how to use it wisely",
-    sec2P1:
-      "After consuming caffeine, it takes about 5–6 hours for the body to break down half of it (the \"half-life\"). This means that drinking caffeine late in the afternoon can affect how easily you fall asleep and the quality of your sleep.",
-    sec2P2:
-      "Consuming too much over time can also build tolerance, and cutting back suddenly may cause withdrawal symptoms such as fatigue or difficulty concentrating. Caffeine can also slightly inhibit calcium absorption, so pregnant women are advised by WHO guidelines to keep their intake below 200 mg per day (roughly 2–3 cups of coffee).",
-    intakeTitle: "Caffeine content guide by beverage",
-    intakeIntro:
-      "The following are the daily intake guidelines issued by Japan's Food Safety Commission.",
-    intakeTableH: ["Group", "Daily guideline"],
-    intakeRows: [
-      ["Adults", "Up to 400 mg/day"],
-      ["Pregnant women", "Up to 200 mg/day"],
-      ["Children", "Up to 2.5 mg/kg body weight/day"],
-    ],
-    intakeNote: "※ Individual tolerance varies; please treat these as general guidelines.",
-    caffeineIntro:
-      "So how much caffeine is actually in the drinks we consume every day?",
-    caffeineTableH: ["Beverage", "Caffeine (mg/100 ml)", "Notes"],
-    caffeineRows: [
-      ["Gyokuro", "~160 mg", "Exceptionally high; enjoy in small amounts"],
-      ["Espresso", "~60 mg", "About 60–75 mg per shot (30 ml)"],
-      ["Drip coffee", "~40 mg", "About 60 mg per cup (150 ml)"],
-      ["Energy drinks", "~30 mg", "Varies significantly by product"],
-      ["Fukamushi sencha", "~20 mg", "Slightly higher than regular green tea"],
-      ["Black tea", "~17 mg", "Varies with steeping time"],
-      ["Green tea (sencha)", "~15 mg", "Bancha etc. is lower"],
-      ["Hojicha", "~10 mg", "Caffeine evaporates during roasting"],
-      ["Cola", "~5 mg", "Trace amounts in soft drinks"],
-      ["Caffeine-cut green tea", "~5 mg", "Fujihachi Saryo product (70% off)"],
-      ["Barley tea (mugicha)", "Nearly 0 mg", "Caffeine-free beverage"],
-    ],
-    decafH2Prefix: "Fujihachi Saryo's ",
-    decafH2Link: "caffeine-cut green tea",
-    decafP1:
-      "\"I want to enjoy tea in the evening, but I don't want to lie awake.\" \"I'm pregnant but I still want real tea flavour.\" — Our caffeine-cut green tea was born to answer exactly those needs.",
-    decafP2Prefix: "Our ",
-    decafP2Link: "caffeine-cut green tea",
-    decafP2Suffix:
-      " uses supercritical carbon dioxide extraction — water and CO2 only, no chemicals.",
-    decafListItems: [
-      "First, 85% of the caffeine is removed from the deep-steamed tea.",
-      "To preserve the rich body and smooth umami that can be lost in processing, we then blend in premium deep-steamed tea at a golden ratio.",
-      "The result is a 70%-caffeine-reduced tea that balances great taste with gentle caffeine levels.",
-    ],
-    decafP3:
-      "About 5 mg of caffeine per 100 ml — the same as cola, and less than one-third of regular green tea. From children to those sensitive to caffeine, everyone can enjoy the aromatic flavour unique to Ise tea with peace of mind.",
-    faqTitle: "Frequently Asked Questions",
-    faqs: [
-      {
-        q: "Is decaf different from completely caffeine-free?",
-        a: "Yes. Decaf means the caffeine has been greatly reduced, but not completely removed. Fujihachi Saryo's caffeine-cut green tea is about 70% lower, leaving approximately 5 mg per 100 ml. If you need to avoid caffeine entirely, please choose something like barley tea.",
-      },
-      {
-        q: "Is it suitable for pregnant or breastfeeding women?",
-        a: "This product contains approximately 5 mg of caffeine per 100 ml, which is less than one-third of regular green tea. If you are pregnant or breastfeeding, please consult your doctor regarding food and beverage intake.",
-      },
-      {
-        q: "Can children drink it?",
-        a: "The caffeine content is less than one-third of regular green tea. However, appropriate intake varies by age and weight, so please adjust the amount for young children.",
-      },
-      {
-        q: "Does it taste different from regular green tea?",
-        a: "Because supercritical CO2 extraction selectively removes only caffeine, the original umami and body of the Ise tea are preserved. You can enjoy the same smooth, mellow flavour as our regular deep-steamed tea.",
-      },
-      {
-        q: "Can I make cold brew with it?",
-        a: "Yes. Simply place teabags in cold water and refrigerate for 30 minutes to 1 hour for a sweet, cold-brew caffeine-cut green tea. It makes a perfect evening cup before bed.",
-      },
-    ],
-    summaryTitle: "Choosing wisely for every occasion",
-    summaryP:
-      "Caffeine is certainly not something to avoid altogether. It can be a powerful ally when you need to concentrate at work or stay active. The key is to match your choice to the time of day and how you feel. Reach for a bold fukamushi sencha to wake up in the morning — and for a relaxing evening or a family meal, let Fujihachi Saryo's caffeine-cut green tea be your companion.",
-  },
-
-  ko: {
-    h1: "저카페인 녹차 통신판매｜차와 카페인에 대해 알아두어야 할 것",
-    articleHeadline: "저카페인 녹차 통신판매｜차와 카페인에 대해 알아두어야 할 것",
-    articleDescription:
-      "약제 불사용·초임계 CO2 추출로 카페인 70% 감소. 이세차 본연의 감칠맛은 그대로, 야간 티타임이나 저카페인이 신경 쓰이는 분에게. 미에현 가와마타다니산 싱글 오리진.",
-    breadcrumbName: "저카페인 녹차",
-    leadP1: "녹차에는 150종 이상의 성분이 함유되어 있는데, 그 중에서도 특히 주목받는 것이 「카페인」입니다.",
-    leadP2:
-      "커피에도 들어 있는 쓴맛 성분의 일종으로, 졸음을 억제하고 집중력·주의력을 높이거나 기분을 향상시키는 등 다양한 장점이 있습니다. 또 지방 연소 촉진과 운동 퍼포먼스 향상에 기여한다는 연구 데이터도 있어, 우리의 일상에 활력을 주는 존재입니다.",
-    leadP3: "한편, 섭취 타이밍과 양에는 약간의 주의가 필요합니다.",
-    decafLinkLabel: "이세차 카페인컷 녹차",
-    decafProductAlt: "이세차 카페인컷(디카페인) 녹차",
-    decafProductName: "이세차 카페인컷(디카페인) 녹차",
-    chemFormula: "화학식: C8H10N4O2",
-    sec2Title: "카페인의 '반감기'와 현명한 활용법",
-    sec2P1:
-      "카페인을 섭취한 후 체내에서 그 양이 절반으로 분해될 때까지(반감기)는 약 5~6시간이 걸린다고 합니다. 그래서 오후 늦게 섭취하면 밤의 수면 시작이나 수면의 질에 영향을 줄 수 있습니다.",
-    sec2P2:
-      "또 지속적으로 많이 섭취하면 내성이 생겨, 갑자기 줄였을 때 권태감이나 집중력 저하 등의 '금단 증상'이 나타날 수 있습니다. 칼슘 흡수를 약간 저해하는 성질도 있어, 특히 임신 중인 분은 WHO 기준으로 1일 200mg 이하(커피 약 2~3잔 정도)로 제한하도록 권고됩니다.",
-    intakeTitle: "음료별 카페인 함량 가이드",
-    intakeIntro: "일본 식품안전위원회가 제시하는 1일 섭취 기준량은 다음과 같습니다.",
-    intakeTableH: ["대상", "섭취 기준량"],
-    intakeRows: [
-      ["성인", "400mg/일 이하"],
-      ["임산부", "200mg/일 이하"],
-      ["어린이", "체중 1kg당 2.5mg/일 이하"],
-    ],
-    intakeNote: "※ 체질에 따라 개인차가 있으므로 어디까지나 기준으로 참고해 주세요.",
-    caffeineIntro: "그렇다면 우리가 평소 마시는 음료에는 얼마나 많은 카페인이 포함되어 있을까요?",
-    caffeineTableH: ["음료", "카페인 (mg/100ml)", "비고"],
-    caffeineRows: [
-      ["교쿠로", "약160mg", "각별히 높다. 소량씩 즐기는 것이 기본"],
-      ["에스프레소", "약60mg", "1잔(30ml)에 약60~75mg 정도"],
-      ["드립 커피", "약40mg", "1잔(150ml)에 약60mg 정도"],
-      ["에너지 드링크", "약30mg", "제품에 따라 크게 다름"],
-      ["후카무시 녹차", "약20mg", "보통 녹차보다 약간 높음"],
-      ["홍차", "약17mg", "우리는 시간에 따라 달라짐"],
-      ["녹차(센차)", "약15mg", "반차 등은 이보다 낮음"],
-      ["호지차", "약10mg", "볶음 과정에서 카페인이 증발"],
-      ["콜라", "약5mg", "청량음료로서의 미량 함유"],
-      ["카페인컷 녹차", "약5mg", "후지하치야 상품(70% 감소)"],
-      ["보리차", "거의0mg", "무카페인 음료"],
-    ],
-    decafH2Prefix: "맛을 포기하지 않는 「후지하치야」의 ",
-    decafH2Link: "카페인컷 녹차",
-    decafP1:
-      "「밤에도 차를 즐기고 싶지만 잠 못 자는 건 곤란해」「임신 중·수유 중이어도 제대로 된 차 맛을 즐기고 싶어」……그런 목소리에 응해 탄생한 것이 후지하치야의 카페인컷 녹차입니다.",
-    decafP2Prefix: "저희의 ",
-    decafP2Link: "카페인컷 녹차",
-    decafP2Suffix: "는 약제를 사용하지 않고 「물과 이산화탄소」만을 이용하는 초임계 이산화탄소 추출법을 채용하고 있습니다.",
-    decafListItems: [
-      "먼저, 후카무시 녹차에서 카페인을 85% 제거합니다.",
-      "그대로 두면 잃어버리기 쉬운 「진한 감칠맛」과 「부드러운 우마미」를 유지하기 위해, 고품질 후카무시 녹차를 황금 비율로 재블렌드.",
-      "최종적으로 카페인 70% 감소라는, 맛과 부드러움을 양립한 밸런스로 완성했습니다.",
-    ],
-    decafP3:
-      "100ml당 카페인 함량은 약5mg. 이는 콜라와 같은 수준으로, 일반적인 녹차의 3분의 1 이하입니다. 어린이부터 카페인에 민감한 분까지, 이세차 특유의 향긋한 풍미를 안심하고 즐기실 수 있습니다.",
-    faqTitle: "자주 묻는 질문",
-    faqs: [
-      {
-        q: "디카페인과 완전 논카페인은 다른가요?",
-        a: "네, 다릅니다. 디카페인은 카페인을 대폭 저감한 것이지만 완전히 제로는 아닙니다. 후지하치야의 카페인컷 녹차는 약 70% 감소로, 100ml당 약 5mg이 남아 있습니다. 카페인을 완전히 피하고 싶은 경우에는 보리차 등을 선택해 주세요.",
-      },
-      {
-        q: "임신 중이나 수유 중에도 마실 수 있나요?",
-        a: "본 상품의 카페인 함량은 100ml당 약 5mg으로, 일반 녹차의 약 3분의 1 이하입니다. 다만 임신 중·수유 중인 분의 식품 섭취에 대해서는 주치의에게 상담해 주세요.",
-      },
-      {
-        q: "어린이도 마실 수 있나요?",
-        a: "카페인 함량은 일반적인 녹차의 약 3분의 1 이하입니다. 다만 나이·체중에 따라 적절한 섭취량이 다르므로, 어린 아이에게는 양을 조절해서 드세요.",
-      },
-      {
-        q: "맛이 보통 녹차와 다른가요?",
-        a: "초임계 CO2 추출법으로 카페인만을 선택적으로 제거하기 때문에, 이세차 본연의 감칠맛과 풍미는 그대로입니다. 일반 후카무시 녹차와 마찬가지로 부드러운 맛을 즐기실 수 있습니다.",
-      },
-      {
-        q: "냉차로도 마실 수 있나요?",
-        a: "네. 냉수에 티백을 넣고 냉장고에서 30분~1시간 두기만 하면, 단맛이 풍부한 냉차 카페인컷 녹차를 즐길 수 있습니다. 취침 전 한 잔으로도 추천합니다.",
-      },
-    ],
-    summaryTitle: "상황에 맞게 현명하게 선택하기",
-    summaryP:
-      "카페인은 결코 '피해야 할 것'이 아닙니다. 업무 중 집중력 향상이나, 활발하게 움직이고 싶을 때 강한 아군이 되어 줍니다. 중요한 것은 시간대와 컨디션에 맞게 마시는 것. 아침의 눈뜸에는 힘찬 후카무시 녹차를. 그리고 릴랙스하고 싶은 밤이나 가족과 함께하는 식탁에는 후지하치야의 카페인컷 녹차를. 잘 구분해서 마시며, 마음 풍요로운 티타임을 즐기세요.",
-  },
-
-  zh: {
-    h1: "低咖啡因绿茶网购｜关于茶与咖啡因你应该了解的知识",
-    articleHeadline: "低咖啡因绿茶网购｜关于茶与咖啡因你应该了解的知识",
-    articleDescription:
-      "不使用药剂·超临界CO2萃取，咖啡因减少70%。保留伊势茶本来的鲜甜，适合夜间饮用及关注咖啡因摄入的人士。三重县川俣谷产单一产地。",
-    breadcrumbName: "低咖啡因绿茶",
-    leadP1: "绿茶含有150种以上的成分，其中最受关注的是「咖啡因」。",
-    leadP2:
-      "咖啡因是咖啡中也含有的一种苦味物质，具有提神醒脑、提高专注力和注意力、改善心情等多种益处。研究数据也表明它有助于促进脂肪燃烧和提升运动表现，是为我们日常生活注入活力的存在。",
-    leadP3: "不过，摄取时机和摄取量需要稍加注意。",
-    decafLinkLabel: "伊势茶低咖啡因绿茶",
-    decafProductAlt: "伊势茶低咖啡因（脱咖啡因）绿茶",
-    decafProductName: "伊势茶低咖啡因（脱咖啡因）绿茶",
-    chemFormula: "分子式: C8H10N4O2",
-    sec2Title: "咖啡因的「半衰期」与聪明饮用方式",
-    sec2P1:
-      "摄取咖啡因后，体内将其量分解为一半（半衰期）需要约5～6小时。因此，下午较晚摄取可能会影响夜间入睡及睡眠质量。",
-    sec2P2:
-      "持续大量摄取还会产生耐受性，突然减少时可能出现倦怠感或注意力下降等「戒断症状」。咖啡因还略微抑制钙的吸收，因此WHO建议孕妇每日摄取量控制在200mg以下（约相当于2～3杯咖啡）。",
-    intakeTitle: "各类饮品咖啡因含量指南",
-    intakeIntro: "以下为日本食品安全委员会公布的每日摄取参考量。",
-    intakeTableH: ["对象", "每日摄取参考量"],
-    intakeRows: [
-      ["成人", "400mg/天 以下"],
-      ["孕妇", "200mg/天 以下"],
-      ["儿童", "每kg体重不超过2.5mg/天"],
-    ],
-    intakeNote: "※ 因个人体质存在差异，仅供参考。",
-    caffeineIntro: "那么，我们日常饮用的饮品中究竟含有多少咖啡因呢？",
-    caffeineTableH: ["饮品", "咖啡因 (mg/100ml)", "备注"],
-    caffeineRows: [
-      ["玉露", "约160mg", "含量特别高，少量品饮为宜"],
-      ["浓缩咖啡", "约60mg", "每杯(30ml)约60～75mg"],
-      ["手冲咖啡", "约40mg", "每杯(150ml)约60mg"],
-      ["功能饮料", "约30mg", "因产品差异较大"],
-      ["深蒸绿茶", "约20mg", "略高于普通绿茶"],
-      ["红茶", "约17mg", "随冲泡时间有所变化"],
-      ["绿茶(煎茶)", "约15mg", "番茶等低于此值"],
-      ["焙茶", "约10mg", "烘焙过程中咖啡因挥发"],
-      ["可乐", "约5mg", "作为清凉饮料的微量含有"],
-      ["低咖啡因绿茶", "约5mg", "藤八茶寮商品（减少70%）"],
-      ["大麦茶", "几乎0mg", "无咖啡因饮料"],
-    ],
-    decafH2Prefix: "不妥协美味的「藤八茶寮」",
-    decafH2Link: "低咖啡因绿茶",
-    decafP1:
-      "「想在晚上也享受茶，但不想失眠」「妊娠期或哺乳期也想品尝正宗茶香」……为回应这些心声而诞生的，就是藤八茶寮的低咖啡因绿茶。",
-    decafP2Prefix: "我们的",
-    decafP2Link: "低咖啡因绿茶",
-    decafP2Suffix: "采用不使用药剂、仅用「水与二氧化碳」的超临界二氧化碳萃取法。",
-    decafListItems: [
-      "首先，从深蒸绿茶中去除85%的咖啡因。",
-      "为保留容易流失的「浓郁甘鲜」与「醇和鲜味」，特以黄金比例混入优质深蒸绿茶进行再调配。",
-      "最终制成咖啡因减少70%、兼顾美味与温和的平衡产品。",
-    ],
-    decafP3:
-      "每100ml咖啡因含量约5mg，与可乐相当，不到一般绿茶的三分之一。无论是儿童还是对咖啡因敏感的人群，都可以放心享用伊势茶独特的馥郁风味。",
-    faqTitle: "常见问题",
-    faqs: [
-      {
-        q: "脱咖啡因与完全无咖啡因有区别吗？",
-        a: "有区别。脱咖啡因是大幅降低咖啡因含量，但并非完全为零。藤八茶寮的低咖啡因绿茶减少约70%，每100ml仍残留约5mg。如需完全避免咖啡因，请选择大麦茶等无咖啡因饮品。",
-      },
-      {
-        q: "妊娠期或哺乳期可以饮用吗？",
-        a: "本商品每100ml咖啡因含量约为5mg，不足普通绿茶的三分之一。妊娠期或哺乳期人士在食品摄取方面请咨询主治医生。",
-      },
-      {
-        q: "儿童可以饮用吗？",
-        a: "咖啡因含量不足普通绿茶的三分之一。但由于适当摄取量因年龄和体重而异，请为年幼儿童适量调整饮用量。",
-      },
-      {
-        q: "口味与普通绿茶有区别吗？",
-        a: "超临界CO2萃取法仅选择性去除咖啡因，因此伊势茶本来的鲜甜与醇厚得以完整保留，可享用与普通深蒸绿茶相同的醇和口感。",
-      },
-      {
-        q: "可以做冷泡茶吗？",
-        a: "可以。将茶包放入冷水中冷藏30分钟～1小时，即可享用甜味浓郁的冷泡低咖啡因绿茶。作为睡前的一杯茶也非常推荐。",
-      },
-    ],
-    summaryTitle: "按场合聪明选择",
-    summaryP:
-      "咖啡因绝非「应该避免之物」。工作时提升专注力，或需要积极活动时，它都是强有力的帮手。关键在于根据时间段和身体状况来选择不同的茶饮。清晨唤醒身体，选力道十足的深蒸绿茶；想放松的夜晚或家人共聚的餐桌上，则选藤八茶寮的低咖啡因绿茶。合理搭配，享受心旷神怡的茶时光。",
-  },
 };
 
-type Props = { locale: Locale };
-
-export default function CaffeinePage({ locale }: Props) {
-  const t = TEXTS[locale];
+export default function CaffeinePage() {
+  const t = TEXTS;
   const decafImagePath = getProductImagePath("decaf_green_tea");
   const structureImageExists = fs.existsSync(
     path.join(process.cwd(), "public", "images", "ise-cha", "caffeine", "Caffeine_structure.webp"),
   );
-  const basePath = locale === "ja" ? "" : `/${locale}`;
-  const canonicalUrl = `${SITE_BASE_URL}${basePath}/ise-cha/caffeine/`;
-  const breadcrumbPath =
-    locale === "ja" ? "/ise-cha/caffeine" : `/${locale}/ise-cha/caffeine`;
-  const decafHref = buildLocalizedPath(locale, "/ise-cha/decaf_green_tea");
-  const inLanguage = locale === "zh" ? "zh" : locale;
+  const canonicalUrl = `${SITE_BASE_URL}/ise-cha/caffeine/`;
+  const breadcrumbPath = "/ise-cha/caffeine";
+  const decafHref = buildHref("/ise-cha/decaf_green_tea");
 
   return (
     <main className={MAIN_CLASS} id="main-content" role="main">
@@ -422,15 +155,15 @@ export default function CaffeinePage({ locale }: Props) {
         description={t.articleDescription}
         imageUrl={STRUCTURE_IMAGE_SRC}
         canonicalUrl={canonicalUrl}
-        inLanguage={inLanguage}
+        inLanguage="ja"
       />
       <FaqJsonLd questions={t.faqs} />
       <BreadcrumbListSchema
-        items={getBreadcrumbItems(breadcrumbPath, locale, { productName: t.breadcrumbName })}
+        items={getBreadcrumbItems(breadcrumbPath, { productName: t.breadcrumbName })}
       />
       <div className={INNER_CLASS}>
         <article className="mb-12">
-          <IsechaSubNav locale={locale} current="caffeine" />
+          <IsechaSubNav current="caffeine" />
           <h1 className="m-0 mb-6 font-heading text-xl font-semibold text-tea-deep md:text-2xl">
             {t.h1}
           </h1>

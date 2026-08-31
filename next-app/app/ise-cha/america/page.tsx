@@ -6,16 +6,16 @@ import { getBreadcrumbItems } from "@/lib/breadcrumb";
 import IsechaAmericaArticleJsonLd from "@/components/IsechaAmericaArticleJsonLd";
 
 export async function generateMetadata() {
-  return buildIseChaAmericaMetadata("ja");
+  return buildIseChaAmericaMetadata();
 }
 
 export default function IsechaAmericaPageJa() {
   return (
     <>
-      <IsechaAmericaArticleJsonLd locale="ja" />
-      <BreadcrumbListSchema items={getBreadcrumbItems("/ise-cha/america", "ja")} />
-      <IsechaAmericaPage locale="ja" />
-      <PageEndProductList locale="ja" />
+      <IsechaAmericaArticleJsonLd />
+      <BreadcrumbListSchema items={getBreadcrumbItems("/ise-cha/america")} />
+      <IsechaAmericaPage />
+      <PageEndProductList />
     </>
   );
 }

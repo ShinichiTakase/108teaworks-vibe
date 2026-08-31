@@ -3,18 +3,16 @@ import nodemailer from "nodemailer";
 import { INQUIRY_EMAIL_CLIENT } from "@/lib/emailClientTexts";
 import { getMailFrom } from "@/lib/mailFrom";
 import { checkRateLimit, getClientIp } from "@/lib/rateLimit";
-import type { Locale } from "@/lib/i18n";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const { name, email, message, locale: localeParam } = body as {
+    const { name, email, message } = body as {
       name?: string;
       email?: string;
       message?: string;
-      locale?: string;
       website?: string;
       formStartedAt?: number;
     };
@@ -22,7 +20,6 @@ export async function POST(req: NextRequest) {
     const formStartedAt = typeof body.formStartedAt === "number" ? body.formStartedAt : 0;
     const ip = getClientIp(req.headers.get("x-forwarded-for"));
     const now = Date.now();
-    const locale: Locale = ["ja", "en", "ko", "zh"].includes(localeParam ?? "") ? (localeParam as Locale) : "ja";
 
     if (website) {
       return NextResponse.json({ ok: true });
@@ -92,9 +89,8 @@ export async function POST(req: NextRequest) {
       replyTo: email,
     });
 
-    const clientTpl = INQUIRY_EMAIL_CLIENT[locale];
-    const clientSubject = clientTpl.subject;
-    const clientText = clientTpl.body(name ?? "", email ?? "", message ?? "");
+    const clientSubject = INQUIRY_EMAIL_CLIENT.subject;
+    const clientText = INQUIRY_EMAIL_CLIENT.body(name ?? "", email ?? "", message ?? "");
 
     const clientFromAddr = process.env.CLIENT_MAIL_FROM || fromAddr;
     const clientFrom = getMailFrom(clientFromAddr);

@@ -5,9 +5,6 @@ import { getAllChapterSlugs } from "@/lib/kabatadani";
 import { getAllChapterSlugs as getIsechaChapterSlugs } from "@/lib/isecha_rekishi";
 import { getAllChapterSlugs as getMieChagyoShiChapterSlugs } from "@/lib/mie_chagyo_shi";
 
-const LOCALES = ["ja", "en", "ko", "zh"] as const;
-type Locale = (typeof LOCALES)[number];
-
 /** サイトのベースURL。本番では .env に NEXT_PUBLIC_SITE_URL を設定してください。 */
 const getBaseUrl = (): string => {
   const url = process.env.NEXT_PUBLIC_SITE_URL?.trim();
@@ -21,11 +18,9 @@ function withTrailingSlash(pathname: string): string {
   return pathname.endsWith("/") ? pathname : `${pathname}/`;
 }
 
-function localizedUrl(baseUrl: string, locale: Locale, path: string): string {
+function localizedUrl(baseUrl: string, path: string): string {
   const pathNorm = path.startsWith("/") ? path : `/${path}`;
-  const pathWithSlash = withTrailingSlash(pathNorm);
-  if (locale === "ja") return `${baseUrl}${pathWithSlash}`;
-  return `${baseUrl}/${locale}${pathWithSlash}`;
+  return `${baseUrl}${withTrailingSlash(pathNorm)}`;
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -57,21 +52,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/privacy-policy", changeFrequency: "monthly", priority: 0.4 },
     { path: "/legal", changeFrequency: "monthly", priority: 0.4 },
     { path: "/maccha", changeFrequency: "monthly", priority: 0.75 },
-  ];
-
-  for (const { path, changeFrequency, priority } of staticPaths) {
-    for (const locale of LOCALES) {
-      entries.push({
-        url: localizedUrl(baseUrl, locale, path),
-        lastModified: new Date(),
-        changeFrequency,
-        priority,
-      });
-    }
-  }
-
-  // 日本語のみのコンテンツ（多言語ルートは日本語版へリダイレクトするためsitemapには載せない）
-  const jaOnlyStaticPaths: { path: string; changeFrequency?: "daily" | "weekly" | "monthly"; priority?: number }[] = [
     { path: "/kabatadani_no_ocha", changeFrequency: "monthly", priority: 0.7 },
     { path: "/isecha_no_rekishi", changeFrequency: "monthly", priority: 0.7 },
     { path: "/mie_chagyo_shi/toc", changeFrequency: "monthly", priority: 0.7 },
@@ -82,42 +62,39 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/ise-cha/wakocha-lp", changeFrequency: "monthly", priority: 0.75 },
   ];
 
-  for (const { path, changeFrequency, priority } of jaOnlyStaticPaths) {
+  for (const { path, changeFrequency, priority } of staticPaths) {
     entries.push({
-      url: localizedUrl(baseUrl, "ja", path),
+      url: localizedUrl(baseUrl, path),
       lastModified: new Date(),
       changeFrequency,
       priority,
     });
   }
 
-  // 川俣谷のお茶・各章ページ（日本語のみ）
+  // 川俣谷のお茶・各章ページ
   for (const slug of getAllChapterSlugs()) {
-    const path = `/kabatadani_no_ocha/${slug}`;
     entries.push({
-      url: localizedUrl(baseUrl, "ja", path),
+      url: localizedUrl(baseUrl, `/kabatadani_no_ocha/${slug}`),
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.65,
     });
   }
 
-  // 伊勢茶の歴史・各章ページ（日本語のみ）
+  // 伊勢茶の歴史・各章ページ
   for (const slug of getIsechaChapterSlugs()) {
-    const path = `/isecha_no_rekishi/${slug}`;
     entries.push({
-      url: localizedUrl(baseUrl, "ja", path),
+      url: localizedUrl(baseUrl, `/isecha_no_rekishi/${slug}`),
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.65,
     });
   }
 
-  // 三重県茶業史・各章ページ（日本語のみ）
+  // 三重県茶業史・各章ページ
   for (const slug of getMieChagyoShiChapterSlugs()) {
-    const path = `/mie_chagyo_shi/${slug}`;
     entries.push({
-      url: localizedUrl(baseUrl, "ja", path),
+      url: localizedUrl(baseUrl, `/mie_chagyo_shi/${slug}`),
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.65,
@@ -129,15 +106,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     for (const p of products) {
       const slug = p.SLUG ?? (p as { slug?: string }).slug ?? p.id;
       if (!slug) continue;
-      const path = `/ise-cha/${slug}`;
-      for (const locale of LOCALES) {
-        entries.push({
-          url: localizedUrl(baseUrl, locale, path),
-          lastModified: new Date(),
-          changeFrequency: "weekly",
-          priority: 0.8,
-        });
-      }
+      entries.push({
+        url: localizedUrl(baseUrl, `/ise-cha/${slug}`),
+        lastModified: new Date(),
+        changeFrequency: "weekly",
+        priority: 0.8,
+      });
     }
   } catch (e) {
     console.error("[sitemap] getProducts error", e);
@@ -152,22 +126,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       totalCount = typeof total === "number" && Number.isFinite(total) ? total : totalCount;
 
       for (const n of notices) {
-      const slug = n.slug ?? n.id;
-      if (!slug) continue;
-      const path = `/notice/${slug}`;
-      const lastModified = n.revisedAt
-        ? new Date(n.revisedAt)
-        : n.publishedAt
-          ? new Date(n.publishedAt)
-          : new Date();
-      for (const locale of LOCALES) {
+        const slug = n.slug ?? n.id;
+        if (!slug) continue;
+        const lastModified = n.revisedAt
+          ? new Date(n.revisedAt)
+          : n.publishedAt
+            ? new Date(n.publishedAt)
+            : new Date();
         entries.push({
-          url: localizedUrl(baseUrl, locale, path),
+          url: localizedUrl(baseUrl, `/notice/${slug}`),
           lastModified,
           changeFrequency: "weekly",
           priority: 0.7,
         });
-      }
       }
 
       if (notices.length < PAGE_LIMIT) break;

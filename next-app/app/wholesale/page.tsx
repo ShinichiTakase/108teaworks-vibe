@@ -6,7 +6,7 @@ import { getFixedSeo, buildAlternatesForLocales } from "@/lib/seo";
 import { getBreadcrumbItems } from "@/lib/breadcrumb";
 
 export async function generateMetadata() {
-  const seo = getFixedSeo("/wholesale", "ja");
+  const seo = getFixedSeo("/wholesale");
   return {
     title: seo?.title ?? "パートナー募集（卸売り）｜伊勢茶の藤八茶寮",
     description:
@@ -19,10 +19,10 @@ export async function generateMetadata() {
 export default function WholesalePage() {
   return (
     <main className={MAIN_CLASS} id="main-content" role="main">
-      <BreadcrumbListSchema items={getBreadcrumbItems("/wholesale", "ja")} />
+      <BreadcrumbListSchema items={getBreadcrumbItems("/wholesale")} />
       <div className={INNER_CLASS}>
         <WholesalePageContent />
-        <PageEndProductList locale="ja" />
+        <PageEndProductList />
       </div>
     </main>
   );

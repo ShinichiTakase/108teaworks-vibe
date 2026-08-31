@@ -5,7 +5,7 @@ import { getFixedSeo, buildAlternatesForLocales } from "@/lib/seo";
 import { getBreadcrumbItems } from "@/lib/breadcrumb";
 
 export async function generateMetadata() {
-  const seo = getFixedSeo("/user-guide", "ja");
+  const seo = getFixedSeo("/user-guide");
   return {
     title: seo?.title,
     description: seo?.description,
@@ -16,9 +16,9 @@ export async function generateMetadata() {
 export default function UserGuidePageJa() {
   return (
     <>
-      <BreadcrumbListSchema items={getBreadcrumbItems("/user-guide", "ja")} />
-      <UserGuidePage locale="ja" />
-      <PageEndProductList locale="ja" />
+      <BreadcrumbListSchema items={getBreadcrumbItems("/user-guide")} />
+      <UserGuidePage />
+      <PageEndProductList />
     </>
   );
 }

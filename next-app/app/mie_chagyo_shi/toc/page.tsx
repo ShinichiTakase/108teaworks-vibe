@@ -25,7 +25,7 @@ export default function MieChaGyoShiTocPage() {
 
   return (
     <main className={MAIN_CLASS} id="main-content" role="main">
-      <BreadcrumbListSchema items={getBreadcrumbItems("/mie_chagyo_shi/toc", "ja")} />
+      <BreadcrumbListSchema items={getBreadcrumbItems("/mie_chagyo_shi/toc")} />
       <div className={INNER_CLASS}>
         <section aria-labelledby="mie-chagyo-heading" className="mb-12">
           <h1
@@ -109,7 +109,7 @@ export default function MieChaGyoShiTocPage() {
             </div>
           )}
         </section>
-        <PageEndProductList locale="ja" />
+        <PageEndProductList />
       </div>
     </main>
   );

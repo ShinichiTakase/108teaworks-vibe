@@ -2,7 +2,6 @@ import { ReactNode } from "react";
 import Header from "./Header";
 import GlobalNav from "./GlobalNav";
 import Footer from "./Footer";
-import LanguageSwitcher from "./LanguageSwitcher";
 import FloatingCartBar from "./FloatingCartBar";
 import CartAddedPopup from "./CartAddedPopup";
 import FloatingProductListBar from "./FloatingProductListBar";
@@ -29,7 +28,6 @@ export default function Layout({ children, withInner = true }: LayoutProps) {
         )}
       </main>
       <Footer />
-      <LanguageSwitcher />
       <FloatingProductListBar />
       <FloatingCartBar />
       <CartAddedPopup />

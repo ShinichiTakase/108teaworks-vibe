@@ -5,7 +5,7 @@ import { getFixedSeo, buildAlternatesForLocales } from "@/lib/seo";
 import { getBreadcrumbItems } from "@/lib/breadcrumb";
 
 export async function generateMetadata() {
-  const seo = getFixedSeo("/ise-cha/books", "ja");
+  const seo = getFixedSeo("/ise-cha/books");
   return {
     title: seo?.title,
     description: seo?.description,
@@ -16,9 +16,9 @@ export async function generateMetadata() {
 export default function IsechaBooksPageJa() {
   return (
     <>
-      <BreadcrumbListSchema items={getBreadcrumbItems("/ise-cha/books", "ja")} />
-      <IsechaBooksPage locale="ja" />
-      <PageEndProductList locale="ja" />
+      <BreadcrumbListSchema items={getBreadcrumbItems("/ise-cha/books")} />
+      <IsechaBooksPage />
+      <PageEndProductList />
     </>
   );
 }

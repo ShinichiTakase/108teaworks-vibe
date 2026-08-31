@@ -1,19 +1,13 @@
 import { buildAlternatesForLocales, getFixedSeo } from "@/lib/seo";
-import type { Locale } from "@/lib/i18n";
 import { ORGANIZATION_LOGO_URL, ORGANIZATION_NAME_JA, SITE_BASE_URL } from "@/lib/siteConstants";
 
-type Props = {
-  locale: Locale;
-};
-
 /** Google 検索向け Article 構造化データ（本文ページと title/description を一致させる） */
-export default function IsechaAmericaArticleJsonLd({ locale }: Props) {
-  const seo = getFixedSeo("/ise-cha/america", locale);
-  const alternates = buildAlternatesForLocales("/ise-cha/america", { currentLocale: locale });
+export default function IsechaAmericaArticleJsonLd() {
+  const seo = getFixedSeo("/ise-cha/america");
+  const alternates = buildAlternatesForLocales("/ise-cha/america");
   const headline = seo?.title ?? "";
   const description = seo?.description ?? "";
   const imageUrl = `${SITE_BASE_URL}/images/tea_garden.jpg`;
-  const inLanguage = locale === "ja" ? "ja" : locale === "en" ? "en" : locale === "ko" ? "ko" : "zh";
 
   const json = {
     "@context": "https://schema.org",
@@ -21,7 +15,7 @@ export default function IsechaAmericaArticleJsonLd({ locale }: Props) {
     headline,
     description,
     image: [imageUrl],
-    inLanguage,
+    inLanguage: "ja",
     author: {
       "@type": "Organization",
       name: ORGANIZATION_NAME_JA,

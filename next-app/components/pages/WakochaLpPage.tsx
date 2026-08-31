@@ -136,7 +136,7 @@ export default async function WakochaLpPage() {
       />
       <FaqJsonLd questions={FAQS.map(({ q, a }) => ({ q, a }))} />
       <BreadcrumbListSchema
-        items={getBreadcrumbItems("/ise-cha/wakocha-lp", "ja", { productName: "和紅茶 ティーバッグ" })}
+        items={getBreadcrumbItems("/ise-cha/wakocha-lp", { productName: "和紅茶 ティーバッグ" })}
       />
 
       <div className={styles.topbar}>

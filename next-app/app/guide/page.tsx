@@ -1,11 +1,10 @@
 import GuidePage from "@/components/pages/GuidePage";
 import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
-import type { Locale } from "@/lib/i18n";
 import { getFixedSeo, buildAlternatesForLocales } from "@/lib/seo";
 import { getBreadcrumbItems } from "@/lib/breadcrumb";
 
 export async function generateMetadata() {
-  const seo = getFixedSeo("/guide", "ja");
+  const seo = getFixedSeo("/guide");
   return {
     title: seo?.title,
     description: seo?.description,
@@ -16,8 +15,8 @@ export async function generateMetadata() {
 export default function GuidePageJa() {
   return (
     <>
-      <BreadcrumbListSchema items={getBreadcrumbItems("/guide", "ja")} />
-      <GuidePage locale={"ja" satisfies Locale} />
+      <BreadcrumbListSchema items={getBreadcrumbItems("/guide")} />
+      <GuidePage />
     </>
   );
 }

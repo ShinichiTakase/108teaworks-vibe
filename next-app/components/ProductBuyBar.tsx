@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
-import type { Locale } from "@/lib/i18n";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
 import { fbTrack } from "@/lib/metaPixel";
 
@@ -12,7 +11,6 @@ type Props = {
   price: number | undefined;
   title: string;
   imagePath?: string;
-  locale?: Locale;
   shipRank?: number;
 };
 
@@ -20,9 +18,8 @@ type Props = {
 const ADD_TO_CART_STYLE = { backgroundColor: "#FFD814", color: "#000000" };
 const BUY_NOW_STYLE = { backgroundColor: "#FFA41C", color: "#000000" };
 
-export default function ProductBuyBar({ slug, price, title, imagePath, locale: localeProp, shipRank }: Props) {
-  const locale = localeProp ?? "ja";
-  const t = COMMON_TEXTS[locale];
+export default function ProductBuyBar({ slug, price, title, imagePath, shipRank }: Props) {
+  const t = COMMON_TEXTS;
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
   const router = useRouter();
@@ -39,8 +36,7 @@ export default function ProductBuyBar({ slug, price, title, imagePath, locale: l
 
   const handleBuyNow = () => {
     addToCart(slug, title, price ?? 0, quantity, imagePath, shipRank);
-    const checkoutPath = locale === "ja" ? "/checkout" : `/${locale}/checkout`;
-    router.push(checkoutPath);
+    router.push("/checkout");
   };
 
   const decrement = () => setQuantity((q) => (q <= 1 ? 1 : q - 1));
