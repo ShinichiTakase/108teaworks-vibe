@@ -65,19 +65,30 @@ const nextConfig = {
   // remotePatterns は許可ホストのみに限定（GHSA-9g9p-9gw9-jx7f 対策）
   async redirects() {
     return [
-      // 旧スラッグ「伊勢のほうじ茶 ティーバッグ 30g」は現行商品と1:1対応しない
-      // （現行はティーバッグ8個/50個/3個 or 茶葉30g の別商品）ため商品一覧へ。
+      // 旧スラッグ「伊勢のほうじ茶 ティーバッグ 30g」→現行の茶葉30g商品へ1:1マッピング。
       // 汎用の /products/:slug ルールより先に評価させるため配列の先頭に置く。
       {
         source:
           "/products/%E4%BC%8A%E5%8B%A2%E3%81%AE%E3%81%BB%E3%81%86%E3%81%98%E8%8C%B6-%E3%83%86%E3%82%A3%E3%83%BC%E3%83%90%E3%83%83%E3%82%B0-30g",
-        destination: "/ise-cha/",
+        destination: "/ise-cha/roasted-isecha/",
         statusCode: 301,
       },
       {
         source:
           "/products/%E4%BC%8A%E5%8B%A2%E3%81%AE%E3%81%BB%E3%81%86%E3%81%98%E8%8C%B6-%E3%83%86%E3%82%A3%E3%83%BC%E3%83%90%E3%83%83%E3%82%B0-30g/",
-        destination: "/ise-cha/",
+        destination: "/ise-cha/roasted-isecha/",
+        statusCode: 301,
+      },
+      // 旧スラッグ「houjicha-powder-80g」→現行の無糖ほうじ茶パウダーへ1:1マッピング。
+      // 汎用の /products/:slug ルールより先に評価させるため配列の先頭に置く。
+      {
+        source: "/products/houjicha-powder-80g",
+        destination: "/ise-cha/roasted-isecha-powder-unsweetened/",
+        statusCode: 301,
+      },
+      {
+        source: "/products/houjicha-powder-80g/",
+        destination: "/ise-cha/roasted-isecha-powder-unsweetened/",
         statusCode: 301,
       },
       // /products/* -> /ise-cha/* (301)
@@ -133,33 +144,141 @@ const nextConfig = {
       { source: "/fr", destination: "/", statusCode: 301 },
       { source: "/fr/", destination: "/", statusCode: 301 },
       { source: "/fr/:path*", destination: "/", statusCode: 301 },
-      // 旧スラッグ・季節キャンペーンページの残骸 → 商品一覧ページへ
-      { source: "/ise-cha/houjicha-powder-80g", destination: "/ise-cha/", statusCode: 301 },
-      { source: "/ise-cha/houjicha-powder-80g/", destination: "/ise-cha/", statusCode: 301 },
-      { source: "/ise-cha/deep-steamed-isecha-mothersday", destination: "/ise-cha/", statusCode: 301 },
-      { source: "/ise-cha/deep-steamed-isecha-mothersday/", destination: "/ise-cha/", statusCode: 301 },
-      { source: "/ise-cha/roasted-isecha-teabag-mothersday", destination: "/ise-cha/", statusCode: 301 },
-      { source: "/ise-cha/roasted-isecha-teabag-mothersday/", destination: "/ise-cha/", statusCode: 301 },
-      { source: "/ise-cha/roasted-isecha-teabag-motherday", destination: "/ise-cha/", statusCode: 301 },
-      { source: "/ise-cha/roasted-isecha-teabag-motherday/", destination: "/ise-cha/", statusCode: 301 },
-      // 旧 WordPress ブログの日付別アーカイブ URL（/YYYY/, /YYYY/MM/, /YYYY/MM/DD/, /YYYY/MM/DD/slug/）は
-      // /notice/:slug の単一セグメントルーティングとは衝突しないため、そのまま /notice/ へ集約する
+      // 旧スラッグ・季節キャンペーンページの残骸 → 対応する現行商品ページへ1:1マッピング
+      {
+        source: "/ise-cha/houjicha-powder-80g",
+        destination: "/ise-cha/roasted-isecha-powder-unsweetened/",
+        statusCode: 301,
+      },
+      {
+        source: "/ise-cha/houjicha-powder-80g/",
+        destination: "/ise-cha/roasted-isecha-powder-unsweetened/",
+        statusCode: 301,
+      },
+      {
+        source: "/ise-cha/deep-steamed-isecha-mothersday",
+        destination: "/ise-cha/deep-steamed-isecha/",
+        statusCode: 301,
+      },
+      {
+        source: "/ise-cha/deep-steamed-isecha-mothersday/",
+        destination: "/ise-cha/deep-steamed-isecha/",
+        statusCode: 301,
+      },
+      {
+        source: "/ise-cha/roasted-isecha-teabag-mothersday",
+        destination: "/ise-cha/roasted-isecha-teabag/",
+        statusCode: 301,
+      },
+      {
+        source: "/ise-cha/roasted-isecha-teabag-mothersday/",
+        destination: "/ise-cha/roasted-isecha-teabag/",
+        statusCode: 301,
+      },
+      {
+        source: "/ise-cha/roasted-isecha-teabag-motherday",
+        destination: "/ise-cha/roasted-isecha-teabag/",
+        statusCode: 301,
+      },
+      {
+        source: "/ise-cha/roasted-isecha-teabag-motherday/",
+        destination: "/ise-cha/roasted-isecha-teabag/",
+        statusCode: 301,
+      },
+      // 旧 WordPress ブログの日付別アーカイブ URL（/YYYY/, /YYYY/MM/, /YYYY/MM/DD/）は
+      // /notice/:slug の単一セグメントルーティングとは衝突しないため、そのまま /notice/ へ集約する。
+      // ただし個別記事（/YYYY/MM/DD/slug/）は対応する現行コンテンツへ1:1マッピングし、
+      // 対応が確認できないものは404のまま(推測でのリダイレクトはしない)。
       { source: "/:year(\\d{4})", destination: "/notice/", statusCode: 301 },
       { source: "/:year(\\d{4})/", destination: "/notice/", statusCode: 301 },
       { source: "/:year(\\d{4})/:month(\\d{2})", destination: "/notice/", statusCode: 301 },
       { source: "/:year(\\d{4})/:month(\\d{2})/", destination: "/notice/", statusCode: 301 },
       { source: "/:year(\\d{4})/:month(\\d{2})/:day(\\d{2})", destination: "/notice/", statusCode: 301 },
       { source: "/:year(\\d{4})/:month(\\d{2})/:day(\\d{2})/", destination: "/notice/", statusCode: 301 },
-      { source: "/:year(\\d{4})/:month(\\d{2})/:day(\\d{2})/:slug*", destination: "/notice/", statusCode: 301 },
-      // 旧 WordPress システムパス。/wp-content/uploads/* は今も画像配信に使っている実ファイルなので除外する
-      { source: "/wp-admin", destination: "/", statusCode: 301 },
-      { source: "/wp-admin/:path*", destination: "/", statusCode: 301 },
-      { source: "/wp-content", destination: "/", statusCode: 301 },
-      { source: "/wp-content/:type((?!uploads).*)", destination: "/", statusCode: 301 },
-      { source: "/wp-includes", destination: "/", statusCode: 301 },
-      { source: "/wp-includes/:path*", destination: "/", statusCode: 301 },
-      { source: "/wp-json", destination: "/", statusCode: 301 },
-      { source: "/wp-json/:path*", destination: "/", statusCode: 301 },
+      // 2025-12-25「オンラインストアをオープンしました」
+      { source: "/2025/12/25/20251225-0632", destination: "/notice/20251215-0632/", statusCode: 301 },
+      { source: "/2025/12/25/20251225-0632/", destination: "/notice/20251215-0632/", statusCode: 301 },
+      // 2025-12-26「クレジットカード、デビッドカード、Apple Pay、Google Pay がお使い頂けます」
+      { source: "/2025/12/26/20251226-1907", destination: "/notice/20251226-0707/", statusCode: 301 },
+      { source: "/2025/12/26/20251226-1907/", destination: "/notice/20251226-0707/", statusCode: 301 },
+      // 2026-01-04「「伊勢茶とは」を公開しました」
+      { source: "/2026/01/04/20260114-0701", destination: "/notice/0260114-0701/", statusCode: 301 },
+      { source: "/2026/01/04/20260114-0701/", destination: "/notice/0260114-0701/", statusCode: 301 },
+      // 2026-01-12「お得用 深蒸し茶ティーバッグと伊勢茶パウダーの販売を開始しました」
+      { source: "/2026/01/12/20260112-0901", destination: "/notice/20260112-0901/", statusCode: 301 },
+      { source: "/2026/01/12/20260112-0901/", destination: "/notice/20260112-0901/", statusCode: 301 },
+      // 2026-01-31「伊勢茶発祥の地 川俣谷のお茶」公開告知 → コンテンツ本体へ
+      { source: "/2026/01/31/kabatadani_no_ocha", destination: "/kabatadani_no_ocha/", statusCode: 301 },
+      { source: "/2026/01/31/kabatadani_no_ocha/", destination: "/kabatadani_no_ocha/", statusCode: 301 },
+      // 2026-02-02「【新発売】カフェインを70%カットしたカフェインカット（デカフェ）緑茶」
+      {
+        source:
+          "/2026/02/02/%E3%80%90%E6%96%B0%E7%99%BA%E5%A3%B2%E3%80%91-%E3%82%AB%E3%83%95%E3%82%A7%E3%82%A4%E3%83%B3%E3%82%9270%E3%82%AB%E3%83%83%E3%83%88%E3%81%97%E3%81%9F%E3%82%AB%E3%83%95%E3%82%A7%E3%82%A4%E3%83%B3",
+        destination: "/notice/20260202-0421/",
+        statusCode: 301,
+      },
+      {
+        source:
+          "/2026/02/02/%E3%80%90%E6%96%B0%E7%99%BA%E5%A3%B2%E3%80%91-%E3%82%AB%E3%83%95%E3%82%A7%E3%82%A4%E3%83%B3%E3%82%9270%E3%82%AB%E3%83%83%E3%83%88%E3%81%97%E3%81%9F%E3%82%AB%E3%83%95%E3%82%A7%E3%82%A4%E3%83%B3/",
+        destination: "/notice/20260202-0421/",
+        statusCode: 301,
+      },
+      // 2026-02-11「粉糖がかかったガトーショコラみたいでかわいい茶畑」
+      {
+        source:
+          "/2026/02/11/%E7%B2%89%E7%B3%96%E3%81%8C%E3%81%8B%E3%81%8B%E3%81%A3%E3%81%9F%E3%82%AC%E3%83%88%E3%83%BC%E3%82%B7%E3%83%A7%E3%82%B3%E3%83%A9%E3%81%BF%E3%81%9F%E3%81%84%E3%81%A7%E3%81%8B%E3%82%8F%E3%81%84%E3%81%84",
+        destination: "/notice/20260211-0746/",
+        statusCode: 301,
+      },
+      {
+        source:
+          "/2026/02/11/%E7%B2%89%E7%B3%96%E3%81%8C%E3%81%8B%E3%81%8B%E3%81%A3%E3%81%9F%E3%82%AC%E3%83%88%E3%83%BC%E3%82%B7%E3%83%A7%E3%82%B3%E3%83%A9%E3%81%BF%E3%81%9F%E3%81%84%E3%81%A7%E3%81%8B%E3%82%8F%E3%81%84%E3%81%84/",
+        destination: "/notice/20260211-0746/",
+        statusCode: 301,
+      },
+      // 2026-02-17「イラストレーター南夏希さんデザイン カフェインカット緑茶」
+      {
+        source:
+          "/2026/02/17/%E3%82%AB%E3%83%95%E3%82%A7%E3%82%A4%E3%83%B3%E3%82%AB%E3%83%83%E3%83%88%E7%B7%91%E8%8C%B6%E3%81%AF%E3%81%AA%E3%81%A3%E3%81%A1%E3%82%83%E3%82%93punipuni729%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3",
+        destination: "/notice/20260217-0633/",
+        statusCode: 301,
+      },
+      {
+        source:
+          "/2026/02/17/%E3%82%AB%E3%83%95%E3%82%A7%E3%82%A4%E3%83%B3%E3%82%AB%E3%83%83%E3%83%88%E7%B7%91%E8%8C%B6%E3%81%AF%E3%81%AA%E3%81%A3%E3%81%A1%E3%82%83%E3%82%93punipuni729%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3/",
+        destination: "/notice/20260217-0633/",
+        statusCode: 301,
+      },
+      // 2026-02-25「クレジットカード決済システム障害のお知らせとお詫び」
+      {
+        source:
+          "/2026/02/25/%E3%82%AF%E3%83%AC%E3%82%B8%E3%83%83%E3%83%88%E3%82%AB%E3%83%BC%E3%83%89%E6%B1%BA%E6%B8%88%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E9%9A%9C%E5%AE%B3%E3%81%AE%E3%81%8A%E7%9F%A5%E3%82%89%E3%81%9B%E3%81%A8",
+        destination: "/notice/20260226-0326/",
+        statusCode: 301,
+      },
+      {
+        source:
+          "/2026/02/25/%E3%82%AF%E3%83%AC%E3%82%B8%E3%83%83%E3%83%88%E3%82%AB%E3%83%BC%E3%83%89%E6%B1%BA%E6%B8%88%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E9%9A%9C%E5%AE%B3%E3%81%AE%E3%81%8A%E7%9F%A5%E3%82%89%E3%81%9B%E3%81%A8/",
+        destination: "/notice/20260226-0326/",
+        statusCode: 301,
+      },
+      // 2026-02-27「おいしいほうじ茶ラテの作り方 by @__wadakanami__」
+      {
+        source:
+          "/2026/02/27/%E3%81%A8%E3%81%A3%E3%81%A6%E3%82%82%E6%A5%BD%E3%81%97%E3%81%8F%E3%81%A6%E3%81%8A%E3%81%84%E3%81%97%E3%81%84%E3%81%BB%E3%81%86%E3%81%98%E8%8C%B6%E3%83%A9%E3%83%86%E3%81%AE%E4%BD%9C%E3%82%8A%E6%96%B9-b",
+        destination: "/notice/20260227-0455/",
+        statusCode: 301,
+      },
+      {
+        source:
+          "/2026/02/27/%E3%81%A8%E3%81%A3%E3%81%A6%E3%82%82%E6%A5%BD%E3%81%97%E3%81%8F%E3%81%A6%E3%81%8A%E3%81%84%E3%81%97%E3%81%84%E3%81%BB%E3%81%86%E3%81%98%E8%8C%B6%E3%83%A9%E3%83%86%E3%81%AE%E4%BD%9C%E3%82%8A%E6%96%B9-b/",
+        destination: "/notice/20260227-0455/",
+        statusCode: 301,
+      },
+      // /2025/12/25/20251225-0711/ は対応する現行コンテンツが確認できないため404のまま(意図的に対応なし)
+      // 旧 WordPress システムパス（wp-admin/wp-content/wp-includes/wp-json）は
+      // 実際に公開されたことのないbot/スキャナー由来のノイズのため、リダイレクトせず404のままとする。
+      // /wp-content/uploads/* は今も画像配信に使っている実ファイルのため元から対象外。
       {
         source: "/notice/20260331-1616",
         destination: "/notice/20260325-1616/",

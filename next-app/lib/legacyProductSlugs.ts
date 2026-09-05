@@ -5,6 +5,7 @@
 export const LEGACY_PRODUCT_SLUGS = [
   "ise-tea-deep-steamed-bulkpack",
   "roasted-isecha",
+  "roasted-isecha-teabag",
   "roasted-isecha-powder-unsweetened",
   "deep-steamed-isecha",
   "isecha-powder-unsweetened",
