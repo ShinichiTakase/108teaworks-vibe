@@ -184,12 +184,19 @@ export default async function ProductDetailContent({ slug, reviewsPage }: Props)
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
       />
       <div className="mb-8">
-        <h1 className="m-0 mb-2 font-heading text-lg md:text-xl font-semibold text-tea-deep">
+        <h1 className="m-0 mb-2 text-right font-heading text-lg md:text-xl font-semibold text-tea-deep">
           {displayTitle || "—"}
         </h1>
         <p className="m-0 text-right text-2xl font-bold text-tea-deep">
           {formatPriceYen(product.PRICE)} <span className="text-base font-normal text-ink-muted">{t.taxIncluded}</span>
         </p>
+        {(product.SKU || product.GTIN) && (
+          <p className="m-0 mt-1 text-right text-[0.8125rem] text-ink-muted">
+            {product.SKU && <span>商品番号：{product.SKU}</span>}
+            {product.SKU && product.GTIN && <span> </span>}
+            {product.GTIN && <span className="text-[0.6875rem]">JANコード：{product.GTIN}</span>}
+          </p>
+        )}
         {/* レビューは本ページ下部(#reviews)に埋め込み表示。翻訳未対応のため日本語かつ1件以上の場合のみ表示 */}
         {reviewCount > 0 && avgRating !== null && (
           <a
