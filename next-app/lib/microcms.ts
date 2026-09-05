@@ -41,6 +41,8 @@ export type ProductItem = {
   /** 商品説明（HTML可） */
   DESCRIPTION01?: string;
   DESCRIPTION02?: string;
+  /** 商品説明（プレーンテキスト、JSON-LD の description 用） */
+  "JSON-DESCRIPTION"?: string;
   /** 商品コード・JAN */
   SKU?: string;
   GTIN?: string;
@@ -199,6 +201,7 @@ function mapRawToProduct(c: Record<string, unknown>): ProductItem {
     STOCK: Number.isNaN(STOCK) ? undefined : STOCK,
     DESCRIPTION01: str(c, "DESCRIPTION01"),
     DESCRIPTION02: str(c, "DESCRIPTION02"),
+    "JSON-DESCRIPTION": str(c, "JSON-DESCRIPTION"),
     SKU: str(c, "SKU"),
     GTIN: str(c, "GTIN"),
     RELATED01: str(c, "RELATED01"),

@@ -45,6 +45,8 @@ export default async function DecafeLpPage() {
   const canonicalUrl = `${SITE_BASE_URL}/ise-cha/decafe-lp/`;
   const leadDescription =
     "「緑茶は好きだけど、カフェインが気になる」——そんな声から生まれた、藤八茶寮のデカフェ緑茶ティーバッグ。三重県松阪市飯南町産の伊勢茶100%を、化学薬品を使わない超臨界二酸化炭素抽出法でやさしくカフェインカットしました。";
+  const jsonLdDescription =
+    "「緑茶は好きだけどカフェインが気になる」という声から生まれた、三重県松阪市飯南町産の伊勢茶・深蒸し茶をベースにしたデカフェ緑茶ティーバッグです。有機溶媒などの化学薬品を使わず、水と二酸化炭素だけで抽出する超臨界二酸化炭素抽出法によって、カフェインを一般的な緑茶の1/3以下となる約70%カットしています。抽出後に旨み成分を黄金比で再ブレンドしているため、デカフェ特有の物足りなさがなく深蒸し茶ならではの濃厚なコクをそのまま楽しめるのが特長です。就寝前のリラックスタイムや妊娠中・授乳中の方にもおすすめで、家族みんなで安心して緑茶の時間を楽しめます。";
 
   const product = await getProductBySlug("decaf_green_tea");
   const price = product?.PRICE ?? FALLBACK_PRICE;
@@ -60,7 +62,7 @@ export default async function DecafeLpPage() {
     <div className={styles.page}>
       <ProductJsonLd
         name={purchaseProduct.title}
-        description={leadDescription}
+        description={jsonLdDescription}
         imageUrl={purchaseProduct.imagePath}
         canonicalUrl={canonicalUrl}
         price={purchaseProduct.price}

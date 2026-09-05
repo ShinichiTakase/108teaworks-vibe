@@ -95,10 +95,7 @@ export default async function ProductDetailContent({ slug, reviewsPage }: Props)
     typeof product.STOCK === "number" && product.STOCK <= 0
       ? "https://schema.org/OutOfStock"
       : "https://schema.org/InStock";
-  const descriptionForSchema =
-    typeof safeDisplayDesc01 === "string"
-      ? safeDisplayDesc01.replace(/<[^>]+>/g, "").slice(0, 300)
-      : "";
+  const descriptionForSchema = product["JSON-DESCRIPTION"]?.slice(0, 300) ?? "";
   /** JSON-LD・価格下の★サマリー・商品説明下部のレビュー一覧、いずれもここを唯一のデータソースとして参照する */
   const { validReviews: reviewsForSchema, reviewCount, avgRating } = summarizeReviews(reviews);
   const totalReviewPages = Math.max(1, Math.ceil(reviewCount / REVIEWS_PER_PAGE));

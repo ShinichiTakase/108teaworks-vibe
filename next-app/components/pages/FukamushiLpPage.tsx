@@ -62,7 +62,7 @@ const FALLBACKS = {
 export default async function FukamushiLpPage() {
   const canonicalUrl = `${SITE_BASE_URL}/ise-cha/fukamushi-lp/`;
   const leadDescription =
-    "三重県松阪市・川俣谷産シングルオリジン伊勢茶を使った深蒸し茶ティーバッグ。渋みが少なくとろりとした旨み、水出しでも美味しさそのまま。この夏、冷たい一杯を伊勢の深蒸し茶で。";
+    "三重県松阪市・伊勢茶発祥の地として知られる川俣谷産のシングルオリジン伊勢茶を、長時間かけて丁寧に蒸し上げた深蒸し茶ティーバッグです。渋みが少なくとろりとした濃厚な旨みが特長で、ホットはもちろん冷水500mlにティーバッグ1～2個を入れる水出し・氷出しでも、味と栄養をそのまま楽しめます。急須で淹れると茶葉に残ってしまう栄養成分も、細かく砕けた深蒸し茶葉ならまるごと摂取しやすいのも魅力です。3個入りのお試しサイズから、日常使いの10個入り、まとめ買いにうれしい50個入りの業務用まで、飲むシーンに合わせて選べます。";
 
   const [trialProduct, standardProduct, bulkProduct] = await Promise.all([
     getProductBySlug(TRIAL_SLUG),

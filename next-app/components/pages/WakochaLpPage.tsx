@@ -57,7 +57,7 @@ function normalizePlaceNames(text: string): string {
 export default async function WakochaLpPage() {
   const canonicalUrl = `${SITE_BASE_URL}/ise-cha/wakocha-lp/`;
   const leadDescription =
-    "ふわっと紅茶の香りが鼻に抜けたあと、緑茶ゆずりの旨味とコクが広がる和紅茶。渋みが少なく繊細なので、まずはストレートで。ティータイムはもちろん、和食にもよく合います。";
+    "三重県松阪市飯南町産のシングルオリジン伊勢茶を完全発酵させた、国産和紅茶のティーバッグです。アッサムやダージリンなど海外紅茶とは異なり渋みが少なく、香りの奥に緑茶ゆずりの旨味とコクが感じられる上品な味わいが特長です。まずはストレートでゆっくり味わうのがおすすめですが、いつもより濃いめに淹れたり、熱めに淹れて氷の上へ注ぐアイスアレンジでも楽しめます。洋菓子との相性はもちろん、和菓子や和食にもよく合う懐の深さが魅力で、アフタヌーンティーのような特別なひとときはもちろん、毎日の食卓にも寄り添う一杯です。";
 
   const [product8, product3] = await Promise.all([
     getProductBySlug("wakocha-isecha"),

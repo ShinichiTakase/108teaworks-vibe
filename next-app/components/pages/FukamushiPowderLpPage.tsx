@@ -66,7 +66,7 @@ const WAVE_DIVIDER = (
 export default async function FukamushiPowderLpPage() {
   const canonicalUrl = `${SITE_BASE_URL}/ise-cha/fukamushi-powder-lp/`;
   const leadDescription =
-    "三重県産の伊勢茶一番茶を丸ごと粉末にした深蒸し茶パウダー。無糖・無添加、800メッシュの微粉末で緑茶ラテやお菓子作りにも。100g・500g業務用をご用意。";
+    "三重県産の伊勢茶一番茶を丸ごと粉末にした、無糖・無添加の深蒸し茶パウダーです。抹茶ではなくあえて緑茶を粉末にすることで、抹茶特有の苦みを抑えつつ深蒸し茶らしいまろやかなコクを楽しめます。牛乳や水に溶かすだけのアイス・ホット緑茶ラテはもちろん、バニラアイスなどスイーツのトッピングに、クッキーやパン生地に混ぜ込んでお料理にも幅広く活用できます。口当たりなめらかな800メッシュの細かさで、茶殻が出ず手間もゴミも出ないのが魅力です。ご家庭用の100gから、飲食店・製菓用にも便利な業務用500gまでご用意しています。";
 
   const [smallProduct, bulkProduct] = await Promise.all([
     getProductBySlug(SMALL_SLUG),

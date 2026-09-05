@@ -5,7 +5,7 @@ import { SITE_BASE_URL } from "@/lib/siteConstants";
 export async function generateMetadata() {
   const title = "伊勢茶 ほうじ茶パウダー（無糖）｜藤八茶寮";
   const description =
-    "三重・川俣谷産（松阪市飯南町）の一番茶を丸ごと焙じて微粉末にした、藤八茶寮のほうじ茶パウダー。お湯にも牛乳にもすっと溶けて、伊勢のほうじ茶ラテが自宅で仕上がります。香料・着色料・保存料は不使用です。";
+    "ほうじ茶パウダー、お湯にも牛乳にもすっと溶ける。無添加・無着色で低カフェイン、夜でも安心。伊勢茶発祥の地・川俣谷産一番茶を丸ごと焙じて微粉末に。";
   const ogImageUrl = `${SITE_BASE_URL}/images/lp/hoji_powder_lp_ogimage.webp`;
   return {
     title,
