@@ -16,6 +16,7 @@ export const COMMON_TEXTS = {
     isechaHoujicha: "ほうじ茶について",
     isechaWakocha: "和紅茶について",
     howToBrew: "お茶の淹れ方",
+    faq: "FAQ",
     userGuide: "ご注文の流れ",
     notice: "お知らせ",
     wholesale: "パートナー募集",

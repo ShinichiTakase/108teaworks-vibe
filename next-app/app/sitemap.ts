@@ -42,6 +42,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/ise-cha/houjicha", changeFrequency: "monthly", priority: 0.75 },
     { path: "/ise-cha/wakocha", changeFrequency: "monthly", priority: 0.75 },
     { path: "/how-to-brew", changeFrequency: "monthly", priority: 0.7 },
+    { path: "/faq", changeFrequency: "monthly", priority: 0.7 },
     { path: "/user-guide", changeFrequency: "monthly", priority: 0.8 },
     { path: "/guide", changeFrequency: "monthly", priority: 0.6 },
     { path: "/notice", changeFrequency: "weekly", priority: 0.8 },

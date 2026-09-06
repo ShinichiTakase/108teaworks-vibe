@@ -9,6 +9,7 @@ const PATH_LABEL_KEYS: Record<string, string> = {
   "/about": "nav.about",
   "/ise-cha": "nav.isecha",
   "/how-to-brew": "nav.howToBrew",
+  "/faq": "nav.faq",
   "/user-guide": "nav.userGuide",
   "/notice": "nav.notice",
   "/wholesale": "nav.wholesale",

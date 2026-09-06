@@ -11,6 +11,7 @@ const NAV_KEYS = [
   { key: "about" as const, href: "/about" },
   { key: "isecha" as const, href: "/ise-cha" },
   { key: "howToBrew" as const, href: "/how-to-brew" },
+  { key: "faq" as const, href: "/faq" },
   { key: "userGuide" as const, href: "/user-guide" },
   { key: "notice" as const, href: "/notice" },
   { key: "wholesale" as const, href: "/wholesale" },
