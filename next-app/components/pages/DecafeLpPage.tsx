@@ -38,15 +38,15 @@ const FAQS = [
   },
 ] as const;
 
-const FALLBACK_TITLE = "デカフェ緑茶 ティーバッグ 8個";
+const FALLBACK_TITLE = "カフェインカット緑茶";
 const FALLBACK_PRICE = 1296;
 
 export default async function DecafeLpPage() {
   const canonicalUrl = `${SITE_BASE_URL}/ise-cha/decafe-lp/`;
   const leadDescription =
-    "「緑茶は好きだけど、カフェインが気になる」——そんな声から生まれた、藤八茶寮のデカフェ緑茶ティーバッグ。三重県松阪市飯南町産の伊勢茶100%を、化学薬品を使わない超臨界二酸化炭素抽出法でやさしくカフェインカットしました。";
+    "「緑茶は好きだけど、カフェインが気になる」——そんな声から生まれた、藤八茶寮のカフェインカット緑茶ティーバッグ。三重県松阪市飯南町産の伊勢茶100%を、化学薬品を使わない超臨界二酸化炭素抽出法でやさしくカフェインカットしました。";
   const jsonLdDescription =
-    "「緑茶は好きだけどカフェインが気になる」という声から生まれた、三重県松阪市飯南町産の伊勢茶・深蒸し茶をベースにしたデカフェ緑茶ティーバッグです。有機溶媒などの化学薬品を使わず、水と二酸化炭素だけで抽出する超臨界二酸化炭素抽出法によって、カフェインを一般的な緑茶の1/3以下となる約70%カットしています。抽出後に旨み成分を黄金比で再ブレンドしているため、デカフェ特有の物足りなさがなく深蒸し茶ならではの濃厚なコクをそのまま楽しめるのが特長です。就寝前のリラックスタイムや妊娠中・授乳中の方にもおすすめで、家族みんなで安心して緑茶の時間を楽しめます。";
+    "「緑茶は好きだけどカフェインが気になる」という声から生まれた、三重県松阪市飯南町産の伊勢茶・深蒸し茶をベースにしたカフェインカット緑茶ティーバッグです。有機溶媒などの化学薬品を使わず、水と二酸化炭素だけで抽出する超臨界二酸化炭素抽出法によって、カフェインを一般的な緑茶の1/3以下となる約70%カットしています。抽出後に旨み成分を黄金比で再ブレンドしているため、カフェインカット特有の物足りなさがなく深蒸し茶ならではの濃厚なコクをそのまま楽しめるのが特長です。就寝前のリラックスタイムや妊娠中・授乳中の方にもおすすめで、家族みんなで安心して緑茶の時間を楽しめます。";
 
   const product = await getProductBySlug("decaf_green_tea");
   const price = product?.PRICE ?? FALLBACK_PRICE;
@@ -70,7 +70,7 @@ export default async function DecafeLpPage() {
       />
       <FaqJsonLd questions={FAQS.map(({ q, a }) => ({ q, a }))} />
       <BreadcrumbListSchema
-        items={getBreadcrumbItems("/ise-cha/decafe-lp", { productName: "デカフェ緑茶ティーバッグ" })}
+        items={getBreadcrumbItems("/ise-cha/decafe-lp", { productName: "カフェインカット緑茶" })}
       />
 
       <header className={styles["site-header"]}>
@@ -85,7 +85,7 @@ export default async function DecafeLpPage() {
       {/* ===== HERO（全面画像＋オーバーレイ） ===== */}
       <section className={styles.hero}>
         <div className={styles["hero-bg"]}>
-          <img src="/images/decafe-lp/hero.webp" alt="デカフェ緑茶をポットからグラスへ注ぐ様子" />
+          <img src="/images/decafe-lp/hero.webp" alt="カフェインカット緑茶をポットからグラスへ注ぐ様子" />
         </div>
         <div className={styles["hero-overlay"]}>
           <div className={styles["hero-copy-card"]}>
@@ -181,12 +181,12 @@ export default async function DecafeLpPage() {
             <div className={styles["point-card"]}>
               <div className={styles["icon-circle"]}>🍵</div>
               <h3>深蒸し茶の濃厚なコク</h3>
-              <p>独自製法でカフェインを大幅カットしても、まろやかな旨みと香りはそのまま。デカフェ特有の物足りなさを感じさせません。</p>
+              <p>独自製法でカフェインを大幅カットしても、まろやかな旨みと香りはそのまま。カフェインカット特有の物足りなさを感じさせません。</p>
             </div>
             <div className={styles["point-card"]}>
               <div className={styles["icon-circle"]}>💧</div>
               <h3>水とCO₂だけで抽出</h3>
-              <p>一般的なデカフェ茶に使われがちな有機溶媒は不使用。水と二酸化炭素のみを用いた製法だから、毎日安心して飲めます。</p>
+              <p>一般的なカフェインカット茶に使われがちな有機溶媒は不使用。水と二酸化炭素のみを用いた製法だから、毎日安心して飲めます。</p>
             </div>
             <div className={styles["point-card"]}>
               <div className={styles["icon-circle"]}>🌱</div>
@@ -267,7 +267,7 @@ export default async function DecafeLpPage() {
                   <td>番茶などはこれより低め</td>
                 </tr>
                 <tr className={styles.highlight}>
-                  <td>デカフェ緑茶（本商品）</td>
+                  <td>カフェインカット緑茶（本商品）</td>
                   <td>約5〜6mg</td>
                   <td>
                     <div className={styles["bar-wrap"]}>
@@ -352,8 +352,8 @@ export default async function DecafeLpPage() {
           </div>
           <div className={styles["product-grid"]}>
             <div className={styles["product-gallery"]}>
-              <img src="/images/products/decaf_green_tea/1000.webp" alt="デカフェ緑茶ティーバッグ8個 パッケージ" />
-              <img src="/images/products/decaf_green_tea/4000.webp" alt="デカフェ緑茶ティーバッグ 使用イメージ" />
+              <img src="/images/products/decaf_green_tea/1000.webp" alt="カフェインカット緑茶ティーバッグ8個 パッケージ" />
+              <img src="/images/products/decaf_green_tea/4000.webp" alt="カフェインカット緑茶ティーバッグ 使用イメージ" />
             </div>
             <div className={styles["product-detail"]}>
               <h2>{FALLBACK_TITLE}</h2>
@@ -367,7 +367,7 @@ export default async function DecafeLpPage() {
                 <tbody>
                   <tr>
                     <th>種類</th>
-                    <td>カフェインカット（デカフェ）緑茶</td>
+                    <td>カフェインカット緑茶</td>
                   </tr>
                   <tr>
                     <th>産地</th>
@@ -383,7 +383,7 @@ export default async function DecafeLpPage() {
                   </tr>
                   <tr>
                     <th>風味</th>
-                    <td>デカフェながら深蒸し茶らしいまろやかな旨みと香り</td>
+                    <td>カフェインカットながら深蒸し茶らしいまろやかな旨みと香り</td>
                   </tr>
                 </tbody>
               </table>
