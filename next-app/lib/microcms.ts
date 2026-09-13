@@ -68,6 +68,9 @@ export type ProductItem = {
   SEO_DESC_KO?: string;
   SEO_TITLE_ZH?: string;
   SEO_DESC_ZH?: string;
+  /** microCMS 標準メタフィールド（sitemap の lastmod 用） */
+  revisedAt?: string;
+  publishedAt?: string;
 };
 
 export type ProductListResponse = {
@@ -229,6 +232,8 @@ function mapRawToProduct(c: Record<string, unknown>): ProductItem {
     SEO_DESC_KO: str(c, "SEO_DESC_KO"),
     SEO_TITLE_ZH: str(c, "SEO_TITLE_ZH"),
     SEO_DESC_ZH: str(c, "SEO_DESC_ZH"),
+    revisedAt: str(c, "revisedAt"),
+    publishedAt: str(c, "publishedAt"),
   };
 }
 

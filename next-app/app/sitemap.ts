@@ -63,10 +63,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { path: "/ise-cha/wakocha-lp", changeFrequency: "monthly", priority: 0.75 },
   ];
 
+  // 実際の更新日を持たない静的ページ・章ページは lastModified を付けない
+  // （常に new Date() を入れると「毎回更新された」という誤ったシグナルになり、
+  //   本当に更新したページの鮮度が Google に伝わらなくなるため）
   for (const { path, changeFrequency, priority } of staticPaths) {
     entries.push({
       url: localizedUrl(baseUrl, path),
-      lastModified: new Date(),
       changeFrequency,
       priority,
     });
@@ -76,7 +78,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   for (const slug of getAllChapterSlugs()) {
     entries.push({
       url: localizedUrl(baseUrl, `/kabatadani_no_ocha/${slug}`),
-      lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.65,
     });
@@ -86,7 +87,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   for (const slug of getIsechaChapterSlugs()) {
     entries.push({
       url: localizedUrl(baseUrl, `/isecha_no_rekishi/${slug}`),
-      lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.65,
     });
@@ -96,7 +96,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   for (const slug of getMieChagyoShiChapterSlugs()) {
     entries.push({
       url: localizedUrl(baseUrl, `/mie_chagyo_shi/${slug}`),
-      lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.65,
     });
@@ -107,9 +106,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     for (const p of products) {
       const slug = p.SLUG ?? (p as { slug?: string }).slug ?? p.id;
       if (!slug) continue;
+      // microCMS の実際の更新日時（revisedAt）を lastmod に反映する。
+      // 取得できない場合のみ公開日、それも無ければ省略する。
+      const lastModifiedSource = p.revisedAt ?? p.publishedAt;
       entries.push({
         url: localizedUrl(baseUrl, `/ise-cha/${slug}`),
-        lastModified: new Date(),
+        ...(lastModifiedSource ? { lastModified: new Date(lastModifiedSource) } : {}),
         changeFrequency: "weekly",
         priority: 0.8,
       });
