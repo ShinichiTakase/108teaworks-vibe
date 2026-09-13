@@ -4,6 +4,7 @@ import "./globals.css";
 import LayoutGate from "@/components/LayoutGate";
 import Providers from "@/components/Providers";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import GA4PageviewTracker from "@/components/GA4PageviewTracker";
 import MetaPixel from "@/components/MetaPixel";
 import MicrosoftClarity from "@/components/MicrosoftClarity";
 import ChachamaruDeferredStylesheet from "@/components/ChachamaruDeferredStylesheet";
@@ -78,6 +79,7 @@ export default function RootLayout({
         <GoogleAnalytics />
       </head>
       <body className="font-body">
+        <GA4PageviewTracker />
         <MetaPixel />
         <MicrosoftClarity />
         <Providers>

@@ -22,6 +22,9 @@ yarn-error.log*
 # local env
 .env*.local
 
+# GA4サービスアカウント鍵など秘密情報
+.secrets/
+
 # 注文スナップショット（ファイル保存）
 .data/
 
@@ -31,3 +34,5 @@ yarn-error.log*
 # TypeScript
 next-env.d.ts
 *.tsbuildinfo
+
+.secrets/

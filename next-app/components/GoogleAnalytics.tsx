@@ -17,7 +17,12 @@ export default function GoogleAnalytics() {
 
   const configLines: string[] = [];
   if (GA_MEASUREMENT_ID) {
-    configLines.push(`gtag('config', '${GA_MEASUREMENT_ID}');`);
+    // send_page_view: false — 初回分は GA4PageviewTracker が送る。App Router の
+    // クライアントサイド遷移では新しい HTML 読み込みが発生せずこのスクリプトが
+    // 再実行されないため、ここで自動送信すると遷移後のページビューが送信されない。
+    configLines.push(
+      `gtag('config', '${GA_MEASUREMENT_ID}', { send_page_view: false });`,
+    );
   }
   if (GOOGLE_ADS_ID) {
     configLines.push(`gtag('config', '${GOOGLE_ADS_ID}');`);
