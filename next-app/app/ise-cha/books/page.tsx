@@ -1,6 +1,7 @@
 import IsechaBooksPage from "@/components/pages/IsechaBooksPage";
 import PageEndProductList from "@/components/PageEndProductList";
 import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
+import IsechaBooksJsonLd from "@/components/IsechaBooksJsonLd";
 import { getFixedSeo, buildAlternatesForLocales } from "@/lib/seo";
 import { getBreadcrumbItems } from "@/lib/breadcrumb";
 
@@ -17,6 +18,7 @@ export default function IsechaBooksPageJa() {
   return (
     <>
       <BreadcrumbListSchema items={getBreadcrumbItems("/ise-cha/books")} />
+      <IsechaBooksJsonLd />
       <IsechaBooksPage />
       <PageEndProductList />
     </>
