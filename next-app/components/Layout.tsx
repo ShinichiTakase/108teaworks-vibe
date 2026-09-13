@@ -6,7 +6,7 @@ import FloatingCartBar from "./FloatingCartBar";
 import CartAddedPopup from "./CartAddedPopup";
 import FloatingProductListBar from "./FloatingProductListBar";
 
-const MAIN_CLASS = "pt-10 pb-28 px-4 md:pt-16 md:pb-36";
+const MAIN_CLASS = "pt-4 pb-28 px-4 md:pb-36";
 const INNER_CLASS = "w-[90%] max-w-wide mx-auto";
 
 type LayoutProps = {
