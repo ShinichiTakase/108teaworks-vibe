@@ -10,7 +10,7 @@ description: "編者略歴・編集後記"
 ## <div style="text-align: center;">髙　瀬　孝　二</div>
 
 <table style="margin: 1rem 0 0 0; width: 70%; white-space: pre-wrap; word-break: keep-all;">
-<tr><td>昭和11年（1936）</td><td>三重県飯南郡飯南町の茶農家に生まれる。</td></tr>
+<tr><td>昭和11年（1936）</td><td>三重県飯南郡飯南町の茶農家に生まれる。（生い立ちは<a href="/kabatadani_no_ocha/hajimeni/">「川俣谷のお茶」はじめに</a>も参照）</td></tr>
 <tr><td>昭和33年（1958） 6月</td><td>三重県庁農林水産部に就職</td></tr>
 <tr><td>平成 9年（1997） 3月</td><td>三重県農業技術センター首席研究員兼茶業<br>センター場長を最後に定年退職</td></tr>
 <tr><td>平成 9年（1997） 4月</td><td>三重県農業後継者育成基金事務局長に就任</td></tr>

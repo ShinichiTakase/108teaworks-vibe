@@ -132,7 +132,15 @@ export default function IsechaNoRekishiPage() {
             <p className="m-0">
               高瀬 孝二：松阪市在住（元三重県職員）。三重県農業技術センター主席研究員兼茶業センター場長を最後に定年退職。
               退職後は三重県茶業会議所常務理事に就任。日本茶インストラクター協会認定・日本茶インストラクターリーダー、日本茶アドバイザー養成講座専任講師。
-              令和６年 瑞宝双光章を受章。主な著書に「三重県茶業史」「川俣谷のお茶」「伊勢茶の歴史」がある。
+              令和６年 瑞宝双光章を受章。主な著書に「
+              <Link href="/mie_chagyo_shi/cover/" className="text-tea-deep underline-offset-4 hover:underline">
+                三重県茶業史
+              </Link>
+              」「
+              <Link href="/kabatadani_no_ocha/" className="text-tea-deep underline-offset-4 hover:underline">
+                川俣谷のお茶
+              </Link>
+              」「伊勢茶の歴史」がある。
             </p>
           </div>
 

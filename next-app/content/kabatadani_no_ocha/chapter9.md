@@ -107,6 +107,8 @@ order: 9
 
 ### 〇竹川竹斎（1809〜1882）
 
+竹斎の人物像は、姉妹編「[三重県茶業史](/mie_chagyo_shi/ch09/)」の先覚者・功績者の項でも紹介しています。
+
 <div style="display:flex; gap:1.5rem; align-items:flex-start; margin-bottom:1.5rem;">
 <figure style="flex:0 0 35%; margin:0;">
 <img src="/images/kabatadani/ch9-chikusai.webp" alt="竹川竹斎（1809〜1882）" style="width:100%; height:auto;" />

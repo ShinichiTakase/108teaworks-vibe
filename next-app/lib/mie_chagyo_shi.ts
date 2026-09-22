@@ -15,6 +15,8 @@ export type ChapterMeta = {
   shortTitle: string;
   order: number;
   description: string;
+  /** 章冒頭に表示する導入文（HTML）。現状 cover のみ想定、未設定なら非表示 */
+  leadHtml?: string;
 };
 
 export type Chapter = ChapterMeta & {

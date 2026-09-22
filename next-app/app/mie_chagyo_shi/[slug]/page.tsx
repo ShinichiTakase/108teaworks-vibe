@@ -3,6 +3,7 @@ import Link from "next/link";
 import { MAIN_CLASS as SHARED_MAIN_CLASS, INNER_CLASS as SHARED_INNER_CLASS } from "@/components/Layout";
 import PageEndProductList from "@/components/PageEndProductList";
 import BreadcrumbListSchema from "@/components/BreadcrumbListSchema";
+import MieChagyoShiCitation from "@/components/MieChagyoShiCitation";
 import { buildAlternatesForLocales } from "@/lib/seo";
 import { getBreadcrumbItems } from "@/lib/breadcrumb";
 import {
@@ -107,6 +108,28 @@ export default async function MieChaGyoShiChapterPage({ params }: Props) {
             </div>
           </nav>
 
+          {/* 導入文（現状 cover のみ設定想定） */}
+          {chapter.leadHtml && (
+            <div className="mb-8 rounded-md border border-tea-light/40 bg-cream px-4 py-4">
+              <div
+                className="text-[0.9375rem] leading-loose text-ink [&_p]:my-2 [&_p:first-child]:mt-0 [&_p:last-child]:mb-0"
+                dangerouslySetInnerHTML={{ __html: chapter.leadHtml }}
+              />
+            </div>
+          )}
+
+          {/* 目次への導線（cover のみ、上部・目立つ位置に配置） */}
+          {chapter.slug === "cover" && (
+            <div className="mb-8">
+              <Link
+                href="/mie_chagyo_shi/toc/"
+                className="inline-flex items-center gap-1 rounded-full bg-tea-deep px-4 py-2 text-[0.8125rem] font-semibold text-white hover:bg-tea-deep/90"
+              >
+                目次を見る ▶
+              </Link>
+            </div>
+          )}
+
           {/* 本文 */}
           {chapter.contentHtml.trim() ? (
             <div
@@ -178,7 +201,12 @@ export default async function MieChaGyoShiChapterPage({ params }: Props) {
               )}
             </div>
           </nav>
+
+          <MieChagyoShiCitation pageTitle={chapter.shortTitle} path={breadcrumbPath} />
         </article>
+
+        <hr className="my-10 border-border" aria-hidden />
+
         <PageEndProductList />
       </div>
     </main>

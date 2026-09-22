@@ -269,6 +269,85 @@ export default function IsechaPage() {
             </p>
           </div>
 
+          <div className="mt-10 text-left">
+            <h2 className="mt-0 mb-4 text-base font-semibold text-tea-deep">
+              伊勢茶の歴史をもっと詳しく読む
+            </h2>
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+              <div className="flex flex-col overflow-hidden rounded-xl border border-border bg-washi">
+                <Image
+                  src="/images/mie_chagyo_shi/cover.webp"
+                  alt={t.altMieCover}
+                  width={480}
+                  height={640}
+                  className="h-48 w-full object-cover"
+                />
+                <div className="flex flex-1 flex-col px-4 py-4">
+                  <h3 className="mb-2 text-[0.9375rem] font-semibold text-tea-deep">
+                    {t.bookMieTitle}
+                  </h3>
+                  <p className="mb-4 flex-1 text-[0.8125rem] leading-relaxed text-ink-muted">
+                    {t.bookMieP1}
+                  </p>
+                  <Link
+                    href="/mie_chagyo_shi/cover/"
+                    className="inline-flex items-center justify-center gap-1 rounded-full border border-tea-deep px-4 py-2 text-[0.8125rem] font-semibold text-tea-deep no-underline transition-colors hover:bg-tea-deep hover:text-white"
+                  >
+                    {t.bookMieLinkText}
+                  </Link>
+                </div>
+              </div>
+
+              <div className="flex flex-col overflow-hidden rounded-xl border border-border bg-washi">
+                <Image
+                  src="/images/books/isecha-kawamata.jpg"
+                  alt={t.altKawamata}
+                  width={480}
+                  height={640}
+                  className="h-48 w-full object-cover"
+                />
+                <div className="flex flex-1 flex-col px-4 py-4">
+                  <h3 className="mb-2 text-[0.9375rem] font-semibold text-tea-deep">
+                    {t.bookKawamataTitle}
+                  </h3>
+                  <p className="mb-4 flex-1 text-[0.8125rem] leading-relaxed text-ink-muted">
+                    {t.bookKawamataP1}
+                  </p>
+                  <Link
+                    href="/kabatadani_no_ocha/"
+                    className="inline-flex items-center justify-center gap-1 rounded-full border border-tea-deep px-4 py-2 text-[0.8125rem] font-semibold text-tea-deep no-underline transition-colors hover:bg-tea-deep hover:text-white"
+                  >
+                    {t.bookKawamataLinkText}
+                  </Link>
+                </div>
+              </div>
+
+              <div className="flex flex-col overflow-hidden rounded-xl border border-border bg-washi">
+                <Image
+                  src="/images/isecha_no_rekishi.jpg"
+                  alt={t.altHistoryCover}
+                  width={480}
+                  height={640}
+                  className="h-48 w-full object-cover"
+                />
+                <div className="flex flex-1 flex-col px-4 py-4">
+                  <h3 className="mb-2 text-[0.9375rem] font-semibold text-tea-deep">
+                    {t.bookHistoryTitle}
+                  </h3>
+                  <p className="mb-4 flex-1 text-[0.8125rem] leading-relaxed text-ink-muted">
+                    {t.bookHistoryP1}
+                  </p>
+                  <Link
+                    href="/isecha_no_rekishi/"
+                    className="inline-flex items-center justify-center gap-1 rounded-full border border-tea-deep px-4 py-2 text-[0.8125rem] font-semibold text-tea-deep no-underline transition-colors hover:bg-tea-deep hover:text-white"
+                  >
+                    {t.bookHistoryLinkText}
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div className="mt-10 flex justify-center">
             <div className="w-full max-w-[720px] rounded-xl bg-[rgb(240,230,220)] px-4 py-4 text-[0.9375rem] leading-relaxed text-ink-muted md:px-6 md:py-5">
               <h3 className="mb-2 text-[0.98rem] font-semibold text-tea-deep">
