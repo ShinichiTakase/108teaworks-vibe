@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { findActiveToken } from "@/lib/reviewsStorage";
 
 type Props = {
@@ -6,6 +7,11 @@ type Props = {
 };
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "商品レビュー入力｜伊勢茶の藤八茶寮",
+  robots: { index: false, follow: true },
+};
 
 const LABELS = {
   title: "商品レビューのご協力をお願いします",
@@ -91,4 +97,3 @@ export default async function ReviewPage({ params }: Props) {
     </main>
   );
 }
-

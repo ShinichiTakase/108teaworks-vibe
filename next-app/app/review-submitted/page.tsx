@@ -1,4 +1,10 @@
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "レビュー送信完了｜伊勢茶の藤八茶寮",
+  robots: { index: false, follow: true },
+};
 
 export default function ReviewSubmittedPage() {
   return (

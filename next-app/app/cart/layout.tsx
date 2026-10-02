@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "ショッピングカート｜伊勢茶の藤八茶寮",
   description: "ショッピングカートの内容を確認し、ご注文を進めます。",
+  robots: { index: false, follow: true },
 };
 
 export default function CartLayout({

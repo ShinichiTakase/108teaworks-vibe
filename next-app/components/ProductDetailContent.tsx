@@ -19,46 +19,11 @@ import { buildHref } from "@/lib/urlPath";
 import { ORGANIZATION_NAME_JA } from "@/lib/siteConstants";
 import { getProductFaqs } from "@/lib/productFaqs";
 
-/** Product/Offer 用。Google リッチリザルトで推奨される価格の有効期限 */
-const OFFER_PRICE_VALID_UNTIL = "2027-12-31";
 const SCHEMA_RATING_BEST = 5;
 const SCHEMA_RATING_WORST = 1;
 
 /** 商品の販売・配送対象を日本国内のみと JSON-LD で明示 */
 const OFFER_ELIGIBLE_REGION_JP = "JP";
-/** リッチリザルト用。実送料はランク・1万円以上無料等で変動(api/checkout/shipping と整合) */
-const SCHEMA_SHIPPING_RATE_JPY = 380;
-/** 注文確定メール等の「本日より2～5営業日」に合わせた日数レンジ(calendar DAY 表現) */
-const OFFER_SHIPPING_DETAILS_JP = [
-  {
-    "@type": "OfferShippingDetails",
-    shippingDestination: {
-      "@type": "DefinedRegion",
-      addressCountry: "JP",
-    },
-    shippingRate: {
-      "@type": "MonetaryAmount",
-      value: SCHEMA_SHIPPING_RATE_JPY,
-      currency: "JPY",
-    },
-    deliveryTime: {
-      "@type": "ShippingDeliveryTime",
-      handlingTime: {
-        "@type": "QuantitativeValue",
-        minValue: 1,
-        maxValue: 2,
-        unitCode: "DAY",
-      },
-      transitTime: {
-        "@type": "QuantitativeValue",
-        minValue: 1,
-        maxValue: 3,
-        unitCode: "DAY",
-      },
-    },
-  },
-];
-
 /** Google 等が飲料をアルコール類と誤認しにくいよう、茶・非アルコールを明示 */
 const SCHEMA_ADDITIONAL_TYPE_TEA = "https://schema.org/Tea";
 const SCHEMA_PRODUCT_CATEGORY = "お茶(アルコール非含有)";
@@ -70,6 +35,63 @@ type Props = {
   slug: string;
   /** 商品説明下部のレビュー一覧のページ番号（1始まり）。省略時は1ページ目 */
   reviewsPage?: number;
+};
+
+type ProductGuideLink = { href: string; label: string };
+
+const PRODUCT_GUIDE_LINKS: Record<string, ProductGuideLink[]> = {
+  "teasampler-3teabag-variety-pack": [
+    { href: "/ise-cha/", label: "伊勢茶の種類と味わいを見る" },
+  ],
+  decaf_green_tea: [
+    { href: "/ise-cha/decafe-lp/", label: "カフェイン70%カット緑茶の特徴・淹れ方を見る" },
+    { href: "/ise-cha/decaf/", label: "カフェインカット緑茶の商品カテゴリーを見る" },
+  ],
+  "deep-steamed-isecha": [
+    { href: "/ise-cha/fukamushi-lp/", label: "深蒸し茶の水出し・氷出しの淹れ方を見る" },
+    { href: "/ise-cha/fukamushi/", label: "深蒸し茶の製法と商品カテゴリーを見る" },
+  ],
+  "3teabag-ise-deeproasted": [
+    { href: "/ise-cha/fukamushi-lp/", label: "深蒸し茶の水出し・氷出しの淹れ方を見る" },
+  ],
+  "ise-tea-deep-steamed-bulkpack": [
+    { href: "/ise-cha/fukamushi-lp/", label: "深蒸し茶の淹れ方と容量の選び方を見る" },
+  ],
+  "isecha-powder-unsweetened": [
+    { href: "/ise-cha/fukamushi-powder-lp/", label: "深蒸し茶パウダーのラテ・製菓での使い方を見る" },
+    { href: "/ise-cha/fukamushi/", label: "深蒸し茶の製法と商品カテゴリーを見る" },
+  ],
+  "ise-tea-powder-unsweetened-bulkpack": [
+    { href: "/ise-cha/fukamushi-powder-lp/", label: "業務用緑茶パウダーの使い方と容量を確認する" },
+    { href: "/wholesale/", label: "カフェ・製菓業者向けの卸売り相談を見る" },
+  ],
+  "roasted-isecha-powder-unsweetened": [
+    { href: "/ise-cha/roasted-powder-lp/", label: "ほうじ茶パウダーのラテ・製菓での使い方を見る" },
+    { href: "/ise-cha/houjicha/", label: "伊勢茶のほうじ茶カテゴリーを見る" },
+  ],
+  "roasted-isecha-powder-unsweetened-bulkpack": [
+    { href: "/ise-cha/roasted-powder-lp/", label: "業務用ほうじ茶パウダーの使い方と容量を確認する" },
+    { href: "/wholesale/", label: "カフェ・製菓業者向けの卸売り相談を見る" },
+  ],
+  "wakocha-isecha": [
+    { href: "/ise-cha/wakocha-lp/", label: "伊勢茶の和紅茶の味わい・飲み方を見る" },
+    { href: "/ise-cha/wakocha/", label: "和紅茶の商品カテゴリーを見る" },
+  ],
+  "3teabag-ise-wakocha": [
+    { href: "/ise-cha/wakocha-lp/", label: "和紅茶の味わい・飲み方と容量の選び方を見る" },
+  ],
+  "roasted-isecha-teabag": [
+    { href: "/ise-cha/houjicha/", label: "ほうじ茶の味わい・淹れ方と商品カテゴリーを見る" },
+  ],
+  "roasted-isecha": [
+    { href: "/ise-cha/houjicha/", label: "ほうじ茶の味わい・淹れ方と商品カテゴリーを見る" },
+  ],
+  "3teabag-ise-roasted": [
+    { href: "/ise-cha/houjicha/", label: "伊勢茶のほうじ茶カテゴリーを見る" },
+  ],
+  "roasted-isecha-teabag-bulkpack": [
+    { href: "/ise-cha/houjicha/", label: "ほうじ茶の淹れ方と商品カテゴリーを見る" },
+  ],
 };
 
 export default async function ProductDetailContent({ slug, reviewsPage }: Props) {
@@ -92,9 +114,11 @@ export default async function ProductDetailContent({ slug, reviewsPage }: Props)
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://108teaworks.com";
   const productUrl = `${baseUrl}/ise-cha/${slug}/`;
   const schemaAvailability =
-    typeof product.STOCK === "number" && product.STOCK <= 0
-      ? "https://schema.org/OutOfStock"
-      : "https://schema.org/InStock";
+    typeof product.STOCK === "number"
+      ? product.STOCK <= 0
+        ? "https://schema.org/OutOfStock"
+        : "https://schema.org/InStock"
+      : undefined;
   const descriptionForSchema = product["JSON-DESCRIPTION"]?.slice(0, 300) ?? "";
   /** JSON-LD・価格下の★サマリー・商品説明下部のレビュー一覧、いずれもここを唯一のデータソースとして参照する */
   const { validReviews: reviewsForSchema, reviewCount, avgRating } = summarizeReviews(reviews);
@@ -137,9 +161,7 @@ export default async function ProductDetailContent({ slug, reviewsPage }: Props)
             price: product.PRICE,
             availability: schemaAvailability,
             url: productUrl,
-            priceValidUntil: OFFER_PRICE_VALID_UNTIL,
             eligibleRegion: OFFER_ELIGIBLE_REGION_JP,
-            shippingDetails: OFFER_SHIPPING_DETAILS_JP,
             /** 食品のためお客様都合の返品不可（瑕疵・誤配送時の法定対応は別枠）。LP側と同一の値に統一 */
             hasMerchantReturnPolicy: {
               "@type": "MerchantReturnPolicy",
@@ -163,6 +185,7 @@ export default async function ProductDetailContent({ slug, reviewsPage }: Props)
   const pathname = buildHref(`/ise-cha/${slug}`);
   const breadcrumbItems = getBreadcrumbItems(pathname, { productName: displayTitle || titleJa });
   const faqs = getProductFaqs(slug);
+  const guideLinks = PRODUCT_GUIDE_LINKS[slug] ?? [];
 
   const hasTaste = tasteImagePaths.length > 0;
   /** DESCRIPTION02 が無い商品は淹れ方などが DESCRIPTION01 に入ることが多い → その右に味わい画像 */
@@ -265,6 +288,22 @@ export default async function ProductDetailContent({ slug, reviewsPage }: Props)
             <ProductTasteImages paths={tasteImagePaths} altBase={displayTitle || titleJa} />
           )}
         </div>
+      )}
+      {guideLinks.length > 0 && (
+        <aside className="mt-8 rounded-lg border border-tea-light/60 bg-cream/30 px-4 py-4" aria-labelledby="product-guide-heading">
+          <h2 id="product-guide-heading" className="m-0 mb-3 text-base font-semibold text-tea-deep">
+            この商品の淹れ方・使い方
+          </h2>
+          <ul className="m-0 space-y-2 pl-5 text-[0.9375rem] leading-relaxed text-ink-muted">
+            {guideLinks.map((link) => (
+              <li key={link.href}>
+                <Link href={link.href} className="text-tea underline underline-offset-2">
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </aside>
       )}
       {/* レビュー一覧を商品説明の下部に直接埋め込み表示（翻訳未対応のため日本語かつ1件以上の場合のみ） */}
       {reviewCount > 0 && avgRating !== null && (

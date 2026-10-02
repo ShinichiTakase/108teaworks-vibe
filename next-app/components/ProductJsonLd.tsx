@@ -21,44 +21,15 @@ type Props = {
   offers?: OfferPrice | OfferPrice[];
 };
 
-/**
- * 全LP共通の配送・返品ポリシー（特商法ページ https://108teaworks.com/legal/ に準拠）。
- * 送料はクリックポスト基本額(¥380)のみを表現し、¥10,000以上無料・60サイズ¥880等の
- * 分岐はschema.org単体では正確に表せないため含めない。発送は支払い確定後5日以内。
- * 返品はお客様都合不可（食品のため）。瑕疵・誤配送時の法定対応は別枠でありここには含めない。
- */
-const SHIPPING_DETAILS = {
-  "@type": "OfferShippingDetails",
-  shippingRate: {
-    "@type": "MonetaryAmount",
-    value: "380",
-    currency: "JPY",
-  },
-  shippingDestination: {
-    "@type": "DefinedRegion",
-    addressCountry: "JP",
-  },
-  deliveryTime: {
-    "@type": "ShippingDeliveryTime",
-    handlingTime: {
-      "@type": "QuantitativeValue",
-      minValue: 0,
-      maxValue: 5,
-      unitCode: "DAY",
-    },
-  },
-} as const;
-
 const MERCHANT_RETURN_POLICY = {
   "@type": "MerchantReturnPolicy",
   applicableCountry: "JP",
   returnPolicyCategory: "https://schema.org/MerchantReturnNotPermitted",
 } as const;
 
-function withShippingAndReturnPolicy(offer: OfferPrice) {
+function withReturnPolicy(offer: OfferPrice) {
   return {
     ...offer,
-    shippingDetails: SHIPPING_DETAILS,
     hasMerchantReturnPolicy: MERCHANT_RETURN_POLICY,
   };
 }
@@ -80,14 +51,13 @@ export default function ProductJsonLd({
     url: canonicalUrl,
     priceCurrency: "JPY",
     price: Number(price ?? 0),
-    availability: "https://schema.org/InStock",
     itemCondition: "https://schema.org/NewCondition",
   };
 
   const resolvedOffers = offers ?? defaultOffer;
   const offersWithPolicy = Array.isArray(resolvedOffers)
-    ? resolvedOffers.map(withShippingAndReturnPolicy)
-    : withShippingAndReturnPolicy(resolvedOffers);
+    ? resolvedOffers.map(withReturnPolicy)
+    : withReturnPolicy(resolvedOffers);
 
   const json = {
     "@context": "https://schema.org",
