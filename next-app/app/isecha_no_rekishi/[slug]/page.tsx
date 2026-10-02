@@ -13,6 +13,14 @@ import {
 
 type Props = { params: { slug: string } };
 
+const CONTEXT_LINKS: Record<string, { href: string; label: string }[]> = {
+  chapter10: [{ href: "/ise-cha/fukamushi/", label: "現在の深蒸し茶の製法・味わいを見る" }],
+  omoshiro10: [
+    { href: "/ise-cha/america/", label: "伊勢茶の輸出と蘭字の物語を見る" },
+    { href: "/ise-cha/teasampler-3teabag-variety-pack/", label: "蘭字をモチーフにした伊勢茶の飲み比べセットを見る" },
+  ],
+};
+
 export async function generateStaticParams() {
   return getAllChapterSlugs().map((slug) => ({ slug }));
 }
@@ -33,6 +41,7 @@ export default async function IsechaChapterPage({ params }: Props) {
   if (!chapter) notFound();
 
   const { prev, next } = getAdjacentChapters(params.slug);
+  const contextLinks = CONTEXT_LINKS[params.slug] ?? [];
   const breadcrumbPath = `/isecha_no_rekishi/${params.slug}`;
 
   return (
@@ -120,6 +129,15 @@ export default async function IsechaChapterPage({ params }: Props) {
             />
           ) : (
             <p className="text-[0.9375rem] text-ink-muted">（本文準備中）</p>
+          )}
+
+          {contextLinks.length > 0 && (
+            <aside className="mt-10 rounded-lg border border-tea-light/60 bg-cream/30 px-4 py-4" aria-label="関連する伊勢茶の案内">
+              <p className="m-0 mb-2 text-[0.9375rem] font-semibold text-tea-deep">本文に関連する伊勢茶の案内</p>
+              <ul className="m-0 space-y-2 pl-5 text-[0.9375rem] leading-relaxed text-ink-muted">
+                {contextLinks.map((link) => <li key={link.href}><Link href={link.href} className="text-tea underline underline-offset-2">{link.label}</Link></li>)}
+              </ul>
+            </aside>
           )}
 
           {/* 前後ナビ */}

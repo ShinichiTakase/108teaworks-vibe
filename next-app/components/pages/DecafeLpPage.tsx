@@ -34,7 +34,7 @@ const FAQS = [
   },
   {
     q: "妊娠中や授乳中でも飲めますか？",
-    a: "カフェインを気にされる方に選ばれている商品ですが、体質や体調には個人差がありますので、心配な場合はかかりつけの医師にご相談のうえお楽しみください。",
+    a: "本商品はカフェイン70%カットですが、カフェインはゼロではありません。妊娠中・授乳中の飲用について判断が必要な場合は、かかりつけの医師にご相談ください。",
   },
 ] as const;
 
@@ -44,9 +44,9 @@ const FALLBACK_PRICE = 1296;
 export default async function DecafeLpPage() {
   const canonicalUrl = `${SITE_BASE_URL}/ise-cha/decafe-lp/`;
   const leadDescription =
-    "「緑茶は好きだけど、カフェインが気になる」——そんな声から生まれた、藤八茶寮のカフェインカット緑茶ティーバッグ。三重県松阪市飯南町産の伊勢茶100%を、化学薬品を使わない超臨界二酸化炭素抽出法でやさしくカフェインカットしました。";
+    "三重県松阪市飯南町・川俣谷の伊勢茶を使った、カフェイン70%カットの緑茶ティーバッグです。デカフェ緑茶を選びたい方に、深蒸し茶のコクとまろやかな旨みをご紹介します。カフェインはゼロではありません。";
   const jsonLdDescription =
-    "「緑茶は好きだけどカフェインが気になる」という声から生まれた、三重県松阪市飯南町産の伊勢茶・深蒸し茶をベースにしたカフェインカット緑茶ティーバッグです。有機溶媒などの化学薬品を使わず、水と二酸化炭素だけで抽出する超臨界二酸化炭素抽出法によって、カフェインを一般的な緑茶の1/3以下となる約70%カットしています。抽出後に旨み成分を黄金比で再ブレンドしているため、カフェインカット特有の物足りなさがなく深蒸し茶ならではの濃厚なコクをそのまま楽しめるのが特長です。就寝前のリラックスタイムや妊娠中・授乳中の方にもおすすめで、家族みんなで安心して緑茶の時間を楽しめます。";
+    "三重県松阪市飯南町・川俣谷の伊勢茶を使った、カフェイン70%カットの緑茶ティーバッグです。深蒸し茶のコクとまろやかな旨みを楽しめます。カフェインはゼロではありません。";
 
   const product = await getProductBySlug("decaf_green_tea");
   const price = product?.PRICE ?? FALLBACK_PRICE;
@@ -90,11 +90,7 @@ export default async function DecafeLpPage() {
         <div className={styles["hero-overlay"]}>
           <div className={styles["hero-copy-card"]}>
             <span className={styles.eyebrow}>🍃 カフェイン70%カット</span>
-            <h1>
-              深蒸し茶のコクはそのまま、
-              <br />
-              <span className={styles.accent}>夜も、妊娠中も、家族みんなで</span>楽しめる緑茶。
-            </h1>
+            <h1>カフェイン70%カット。深蒸し茶のコクを楽しむ緑茶</h1>
             <p className={styles.lead}>{leadDescription}</p>
             <div className={styles["hero-badges"]}>
               <div className={styles.badge}>
@@ -119,35 +115,35 @@ export default async function DecafeLpPage() {
           <div className={styles["section-head"]}>
             <span className={styles.tag}>SYMPATHY</span>
             <h2>こんなお悩み、ありませんか？</h2>
-            <p>おいしいお茶を、もっと気兼ねなく楽しみたい方へ。</p>
+            <p>カフェインを控えた緑茶を、味わいと商品特性から選びたい方へ。</p>
           </div>
           <div className={styles["worry-cards"]}>
             <div className={styles["worry-card"]}>
-              <div className={styles.emoji}>🌙</div>
+              <div className={styles.emoji}>🍵</div>
               <p>
-                夜に緑茶を飲むと
+                カフェインを控えながら
                 <br />
-                眠れなくなってしまう
+                緑茶の味を楽しみたい
               </p>
             </div>
             <div className={styles["worry-card"]}>
-              <div className={styles.emoji}>🤰</div>
+              <div className={styles.emoji}>🌿</div>
               <p>
-                妊娠中・授乳中でも
+                デカフェ緑茶でも
                 <br />
-                お茶の味をあきらめたくない
+                深蒸し茶のコクを味わいたい
               </p>
             </div>
             <div className={styles["worry-card"]}>
-              <div className={styles.emoji}>👨‍👩‍👧‍👦</div>
+              <div className={styles.emoji}>🫖</div>
               <p>
-                子どもや親とも
+                ティーバッグで
                 <br />
-                同じお茶を囲みたい
+                一杯ずつ手軽に淹れたい
               </p>
             </div>
           </div>
-          <div className={styles["worry-arrow"]}>↓ そんな方に選ばれています ↓</div>
+          <div className={styles["worry-arrow"]}>↓ 味わいと商品特性をご紹介します ↓</div>
         </div>
       </section>
 
@@ -156,7 +152,7 @@ export default async function DecafeLpPage() {
         <div className={styles.wrap}>
           <div className={styles["section-head"]}>
             <span className={styles.tag}>HOW WE MAKE IT</span>
-            <h2>薬品を使わない、やさしい脱カフェイン製法</h2>
+            <h2>水と二酸化炭素を用いるカフェインカット製法</h2>
             <p>水と二酸化炭素だけを用いる「超臨界二酸化炭素抽出法」で、風味を守りながらカフェインだけを取り除きます。</p>
           </div>
           <div className={styles["method-flow"]}>
@@ -186,12 +182,12 @@ export default async function DecafeLpPage() {
             <div className={styles["point-card"]}>
               <div className={styles["icon-circle"]}>💧</div>
               <h3>水とCO₂だけで抽出</h3>
-              <p>一般的なカフェインカット茶に使われがちな有機溶媒は不使用。水と二酸化炭素のみを用いた製法だから、毎日安心して飲めます。</p>
+              <p>有機溶媒を使わず、水と二酸化炭素を用いてカフェインを抽出しています。完成品はカフェイン70%カットです。</p>
             </div>
             <div className={styles["point-card"]}>
               <div className={styles["icon-circle"]}>🌱</div>
               <h3>プラスチックフリーの茶葉</h3>
-              <p>ティーバッグは植物由来素材のみ。お湯に浸しても雑味が出にくく、環境にも体にもやさしい設計です。</p>
+              <p>植物由来素材のティーバッグで、一杯ずつ手軽に淹れられます。</p>
             </div>
           </div>
         </div>
@@ -203,7 +199,7 @@ export default async function DecafeLpPage() {
           <div className={styles["section-head"]}>
             <span className={styles.tag}>CAFFEINE DATA</span>
             <h2>飲み物別・カフェイン含有量を比べてみると</h2>
-            <p>100mlあたりのカフェイン量（目安）。数値が小さいほど、体にやさしい選択肢です。</p>
+            <p>100mlあたりのカフェイン量の目安です。抽出条件によって変わり、カフェインが少ないことは安全性を保証するものではありません。</p>
           </div>
           <div className={styles["compare-table-wrap"]}>
             <table className={styles["compare-table"]}>
@@ -304,31 +300,31 @@ export default async function DecafeLpPage() {
         <div className={styles.wrap}>
           <div className={styles["section-head"]}>
             <span className={styles.tag}>FOR YOUR MOMENTS</span>
-            <h2>こんな方・シーンにおすすめです</h2>
+            <h2>味わいと使い方から選ぶカフェインカット緑茶</h2>
           </div>
           <div className={styles["scene-grid"]}>
             <div className={styles["scene-card"]}>
-              <div className={styles.emoji}>😴</div>
+              <div className={styles.emoji}>🍵</div>
               <p>
-                おやすみ前の
+                深蒸し茶の
                 <br />
-                リラックスタイムに
+                コクを味わいたいときに
               </p>
             </div>
             <div className={styles["scene-card"]}>
-              <div className={styles.emoji}>🤱</div>
+              <div className={styles.emoji}>🫖</div>
               <p>
-                妊娠中・授乳中の
+                ティーバッグで
                 <br />
-                カフェイン管理に
+                一杯ずつ淹れたいときに
               </p>
             </div>
             <div className={styles["scene-card"]}>
-              <div className={styles.emoji}>👵</div>
+              <div className={styles.emoji}>🌿</div>
               <p>
-                お子さまから
+                川俣谷の伊勢茶を
                 <br />
-                ご年配の方まで
+                味わいたいときに
               </p>
             </div>
             <div className={styles["scene-card"]}>
@@ -348,7 +344,9 @@ export default async function DecafeLpPage() {
         <div className={styles.wrap}>
           <div className={styles["section-head"]}>
             <span className={styles.tag}>PRODUCT</span>
-            <h2>商品情報</h2>
+            <h2>ティーバッグ8個入りの商品を確認する</h2>
+            <p>カフェインはゼロではありません。<a href="/ise-cha/decaf_green_tea/" style={{ textDecoration: "underline", textUnderlineOffset: "0.2em" }}>カフェインカット緑茶 ティーバッグ8個入りの商品詳細</a></p>
+            <p><a href="/ise-cha/decaf/" style={{ textDecoration: "underline", textUnderlineOffset: "0.2em" }}>カフェインカット緑茶の特徴・商品案内</a></p>
           </div>
           <div className={styles["product-grid"]}>
             <div className={styles["product-gallery"]}>
@@ -416,9 +414,9 @@ export default async function DecafeLpPage() {
       {/* ===== 最終CTA ===== */}
       <section className={styles["final-cta"]}>
         <h2>
-          今日から、カフェインを気にせず
+          カフェイン70%カットの緑茶を、
           <br />
-          おいしい緑茶を。
+          味わいで選ぶ。
         </h2>
         <p>深蒸し茶のコクはそのままに、カフェイン約70%カット。{formatPriceYen(price)}（税込）・送料¥10,000以上で無料。</p>
         <DecafeLpBuy product={purchaseProduct} ctaLabel="この商品を購入する" />

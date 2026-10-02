@@ -120,10 +120,10 @@ export const ISECHA_TEXTS: {
       "伊勢茶がどれほど現地で愛されていたかを物語るエピソードがあります。最盛期のニューヨークではなんと1,500軒以上のティーガーデンが軒を連ね、至るところで伊勢茶が提供されていました。アメリカの人々にとって伊勢茶の爽やかな香りと深い味わいは、洗練されたひとときを彩る日常の楽しみとなっていました。",
     cardHojichaTitle: "ほうじ茶",
     cardHojichaBody:
-      "ほうじ茶（焙じ茶）は、煎茶・番茶・茎茶などの緑茶を強火で焙煎してつくるお茶です。焙煎によって生まれるピラジン類という香気成分がほうじ茶特有の香ばしさを作ります。刺激が少ないため食事中のお茶に向いているほか、焙煎によってカフェインが減るので夜でも飲みやすいとされます。英語では roasted green tea と呼ばれます。",
+      "ほうじ茶（焙じ茶）は、煎茶・番茶・茎茶などの緑茶を強火で焙煎してつくるお茶です。焙煎によって生まれるピラジン類という香気成分が、ほうじ茶特有の香ばしさを作ります。藤八茶寮では茶葉、ティーバッグ、無糖パウダーを用途に合わせて選べます。英語では roasted green tea と呼ばれます。",
     cardWakochaTitle: "和紅茶",
     cardWakochaBody:
-      "最近人気の日本で栽培された茶葉を日本国内で紅茶として加工したお茶です。海外紅茶（アッサム種など）は渋みが強いのに対し和紅茶は中国種の茶樹を使うことが多く、甘み・旨みが出やすいのが特徴。また華やかで強い香りの海外紅茶に比べ、和紅茶はほのかで繊細な香りが魅力です。英語では Japanese black tea と呼ばれます。",
+      "和紅茶は、日本で栽培された茶葉を国内で紅茶として加工したお茶です。海外紅茶（アッサム種など）は渋みが強いのに対し、和紅茶は中国種の茶樹を使うことが多く、甘み・旨みが出やすいのが特徴です。ほのかで繊細な香りも魅力で、英語では Japanese black tea と呼ばれます。",
     altKawamata: "伊勢茶発祥の地 川俣谷",
     altField: "深蒸し茶の茶畑",
 };
@@ -148,6 +148,17 @@ export default function IsechaPage() {
           >
             {t.h1}
           </h1>
+
+          <nav aria-label="伊勢茶の商品カテゴリー" className="mb-10 rounded-lg border border-tea-light/60 bg-cream/30 p-4">
+            <h2 className="m-0 mb-3 text-base font-semibold text-tea-deep">味わいと用途から伊勢茶を選ぶ</h2>
+            <div className="flex flex-wrap gap-x-5 gap-y-2 text-[0.9375rem]">
+              <Link href="/ise-cha/fukamushi/" className="text-tea underline underline-offset-2">深蒸し茶</Link>
+              <Link href="/ise-cha/houjicha/" className="text-tea underline underline-offset-2">ほうじ茶</Link>
+              <Link href="/ise-cha/wakocha/" className="text-tea underline underline-offset-2">和紅茶</Link>
+              <Link href="/ise-cha/decaf/" className="text-tea underline underline-offset-2">カフェインカット緑茶</Link>
+              <Link href="/ise-cha/fukamushi-powder-lp/" className="text-tea underline underline-offset-2">深蒸し茶パウダー</Link>
+            </div>
+          </nav>
 
           <div className="mb-10 grid grid-cols-1 items-start gap-6 md:grid-cols-2 md:gap-8">
             <div className="text-left">

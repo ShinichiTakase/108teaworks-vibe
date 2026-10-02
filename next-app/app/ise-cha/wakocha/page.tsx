@@ -3,9 +3,9 @@ import { buildAlternatesForLocales } from "@/lib/seo";
 
 export async function generateMetadata() {
   return {
-    title: "和紅茶の通販なら伊勢茶の藤八茶寮｜川俣谷産シングルオリジン",
+    title: "和紅茶とは｜三重県飯南町の国産紅茶・通販｜藤八茶寮",
     description:
-      "三重県川俣谷産・シングルオリジン伊勢茶の和紅茶をティーバッグでお届け。日本の緑茶品種を完全発酵させた、やさしい甘みと繊細な香りの国産紅茶。ストレートでもミルクティーでもお楽しみいただけます。",
+      "和紅茶の味わいと飲み方、食事やお菓子との合わせ方をご案内。三重県松阪市飯南町・川俣谷産の伊勢茶で作る国産紅茶を選べます。",
     alternates: buildAlternatesForLocales("/ise-cha/wakocha"),
   };
 }

@@ -3,9 +3,9 @@ import { buildAlternatesForLocales } from "@/lib/seo";
 
 export async function generateMetadata() {
   return {
-    title: "深蒸し茶の通販なら伊勢茶の藤八茶寮｜川俣谷産シングルオリジン",
+    title: "深蒸し茶とは｜三重県川俣谷産の伊勢茶・通販｜藤八茶寮",
     description:
-      "三重県川俣谷産・シングルオリジンの深蒸し茶をティーバッグ・茶葉でお届け。独自の地形が生む自然かぶせに近い濃厚な旨みが特徴。藤八茶寮の自家茶畑から直送します。",
+      "深蒸し茶の製法と味わい、茶葉・ティーバッグ・パウダーの違いをご案内。三重県松阪市飯南町・川俣谷産の伊勢茶から、用途に合う商品を選べます。",
     alternates: buildAlternatesForLocales("/ise-cha/fukamushi"),
   };
 }

@@ -3,9 +3,9 @@ import { buildAlternatesForLocales } from "@/lib/seo";
 import { SITE_BASE_URL } from "@/lib/siteConstants";
 
 export async function generateMetadata() {
-  const title = "伊勢茶 ほうじ茶パウダー（無糖）｜藤八茶寮";
+  const title = "ほうじ茶パウダー｜無糖でラテ・製菓に使える伊勢茶｜藤八茶寮";
   const description =
-    "ほうじ茶パウダー、お湯にも牛乳にもすっと溶ける。無添加・無着色で低カフェイン、夜でも安心。伊勢茶発祥の地・川俣谷産一番茶を丸ごと焙じて微粉末に。";
+    "川俣谷産伊勢茶の香ばしさを、ほうじ茶ラテやお菓子作りに。無糖ほうじ茶パウダーの使い方と、ご家庭用80g・業務用・製菓用500gの違いをご紹介。用途に合う容量の商品詳細から選べます。";
   const ogImageUrl = `${SITE_BASE_URL}/images/lp/hoji_powder_lp_ogimage.webp`;
   return {
     title,

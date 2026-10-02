@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import PartnerLogos from "@/components/PartnerLogos";
 import WholesaleForm, { type WholesaleFormStep } from "@/components/WholesaleForm";
 import { WHOLESALE_TEXTS } from "@/lib/wholesaleTexts";
@@ -46,6 +47,17 @@ export default function WholesalePageContent() {
           </div>
 
           <PartnerLogos className="mb-10" />
+
+          <div className="mb-10 rounded-lg border border-tea-light/60 bg-cream/30 px-4 py-4">
+            <h2 className="m-0 mb-3 text-base font-semibold text-tea-deep">業務用パウダーの商品と使い方</h2>
+            <p className="m-0 mb-3 text-[0.9375rem] leading-relaxed text-ink-muted">
+              カフェのラテや製菓材料には、無糖の深蒸し茶パウダー・ほうじ茶パウダーを500gでご用意しています。
+            </p>
+            <ul className="m-0 space-y-2 pl-5 text-[0.9375rem] leading-relaxed text-ink-muted">
+              <li><Link href="/ise-cha/fukamushi-powder-lp/" className="text-tea underline underline-offset-2">業務用緑茶パウダーの使い方と500g商品を見る</Link></li>
+              <li><Link href="/ise-cha/roasted-powder-lp/" className="text-tea underline underline-offset-2">業務用ほうじ茶パウダーのラテ・製菓用途と500g商品を見る</Link></li>
+            </ul>
+          </div>
         </section>
       )}
 

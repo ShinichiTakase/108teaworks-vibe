@@ -3,9 +3,9 @@ import { buildAlternatesForLocales } from "@/lib/seo";
 import { SITE_BASE_URL } from "@/lib/siteConstants";
 
 export async function generateMetadata() {
-  const title = "和紅茶 ティーバッグ｜アフタヌーンティーで人気の和紅茶を、ご自宅で。｜藤八茶寮";
+  const title = "伊勢茶の和紅茶｜味わい・飲み方とティーバッグ｜藤八茶寮";
   const description =
-    "国産和紅茶、アフタヌーンティーの人気の味をご自宅で。渋み少なく上品な甘み、洋菓子にも和食にも。三重県松阪市飯南町産シングルオリジン伊勢茶を完全発酵。";
+    "三重県松阪市飯南町・川俣谷の伊勢茶から仕上げた国産和紅茶。味わいと飲み方、お菓子や食事との合わせ方をご紹介。日常用8個入り、お試し・プチギフト用3個セットのティーバッグから選べます。";
   const ogImageUrl = `${SITE_BASE_URL}/images/lp/wakocha-lp-ogimage.webp`;
   return {
     title,

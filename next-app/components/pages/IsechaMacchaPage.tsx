@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import IsechaSubNav from "@/components/IsechaSubNav";
 import { MAIN_CLASS, INNER_CLASS } from "@/components/Layout";
 import { COMMON_TEXTS } from "@/lib/commonTexts";
@@ -49,7 +50,7 @@ const MACCHA_MOBILE_INSERT: Array<{
 ];
 
 export default function IsechaMacchaPage() {
-  const h1 = COMMON_TEXTS.nav.isechaMaccha;
+  const h1 = "抹茶と緑茶パウダーの違い";
 
   function renderMobileInsert(sectionIndex: number) {
     const rule = MACCHA_MOBILE_INSERT.find((r) => r.sectionIndex === sectionIndex);
@@ -107,6 +108,14 @@ export default function IsechaMacchaPage() {
               飲み方や用途に合わせて選ぶことで、それぞれの魅力をよりはっきり楽しめます。
             </p>
           </section>
+
+          <p className="mb-8 text-[0.9375rem] leading-relaxed text-ink-muted">
+            ラテや製菓に使う商品を探している方は、{" "}
+            <Link href="/ise-cha/fukamushi-powder-lp/" className="text-tea underline underline-offset-2">
+              無糖の深蒸し茶パウダーと使い方
+            </Link>
+            をご覧ください。
+          </p>
 
           <div className="grid grid-cols-1 items-start gap-8 text-left lg:grid-cols-[minmax(0,260px)_1fr] lg:gap-10 xl:grid-cols-[minmax(0,280px)_1fr]">
             <aside className="hidden shrink-0 lg:sticky lg:top-24 lg:block lg:max-w-none">

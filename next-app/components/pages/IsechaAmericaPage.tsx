@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import IsechaSubNav from "@/components/IsechaSubNav";
 import { MAIN_CLASS, INNER_CLASS } from "@/components/Layout";
 
@@ -85,6 +86,10 @@ export default function IsechaAmericaPage() {
             </p>
             <p className="mb-0 text-[0.9375rem] leading-relaxed text-ink-muted">
               {t.p6}
+            </p>
+            <p className="mt-4 flex flex-wrap gap-4 text-[0.9375rem] leading-relaxed text-ink-muted">
+              <Link href="/isecha_no_rekishi/omoshiro10/" className="text-tea underline underline-offset-2">輸出茶箱と蘭字の資料を見る</Link>
+              <Link href="/ise-cha/teasampler-3teabag-variety-pack/" className="text-tea underline underline-offset-2">蘭字をモチーフにした伊勢茶の飲み比べセットを見る</Link>
             </p>
           </div>
         </article>

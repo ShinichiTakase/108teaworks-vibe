@@ -24,7 +24,7 @@ import styles from "./FukamushiPowderLpPage.module.css";
 const FAQS = [
   {
     q: "抹茶とはどう違いますか？",
-    a: "原料と製法が異なります。抹茶の原料は遮光栽培した「碾茶」、当店のパウダーは露地栽培の「煎茶」をまるごと微粉末にしたもの。特殊製法で抹茶と同程度の細かさに仕上げており、冷めても味の輪郭がぼやけないのが特徴です。",
+    a: "原料は深蒸し茶で、抹茶とは異なります。詳しい比較は、このページの「抹茶と緑茶パウダーの違いを詳しく見る」リンクからご覧ください。",
   },
   {
     q: "お菓子作りの分量の目安はありますか？",
@@ -66,7 +66,7 @@ const WAVE_DIVIDER = (
 export default async function FukamushiPowderLpPage() {
   const canonicalUrl = `${SITE_BASE_URL}/ise-cha/fukamushi-powder-lp/`;
   const leadDescription =
-    "三重県産の伊勢茶一番茶を丸ごと粉末にした、無糖・無添加の深蒸し茶パウダーです。抹茶ではなくあえて緑茶を粉末にすることで、抹茶特有の苦みを抑えつつ深蒸し茶らしいまろやかなコクを楽しめます。牛乳や水に溶かすだけのアイス・ホット緑茶ラテはもちろん、バニラアイスなどスイーツのトッピングに、クッキーやパン生地に混ぜ込んでお料理にも幅広く活用できます。口当たりなめらかな800メッシュの細かさで、茶殻が出ず手間もゴミも出ないのが魅力です。ご家庭用の100gから、飲食店・製菓用にも便利な業務用500gまでご用意しています。";
+    "三重県産の伊勢茶一番茶を粉末にした、無糖・無添加の深蒸し茶パウダーです。原料は深蒸し茶で、抹茶とは異なります。緑茶ラテや製菓に使え、家庭用100gと業務用・製菓用500gから選べます。";
 
   const [smallProduct, bulkProduct] = await Promise.all([
     getProductBySlug(SMALL_SLUG),
@@ -106,7 +106,6 @@ export default async function FukamushiPowderLpPage() {
             url: canonicalUrl,
             priceCurrency: "JPY",
             price: small.price,
-            availability: "https://schema.org/InStock",
             itemCondition: "https://schema.org/NewCondition",
             name: "100g",
           },
@@ -115,7 +114,6 @@ export default async function FukamushiPowderLpPage() {
             url: canonicalUrl,
             priceCurrency: "JPY",
             price: bulk.price,
-            availability: "https://schema.org/InStock",
             itemCondition: "https://schema.org/NewCondition",
             name: "500g",
           },
@@ -149,7 +147,7 @@ export default async function FukamushiPowderLpPage() {
             </ul>
           </div>
           <div className={`${styles["hero-below"]} ${styles["grain-bg"]}`}>
-            <h1>伊勢茶 深蒸し茶パウダー</h1>
+            <h1>無糖の深蒸し茶パウダーで、緑茶ラテとお菓子作り</h1>
             <span className={styles["hero-sub"]}>無糖・無添加。800メッシュの微粉末で、お茶をまるごと。</span>
             <ul className={styles["hero-tags"]}>
               <li>香料・着色料不使用</li>
@@ -164,98 +162,22 @@ export default async function FukamushiPowderLpPage() {
         <section className={styles.intro}>
           <div className={styles.wrap}>
             <p>
-              <strong>急須では引き出せない栄養まで、まるごと一杯に。</strong>
+              <strong>深蒸し茶のコクを、ラテやお菓子作りに。</strong>
               <br />
-              お茶処・三重県で育った伊勢茶の一番茶を、贅沢にそのまま粉末にしました。急須で淹れるお茶では茶葉に残ってしまう栄養成分が約70％とも言われますが、この深蒸し茶パウダーならカテキン・ビタミン・食物繊維を100％まるごと取り入れられます。水にもお湯にも牛乳にもさっと溶けて、飲むだけでなくお菓子作りや料理にも幅広く活躍します。
+              三重県松阪市飯南町・川俣谷の伊勢茶を、深蒸し製法で仕上げて粉末にしました。砂糖を加えていない緑茶パウダーなので、ラテの甘さはお好みで調整できます。飲み物だけでなく、製菓や料理の風味づけにも使えます。
             </p>
           </div>
         </section>
 
-        {/* ---------- 深蒸し茶とは ---------- */}
+        {/* ---------- 茶種と製法の案内 ---------- */}
         <section className={`${styles.fukamushi} ${styles["grain-bg"]}`}>
           <div className={styles.wrap}>
-            <span className={styles.eyebrow}>ABOUT 深蒸し茶</span>
-            <h2 className={styles["section-title"]}>
-              長く蒸すから、渋くならない。
-              <br />
-              深蒸し茶がまろやかな理由
-            </h2>
-            <p className={styles["section-lead"]}>
-              「深蒸し茶」とは、緑茶づくりの「蒸し」の工程を通常の2〜4倍じっくりとかけたお茶。長い蒸し時間が茶葉の細胞壁を壊し、渋みのもとになる成分を細かく分解します。渋みが抑えられ、まろやかで濃厚な旨みが前面に出るのが特徴です。
-            </p>
-            <div className={styles["fuka-grid"]}>
-              <div className={styles["fuka-card"]}>
-                <p className={styles.num}>
-                  30〜40<span>秒</span>
-                </p>
-                <p>普通の煎茶の蒸し時間の目安</p>
-              </div>
-              <div className={styles["fuka-card"]}>
-                <p className={styles.num}>
-                  60〜180<span>秒</span>
-                </p>
-                <p>藤八茶寮の深蒸し茶。じっくり蒸すことで渋みの成分を分解</p>
-              </div>
-              <div className={styles["fuka-card"]}>
-                <p className={styles.num}>
-                  800<span>メッシュ</span>
-                </p>
-                <p>パウダーの細かさ。ざらつきを感じにくく、なめらかに溶けます</p>
-              </div>
-            </div>
-            <div className={styles["fuka-body"]}>
-              <p>
-                三重県は静岡・鹿児島に次ぐ、日本有数のお茶の産地。中でも山あいの茶園で育つ伊勢茶は、山に囲まれた地形が午後の日照をやわらげ、茶葉が旨み成分・テアニンをじっくり蓄えてから収穫されます。その茶葉を深蒸し製法でさらに凝縮させたのが、藤八茶寮の深蒸し茶パウダーです。
-              </p>
-              <p>他産地の茶葉とブレンドしない「シングルオリジン」だから、産地の個性をそのままに、お茶本来の力強いコクと鮮やかな緑色を味わっていただけます。</p>
-            </div>
-          </div>
-        </section>
-
-        {/* ---------- 抹茶との違い ---------- */}
-        <section className={styles.vsmatcha}>
-          <div className={styles.wrap}>
-            <span className={styles.eyebrow}>抹茶と、何が違う？</span>
-            <h2 className={styles["section-title"]}>
-              抹茶ではなく、
-              <br />
-              「パウダー緑茶」を選ぶ理由
-            </h2>
-            <p className={styles["section-lead"]}>
-              藤八茶寮では抹茶ではなく、煎茶をまるごと微粉末にした「パウダー緑茶」をご用意しています。原料も製法も異なる、それぞれの個性です。
-            </p>
-            <div className={styles["cmp-table"]}>
-              <div className={styles["cmp-row"]}>
-                <div className={styles["cmp-label"]}></div>
-                <div className={styles["cmp-cell"]}>抹茶</div>
-                <div className={styles["cmp-cell"]}>深蒸し茶パウダー</div>
-              </div>
-              <div className={styles["cmp-row"]}>
-                <div className={styles["cmp-label"]}>原料</div>
-                <div className={styles["cmp-cell"]}>碾茶（てんちゃ）</div>
-                <div className={styles["cmp-cell"]}>煎茶（せんちゃ）</div>
-              </div>
-              <div className={styles["cmp-row"]}>
-                <div className={styles["cmp-label"]}>栽培</div>
-                <div className={styles["cmp-cell"]}>収穫前に約1ヶ月遮光</div>
-                <div className={styles["cmp-cell"]}>太陽をたっぷり浴びる露地栽培</div>
-              </div>
-              <div className={styles["cmp-row"]}>
-                <div className={styles["cmp-label"]}>細かさ</div>
-                <div className={styles["cmp-cell"]}>約15〜20ミクロン</div>
-                <div className={styles["cmp-cell"]}>特殊製法で抹茶と同程度に微粉末化</div>
-              </div>
-              <div className={styles["cmp-row"]}>
-                <div className={styles["cmp-label"]}>冷めても</div>
-                <div className={styles["cmp-cell"]}>繊細な甘みが弱まりやすい</div>
-                <div className={styles["cmp-cell"]}>香りと飲みごたえが芯として残り、コクが持続</div>
-              </div>
-              <div className={styles["cmp-row"]}>
-                <div className={styles["cmp-label"]}>向いてる場面</div>
-                <div className={styles["cmp-cell"]}>温かい一服、繊細な甘さを楽しむ茶席</div>
-                <div className={styles["cmp-cell"]}>アイスラテ、デザートのトッピング、焼き菓子</div>
-              </div>
-            </div>
+            <span className={styles.eyebrow}>ABOUT 深蒸し茶パウダー</span>
+            <h2 className={styles["section-title"]}>深蒸し茶ならではのコクを、粉末で</h2>
+            <p className={styles["section-lead"]}>川俣谷産シングルオリジン伊勢茶を深蒸しに仕上げ、細かな粉末にしています。味わいを活かして、ラテや焼き菓子にお使いいただけます。</p>
+            <p>原料は深蒸し茶で、抹茶とは異なります。</p>
+            <p><a href="/ise-cha/maccha/" style={{ textDecoration: "underline", textUnderlineOffset: "0.2em" }}>抹茶と緑茶パウダーの違いを詳しく見る</a></p>
+            <p><a href="/ise-cha/fukamushi/" style={{ textDecoration: "underline", textUnderlineOffset: "0.2em" }}>深蒸し茶の製法・商品カテゴリーを見る</a></p>
           </div>
         </section>
 
@@ -333,8 +255,8 @@ export default async function FukamushiPowderLpPage() {
                     <path d="M12 3l7 4v5c0 5-3.2 8-7 9-3.8-1-7-4-7-9V7l7-4z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
                   </svg>
                 </div>
-                <h3>安心の「純・伊勢茶」</h3>
-                <p>香料・着色料・保存料は一切不使用。小さなお子様から健康を意識される方まで、安心してお召し上がりいただけます。</p>
+                <h3>原材料は伊勢茶</h3>
+                <p>香料・着色料・保存料は一切不使用。伊勢茶そのものの風味を、飲み物やお菓子作りに取り入れられます。</p>
               </div>
               <div className={styles["feat-card"]}>
                 <div className={styles.ico} aria-hidden="true">
@@ -361,8 +283,10 @@ export default async function FukamushiPowderLpPage() {
                   <img src={small.imagePath} alt={small.title} />
                 </div>
                 <div className={styles["prod-body"]}>
-                  <span className={styles["prod-badge"]}>ご家庭用</span>
+                  <span className={styles["prod-badge"]}>家庭用100g</span>
                   <h3>伊勢茶 深蒸し茶パウダー 100g（無糖）</h3>
+                  <p>ご自宅の緑茶ラテやお菓子作りに、少量ずつ使いやすい家庭用。</p>
+                  <p><a href="/ise-cha/isecha-powder-unsweetened/" style={{ textDecoration: "underline", textUnderlineOffset: "0.2em" }}>家庭用100g・無糖緑茶パウダーの商品詳細</a></p>
                   <p className={styles["prod-price"]}>
                     {formatPriceYen(small.price)}
                     <small>税込</small>
@@ -388,8 +312,11 @@ export default async function FukamushiPowderLpPage() {
                   <img src={bulk.imagePath} alt={bulk.title} />
                 </div>
                 <div className={styles["prod-body"]}>
-                  <span className={styles["prod-badge"]}>業務用・まとめ買い</span>
+                  <span className={styles["prod-badge"]}>業務用・製菓用500g</span>
                   <h3>深蒸し茶パウダー 500g 業務用・製菓用</h3>
+                  <p>カフェのラテや製菓材料として、まとまった量を使う方へ。</p>
+                  <p><a href="/ise-cha/ise-tea-powder-unsweetened-bulkpack/" style={{ textDecoration: "underline", textUnderlineOffset: "0.2em" }}>業務用・製菓用500gの商品詳細</a></p>
+                  <p><a href="/wholesale/" style={{ textDecoration: "underline", textUnderlineOffset: "0.2em" }}>カフェ・製菓業者向けの卸売り相談</a></p>
                   <p className={styles["prod-price"]}>
                     {formatPriceYen(bulk.price)}
                     <small>税込</small>

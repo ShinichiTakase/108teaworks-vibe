@@ -3,9 +3,9 @@ import { buildAlternatesForLocales } from "@/lib/seo";
 import { SITE_BASE_URL } from "@/lib/siteConstants";
 
 export async function generateMetadata() {
-  const title = "伊勢の深蒸し茶｜冷やしても濃厚。夏に効く一杯 - 藤八茶寮";
+  const title = "深蒸し茶の水出し・氷出し｜伊勢茶ティーバッグの淹れ方｜藤八茶寮";
   const description =
-    "深蒸し茶ティーバッグ、水出し・氷出しでも美味しい。渋み少なくとろりと濃厚な旨み。この夏の一杯に。伊勢茶発祥の地・川俣谷産シングルオリジンです。";
+    "川俣谷産シングルオリジン伊勢茶を、水出し・氷出しで楽しむ淹れ方をご紹介。深蒸し茶のまろやかな旨みを日々の一杯に。お試し3個・日常用10個・業務用50個から、用途に合うティーバッグの商品詳細へ進めます。";
   const ogImageUrl = `${SITE_BASE_URL}/images/lp/isecha_fukamushi_lp_ogimage.webp`;
   return {
     title,

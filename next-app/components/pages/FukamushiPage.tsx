@@ -60,7 +60,7 @@ type FukamushiTexts = {
 };
 
 const TEXTS: FukamushiTexts = {
-    h1: "深蒸し茶の通販｜川俣谷産・シングルオリジン伊勢茶",
+    h1: "深蒸し茶｜川俣谷産・シングルオリジン伊勢茶",
     leadP:
       "深蒸し茶は、普通の煎茶の2〜4倍の時間をかけて蒸すことで、渋みが抑えられ、まろやかで濃厚な旨みが引き出されるお茶です。藤八茶寮の深蒸し茶は、三重県松阪市・川俣谷の自家茶畑で育てた茶葉を使ったシングルオリジン。この土地にしか出せない味わいをお届けします。",
     productLinkLabel: "伊勢茶 深蒸し茶 ティーバッグ",
@@ -68,7 +68,7 @@ const TEXTS: FukamushiTexts = {
     sec2P1:
       "「深蒸し茶」とは、緑茶の製造工程における「蒸し」の時間を通常の2〜4倍に延ばしたお茶です。普通の煎茶が30〜40秒の蒸し工程であるのに対し、深蒸し茶は60〜180秒かけてじっくりと蒸します。",
     sec2P2:
-      "この長い蒸し工程によって茶葉の細胞壁が壊れ、渋みの原因となる成分が細かく分解されます。その結果、渋みが抑えられ、まろやかで濃厚な旨みが前面に出るお茶に仕上がります。水色（すいしょく）は深みのある濃い緑色で、細かくなった茶葉の粒子が溶け出すことで独特の濁りが生まれます。この濁りこそが、深蒸し茶の豊かな旨みと栄養の証です。",
+      "この長い蒸し工程によって茶葉の細胞壁が壊れ、渋みの原因となる成分が細かく分解されます。その結果、渋みが抑えられ、まろやかで濃厚な旨みが前面に出るお茶に仕上がります。水色（すいしょく）は深みのある濃い緑色で、細かくなった茶葉の粒子が溶け出すことで独特の濁りが生まれます。この濁りも、深蒸し茶の見た目と味わいの特徴です。",
     sec2P3: "お湯の温度は70℃前後が最適。低温で淹れることで甘みと旨みがより引き立ちます。",
     sec2P4:
       "さらに藤八茶寮の深蒸し茶は、川俣谷の地形が自然に生み出す「かぶせに近い条件」がこの旨みをさらに深めています。山に囲まれた谷地形が午後の日照を遮ることで、茶葉がゆっくりと旨み成分（テアニン）を蓄えてから収穫されます。その茶葉を深蒸し製法でさらに凝縮させることで、他産地では再現できない濃厚なコクが生まれるのです。",
@@ -353,6 +353,12 @@ export default async function FukamushiPage() {
                 {t.sec4bLinkText}
               </Link>
             </p>
+            <p className="text-[0.9375rem] leading-relaxed text-ink-muted">
+              →{" "}
+              <Link href="/ise-cha/fukamushi-powder-lp/" className="text-tea underline underline-offset-2">
+                深蒸し茶パウダーのラテ・製菓での使い方を見る
+              </Link>
+            </p>
           </div>
 
           {/* セクション5：淹れ方 */}
@@ -379,6 +385,11 @@ export default async function FukamushiPage() {
             <p className="mt-4 text-[0.9375rem] leading-relaxed text-ink-muted">
               <Link href={t.sec5LinkHref} className="text-tea underline underline-offset-2">
                 {t.sec5LinkText}
+              </Link>
+            </p>
+            <p className="mt-2 text-[0.9375rem] leading-relaxed text-ink-muted">
+              <Link href="/ise-cha/fukamushi-lp/" className="text-tea underline underline-offset-2">
+                深蒸し茶ティーバッグの水出し・氷出しと容量の選び方を見る
               </Link>
             </p>
           </div>

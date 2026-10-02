@@ -38,8 +38,8 @@ const PRODUCT_IMAGE = "/images/products/roasted-isecha-powder-unsweetened/1500.w
 
 const FAQS = [
   {
-    q: "低カフェインですか？",
-    a: "はい。焙煎の工程でカフェインが揮発するため、一般的なほうじ茶は100mlあたり約10mgと緑茶より控えめです。夜のティータイムにもおすすめです。",
+    q: "カフェインは含まれますか？",
+    a: "はい、含まれます。ほうじ茶パウダーはノンカフェインではありません。使用する粉末の量によって摂る量が変わるため、抽出したほうじ茶の一般値とは区別してください。",
   },
   {
     q: "お湯や牛乳に溶けやすいですか？",
@@ -105,7 +105,7 @@ export default async function RoastedPowderLpPage() {
     <div className={styles.page}>
       <ProductJsonLd
         name="伊勢茶 ほうじ茶パウダー（無糖）"
-        description="三重県松阪市・伊勢茶発祥の地として知られる川俣谷産の一番茶を、丸ごとじっくり焙じて微粉末に仕上げたほうじ茶パウダーです。香料・着色料・保存料は一切使用しておらず、無添加・無着色ならではの香ばしさと栄養をそのまま楽しめます。お湯にも牛乳にもすっと溶けるため、混ぜるだけでカフェのような本格ほうじ茶ラテが自宅で簡単に完成します。焙煎の工程でカフェインが揮発するため低カフェインで、就寝前のティータイムにも安心です。ほうじ茶プリンやシフォンケーキなど製菓材料としても活用でき、ご家庭用から飲食店の業務用まで幅広いシーンで選ばれています。"
+        description="三重県松阪市・川俣谷産の伊勢茶を微粉末に仕上げた無糖ほうじ茶パウダーです。香ばしいラテや製菓に使え、家庭用80gと業務用・製菓用500gから選べます。カフェインを含むため、ノンカフェイン商品ではありません。"
         imageUrl={PRODUCT_IMAGE}
         canonicalUrl={canonicalUrl}
         offers={[
@@ -114,7 +114,6 @@ export default async function RoastedPowderLpPage() {
             url: canonicalUrl,
             priceCurrency: "JPY",
             price: small.price,
-            availability: "https://schema.org/InStock",
             itemCondition: "https://schema.org/NewCondition",
             name: "80g",
           },
@@ -123,7 +122,6 @@ export default async function RoastedPowderLpPage() {
             url: canonicalUrl,
             priceCurrency: "JPY",
             price: bulk.price,
-            availability: "https://schema.org/InStock",
             itemCondition: "https://schema.org/NewCondition",
             name: "500g",
           },
@@ -154,11 +152,7 @@ export default async function RoastedPowderLpPage() {
             <div className={styles["hero-overlay"]}>
               <div className={styles.constrain}>
                 <span className={styles.eyebrow}>伊勢茶 ほうじ茶パウダー（無糖）</span>
-                <h1 className={styles["hero-title"]}>
-                  香ばしさを、
-                  <br />
-                  そのまま<em>溶かす。</em>
-                </h1>
+                <h1 className={styles["hero-title"]}>無糖ほうじ茶パウダーで楽しむ、ラテとお菓子作り</h1>
                 <p className={styles["hero-lead"]}>
                   三重・川俣谷産（松阪市飯南町）の一番茶を丸ごと焙じて微粉末に。お湯にも牛乳にもすっと溶けて、伊勢のほうじ茶ラテが自宅で仕上がります。
                 </p>
@@ -189,7 +183,7 @@ export default async function RoastedPowderLpPage() {
               <div>
                 <h2 className={styles["section-title"]}>伊勢の香ばしさを丸ごと味わう、無添加・無着色のほうじ茶パウダー</h2>
                 <p className={styles["body-copy"]}>
-                  三重県産伊勢茶の一番茶を贅沢に使用し、丁寧に焙じ上げたほうじ茶を、そのまま細かな粉末に仕上げました。茶葉を丸ごと粉砕しているため、ほうじ茶本来の栄養成分をそのまま摂取でき、焙煎によって生まれた圧倒的な香ばしさをダイレクトに楽しめます。
+                  三重県産伊勢茶の一番茶を贅沢に使用し、丁寧に焙じ上げたほうじ茶を、そのまま細かな粉末に仕上げました。茶葉を丸ごと粉砕し、焙煎によって生まれた香ばしい風味をラテや製菓に取り入れられます。
                 </p>
                 <p className={styles["body-copy"]}>
                   香料・着色料・保存料は一切不使用。無糖・無添加の純粋なほうじ茶パウダーです。牛乳や豆乳に溶かすだけで、カフェで飲むような本格的なほうじ茶ラテが自宅で簡単に完成します。
@@ -233,7 +227,7 @@ export default async function RoastedPowderLpPage() {
                 </div>
                 <div className={styles["feature-text"]}>
                   <h3>一番茶を丸ごと粉末に</h3>
-                  <p>川俣谷産シングルオリジン伊勢茶の一番茶を余すことなく粉砕。ほうじ茶本来の栄養と香ばしさをそのまま閉じ込めました。</p>
+                  <p>川俣谷産シングルオリジン伊勢茶の一番茶を余すことなく粉砕。焙煎による香ばしさを楽しめる粉末に仕上げました。</p>
                 </div>
               </div>
               <div className={styles["feature-card"]}>
@@ -355,50 +349,12 @@ export default async function RoastedPowderLpPage() {
 
         {WAVE_DIVIDER}
 
-        {/* Caffeine / Catechin */}
+        {/* Caffeine */}
         <section>
           <div className={styles.constrain}>
-            <span className={styles.kicker}>CAFFEINE &amp; CATECHIN</span>
-            <h2 className={styles["section-title"]}>夜でも安心。焙煎が生むやさしさ</h2>
-            <p className={styles["body-copy"]}>
-              焙煎の工程でカフェインの一部が揮発するため、ほうじ茶は一般的な緑茶よりカフェインが控えめ。夕食後や就寝前のリラックスタイムにも気兼ねなくお楽しみいただけます。
-            </p>
-            <div className={styles["stat-band"]}>
-              <h3>飲み物別・カフェイン含有量の目安</h3>
-              <div className={styles["caffeine-bars"]}>
-                <div className={styles["cbar-row"]}>
-                  <span>玉露</span>
-                  <div className={styles["cbar-track"]}>
-                    <div className={styles["cbar-fill"]} style={{ width: "100%" }} />
-                  </div>
-                  <span>約160mg</span>
-                </div>
-                <div className={styles["cbar-row"]}>
-                  <span>ドリップコーヒー</span>
-                  <div className={styles["cbar-track"]}>
-                    <div className={styles["cbar-fill"]} style={{ width: "25%" }} />
-                  </div>
-                  <span>約40mg</span>
-                </div>
-                <div className={styles["cbar-row"]}>
-                  <span>緑茶（煎茶）</span>
-                  <div className={styles["cbar-track"]}>
-                    <div className={styles["cbar-fill"]} style={{ width: "9%" }} />
-                  </div>
-                  <span>約15mg</span>
-                </div>
-                <div className={`${styles["cbar-row"]} ${styles.on}`}>
-                  <span>ほうじ茶</span>
-                  <div className={styles["cbar-track"]}>
-                    <div className={styles["cbar-fill"]} style={{ width: "6%" }} />
-                  </div>
-                  <span>約10mg</span>
-                </div>
-              </div>
-              <p style={{ marginTop: "14px", marginBottom: 0 }}>
-                単位は100mlあたり。焙煎でカフェインが減る一方、コレステロール対策で注目される緑茶由来のカテキンは、ほうじ茶になった後も適度に残ります。
-              </p>
-            </div>
+            <span className={styles.kicker}>CAFFEINE</span>
+            <h2 className={styles["section-title"]}>ほうじ茶パウダーに含まれるカフェイン</h2>
+            <p className={styles["body-copy"]}>ほうじ茶パウダーにもカフェインが含まれます。使用する粉末の量によって摂る量が変わるため、抽出したお茶の一般的な含有量を、そのまま本商品の値として扱うことはできません。</p>
           </div>
         </section>
 
@@ -406,7 +362,19 @@ export default async function RoastedPowderLpPage() {
         <section>
           <div className={styles.constrain}>
             <span className={styles.kicker}>PRODUCT INFO</span>
-            <h2 className={styles["section-title"]}>商品情報</h2>
+            <h2 className={styles["section-title"]}>家庭用80g・業務用500gから選ぶ</h2>
+            <div className={styles["feature-grid"]}>
+              <div className={styles["feature-card"]}><div className={styles["feature-text"]}>
+                <h3>家庭用80g</h3><p>ご自宅の無糖ほうじ茶ラテや、お菓子作りに少量ずつ使いたい方へ。</p>
+                <p><a href="/ise-cha/roasted-isecha-powder-unsweetened/" style={{ textDecoration: "underline", textUnderlineOffset: "0.2em" }}>家庭用80g・無糖ほうじ茶パウダーの商品詳細</a></p>
+              </div></div>
+              <div className={styles["feature-card"]}><div className={styles["feature-text"]}>
+                <h3>業務用・製菓用500g</h3><p>カフェのラテや製菓材料として、まとまった量を使いたい方へ。</p>
+                <p><a href="/ise-cha/roasted-isecha-powder-unsweetened-bulkpack/" style={{ textDecoration: "underline", textUnderlineOffset: "0.2em" }}>業務用・製菓用500gの商品詳細</a></p>
+                <p><a href="/wholesale/" style={{ textDecoration: "underline", textUnderlineOffset: "0.2em" }}>カフェ・製菓業者向けの卸売り相談</a></p>
+              </div></div>
+            </div>
+            <p className={styles["body-copy"]}><a href="/ise-cha/houjicha/" style={{ textDecoration: "underline", textUnderlineOffset: "0.2em" }}>茶葉・ティーバッグも含めて伊勢茶のほうじ茶を選ぶ</a></p>
             <table className={styles["spec-table"]}>
               <tbody>
                 <tr>

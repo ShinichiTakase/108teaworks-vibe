@@ -49,7 +49,7 @@ type WakochaTexts = {
 };
 
 const TEXTS: WakochaTexts = {
-    h1: "和紅茶の通販｜川俣谷産シングルオリジン伊勢茶",
+    h1: "和紅茶｜川俣谷産シングルオリジン伊勢茶",
     leadP:
       "和紅茶とは、日本の緑茶品種の茶葉を完全発酵させた国産紅茶です。インド・スリランカ産の紅茶とは異なり、渋みが少なく、やさしい甘みと花のような繊細な香りが特徴です。藤八茶寮の和紅茶は、三重県松阪市・川俣谷の自家茶畑で育てたシングルオリジン伊勢茶を完全発酵させたティーバッグです。ストレートでも、ミルクティーでもお楽しみいただけます。",
     sec1Title: "和紅茶とは——日本の緑茶品種が生む、繊細な紅茶",
@@ -346,6 +346,11 @@ export default async function WakochaPage() {
             <p className="mt-4 text-[0.9375rem] leading-relaxed text-ink-muted">
               <Link href={t.sec4LinkHref} className="text-tea underline underline-offset-2">
                 {t.sec4LinkText}
+              </Link>
+            </p>
+            <p className="mt-2 text-[0.9375rem] leading-relaxed text-ink-muted">
+              <Link href="/ise-cha/wakocha-lp/" className="text-tea underline underline-offset-2">
+                伊勢茶の和紅茶の味わい・飲み方と容量の選び方を見る
               </Link>
             </p>
           </div>

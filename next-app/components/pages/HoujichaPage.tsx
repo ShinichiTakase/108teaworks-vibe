@@ -56,14 +56,14 @@ type HoujichaTexts = {
 };
 
 const TEXTS: HoujichaTexts = {
-    h1: "ほうじ茶の通販｜川俣谷産シングルオリジン伊勢茶",
+    h1: "ほうじ茶｜川俣谷産シングルオリジン伊勢茶",
     leadP:
-      "ほうじ茶は、緑茶を高温で焙煎することで生まれる、香ばしい香りとまろやかな味わいが特徴のお茶です。藤八茶寮のほうじ茶は、三重県松阪市・川俣谷の自家茶畑で育てたシングルオリジン伊勢茶をベースに、ティーバッグ・茶葉・パウダーの3形態でお届けします。焙煎によりカフェインが揮発するため、夜のティータイムや食事のお供にも最適です。",
+      "ほうじ茶は、緑茶を高温で焙煎することで生まれる、香ばしい香りとまろやかな味わいが特徴のお茶です。藤八茶寮のほうじ茶は、三重県松阪市・川俣谷の自家茶畑で育てたシングルオリジン伊勢茶をベースに、ティーバッグ・茶葉・パウダーの3形態でお届けします。",
     sec1Title: "ほうじ茶とは——焙煎が生む、香ばしさとまろやかさ",
     sec1P1:
       "ほうじ茶は、緑茶（番茶・煎茶・茎茶など）を200℃前後の高温で焙煎したお茶です。高温焙煎によって茶葉の成分が変化し、ピラジン類と呼ばれる芳香成分が生成されることで、ほうじ茶特有の香ばしい香りが生まれます。",
     sec1P2:
-      "焙煎の工程でカフェインの一部が揮発するため、100mlあたり約10mgと一般的な緑茶の約3分の2以下に抑えられます。夜のティータイムや、カフェインを控えたい方にもおすすめです。",
+      "ほうじ茶にもカフェインが含まれ、ノンカフェインではありません。飲む量や時間帯に合わせてお選びください。",
     sec1P3:
       "また、タンニン（渋み成分）が熱変性することで渋みが抑えられ、まろやかな味わいになります。水色（すいしょく）は赤褐色——緑茶とは異なる独特の色合いも、ほうじ茶の特徴のひとつです。",
     sec1P4:
@@ -114,7 +114,7 @@ const TEXTS: HoujichaTexts = {
     faqs: [
       {
         q: "ほうじ茶は低カフェインですか？",
-        a: "はい。焙煎の工程でカフェインが揮発するため、100mlあたり約10mgと一般的な緑茶の約3分の2以下です。夜のティータイムや、カフェインを控えたい方にもおすすめです。",
+        a: "ほうじ茶にもカフェインが含まれ、ノンカフェインではありません。商品形態や使用量によって摂取量が変わるため、表示と飲み方をご確認ください。",
       },
       {
         q: "ほうじ茶パウダーと茶葉・ティーバッグの違いは何ですか？",
@@ -182,8 +182,8 @@ export default async function HoujichaPage() {
 
           <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-tea-light bg-cream px-4 py-3">
             <div>
-              <p className="m-0 text-[0.9375rem] font-semibold text-tea-deep">香ばしさとまろやかさ。夜でも安心の伊勢茶</p>
-              <p className="m-0 text-[0.8125rem] text-ink-muted">川俣谷産シングルオリジン・低カフェイン</p>
+              <p className="m-0 text-[0.9375rem] font-semibold text-tea-deep">伊勢茶の香ばしさとまろやかさを楽しむ</p>
+              <p className="m-0 text-[0.8125rem] text-ink-muted">川俣谷産シングルオリジン・茶葉／ティーバッグ／パウダー</p>
             </div>
             <Link
               href={productData[0].href}
@@ -297,9 +297,9 @@ export default async function HoujichaPage() {
                     </Link>
                   </p>
 
-                  <h2 className="m-0 mt-8 text-lg font-semibold text-tea-deep">夜でも安心——ほうじ茶のカフェインとカテキン</h2>
-                  <p>ほうじ茶は焙煎の工程でカフェインが揮発し、100mlあたり約10mgと一般的な緑茶の約3分の2以下になります。夕食後や就寝前のリラックスタイムにも気兼ねなくお召し上がりいただけます。</p>
-                  <p>カフェインが減少する一方、緑茶由来のカテキンは焙煎後も適量残ります。カテキン、特に「ガレート型カテキン」には、悪玉（LDL）コレステロールだけを選択的に低下させる働きが確認されており、毎日続けやすい健康習慣として注目されています。</p>
+                  <h2 className="m-0 mt-8 text-lg font-semibold text-tea-deep">ほうじ茶を選ぶ際に確認したいカフェイン</h2>
+                  <p>ほうじ茶にもカフェインが含まれます。焙煎による香ばしい香りを楽しめるお茶ですが、ノンカフェインの商品ではありません。</p>
+                  <p>藤八茶寮では、茶葉・ティーバッグ・パウダーをご用意しています。淹れ方や使い方に合う形態からお選びください。</p>
                   <p className="text-[0.9375rem] leading-relaxed text-ink-muted">
                     →{" "}
                     <Link href={buildHref("/ise-cha/caffeine")} className="text-tea underline underline-offset-2">
@@ -309,7 +309,7 @@ export default async function HoujichaPage() {
                   <p className="text-[0.9375rem] leading-relaxed text-ink-muted">
                     →{" "}
                     <Link href={buildHref("/ise-cha/catechin")} className="text-tea underline underline-offset-2">
-                      お茶の健康成分（カテキン）についてもっと詳しく
+                      お茶の成分（カテキン）についてもっと詳しく
                     </Link>
                   </p>
                 </>
@@ -329,6 +329,11 @@ export default async function HoujichaPage() {
                   className="text-tea underline underline-offset-2"
                 >
                   {t.sec4LinkText}
+                </Link>
+              </p>
+              <p>
+                <Link href="/ise-cha/roasted-powder-lp/" className="text-tea underline underline-offset-2">
+                  無糖ほうじ茶パウダーのラテ・製菓での使い方と容量の選び方を見る
                 </Link>
               </p>
             </div>

@@ -3,9 +3,9 @@ import { buildAlternatesForLocales } from "@/lib/seo";
 import { SITE_BASE_URL } from "@/lib/siteConstants";
 
 export async function generateMetadata() {
-  const title = "伊勢茶 深蒸し茶パウダー｜三重県産 一番茶100% 無糖・無添加｜藤八茶寮";
+  const title = "深蒸し茶パウダー｜無糖の緑茶ラテ・製菓に｜藤八茶寮";
   const description =
-    "深蒸し茶パウダー、緑茶ラテやお菓子作りに。無糖・無添加、800メッシュの微粉末。ご家庭用100gから業務用500gまで。伊勢茶一番茶100%使用です。";
+    "三重県松阪市飯南町・川俣谷の深蒸し茶パウダーを、緑茶ラテやお菓子作りに。無糖緑茶パウダーの使い方と容量の選び方をご紹介。家庭用100g・業務用・製菓用500gの商品詳細へご案内します。";
   const ogImageUrl = `${SITE_BASE_URL}/images/lp/fukamushi-powder-lp-ogimage.webp`;
   return {
     title,

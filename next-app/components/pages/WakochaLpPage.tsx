@@ -118,7 +118,6 @@ export default async function WakochaLpPage() {
             url: canonicalUrl,
             priceCurrency: "JPY",
             price: price3 ?? FALLBACK_PRICE_3,
-            availability: "https://schema.org/InStock",
             itemCondition: "https://schema.org/NewCondition",
             name: "3個入り",
           },
@@ -127,7 +126,6 @@ export default async function WakochaLpPage() {
             url: canonicalUrl,
             priceCurrency: "JPY",
             price: price8 ?? FALLBACK_PRICE_8,
-            availability: "https://schema.org/InStock",
             itemCondition: "https://schema.org/NewCondition",
             name: "8個入り",
           },
@@ -159,12 +157,7 @@ export default async function WakochaLpPage() {
       <section className={styles.hero}>
         <img src="/images/wakoucha/hero.webp" alt="焼き菓子と紅茶のアフタヌーンティー" />
         <div className={styles["hero-content"]}>
-          <h1>
-            お菓子にも、お食事にも。
-            <br />
-            毎日の食卓に寄り添う、国産和紅茶。
-            <em>シングルオリジンの伊勢茶、完全発酵させた国産紅茶</em>
-          </h1>
+          <h1>お菓子にも食事にも。伊勢茶の和紅茶、その味わいと飲み方</h1>
           <p className={styles.sub}>
             ふわっと紅茶の香りが鼻に抜けたあと、緑茶ゆずりの旨味とコクが広がる和紅茶。渋みが少なく繊細な味わいなので、まずはストレートでどうぞ。
           </p>
@@ -190,7 +183,7 @@ export default async function WakochaLpPage() {
               それが、和紅茶という愉しみ方です。
             </p>
             <p>
-              紅茶といえばインドやスリランカを思い浮かべる方が多いかもしれません。けれど和紅茶は、日本の緑茶品種の茶葉を完全発酵させてつくる、れっきとした国産紅茶。松阪市飯南町の自家茶園で丁寧に育てたシングルオリジン伊勢茶を使い、藤八茶寮ならではの繊細な一杯に仕上げました。
+              紅茶といえばインドやスリランカを思い浮かべる方が多いかもしれません。けれど和紅茶は、日本の緑茶品種の茶葉を完全発酵させてつくる、れっきとした国産紅茶。三重県松阪市飯南町・川俣谷の自家茶園で丁寧に育てたシングルオリジン伊勢茶を使い、藤八茶寮ならではの繊細な一杯に仕上げました。
             </p>
             <p>
               インドやスリランカのセイロン種に比べ、日本の緑茶品種はタンニンが少なく、完全発酵させても渋みが出にくいのが特徴。口に含むとまずふわっと紅茶らしい香りが鼻に抜け、そのあとから緑茶ゆずりの旨味とコクがじんわりと広がります。この繊細な味わいはミルクに負けやすいため、まずはストレートでお楽しみいただくのが一番のおすすめです。
@@ -206,10 +199,14 @@ export default async function WakochaLpPage() {
               <div>
                 <img src="/images/products/wakocha-isecha/1000.webp" alt={title8} />
                 <p className={styles["intro-photo-name"]}>{title8}</p>
+                <h3>日常用8個</h3><p>毎日のティータイムに、一杯ずつ楽しむ定番サイズ。</p>
+                <p><a href="/ise-cha/wakocha-isecha/" style={{ textDecoration: "underline", textUnderlineOffset: "0.2em" }}>日常用8個入り・和紅茶ティーバッグの商品詳細</a></p>
               </div>
               <div>
                 <img src="/images/products/3teabag-ise-wakocha/1500.webp" alt={title3} />
                 <p className={styles["intro-photo-name"]}>{title3}</p>
+                <h3>お試し・プチギフト3個</h3><p>まず味を試したい方や、気軽なお茶の贈り物に。</p>
+                <p><a href="/ise-cha/3teabag-ise-wakocha/" style={{ textDecoration: "underline", textUnderlineOffset: "0.2em" }}>お試し・プチギフト3個セットの商品詳細</a></p>
               </div>
             </div>
           </div>
@@ -323,7 +320,7 @@ export default async function WakochaLpPage() {
               伊勢 和紅茶 ティーバッグ
             </h2>
             <p style={{ color: "var(--ink-soft)", fontSize: "14.5px", margin: "0 0 8px" }}>
-              三重県産100%・飯南町シングルオリジン。渋みなく、やさしい甘みの国産紅茶を、3個入りのお試しサイズから。
+              三重県飯南町産シングルオリジンの国産紅茶。日常用8個、お試し・プチギフト3個から、用途に合わせてお選びください。
             </p>
             <table className={styles["spec-table"]}>
               <tbody>
@@ -345,10 +342,11 @@ export default async function WakochaLpPage() {
                 </tr>
                 <tr>
                   <th>内容量</th>
-                  <td>ティーバッグ3個／8個</td>
+                  <td>日常用8個／お試し・プチギフト3個</td>
                 </tr>
               </tbody>
             </table>
+            <p><a href="/ise-cha/wakocha/" style={{ textDecoration: "underline", textUnderlineOffset: "0.2em" }}>和紅茶とは・産地と商品カテゴリーを見る</a></p>
           </div>
         </div>
       </section>

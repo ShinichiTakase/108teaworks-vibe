@@ -3,9 +3,9 @@ import { buildAlternatesForLocales } from "@/lib/seo";
 
 export async function generateMetadata() {
   return {
-    title: "ほうじ茶の通販なら伊勢茶の藤八茶寮｜茶葉・ティーバッグ・パウダー",
+    title: "ほうじ茶｜伊勢茶の茶葉・ティーバッグ通販｜藤八茶寮",
     description:
-      "三重県川俣谷産・シングルオリジン伊勢茶のほうじ茶をティーバッグ・茶葉・パウダーでお届け。高温焙煎が生む香ばしい香りと低カフェイン。夜のティータイムや食事のお供に。",
+      "三重県松阪市飯南町・川俣谷産の伊勢茶を焙煎したほうじ茶。香ばしい味わいと、茶葉・ティーバッグ・無糖パウダーの選び方をご案内します。",
     alternates: buildAlternatesForLocales("/ise-cha/houjicha"),
   };
 }

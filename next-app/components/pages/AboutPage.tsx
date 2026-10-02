@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { MAIN_CLASS, INNER_CLASS } from "@/components/Layout";
 
 const ABOUT_TEXTS: {
@@ -170,6 +171,10 @@ export default function AboutPage() {
             <p className="mb-4 text-[0.9375rem] leading-relaxed text-ink-muted">{t.sec5P2}</p>
             <p className="mb-4 text-[0.9375rem] leading-relaxed text-ink-muted">{t.sec5P3}</p>
             <p className="mb-0 text-[0.9375rem] leading-relaxed text-ink-muted">{t.sec5P4}</p>
+            <p className="mt-4 flex flex-wrap gap-4 text-[0.9375rem] leading-relaxed text-ink-muted">
+              <Link href="/ise-cha/" className="text-tea underline underline-offset-2">川俣谷産の伊勢茶と茶種を見る</Link>
+              <Link href="/kabatadani_no_ocha/" className="text-tea underline underline-offset-2">川俣谷のお茶の歴史を読む</Link>
+            </p>
           </div>
         </section>
       </div>

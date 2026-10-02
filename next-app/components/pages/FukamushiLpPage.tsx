@@ -62,7 +62,7 @@ const FALLBACKS = {
 export default async function FukamushiLpPage() {
   const canonicalUrl = `${SITE_BASE_URL}/ise-cha/fukamushi-lp/`;
   const leadDescription =
-    "三重県松阪市・伊勢茶発祥の地として知られる川俣谷産のシングルオリジン伊勢茶を、長時間かけて丁寧に蒸し上げた深蒸し茶ティーバッグです。渋みが少なくとろりとした濃厚な旨みが特長で、ホットはもちろん冷水500mlにティーバッグ1～2個を入れる水出し・氷出しでも、味と栄養をそのまま楽しめます。急須で淹れると茶葉に残ってしまう栄養成分も、細かく砕けた深蒸し茶葉ならまるごと摂取しやすいのも魅力です。3個入りのお試しサイズから、日常使いの10個入り、まとめ買いにうれしい50個入りの業務用まで、飲むシーンに合わせて選べます。";
+    "三重県松阪市・川俣谷産のシングルオリジン伊勢茶を使った深蒸し茶ティーバッグです。まろやかな旨みを水出し・氷出しでも楽しめます。お試し3個、日常用10個、業務用50個から用途に合わせて選べます。";
 
   const [trialProduct, standardProduct, bulkProduct] = await Promise.all([
     getProductBySlug(TRIAL_SLUG),
@@ -110,7 +110,6 @@ export default async function FukamushiLpPage() {
             url: canonicalUrl,
             priceCurrency: "JPY",
             price: trial.price,
-            availability: "https://schema.org/InStock",
             itemCondition: "https://schema.org/NewCondition",
             name: "3個入り",
           },
@@ -119,7 +118,6 @@ export default async function FukamushiLpPage() {
             url: canonicalUrl,
             priceCurrency: "JPY",
             price: standard.price,
-            availability: "https://schema.org/InStock",
             itemCondition: "https://schema.org/NewCondition",
             name: "10個入り",
           },
@@ -128,7 +126,6 @@ export default async function FukamushiLpPage() {
             url: canonicalUrl,
             priceCurrency: "JPY",
             price: bulk.price,
-            availability: "https://schema.org/InStock",
             itemCondition: "https://schema.org/NewCondition",
             name: "50個入り",
           },
@@ -158,10 +155,7 @@ export default async function FukamushiLpPage() {
         </div>
         <div className={styles["hero-copy"]}>
           <span className={styles.tag}>三重県川俣谷産 シングルオリジン</span>
-          <h1>
-            とろりと濃厚、渋みは少なく。
-            <em>冷やしても、ちゃんと美味しい深蒸し茶。</em>
-          </h1>
+          <h1>深蒸し茶を水出し・氷出しで。まろやかな旨みを楽しむ淹れ方</h1>
           <p>
             暑い日のアイスでも味がぼやけない——それが藤八茶寮の深蒸し茶。長い蒸し時間でぎゅっと溶け出す旨みだから、水出しでも渋みが少なく、すっきり濃い一杯に仕上がります。
           </p>
@@ -180,7 +174,7 @@ export default async function FukamushiLpPage() {
         <div className={styles.wrap}>
           <span className={styles.eyebrow}>WHY FUJIHACHI</span>
           <h2>藤八茶寮の深蒸し茶が選ばれる理由</h2>
-          <p className={styles["section-lead"]}>産地・製法・栄養、3つの視点でご紹介します</p>
+          <p className={styles["section-lead"]}>産地・製法・味わい、3つの視点でご紹介します</p>
           <div className={styles["feature-grid"]}>
             <div className={styles["feature-card"]}>
               <span className={styles.num}>01</span>
@@ -198,9 +192,9 @@ export default async function FukamushiLpPage() {
             </div>
             <div className={styles["feature-card"]}>
               <span className={styles.num}>03</span>
-              <h3>自分で淹れるからこそ摂れる栄養</h3>
+              <h3>自分で淹れて楽しむ味わい</h3>
               <p>
-                緑茶特有の「ガレート型カテキン」は、自分で淹れた深蒸し茶なら市販のペットボトル飲料よりも濃度が高いと言われています。毎日の一杯を、産地直営の新鮮な茶葉で。
+                茶葉の量や抽出時間を調整しながら、好みの濃さを見つけられます。日々の一杯を、川俣谷の茶葉でお楽しみください。
               </p>
             </div>
           </div>
@@ -240,7 +234,7 @@ export default async function FukamushiLpPage() {
         <div className={styles.wrap}>
           <span className={styles.eyebrow}>LINE UP</span>
           <h2>伊勢の深蒸し茶 ラインナップ</h2>
-          <p className={styles["section-lead"]}>お試しから毎日のまとめ買いまで、飲み方に合わせて3サイズ</p>
+          <p className={styles["section-lead"]}>お試し3個・日常用10個・業務用50個から、使う場面に合う商品を選べます。</p>
           <div className={styles["product-grid"]}>
             <div className={`${styles["product-card"]} ${styles["is-reco"]}`}>
               <span className={styles["product-badge"]}>はじめての方に</span>
@@ -248,7 +242,8 @@ export default async function FukamushiLpPage() {
                 <img src={trial.imagePath} alt={trial.title} />
               </div>
               <div className={styles["product-body"]}>
-                <h3>深蒸し茶 ティーバッグ 3個</h3>
+                <h3>お試し3個・深蒸し茶ティーバッグ</h3>
+                <p><a href="/ise-cha/3teabag-ise-deeproasted/" style={{ textDecoration: "underline", textUnderlineOffset: "0.2em" }}>お試し3個の商品詳細</a></p>
                 <p className={styles["product-price"]}>
                   {formatPriceYen(trial.price)} <small>(税込)</small>
                 </p>
@@ -257,12 +252,13 @@ export default async function FukamushiLpPage() {
             </div>
 
             <div className={`${styles["product-card"]} ${styles["is-reco"]}`}>
-              <span className={styles["product-badge"]}>定番・ギフトに人気</span>
+              <span className={styles["product-badge"]}>日常用10個</span>
               <div className={styles["product-photo"]}>
                 <img src={standard.imagePath} alt={standard.title} />
               </div>
               <div className={styles["product-body"]}>
-                <h3>深蒸し茶 ティーバッグ 10個</h3>
+                <h3>日常用10個・深蒸し茶ティーバッグ</h3>
+                <p><a href="/ise-cha/deep-steamed-isecha/" style={{ textDecoration: "underline", textUnderlineOffset: "0.2em" }}>日常用10個の商品詳細</a></p>
                 <p className={styles["product-price"]}>
                   {formatPriceYen(standard.price)} <small>(税込)</small>
                 </p>
@@ -271,86 +267,29 @@ export default async function FukamushiLpPage() {
             </div>
 
             <div className={`${styles["product-card"]} ${styles["is-reco"]}`}>
-              <span className={styles["product-badge"]}>まとめ買いがお得</span>
+              <span className={styles["product-badge"]}>業務用50個</span>
               <div className={styles["product-photo"]}>
                 <img src={bulk.imagePath} alt={bulk.title} />
               </div>
               <div className={styles["product-body"]}>
-                <h3>お得用 深蒸し茶 ティーバッグ 50個</h3>
+                <h3>業務用50個・深蒸し茶ティーバッグ</h3>
+                <p><a href="/ise-cha/ise-tea-deep-steamed-bulkpack/" style={{ textDecoration: "underline", textUnderlineOffset: "0.2em" }}>業務用50個の商品詳細</a></p>
                 <p className={styles["product-price"]}>
                   {formatPriceYen(bulk.price)} <small>(税込)</small>
                 </p>
-                <p>毎日飲む方の大容量パック。ご家庭のほか、オフィスの給湯室や来客用の常備茶としても好評です。</p>
+                <p>飲食店やオフィスの給茶に使える業務用サイズ。ご家庭でのまとめ買いにも向いています。</p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ---------- Story / catechin / caffeine ---------- */}
-      <section className={styles.story} style={{ paddingTop: 0, background: "var(--emerald-50)" }}>
+      {/* ---------- Category guide ---------- */}
+      <section className={styles.story}>
         <div className={styles.wrap}>
-          <div className={styles["story-block"]}>
-            <div className={styles["story-text"]}>
-              <h3>1日一杯の、緑茶とコレステロールの話</h3>
-              <p>
-                緑茶に含まれる「ガレート型カテキン」には、悪玉（LDL）コレステロールの吸収をおさえる働きがあることが知られており、テレビ番組でも取り上げられました。善玉（HDL）コレステロールには影響しにくく、狙った働きをしてくれるのが特長です。
-              </p>
-              <p>
-                自分で淹れた深蒸し茶は、市販のペットボトル飲料に比べてカテキン濃度が高いと言われています。毎日の一杯を、産地直営の新鮮な茶葉で続けてみませんか。
-              </p>
-              <div className={styles["pill-row"]}>
-                <span className={styles.pill}>ガレート型カテキン</span>
-                <span className={styles.pill}>日々の健やかな習慣に</span>
-                <span className={styles.pill}>自分で淹れるからこそ</span>
-              </div>
-            </div>
-            <div className={`${styles["story-media"]} ${styles["is-diagram"]}`}>
-              <img src="/images/fukamushi-lp/catechin.webp" alt="緑茶カテキンの分子構造" />
-            </div>
-          </div>
-
-          <div className={`${styles["story-block"]} ${styles.rev}`}>
-            <div className={styles["story-text"]}>
-              <h3>カフェインとの上手な付き合い方</h3>
-              <p>
-                深蒸し茶のカフェイン量は緑茶の中でもやや多め。日中の集中したい時間帯にぴったりです。就寝前や妊娠中など控えたいシーンでは、量を調整したり、カフェインを抑えた商品を選ぶのがおすすめです。
-              </p>
-              <table className={styles["caffeine-table"]}>
-                <thead>
-                  <tr>
-                    <th>飲み物</th>
-                    <th>カフェイン目安（100mlあたり）</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>ドリップコーヒー</td>
-                    <td>約40mg</td>
-                  </tr>
-                  <tr className={styles.highlight}>
-                    <td>深蒸し茶（当店）</td>
-                    <td>約20mg</td>
-                  </tr>
-                  <tr>
-                    <td>紅茶</td>
-                    <td>約17mg</td>
-                  </tr>
-                  <tr>
-                    <td>煎茶</td>
-                    <td>約15mg</td>
-                  </tr>
-                  <tr>
-                    <td>ほうじ茶</td>
-                    <td>約10mg</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div className={`${styles["story-media"]} ${styles["is-diagram"]}`}>
-              <img src="/images/fukamushi-lp/caffeine.webp" alt="カフェインの構造式" />
-            </div>
-          </div>
+          <h2>川俣谷の深蒸し茶を、味わいから選ぶ</h2>
+          <p>三重県松阪市飯南町・川俣谷のシングルオリジン伊勢茶。水出しではまろやかな旨みを、温かい一杯では立ち上る香りを楽しめます。</p>
+          <p><a href="/ise-cha/fukamushi/" style={{ textDecoration: "underline", textUnderlineOffset: "0.2em" }}>深蒸し茶の製法・商品カテゴリーを見る</a></p>
         </div>
       </section>
 

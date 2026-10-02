@@ -3,9 +3,9 @@ import { buildAlternatesForLocales } from "@/lib/seo";
 
 export async function generateMetadata() {
   return {
-    title: "カフェインカット緑茶の通販｜夜でも飲める低カフェイン伊勢茶｜藤八茶寮",
+    title: "緑茶のカフェインとカフェインカットの違い｜藤八茶寮",
     description:
-      "薬剤不使用・超臨界CO2抽出でカフェイン70%オフ。伊勢茶本来の旨みはそのままに、夜のティータイムや低カフェインを気にする方に。三重県川俣谷産シングルオリジン。",
+      "緑茶に含まれるカフェインの特徴と、カフェインカット緑茶・デカフェ緑茶との違いを解説します。藤八茶寮の商品は完成品でカフェイン70%カットですが、ゼロではありません。",
     alternates: buildAlternatesForLocales("/ise-cha/caffeine"),
   };
 }

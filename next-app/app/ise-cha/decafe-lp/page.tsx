@@ -3,9 +3,9 @@ import { buildAlternatesForLocales } from "@/lib/seo";
 import { SITE_BASE_URL } from "@/lib/siteConstants";
 
 export async function generateMetadata() {
-  const title = "デカフェ緑茶ティーバッグ8個 カフェイン70%カット｜藤八茶寮";
+  const title = "カフェイン70%カット緑茶｜ティーバッグで楽しむ伊勢茶｜藤八茶寮";
   const description =
-    "デカフェ緑茶ティーバッグ8個、カフェイン70%カット。深蒸し茶のコクはそのまま。夜も妊娠中も家族みんなで安心。薬品不使用の抽出製法です。";
+    "三重県松阪市飯南町・川俣谷の伊勢茶を使った、カフェイン70%カットの緑茶ティーバッグ。深蒸し茶のコクや味わい、商品の特徴をご紹介し、8個入りの商品詳細へご案内します。カフェインはゼロではありません。";
   const ogImageUrl = `${SITE_BASE_URL}/images/lp/decaf_green_tea_lp_ogimage.webp`;
   return {
     title,

@@ -18,6 +18,12 @@ const INNER_CLASS = SHARED_INNER_CLASS.replace("w-[90%]", "w-full sm:w-[90%]");
 
 type Props = { params: { slug: string } };
 
+const CONTEXT_LINKS: Record<string, { href: string; label: string }[]> = {
+  ch10: [
+    { href: "/ise-cha/america/", label: "伊勢茶の輸出と蘭字について読みやすく紹介したページを見る" },
+  ],
+};
+
 export async function generateStaticParams() {
   return getAllChapterSlugs().map((slug) => ({ slug }));
 }
@@ -38,6 +44,7 @@ export default async function MieChaGyoShiChapterPage({ params }: Props) {
   if (!chapter) notFound();
 
   const { prev, next } = getAdjacentChapters(params.slug);
+  const contextLinks = CONTEXT_LINKS[params.slug] ?? [];
   const breadcrumbPath = `/mie_chagyo_shi/${params.slug}`;
 
   return (
@@ -151,6 +158,15 @@ export default async function MieChaGyoShiChapterPage({ params }: Props) {
             />
           ) : (
             <p className="text-[0.9375rem] text-ink-muted">（本文準備中）</p>
+          )}
+
+          {contextLinks.length > 0 && (
+            <aside className="mt-10 rounded-lg border border-tea-light/60 bg-cream/30 px-4 py-4" aria-label="関連する伊勢茶の案内">
+              <p className="m-0 mb-2 text-[0.9375rem] font-semibold text-tea-deep">本文に関連する伊勢茶の案内</p>
+              <ul className="m-0 space-y-2 pl-5 text-[0.9375rem] leading-relaxed text-ink-muted">
+                {contextLinks.map((link) => <li key={link.href}><Link href={link.href} className="text-tea underline underline-offset-2">{link.label}</Link></li>)}
+              </ul>
+            </aside>
           )}
 
           {/* 前後ナビ（下） */}
